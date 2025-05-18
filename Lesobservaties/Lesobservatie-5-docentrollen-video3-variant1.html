@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analyse Klasinteractie: 5 Docentrollen</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            text-align: center;
+            color: #0056b3;
+            margin-top: 20px;
+        }
+        #main-container {
+            display: flex;
+            width: 95%;
+            max-width: 1400px; /* Increased max-width for better layout */
+            margin-top: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        #roles-panel { /* Renamed from categories-panel */
+            width: 20%; /* Adjusted width */
+            padding: 20px;
+            border-right: 1px solid #ddd;
+            background-color: #e9ecef;
+            overflow-y: auto;
+            border-top-left-radius: 8px;
+            border-bottom-left-radius: 8px;
+        }
+        #roles-panel h2 {
+            margin-top: 0;
+            color: #0056b3;
+            font-size: 1.3em;
+            border-bottom: 2px solid #0056b3;
+            padding-bottom: 10px;
+        }
+        #role-list { /* Renamed from category-list */
+            list-style-type: none;
+            padding: 0;
+        }
+        #role-list li {
+            padding: 10px 12px;
+            cursor: pointer;
+            border-bottom: 1px solid #ccc;
+            transition: background-color 0.3s, color 0.3s;
+            border-radius: 4px;
+            margin-bottom: 5px;
+        }
+        #role-list li:hover, #role-list li.active {
+            background-color: #007bff;
+            color: white;
+        }
+        #video-analysis-panel { /* Renamed from video-interactions-panel */
+            width: 80%; /* Adjusted width */
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        #player-container {
+            width: 100%;
+            margin-bottom: 25px;
+            border-radius: 8px;
+            overflow: hidden; /* To clip the video player corners */
+        }
+        #player {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+        }
+        #analysis-display h3 { /* Renamed from interactions-display */
+            margin-top: 0;
+            color: #0056b3;
+            font-size: 1.2em;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #eee;
+        }
+        #analysis-content h4 { /* For "Tops" and "Tips" headers */
+            color: #0069d9;
+            font-size: 1.1em;
+            margin-top: 15px;
+            margin-bottom: 8px;
+        }
+        #analysis-content ul {
+            list-style-type: disc; /* Changed to disc for better readability */
+            padding-left: 20px; /* Indent list items */
+            margin-top: 0;
+        }
+        #analysis-content li {
+            padding: 6px 0;
+            border-bottom: 1px dashed #f0f0f0; /* Softer separator */
+            line-height: 1.6;
+        }
+        #analysis-content li:last-child {
+            border-bottom: none;
+        }
+        .timecode {
+            font-weight: bold;
+            color: #007bff;
+            cursor: pointer;
+            text-decoration: none; /* Removed underline for cleaner look */
+        }
+        .timecode:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+         #current-role-title {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Analyse Klasinteractie: 5 Docentrollen</h1>
+    <div id="main-container">
+        <div id="roles-panel">
+            <h2>Docentrollen</h2>
+            <ul id="role-list"></ul>
+        </div>
+        <div id="video-analysis-panel">
+            <div id="player-container">
+                <div id="player"></div>
+            </div>
+            <div id="analysis-display">
+                <h3 id="current-role-title">Selecteer een rol</h3>
+                <div id="analysis-content"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        var player;
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                videoId: 'gDT5xFGBXUw', // CORRECTED Video ID
+                playerVars: {
+                    'playsinline': 1,
+                    'hl': 'nl', // Set language to Dutch for player controls if available
+                    'cc_lang_pref': 'nl' // Prefer Dutch captions if available
+                },
+                events: {
+                    // 'onReady': onPlayerReady // Optional: if you need to do something when player is ready
+                }
+            });
+        }
+
+        // function onPlayerReady(event) {
+        //     // Example: event.target.playVideo();
+        // }
+
+        const rolesData = [
+            {
+                name: "Gastheer",
+                tops: [
+                    { start: 7, end: 11, description: "Docent begroet de klas en start met een 'warm-up problem'." },
+                    { start: 41, end: 54, description: "Docent loopt rond, kijkt naar werk en geeft positieve, korte feedback ('Very good')." },
+                    { start: 93, end: 96, description: "Docent merkt verschillende antwoorden op en stelt klas gerust ('that's okay')." },
+                    { start: 107, end: 110, description: "Docent stelt leerling gerust ('It's okay, don't change your answers') voordat deze antwoord geeft." }
+                ],
+                tips: [
+                    { start: 7, end: 7, description: "Overweeg om leerlingen explicieter bij de deur te verwelkomen voor individueel contact vóór de klassikale start." }
+                ]
+            },
+            {
+                name: "Presentator",
+                tops: [
+                    { start: 7, end: 27, description: "Docent introduceert opstartopgave duidelijk en geeft instructies (niet alleen antwoord, ook uitleg)." },
+                    { start: 65, end: 70, description: "Docent gebruikt smartboard visueel ter ondersteuning en wijst fysiek naar het bord." }, // Adjusted from 1:05 - 1:10
+                    { start: 192, end: 200, description: "Docent kondigt duidelijk het onderwerp van de dag aan ('graphing linear equations') en verwijst naar leerdoelen." }, // Adjusted from 3:12 - 3:20
+                    { start: 256, end: 299, description: "Docent legt nieuwe leerstof (8.EE.6, helling, y=mx, y=mx+b) duidelijk uit met smartboard ondersteuning en stelt controlerende vragen." } // Adjusted from 4:16 - 4:59
+                ],
+                tips: [
+                    { start: 0, end: 0, description: "Varieer stemgebruik (intonatie/volume) iets meer om aandacht sterker te vangen bij overgangen." },
+                    { start: 192, end: 192, description: "Maak de overgang van 'warm-up' naar het *nieuwe* lesonderdeel nog explicieter met een duidelijke openingszin."}
+                ]
+            },
+            {
+                name: "Didacticus",
+                tops: [
+                    { start: 95, end: 158, description: "Leidt klassengesprek over opstartopgave, bevraagt leerlingen en laat redeneringen uitleggen." }, // Adjusted from 1:35 - 2:38
+                    { start: 158, end: 191, description: "Legt concept grafiek (X-as, Y-as, stijging vs. kosten) goed uit." }, // Adjusted from 2:38 - 3:11
+                    { start: 200, end: 245, description: "Activeert voorkennis over grafieken van lineaire vergelijkingen met gerichte vragen." }, // Adjusted from 3:20 - 4:05
+                    { start: 401, end: 425, description: "Geeft duidelijke instructies voor de taak: 5 min individueel, 15 min groepswerk, dan klassikaal delen." }, // Adjusted from 6:41 - 7:05
+                    { start: 531, end: 552, description: "Zet timer aan voor 'private think time', verduidelijkt vragen (A-D) en loopt rond om te helpen." } // Adjusted from 8:51 - 9:12
+                ],
+                tips: [
+                    { start: 0, end: 0, description: "Overweeg explicieter te differentiëren in opdrachten of ondersteuning voor verschillende niveaus." },
+                    { start: 0, end: 0, description: "Meer variatie in activerende werkvormen naast klassikale instructie en (groeps)werk kan betrokkenheid verhogen." }
+                ]
+            },
+            {
+                name: "Pedagoog",
+                tops: [
+                    { start: 41, end: 43, description: "Geeft positieve feedback ('Very good') en stelt leerlingen gerust ('That's okay')." },
+                    { start: 107, end: 110, description: "Moedigt eerlijkheid aan met 'Don't change your answers'." },
+                    { start: 0, end: 0, description: "Spreekt leerlingen consequent bij naam aan, wat persoonlijk en respectvol is (doorlopend)." },
+                    { start: 583, end: 583, description: "Loopt rond en beantwoordt individuele vragen, toont beschikbaarheid (voorbeeld)." } // Adjusted from 9:43
+                ],
+                tips: [
+                    { start: 0, end: 0, description: "Indien ongewenst gedrag zich voordoet, reageer consequent met behoud van relatie (niet direct geobserveerd)." },
+                    { start: 0, end: 0, description: "Benoem vaker expliciet gewenst gedrag om het positieve leerklimaat te versterken." }
+                ]
+            },
+            {
+                name: "Afsluiter (Allrounder)",
+                tops: [
+                     { start: 401, end: 431, description: "Legt de structuur van de komende activiteit uit, inclusief tijdsplanning, wat een vorm van vooruitblikken is." } // Adjusted from 6:41 - 7:11
+                ],
+                tips: [
+                    { start: 0, end: 0, description: "Zorg aan het einde van de *gehele* les voor een duidelijke inhoudelijke samenvatting (Wat geleerd? Lesdoelen gehaald?) en instructies voor opruimen/huiswerk (video eindigt voortijdig)." }
+                ]
+            }
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const roleList = document.getElementById('role-list');
+            const analysisContent = document.getElementById('analysis-content');
+            const currentRoleTitle = document.getElementById('current-role-title');
+
+            rolesData.forEach(role => {
+                const li = document.createElement('li');
+                li.textContent = role.name;
+                li.setAttribute('data-role', role.name);
+                li.addEventListener('click', () => {
+                    displayAnalysis(role.name);
+                    document.querySelectorAll('#role-list li').forEach(item => item.classList.remove('active'));
+                    li.classList.add('active');
+                });
+                roleList.appendChild(li);
+            });
+
+            function displayAnalysis(roleName) {
+                analysisContent.innerHTML = ''; // Clear previous
+                currentRoleTitle.textContent = `Analyse voor: ${roleName}`;
+                
+                const role = rolesData.find(r => r.name === roleName);
+                if (!role) return;
+
+                if (role.tops && role.tops.length > 0) {
+                    const topsHeader = document.createElement('h4');
+                    topsHeader.textContent = "Tops (Heel goed)";
+                    analysisContent.appendChild(topsHeader);
+                    const topsUl = document.createElement('ul');
+                    role.tops.forEach(item => {
+                        topsUl.appendChild(createListItem(item));
+                    });
+                    analysisContent.appendChild(topsUl);
+                }
+
+                if (role.tips && role.tips.length > 0) {
+                    const tipsHeader = document.createElement('h4');
+                    tipsHeader.textContent = "Tips (Kan beter)";
+                    analysisContent.appendChild(tipsHeader);
+                    const tipsUl = document.createElement('ul');
+                    role.tips.forEach(item => {
+                        tipsUl.appendChild(createListItem(item));
+                    });
+                    analysisContent.appendChild(tipsUl);
+                }
+                 if ((!role.tops || role.tops.length === 0) && (!role.tips || role.tips.length === 0)) {
+                    const p = document.createElement('p');
+                    p.textContent = "Geen specifieke punten geanalyseerd voor deze rol in dit segment.";
+                    analysisContent.appendChild(p);
+                }
+            }
+
+            function createListItem(item) {
+                const li = document.createElement('li');
+                if (item.start > 0 || item.end > 0) { // Only create timecode if start/end are meaningful
+                    const timeLink = document.createElement('span');
+                    timeLink.classList.add('timecode');
+                    timeLink.textContent = `${formatTime(item.start)} - ${formatTime(item.end)}`;
+                    timeLink.addEventListener('click', () => {
+                        if (player && typeof player.seekTo === 'function') {
+                            player.seekTo(item.start, true);
+                            if (typeof player.playVideo === 'function') {
+                                player.playVideo();
+                            }
+                        }
+                    });
+                    li.appendChild(timeLink);
+                    li.appendChild(document.createTextNode(`: ${item.description}`));
+                } else {
+                    li.textContent = item.description; // For general tips without specific timecode
+                }
+                return li;
+            }
+
+            function formatTime(totalSeconds) {
+                const minutes = Math.floor(totalSeconds / 60);
+                const seconds = totalSeconds % 60;
+                return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            }
+             // Optionally, display the first role by default
+            if (rolesData.length > 0) {
+                displayAnalysis(rolesData[0].name);
+                const firstRoleLi = roleList.querySelector(`li[data-role="${rolesData[0].name}"]`);
+                if (firstRoleLi) {
+                    firstRoleLi.classList.add('active');
+                }
+            }
+        });
+    </script>
+</body>
+</html>

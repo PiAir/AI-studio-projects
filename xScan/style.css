@@ -1,0 +1,244 @@
+body {
+    font-family: Calibri, Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f0f0f0;
+    color: #333;
+}
+.ixscan-container {
+    max-width: 900px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+.page {
+    display: none;
+    padding: 20px;
+    border-bottom: 1px solid #eee;
+}
+.page.active {
+    display: block;
+}
+.page-header {
+    background-color: #FFF200; /* Yellow */
+    padding: 15px;
+    text-align: center;
+    border-bottom: 2px solid #E6D900;
+}
+.page-header h1 {
+    margin: 0;
+    font-size: 24px;
+    color: #333;
+}
+.page-header .subtitle {
+    font-size:0.7em;
+    font-weight:normal;
+}
+.page-header .logo-container {
+    margin-bottom: 10px;
+    position: relative;
+    height: 60px;
+}
+#header-logo {
+    height: 100%;
+    max-width: 150px; /* Adjust as needed */
+}
+
+.intro-doel {
+    background-color: #5F27CD; /* Purple */
+    color: white;
+    padding: 15px;
+    margin-top: 10px;
+    border-radius: 5px;
+}
+.intro-doel p {
+    margin: 0;
+}
+
+.section-title {
+    background-color: #FFF200; /* Yellow */
+    padding: 10px;
+    margin-top: 20px;
+    margin-bottom: 15px;
+    font-weight: bold;
+    border: 1px solid #E6D900;
+    border-radius: 3px;
+}
+.question-group {
+    margin-bottom: 15px;
+}
+.question-group > .question-text {
+     display: block;
+     margin-bottom: 8px;
+     font-weight: normal;
+}
+.question-group .checkbox-item, .question-group .radio-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+.question-group input[type="checkbox"], .question-group input[type="radio"] {
+    margin-right: 8px;
+    flex-shrink: 0;
+}
+.question-group .checkbox-item label, .question-group .radio-item label {
+     margin-bottom: 0;
+}
+
+.question-group input[type="text"], .question-group textarea {
+    width: calc(100% - 22px); /* Account for padding and border */
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    box-sizing: border-box; /* Important for width calculation */
+}
+.question-group textarea {
+    min-height: 60px;
+}
+
+.anders-input {
+    margin-left: 0px;
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+}
+.anders-input label {
+   font-style: italic;
+   margin-bottom: 0;
+}
+.anders-input input[type="text"] {
+    flex-grow: 1;
+    margin-left: 8px;
+}
+
+.navigation-buttons {
+    margin-top: 20px;
+    text-align: right;
+    padding: 10px 20px;
+    border-top: 1px solid #eee;
+}
+.navigation-buttons button {
+    padding: 10px 20px;
+    background-color: #4F2683; /* Purple */
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+.navigation-buttons button:hover {
+    background-color: #3B1D64; /* Darker Purple */
+}
+.navigation-buttons button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.report-content {
+    background-color: #FFFFE0; /* Light yellow */
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    white-space: pre-wrap;
+    font-family: 'Courier New', Courier, monospace;
+    margin-bottom: 15px;
+    min-height: 200px;
+}
+
+.side-graphic-container {
+    float: right;
+    width: 250px;
+    margin-left: 20px;
+    margin-bottom: 10px; /* Add some space below */
+}
+.content-next-to-graphic {
+    margin-right: 270px; /* Make space for floated graphic */
+}
+.responsive-image {
+    max-width: 100%;
+    height: auto;
+    display: block; /* For centering if container is text-aligned center */
+    margin: 0 auto; /* For centering if container is text-aligned center */
+}
+
+
+.differentiëren-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 10px;
+    padding: 5px;
+    border: 1px solid #eee;
+    border-radius: 3px;
+}
+.differentiëren-item > .checkbox-item {
+    flex: 2;
+}
+.differentiëren-item > .conditional-input-container {
+    flex: 1;
+    margin-left: 15px;
+    padding-left: 15px;
+    border-left: 1px dashed #ccc;
+    display: flex;
+    align-items: center;
+}
+ .differentiëren-item .conditional-input-container input[type="checkbox"] {
+    margin-right: 5px;
+ }
+.differentiëren-item input[type="number"] {
+    width: 50px;
+    margin-left: 5px;
+    padding: 5px;
+}
+
+.mate-van-regie-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.mate-van-regie-table th, .mate-van-regie-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+.mate-van-regie-table th {
+    background-color: #f2f2f2;
+}
+.mate-van-regie-table td:not(:first-child) {
+    text-align: center;
+}
+
+.opkomende-tech-item, .kerneigenschappen-item {
+    display: flex;
+    margin-bottom: 8px;
+    align-items: flex-start;
+}
+.opkomende-tech-item > .checkbox-item, .kerneigenschappen-item > .checkbox-item {
+    flex: 1;
+}
+.opkomende-tech-item > .description, .kerneigenschappen-item > .description {
+    flex: 2;
+    margin-left: 10px;
+    font-size: 0.9em;
+    color: #555;
+}
+.hidden {
+    display: none !important;
+}
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+.differentiëren-graphics {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start; /* Align items to top */
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+.diff-graphic {
+    width: 22%;
+    max-height: 80px; /* Control height of these small graphics */
+    object-fit: contain; /* Ensure aspect ratio is maintained */
+}

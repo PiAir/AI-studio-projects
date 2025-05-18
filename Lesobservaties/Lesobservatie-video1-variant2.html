@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classroom Interaction Analysis</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            text-align: center;
+            color: #0056b3;
+        }
+        #main-container {
+            display: flex;
+            width: 95%;
+            max-width: 1200px;
+            margin-top: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        #categories-panel {
+            width: 25%;
+            padding: 15px;
+            border-right: 1px solid #ddd;
+            background-color: #e9ecef;
+            overflow-y: auto;
+        }
+        #categories-panel h2 {
+            margin-top: 0;
+            color: #0056b3;
+            font-size: 1.2em;
+        }
+        #category-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        #category-list li {
+            padding: 8px;
+            cursor: pointer;
+            border-bottom: 1px solid #ccc;
+            transition: background-color 0.3s;
+        }
+        #category-list li:hover, #category-list li.active {
+            background-color: #007bff;
+            color: white;
+        }
+        #video-interactions-panel {
+            width: 75%;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+        #player-container {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        #player {
+            width: 100%;
+            aspect-ratio: 16 / 9; /* For responsive video player */
+        }
+        #interactions-display h3 {
+            margin-top: 0;
+            color: #0056b3;
+            font-size: 1.1em;
+        }
+        #interaction-list {
+            list-style-type: none;
+            padding: 0;
+            max-height: 400px; /* Or adjust as needed */
+            overflow-y: auto;
+        }
+        #interaction-list li {
+            padding: 8px;
+            border-bottom: 1px solid #eee;
+        }
+        .timecode {
+            font-weight: bold;
+            color: #007bff;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+        .timecode:hover {
+            color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Classroom Interaction Analysis</h1>
+    <div id="main-container">
+        <div id="categories-panel">
+            <h2>Categories</h2>
+            <ul id="category-list"></ul>
+        </div>
+        <div id="video-interactions-panel">
+            <div id="player-container">
+                <div id="player"></div>
+            </div>
+            <div id="interactions-display">
+                <h3 id="current-category-title">Select a Category</h3>
+                <ul id="interaction-list"></ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // YouTube Player API
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        var player;
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                height: '390', // These will be overridden by CSS aspect-ratio
+                width: '640',  // These will be overridden by CSS aspect-ratio
+                videoId: '3PRAV3T6i8Q',
+                playerVars: {
+                    'playsinline': 1
+                }
+            });
+        }
+
+        const interactions = [
+            // Category 1: Explaining stuff to students
+            { category: "Explaining stuff to students", start: 0, end: 4, description: "Teacher asks what in the equation indicates the need to distribute." },
+            { category: "Explaining stuff to students", start: 19, end: 28, description: "Teacher elaborates on noticing numbers outside parentheses, signaling distributive property." },
+            { category: "Explaining stuff to students", start: 103, end: 107, description: "Teacher asks the class how to verify if an answer is correct." },
+            { category: "Explaining stuff to students", start: 113, end: 120, description: "Teacher asks 'What do you mean check it?' to prompt further explanation from a student." },
+            { category: "Explaining stuff to students", start: 120, end: 133, description: "Teacher confirms checking by ensuring both sides of the equation are equal, making a true statement." },
+            { category: "Explaining stuff to students", start: 715, end: 722, description: "Teacher explains the steps of the problem on the whiteboard: 5x - 10 = 12x + 6." },
+            { category: "Explaining stuff to students", start: 811, end: 836, description: "Teacher writes the first step of the solution from student input: 5x - 10 = 12x + 6." },
+            { category: "Explaining stuff to students", start: 906, end: 917, description: "Teacher explains that with distributive property, everything inside the parentheses is multiplied by the number outside, regardless of how many terms are inside." },
+            { category: "Explaining stuff to students", start: 1140, end: 1223, description: "Teacher explains the homework assignment: identifying important information, matching equations, solving, and interpreting solutions for word problems." },
+            
+            // Category 2: Interacting with students
+            { category: "Interacting with students", start: 4, end: 19, description: "Student explains that a number outside the parentheses with an equation inside indicates distribution. Teacher confirms." },
+            { category: "Interacting with students", start: 28, end: 36, description: "Teacher asks Cassie what distributive property means; Cassie explains it involves multiplying the outside term by everything inside." },
+            { category: "Interacting with students", start: 52, end: 58, description: "Student asks if the answer can be a decimal; teacher responds it's possible and asks how to check." },
+            { category: "Interacting with students", start: 58, end: 102, description: "Teacher and student discuss checking the answer by plugging it back in." },
+            { category: "Interacting with students", start: 107, end: 113, description: "Student (Nick) suggests checking the equation." },
+            { category: "Interacting with students", start: 140, end: 222, description: "Teacher helps a student who thinks they made a mistake with distribution, confirms student's steps for isolating x (subtracting 5x, then subtracting 6)." },
+            { category: "Interacting with students", start: 222, end: 241, description: "Student confirms they got -16/7, and teacher asks what makes them think it's wrong, leading to discussion about decimal/fraction answers." },
+            { category: "Interacting with students", start: 241, end: 302, description: "Teacher guides student on using calculator to convert decimal to fraction (2nd PRB) for accurate checking." },
+            { category: "Interacting with students", start: 314, end: 331, description: "Teacher helps a student (Evan) identify an incorrect sign in their work." },
+            { category: "Interacting with students", start: 331, end: 401, description: "Teacher works with a student (Jackson) on isolating variables, adding 10 to both sides." },
+            { category: "Interacting with students", start: 401, end: 432, description: "Teacher helps Jackson with combining terms (12x - 5x or 5x - 12x) and dividing to solve for x, noting the answer -16/7 or -2.28 is not wrong, but rounding for checking is problematic." },
+            { category: "Interacting with students", start: 506, end: 524, description: "Teacher confirms a student's error (changing a minus to a plus during distribution) and clarifies that 5 * -2 = -10." },
+            { category: "Interacting with students", start: 524, end: 543, description: "Student asks if their answer (-2 2/7) is correct. Teacher confirms after checking the student's work with them." },
+            { category: "Interacting with students", start: 552, end: 610, description: "Teacher discusses with a student the meaning of 'no solution' when variables cancel out and the remaining statement is false." },
+            { category: "Interacting with students", start: 722, end: 727, description: "Teacher asks a student what they did after distributing (student says they added 4x to both sides, then subtracted 6)." },
+            { category: "Interacting with students", start: 800, end: 811, description: "Teacher calls on Kaylee to explain the first step of solving the equation after distribution (5x - 10 = 12x + 6)." },
+            { category: "Interacting with students", start: 932, end: 940, description: "Student (Evan) explains his next step: adding 10 to both sides. Teacher confirms." },
+            { category: "Interacting with students", start: 940, end: 951, description: "Teacher asks why adding 10 doesn't eliminate the variable; student explains it cancels the constant." },
+            { category: "Interacting with students", start: 1028, end: 1033, description: "Teacher asks Mack for the next step (subtracting 12x from both sides)." },
+            { category: "Interacting with students", start: 1040, end: 1053, description: "Teacher asks Mack what 5x - 12x is (-7x) and what's left on the other side (16)." },
+            { category: "Interacting with students", start: 1057, end: 1111, description: "Teacher asks Nick for the last step (divide by -7) and why (to isolate x). Result: x = -16/7 or -2 2/7." },
+            { category: "Interacting with students", start: 1111, end: 1139, description: "Teacher explains to Nick the issue with his initial rounded decimal answer (-2.28 or -2.29) vs. the exact fraction for checking." },
+            { category: "Interacting with students", start: 1249, end: 1331, description: "Teacher discusses with a group of students about interpreting the solution 16.8 in the context of boxes, leading to rounding down to 16 boxes because you can't have a partial box and stay within the weight limit." },
+            { category: "Interacting with students", start: 1437, end: 1524, description: "Teacher helps students match the correct equation (3x - 66 = 899) to the word problem about TV wholesale price, discussing what 'x' represents (wholesale price)." },
+            { category: "Interacting with students", start: 1615, end: 1641, description: "Teacher guides a student in solving the equation 9x + 6 = 51, discussing combining like terms and isolating the variable, then interpreting the answer (5 people)." },
+            { category: "Interacting with students", start: 1823, end: 1900, description: "Teacher works with a student on equation 3x-66=899, guiding them to add 66, then divide by 3, and discusses rounding for money (to hundredths)." },
+
+            // Category 3: Students are working on their own
+            { category: "Students are working on their own", start: 46, end: 49, description: "Students begin working on the 'Starting Gate' problem." },
+            { category: "Students are working on their own", start: 133, end: 139, description: "Students continue working on the problem after teacher explains checking." },
+            { category: "Students are working on their own", start: 1935, end: 2040, description: "Students work in pairs/groups on the word problem activity after instructions." },
+            
+            // Category 4: Giving feedback to students
+            { category: "Giving feedback to students", start: 19, end: 19, description: "Teacher says 'Good' to a student's explanation." },
+            { category: "Giving feedback to students", start: 36, end: 37, description: "Teacher says 'Very good' to Cassie's explanation." },
+            { category: "Giving feedback to students", start: 120, end: 120, description: "Teacher says 'Very good' to Nick's suggestion to check the answer." },
+            { category: "Giving feedback to students", start: 212, end: 212, description: "Teacher confirms a student's calculation: 12x - 5x = 7x." },
+            { category: "Giving feedback to students", start: 226, end: 227, description: "Teacher says 'Sounds good' to student's calculation -10 - 6 = -16." },
+            { category: "Giving feedback to students", start: 501, end: 502, description: "Teacher says 'Yes, sir, looks good so far' to a student." },
+            { category: "Giving feedback to students", start: 727, end: 727, description: "Teacher says 'Very good' to student's steps." },
+            { category: "Giving feedback to students", start: 834, end: 835, description: "Teacher praises Kaylee's explanation as 'Very good'." },
+            { category: "Giving feedback to students", start: 1019, end: 1019, description: "Teacher says 'Very good' after student correctly states the equation after adding 10 to both sides." },
+            { category: "Giving feedback to students", start: 1134, end: 1137, description: "Teacher confirms the fractional answer is -2 2/7 and says 'Very good'." },
+            { category: "Giving feedback to students", start: 1321, end: 1323, description: "Teacher says 'Very good' to students' reasoning for rounding down in a real-world context." },
+            { category: "Giving feedback to students", start: 1643, end: 1643, description: "Teacher says 'Good' after student solves and interprets an answer." },
+            { category: "Giving feedback to students", start: 1701, end: 1701, description: "Teacher praises students: 'Very good, you guys are all done.'" },
+            { category: "Giving feedback to students", start: 1811, end: 1812, description: "Teacher says 'Very good' to a student's work on an equation." },
+            
+            // Category 5: Classroom Management/Procedural Instructions
+            { category: "Classroom Management/Procedural Instructions", start: 42, end: 46, description: "Teacher gives students a few minutes to finish the 'Starting Gate' problem." },
+            { category: "Classroom Management/Procedural Instructions", start: 1240, end: 1248, description: "Teacher instructs students to clear their desks except for pencil and calculator for the next activity." },
+            { category: "Classroom Management/Procedural Instructions", start: 1428, end: 1502, description: "Teacher explains the partner activity: taking out tan-colored sheets, underlining important info, then matching with green equation cards, writing the equation, solving, and interpreting." },
+            { category: "Classroom Management/Procedural Instructions", start: 1516, end: 1523, description: "Teacher tells students not to talk while getting out materials and to close envelopes." },
+            { category: "Classroom Management/Procedural Instructions", start: 1940, end: 1944, description: "Teacher tells students their homework is to finish the sheet if not completed in class." },
+            { category: "Classroom Management/Procedural Instructions", start: 1952, end: 2001, description: "Teacher instructs students who finished the main activity and the 'You Try' to put their names on both sheets and turn them in." },
+            
+            // Category 6: Teacher Observation/Monitoring
+            { category: "Teacher Observation/Monitoring", start: 47, end: 52, description: "Teacher walks around the classroom while students work." },
+            { category: "Teacher Observation/Monitoring", start: 139, end: 140, description: "Teacher walks and observes students working." },
+            { category: "Teacher Observation/Monitoring", start: 2001, end: 2011, description: "Teacher circulates the room as students continue to work or prepare to turn in papers." },
+
+            // Category 7: Teacher Questioning (leading to explanation/student response)
+            { category: "Teacher Questioning", start: 0, end: 4, description: "Teacher asks: 'What about this equation told you that you have to distribute...?'" },
+            { category: "Teacher Questioning", start: 28, end: 31, description: "Teacher asks: 'The distributive property means to do what, Cassie?'" },
+            { category: "Teacher Questioning", start: 52, end: 56, description: "Student asks if answer can be decimal; teacher asks 'How can you check your answer...?'" },
+            { category: "Teacher Questioning", start: 103, end: 107, description: "Teacher asks: 'How do we know if our answer is correct...?'" },
+            { category: "Teacher Questioning", start: 113, end: 114, description: "Teacher asks Nick: 'What do you mean check it?'" },
+            { category: "Teacher Questioning", start: 140, end: 143, description: "Teacher asks student: 'What do you think you did wrong?'" },
+            { category: "Teacher Questioning", start: 202, end: 204, description: "Teacher asks student: 'Why did you subtract 5x?'" },
+            { category: "Teacher Questioning", start: 811, end: 813, description: "Teacher asks Kaylee: 'What would my first step look like?'" },
+            { category: "Teacher Questioning", start: 940, end: 941, description: "Teacher asks Evan: 'Why?' (regarding adding 10 to both sides)." },
+            { category: "Teacher Questioning", start: 1028, end: 1030, description: "Teacher asks Mack: 'What's the next step?'" },
+            { category: "Teacher Questioning", start: 1057, end: 1059, description: "Teacher asks Nick: 'What would the last step be?'" },
+            { category: "Teacher Questioning", start: 1105, end: 1109, description: "Teacher asks Nick: 'Why am I dividing by -7 on both sides?'" },
+            { category: "Teacher Questioning", start: 1144, end: 1146, description: "Teacher asks: 'What's my problem with his answer?' (referring to the rounded decimal)." },
+            { category: "Teacher Questioning", start: 1249, end: 1252, description: "Teacher asks a group: 'So what does that mean in terms of how many boxes?'" },
+            { category: "Teacher Questioning", start: 1437, end: 1443, description: "Teacher asks: 'So what's your X? What does X represent on card B?'" },
+            { category: "Teacher Questioning", start: 1615, end: 1617, description: "Teacher asks student about their equation 9x + 6 = 51." },
+            { category: "Teacher Questioning", start: 1823, end: 1826, description: "Teacher asks student: 'How would you solve 3x - 66 = 899?'" }
+
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const categoryList = document.getElementById('category-list');
+            const interactionList = document.getElementById('interaction-list');
+            const currentCategoryTitle = document.getElementById('current-category-title');
+
+            const categories = [...new Set(interactions.map(item => item.category))];
+
+            categories.forEach(category => {
+                const li = document.createElement('li');
+                li.textContent = category;
+                li.addEventListener('click', () => {
+                    displayInteractions(category);
+                    // Highlight active category
+                    document.querySelectorAll('#category-list li').forEach(item => item.classList.remove('active'));
+                    li.classList.add('active');
+                });
+                categoryList.appendChild(li);
+            });
+
+            function displayInteractions(category) {
+                interactionList.innerHTML = ''; // Clear previous interactions
+                currentCategoryTitle.textContent = `Interactions for: ${category}`;
+                const filteredInteractions = interactions.filter(item => item.category === category);
+                
+                if (filteredInteractions.length === 0) {
+                    const li = document.createElement('li');
+                    li.textContent = "No interactions recorded for this category.";
+                    interactionList.appendChild(li);
+                    return;
+                }
+
+                filteredInteractions.forEach(item => {
+                    const li = document.createElement('li');
+                    const timeLink = document.createElement('span');
+                    timeLink.classList.add('timecode');
+                    timeLink.textContent = `${formatTime(item.start)} - ${formatTime(item.end)}`;
+                    timeLink.addEventListener('click', () => {
+                        if (player && player.seekTo) {
+                            player.seekTo(item.start, true);
+                            player.playVideo();
+                        }
+                    });
+                    li.appendChild(timeLink);
+                    li.appendChild(document.createTextNode(`: ${item.description}`));
+                    interactionList.appendChild(li);
+                });
+            }
+
+            function formatTime(totalSeconds) {
+                const minutes = Math.floor(totalSeconds / 60);
+                const seconds = totalSeconds % 60;
+                return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            }
+        });
+    </script>
+</body>
+</html>

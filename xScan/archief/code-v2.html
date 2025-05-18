@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iXscan voor onderwijstechnologie</title>
+    <style>
+        body {
+            font-family: Calibri, Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f0f0;
+            color: #333;
+        }
+        .ixscan-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .page {
+            display: none;
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        .page.active {
+            display: block;
+        }
+        .page-header {
+            background-color: #FFF200; /* Yellow from title bar */
+            padding: 15px;
+            text-align: center;
+            border-bottom: 2px solid #E6D900;
+        }
+        .page-header h1 {
+            margin: 0;
+            font-size: 24px;
+            color: #333;
+        }
+        .page-header .logo-container {
+            margin-bottom: 10px;
+            position: relative;
+            height: 60px; 
+        }
+
+        .gear {
+            background-color: #5F27CD; 
+            border-radius: 50%;
+            display: inline-block;
+            position: absolute;
+        }
+        .gear.large { width: 50px; height: 50px; top: 5px; left: calc(50% - 55px); }
+        .gear.medium { width: 35px; height: 35px; background-color: #C83795; top: 0px; left: calc(50% - 17.5px); z-index: 1;}
+        .gear.small { width: 25px; height: 25px; top: 25px; left: calc(50% + 10px); }
+
+        .gear::before {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 110%; height: 110%;
+            background: repeating-conic-gradient(transparent 0% 5%, currentColor 5% 10%);
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            mask: radial-gradient(circle at center, transparent 60%, black 61%);
+            -webkit-mask: radial-gradient(circle at center, transparent 60%, black 61%);
+        }
+        .gear.medium::before { background-color: #C83795; }
+
+
+        .intro-doel {
+            background-color: #5F27CD; 
+            color: white;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+        .intro-doel p {
+            margin: 0;
+        }
+
+        .section-title {
+            background-color: #FFF200; 
+            padding: 10px;
+            margin-top: 20px;
+            margin-bottom: 15px;
+            font-weight: bold;
+            border: 1px solid #E6D900;
+            border-radius: 3px;
+        }
+        h2 { /* This was not used in the video for section titles, .section-title div was used */
+            font-size: 20px;
+            color: #4F2683; 
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        .question-group {
+            margin-bottom: 15px;
+        }
+        .question-group > .question-text { /* Label for the whole group */
+             display: block;
+             margin-bottom: 8px;
+             font-weight: normal; /* Make it less like a heading */
+        }
+        .question-group .checkbox-item, .question-group .radio-item {
+            display: flex;
+            align-items: center; /* Vertically align checkbox and label */
+            margin-bottom: 8px; /* Spacing between items */
+        }
+        .question-group input[type="checkbox"], .question-group input[type="radio"] {
+            margin-right: 8px;
+            flex-shrink: 0; /* Prevent checkbox from shrinking */
+        }
+        .question-group .checkbox-item label, .question-group .radio-item label {
+             margin-bottom: 0; /* Remove default margin from label if any */
+        }
+
+        .question-group input[type="text"], .question-group textarea {
+            width: calc(100% - 22px);
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+        .question-group textarea {
+            min-height: 60px;
+        }
+
+        .anders-input {
+            margin-left: 0px; /* Align with other checkbox items */
+            margin-top: 5px;
+            display: flex;
+            align-items: center;
+        }
+        .anders-input label {
+           font-style: italic;
+           margin-bottom: 0;
+        }
+        .anders-input input[type="text"] {
+            flex-grow: 1;
+            margin-left: 8px;
+        }
+
+
+        .navigation-buttons {
+            margin-top: 20px;
+            text-align: right;
+            padding: 10px 20px; /* Add some padding to the button area */
+            border-top: 1px solid #eee;
+        }
+        .navigation-buttons button {
+            padding: 10px 20px;
+            background-color: #4F2683; 
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        .navigation-buttons button:hover {
+            background-color: #3B1D64;
+        }
+
+        .report-content {
+            background-color: #FFFFE0; 
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            white-space: pre-wrap; 
+            font-family: 'Courier New', Courier, monospace;
+            margin-bottom: 15px;
+            min-height: 200px; /* Ensure it has some height even when empty */
+        }
+        .report-content h3 { /* Markdown will use ###, this is for HTML structure if needed */
+            font-family: Calibri, Arial, sans-serif;
+            color: #4F2683;
+            margin-top: 10px;
+            margin-bottom: 5px;
+            font-size: 16px;
+        }
+
+        .graphic-placeholder {
+            border: 1px dashed #aaa;
+            padding: 10px;
+            margin: 10px 0;
+            text-align: center;
+            font-style: italic;
+            color: #777;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f9f9f9;
+        }
+
+        .differentiëren-item {
+            display: flex;
+            align-items: flex-start; 
+            margin-bottom: 10px;
+            padding: 5px;
+            border: 1px solid #eee;
+            border-radius: 3px;
+        }
+        .differentiëren-item > .checkbox-item { 
+            flex: 2;
+        }
+        .differentiëren-item > .conditional-input-container { 
+            flex: 1;
+            margin-left: 15px;
+            padding-left: 15px;
+            border-left: 1px dashed #ccc;
+            display: flex;
+            align-items: center;
+        }
+         .differentiëren-item .conditional-input-container input[type="checkbox"] {
+            margin-right: 5px;
+         }
+        .differentiëren-item input[type="number"] {
+            width: 50px;
+            margin-left: 5px;
+        }
+
+        .mate-van-regie-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .mate-van-regie-table th, .mate-van-regie-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .mate-van-regie-table th {
+            background-color: #f2f2f2;
+        }
+        .mate-van-regie-table td:not(:first-child) {
+            text-align: center;
+        }
+
+        .opkomende-tech-item, .kerneigenschappen-item {
+            display: flex;
+            margin-bottom: 8px;
+            align-items: flex-start;
+        }
+        .opkomende-tech-item > .checkbox-item, .kerneigenschappen-item > .checkbox-item {
+            flex: 1;
+        }
+        .opkomende-tech-item > .description, .kerneigenschappen-item > .description {
+            flex: 2;
+            margin-left: 10px;
+            font-size: 0.9em;
+            color: #555;
+        }
+        .hidden {
+            display: none !important;
+        }
+        .inline-explanation {
+            font-size: 0.9em;
+            color: #666;
+            margin-left: 25px;
+            display: block;
+        }
+        .side-graphic-container {
+            float: right;
+            width: 250px; 
+            margin-left: 20px;
+        }
+        .clearfix::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+        .differentiëren-graphics {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 10px;
+            margin-bottom: 15px;
+        }
+        .differentiëren-graphics .graphic-placeholder {
+            width: 22%; 
+            font-size: 0.8em;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ixscan-container">
+        <div class="page-header">
+            <div class="logo-container">
+                <div class="gear large"></div>
+                <div class="gear medium"></div>
+                <div class="gear small"></div>
+            </div>
+            <h1>iXscan <span style="font-size:0.7em; font-weight:normal;">voor onderwijstechnologie</span></h1>
+        </div>
+
+        <!-- Page 1: Intro -->
+        <div class="page active" id="page-intro">
+            <div class="intro-doel">
+                <p><strong>Doel:</strong> Een theoretisch onderbouwd kader om de inzet van ict in onderwijssettings te beschrijven. Hiermee moeten we de inzet van ict kunnen vergelijken over designteams, projecten of samenwerkingen heen. Waar we hier praten over studenten kan ook leerlingen gelezen worden.</p>
+            </div>
+        </div>
+
+        <!-- Page 2: Rationales -->
+        <div class="page" id="page-rationales">
+            <div class="section-title">Rationales</div>
+            <div class="question-group">
+                <label class="question-text">Wat is de reden voor het inzetten van ict in het onderwijs? Er kunnen meerdere redenen zijn.</label>
+                <div class="checkbox-item"><input type="checkbox" id="rat1" name="rationales" value="Versterken van de digitale geletterdheid."><label for="rat1">Versterken van de digitale geletterdheid.</label></div>
+                <div class="checkbox-item"><input type="checkbox" id="rat2" name="rationales" value="Ondersteunen van het primaire proces."><label for="rat2">Ondersteunen van het primaire proces.</label></div>
+                <div class="checkbox-item"><input type="checkbox" id="rat3" name="rationales" value="Versterken van de motivatie van de studenten."><label for="rat3">Versterken van de motivatie van de studenten.</label></div>
+                <div class="checkbox-item"><input type="checkbox" id="rat4" name="rationales" value="Versterken van onderwijsinnovatie, het zorgen van beweging in vernieuwing de onderwijsorganisatie met technologie als katalysator."><label for="rat4">Versterken van onderwijsinnovatie, het zorgen van beweging in vernieuwing de onderwijsorganisatie met technologie als katalysator.</label></div>
+                <div class="checkbox-item"><input type="checkbox" id="rat5" name="rationales" value="Verbeteren van de toegankelijkheid van onderwijs voor studenten."><label for="rat5">Verbeteren van de toegankelijkheid van onderwijs voor studenten.</label></div>
+                <div class="checkbox-item"><input type="checkbox" id="rat6" name="rationales" value="Beter zicht op het onderwijsproces van studenten."><label for="rat6">Beter zicht op het onderwijsproces van studenten.</label></div>
+                <div class="anders-input">
+                    <input type="checkbox" id="rat-anders-cb" name="rationales_anders_cb"> <label for="rat-anders-cb">Anders, namelijk:</label>
+                    <input type="text" id="rat-anders" name="rationales_anders_text" placeholder="Vul hier in...">
+                </div>
+            </div>
+        </div>
+
+        <!-- Page 3: SAMR -->
+        <div class="page" id="page-samr">
+            <div class="section-title">SAMR</div>
+            <div class="clearfix">
+                <div class="side-graphic-container">
+                    <div class="graphic-placeholder" style="height: 180px;">
+                        SAMR Model Graphic<br>
+                        Redefinition <br>
+                        Modification <br>
+                        Augmentation <br>
+                        Substitution
+                    </div>
+                </div>
+                <div class="question-group" style="margin-right: 270px;">
+                    <label class="question-text">Met het SAMR-model kun je beschrijven hoe ict je onderwijs heeft veranderd. Vink aan welke het meest van toepassing is:</label>
+                    <div class="checkbox-item"><input type="checkbox" id="samr1" name="samr" value="Substitution: Wordt ict gebruikt als directe vervanging voor traditionele tools of processen? Een voorbeeld: in plaats van pen en papier schrijven studenten nu met een tekstverwerker op de computer."><label for="samr1">Wordt ict gebruikt als directe vervanging voor traditionele tools of processen? Een voorbeeld: in plaats van pen en papier schrijven studenten nu met een tekstverwerker op de computer.</label></div>
+                    <div class="checkbox-item"><input type="checkbox" id="samr2" name="samr" value="Augmentation: Voegt ict extra functionaliteit toe aan taken die verder hetzelfde blijven? Een voorbeeld: het gebruik van spelling- en grammaticacontrole in een tekstverwerker."><label for="samr2">Voegt ict extra functionaliteit toe aan taken die verder hetzelfde blijven? Een voorbeeld: het gebruik van spelling- en grammaticacontrole in een tekstverwerker.</label></div>
+                    <div class="checkbox-item"><input type="checkbox" id="samr3" name="samr" value="Modification: Zijn er door ict taken of activiteiten ontstaan die eerst niet mogelijk waren? Een voorbeeld: in real time samenwerken aan een document via de cloud."><label for="samr3">Zijn er door ict taken of activiteiten ontstaan die eerst niet mogelijk waren? Een voorbeeld: in real time samenwerken aan een document via de cloud.</label></div>
+                    <div class="checkbox-item"><input type="checkbox" id="samr4" name="samr" value="Redefinition: Zijn er door ict hele nieuwe leerervaringen mogelijk die eerst niet mogelijk waren? Een voorbeeld: een online platform waardoor studenten kunnen samenwerken met leeftijdsgenoten over de hele wereld."><label for="samr4">Zijn er door ict hele nieuwe leerervaringen mogelijk die eerst niet mogelijk waren? Een voorbeeld: een online platform waardoor studenten kunnen samenwerken met leeftijdsgenoten over de hele wereld.</label></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page 4: Karakterisering ict-inzet -->
+        <div class="page" id="page-karakterisering">
+            <div class="section-title">Karakterisering ict-inzet</div>
+            <div class="question-group">
+                <label class="question-text">Hoe zou je de inzet van ict willen kenmerken?</label>
+                <div class="checkbox-item"><input type="checkbox" id="kar1" name="karakterisering" value="Blended leren."><label for="kar1">Blended leren.</label></div>
+                <div class="checkbox-item"><input type="checkbox" id="kar2" name="karakterisering" value="Gamification."><label for="kar2">Gamification.</label></div>
+                <div class="checkbox-item"><input type="checkbox" id="kar3" name="karakterisering" value="Gepersonaliseerd leren."><label for="kar3">Gepersonaliseerd leren.</label></div>
+                <div class="checkbox-item"><input type="checkbox" id="kar4" name="karakterisering" value="Ervaringsgericht leren."><label for="kar4">Ervaringsgericht leren.</label></div>
+                <div class="checkbox-item"><input type="checkbox" id="kar5" name="karakterisering" value="Samenwerkend leren."><label for="kar5">Samenwerkend leren.</label></div>
+                <div class="checkbox-item"><input type="checkbox" id="kar6" name="karakterisering" value="Probleemgestuurd leren."><label for="kar6">Probleemgestuurd leren.</label></div>
+                <div class="checkbox-item"><input type="checkbox" id="kar7" name="karakterisering" value="Challenge-based leren."><label for="kar7">Challenge-based leren.</label></div>
+                <div class="checkbox-item"><input type="checkbox" id="kar8" name="karakterisering" value="Maakonderwijs."><label for="kar8">Maakonderwijs.</label></div>
+                <div class="anders-input">
+                     <input type="checkbox" id="kar-anders-cb" name="karakterisering_anders_cb"> <label for="kar-anders-cb">Anders, namelijk:</label>
+                    <input type="text" id="kar-anders" name="karakterisering_anders_text" placeholder="Vul hier in...">
+                </div>
+            </div>
+        </div>
+
+        <!-- Page 5: Cyclus van differentiëren -->
+        <div class="page" id="page-differentieren">
+            <div class="section-title">Cyclus van differentiëren</div>
+            <div class="question-group">
+                <div class="checkbox-item">
+                    <input type="checkbox" id="diff-main" name="differentieren_main">
+                    <label for="diff-main">Ict wordt ingezet om recht te doen aan verschillen tussen studenten; om te differentiëren.</label>
+                </div>
+                <div id="diff-subquestions" class="hidden">
+                    <p><strong>Hoe wordt ict ingezet om te differentiëren?</strong></p>
+                    <div class="differentiëren-graphics">
+                        <div class="graphic-placeholder">1 - Per student</div>
+                        <div class="graphic-placeholder">2 - Groepen studenten</div>
+                        <div class="graphic-placeholder">3 - Enkele studenten en de rest</div>
+                        <div class="graphic-placeholder">4 - Enkele studenten en meerdere groepen</div>
+                    </div>
+                    <div class="differentiëren-item">
+                        <div class="checkbox-item"><input type="checkbox" id="diff-sub1" data-label="Door vast te stellen waar studenten moeite mee hebben"><label for="diff-sub1">Door vast te stellen waar studenten moeite mee hebben</label></div>
+                        <div class="conditional-input-container"><input type="checkbox" id="diff-sub1-nee"><label for="diff-sub1-nee">Nee</label> <input type="number" id="diff-sub1-level" min="1" max="4" class="hidden" placeholder="1-4"></div>
+                    </div>
+                    <div class="differentiëren-item">
+                        <div class="checkbox-item"><input type="checkbox" id="diff-sub2" data-label="Door de beginsituatie van studenten vast te stellen"><label for="diff-sub2">Door de beginsituatie van studenten vast te stellen</label></div>
+                        <div class="conditional-input-container"><input type="checkbox" id="diff-sub2-nee"><label for="diff-sub2-nee">Nee</label> <input type="number" id="diff-sub2-level" min="1" max="4" class="hidden" placeholder="1-4"></div>
+                    </div>
+                    <div class="differentiëren-item">
+                        <div class="checkbox-item"><input type="checkbox" id="diff-sub3" data-label="Door te differentiëren in lesstof"><label for="diff-sub3">Door te differentiëren in lesstof</label></div>
+                        <div class="conditional-input-container"><input type="checkbox" id="diff-sub3-nee"><label for="diff-sub3-nee">Nee</label> <input type="number" id="diff-sub3-level" min="1" max="4" class="hidden" placeholder="1-4"></div>
+                    </div>
+                     <div class="differentiëren-item">
+                        <div class="checkbox-item"><input type="checkbox" id="diff-sub4" data-label="Door te differentiëren in de instructie"><label for="diff-sub4">Door te differentiëren in de instructie</label></div>
+                        <div class="conditional-input-container"><input type="checkbox" id="diff-sub4-nee"><label for="diff-sub4-nee">Nee</label> <input type="number" id="diff-sub4-level" min="1" max="4" class="hidden" placeholder="1-4"></div>
+                    </div>
+                    <div class="differentiëren-item">
+                        <div class="checkbox-item"><input type="checkbox" id="diff-sub5" data-label="Door te differentiëren in de wijze waarop de studenten de leerstof verwerken"><label for="diff-sub5">Door te differentiëren in de wijze waarop de studenten de leerstof verwerken</label></div>
+                        <div class="conditional-input-container"><input type="checkbox" id="diff-sub5-nee"><label for="diff-sub5-nee">Nee</label> <input type="number" id="diff-sub5-level" min="1" max="4" class="hidden" placeholder="1-4"></div>
+                    </div>
+                    <div class="differentiëren-item">
+                        <div class="checkbox-item"><input type="checkbox" id="diff-sub6" data-label="Door te differentiëren in toetsing"><label for="diff-sub6">Door te differentiëren in toetsing</label></div>
+                        <div class="conditional-input-container"><input type="checkbox" id="diff-sub6-nee"><label for="diff-sub6-nee">Nee</label> <input type="number" id="diff-sub6-level" min="1" max="4" class="hidden" placeholder="1-4"></div>
+                    </div>
+                    <div class="differentiëren-item">
+                        <div class="checkbox-item"><input type="checkbox" id="diff-sub7" data-label="Door te differentiëren in leerdoelen voor de studenten"><label for="diff-sub7">Door te differentiëren in leerdoelen voor de studenten</label></div>
+                        <div class="conditional-input-container"><input type="checkbox" id="diff-sub7-nee"><label for="diff-sub7-nee">Nee</label> <input type="number" id="diff-sub7-level" min="1" max="4" class="hidden" placeholder="1-4"></div>
+                    </div>
+                     <div class="differentiëren-item">
+                        <div class="checkbox-item"><input type="checkbox" id="diff-sub8" data-label="Door te evalueren of het leerdoel bereikt is"><label for="diff-sub8">Door te evalueren of het leerdoel bereikt is</label></div>
+                        <div class="conditional-input-container"><input type="checkbox" id="diff-sub8-nee"><label for="diff-sub8-nee">Nee</label> <input type="number" id="diff-sub8-level" min="1" max="4" class="hidden" placeholder="1-4"></div>
+                    </div>
+                    <div class="differentiëren-item">
+                        <div class="checkbox-item"><input type="checkbox" id="diff-sub9" data-label="Door gerichte hulp te bieden bij een probleem van de student"><label for="diff-sub9">Door gerichte hulp te bieden bij een probleem van de student</label></div>
+                        <div class="conditional-input-container"><input type="checkbox" id="diff-sub9-nee"><label for="diff-sub9-nee">Nee</label> <input type="number" id="diff-sub9-level" min="1" max="4" class="hidden" placeholder="1-4"></div>
+                    </div>
+                    <div class="anders-input">
+                         <input type="checkbox" id="diff-anders-cb" name="differentieren_anders_cb"> <label for="diff-anders-cb">Anders, namelijk:</label>
+                        <input type="text" id="diff-anders" name="differentieren_anders_text" placeholder="Vul hier in...">
+                    </div>
+                </div>
+                <div id="diff-skip-message">
+                    <p><em>Zo niet, ga door naar het volgende thema.</em></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page 6: Interactie -->
+        <div class="page" id="page-interactie">
+            <div class="section-title">Interactie tussen student, docent en ict</div>
+             <div class="clearfix">
+                <div class="side-graphic-container">
+                    <div class="graphic-placeholder" style="height: 150px;">Interactie Diagram</div>
+                </div>
+                <div class="question-group" style="margin-right: 270px;">
+                    <label class="question-text">Hoe zou je de interactie tussen de student, docent en ict in het onderwijs omschrijven? Kies er één.</label>
+                    <div class="radio-item"><input type="radio" id="int1" name="interactie" value="A. De interacties tussen docent en student zijn inhoudelijk gericht op de inzet van ict (bijv. hoe drones in te zetten om te leren)."><label for="int1">A. De interacties tussen docent en student zijn inhoudelijk gericht op de inzet van ict (bijv. hoe drones in te zetten om te leren).</label></div>
+                    <div class="radio-item"><input type="radio" id="int2" name="interactie" value="B. De interacties zijn tussen student en ict (bijv. onderwijs met VR)."><label for="int2">B. De interacties zijn tussen student en ict (bijv. onderwijs met VR).</label></div>
+                    <div class="radio-item"><input type="radio" id="int3" name="interactie" value="C. De interacties zijn tussen docent en ict (bijv. het bekijken van studievoortgang in een online platform)."><label for="int3">C. De interacties zijn tussen docent en ict (bijv. het bekijken van studievoortgang in een online platform).</label></div>
+                    <div class="radio-item"><input type="radio" id="int4" name="interactie" value="D. De interacties lopen vooral van de docent naar de student (bijv. het delen van content)."><label for="int4">D. De interacties lopen vooral van de docent naar de student (bijv. het delen van content).</label></div>
+                    <div class="radio-item"><input type="radio" id="int5" name="interactie" value="E. De interacties lopen van de student via ict naar de docent (bijv. vragen insturen voor een hoorcollege)."><label for="int5">E. De interacties lopen van de student via ict naar de docent (bijv. vragen insturen voor een hoorcollege).</label></div>
+                    <div class="radio-item"><input type="radio" id="int6" name="interactie" value="F. De interacties zijn tussen studenten via ict (bijv. afstandsonderwijs)."><label for="int6">F. De interacties zijn tussen studenten via ict (bijv. afstandsonderwijs).</label></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page 7: Mate van regie -->
+        <div class="page" id="page-regie">
+            <div class="section-title">Mate van regie</div>
+            <div class="question-group">
+                <p class="question-text">Wie of wat heeft invloed op het leren bij deze inzet van ict? Dus wie bepaalt het meest:</p>
+                <table class="mate-van-regie-table">
+                    <thead>
+                        <tr>
+                            <th>Vraag</th>
+                            <th>ict</th>
+                            <th>student</th>
+                            <th>docent</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Wat er geleerd wordt</td>
+                            <td><input type="checkbox" name="regie_wat" value="ict"></td>
+                            <td><input type="checkbox" name="regie_wat" value="student"></td>
+                            <td><input type="checkbox" name="regie_wat" value="docent"></td>
+                        </tr>
+                        <tr>
+                            <td>Wanneer er geleerd wordt</td>
+                            <td><input type="checkbox" name="regie_wanneer" value="ict"></td>
+                            <td><input type="checkbox" name="regie_wanneer" value="student"></td>
+                            <td><input type="checkbox" name="regie_wanneer" value="docent"></td>
+                        </tr>
+                        <tr>
+                            <td>Waar er geleerd wordt</td>
+                            <td><input type="checkbox" name="regie_waar" value="ict"></td>
+                            <td><input type="checkbox" name="regie_waar" value="student"></td>
+                            <td><input type="checkbox" name="regie_waar" value="docent"></td>
+                        </tr>
+                        <tr>
+                            <td>Hoe er geleerd wordt</td>
+                            <td><input type="checkbox" name="regie_hoe" value="ict"></td>
+                            <td><input type="checkbox" name="regie_hoe" value="student"></td>
+                            <td><input type="checkbox" name="regie_hoe" value="docent"></td>
+                        </tr>
+                        <tr>
+                            <td>Met wie er geleerd wordt</td>
+                            <td><input type="checkbox" name="regie_metwie" value="ict"></td>
+                            <td><input type="checkbox" name="regie_metwie" value="student"></td>
+                            <td><input type="checkbox" name="regie_metwie" value="docent"></td>
+                        </tr>
+                        <tr>
+                            <td>In welk tempo er geleerd wordt</td>
+                            <td><input type="checkbox" name="regie_tempo" value="ict"></td>
+                            <td><input type="checkbox" name="regie_tempo" value="student"></td>
+                            <td><input type="checkbox" name="regie_tempo" value="docent"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Page 8: Zelfregulerende vaardigheden -->
+        <div class="page" id="page-zelfregulering">
+            <div class="section-title">Zelfregulerende vaardigheden</div>
+            <div class="question-group">
+                <div class="checkbox-item">
+                    <input type="checkbox" id="zelfreg-main" name="zelfregulering_main">
+                    <label for="zelfreg-main">Ict wordt ingezet om zelfregulerende vaardigheden van studenten te bevorderen.</label>
+                </div>
+                <div id="zelfreg-subquestions" class="hidden">
+                    <p><strong>In welke fase wordt ict ingezet voor zelfregulerende vaardigheden?</strong></p>
+                    <div class="checkbox-item"><input type="checkbox" id="zelfreg-sub1" name="zelfregulering_fase" value="Voorbereidingsfase: doelen stellen, plannen, jezelf motiveren voor de taak."><label for="zelfreg-sub1">Voorbereidingsfase: doelen stellen, plannen, jezelf motiveren voor de taak.</label></div>
+                    <div class="checkbox-item"><input type="checkbox" id="zelfreg-sub2" name="zelfregulering_fase" value="Uitvoeringsfase: concentreren op de taak, toepassen van leerstrategieën, eigen voortgang monitoren."><label for="zelfreg-sub2">Uitvoeringsfase: concentreren op de taak, toepassen van leerstrategieën, eigen voortgang monitoren.</label></div>
+                    <div class="checkbox-item"><input type="checkbox" id="zelfreg-sub3" name="zelfregulering_fase" value="Reflectiefase: zelfbeoordeling en bepalen van vervolgstappen, op basis van de resultaten."><label for="zelfreg-sub3">Reflectiefase: zelfbeoordeling en bepalen van vervolgstappen, op basis van de resultaten.</label></div>
+                    <div class="anders-input">
+                         <input type="checkbox" id="zelfreg-anders-cb" name="zelfregulering_anders_cb"> <label for="zelfreg-anders-cb">Anders, namelijk:</label>
+                        <input type="text" id="zelfreg-anders" name="zelfregulering_anders_text" placeholder="Vul hier in...">
+                    </div>
+                </div>
+                 <div id="zelfreg-skip-message">
+                    <p><em>Zo niet, ga door naar het volgende thema.</em></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page 9: Assessment -->
+        <div class="page" id="page-assessment">
+            <div class="section-title">Assessment</div>
+            <div class="question-group">
+                <div class="checkbox-item">
+                    <input type="checkbox" id="assess-main" name="assessment_main">
+                    <label for="assess-main">Ict wordt ingezet om het leren te evalueren / beoordelen / toetsen.</label>
+                </div>
+                <div id="assess-subquestions" class="hidden">
+                    <p><strong>Hoe wordt ict ingezet voor assessment?</strong></p>
+                    <div class="checkbox-item"><input type="checkbox" id="assess-sub1" name="assessment_hoe" value="Studenten beoordelen hun eigen leren (bijv. voor monitoren, evalueren, opstellen van leerplannen)."><label for="assess-sub1">Studenten beoordelen hun eigen leren (bijv. voor monitoren, evalueren, opstellen van leerplannen).</label></div>
+                    <div class="checkbox-item"><input type="checkbox" id="assess-sub2" name="assessment_hoe" value="Studenten beoordelen elkaar."><label for="assess-sub2">Studenten beoordelen elkaar.</label></div>
+                    <div class="checkbox-item"><input type="checkbox" id="assess-sub3" name="assessment_hoe" value="De ict-tool beoordeelt automatisch (bijv. cijfers berekenen, feedback geven)."><label for="assess-sub3">De ict-tool beoordeelt automatisch (bijv. cijfers berekenen, feedback geven).</label></div>
+                    <div class="anders-input">
+                         <input type="checkbox" id="assess-anders-cb" name="assessment_anders_cb"> <label for="assess-anders-cb">Anders, namelijk:</label>
+                        <input type="text" id="assess-anders" name="assessment_anders_text" placeholder="Vul hier in...">
+                    </div>
+                </div>
+                 <div id="assess-skip-message">
+                    <p><em>Zo niet, ga door naar het volgende thema.</em></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page 10: Opkomende technologieën -->
+        <div class="page" id="page-opkomend">
+            <div class="section-title">Opkomende technologieën</div>
+            <p>In de literatuur worden opkomende technologieën beschreven die impact kunnen hebben op onderwijs. Vink hieronder aan (indien van toepassing).</p>
+            <div class="question-group">
+                <div class="opkomende-tech-item">
+                    <div class="checkbox-item"><input type="checkbox" id="opk1" name="opkomend" value="Artificial intelligence"><label for="opk1">Artificial intelligence</label></div>
+                    <div class="description">AI is het vermogen van computers om taken uit te voeren waarvoor mensen hun intelligentie inzetten. Denk aan interacteren met de omgeving, analyseren, redeneren, problemen oplossen en voorspellen.</div>
+                </div>
+                <div class="opkomende-tech-item">
+                    <div class="checkbox-item"><input type="checkbox" id="opk2" name="opkomend" value="XR: Virtual en/of augmented reality"><label for="opk2">XR: Virtual en/of augmented reality</label></div>
+                    <div class="description">Immersive reality of XR (eXtended Reality) is een term die alle immersieve technologieën omvat die onze perceptie van de werkelijkheid uitbreiden, zoals Virtual Reality (VR), Augmented Reality (AR) en Mixed Reality (MR). VR creëert een volledig door computers gegenereerde omgeving die de echte wereld vervangt.</div>
+                </div>
+                <div class="opkomende-tech-item">
+                    <div class="checkbox-item"><input type="checkbox" id="opk3" name="opkomend" value="Internet of Things"><label for="opk3">Internet of Things</label></div>
+                    <div class="description">Het Internet of Things (IoT) is het netwerk van apparaten met sensoren, software en netwerkverbinding.</div>
+                </div>
+                <div class="opkomende-tech-item">
+                    <div class="checkbox-item"><input type="checkbox" id="opk4" name="opkomend" value="3D printen"><label for="opk4">3D printen</label></div>
+                    <div class="description">Driedimensionale objecten laag voor laag printen.</div>
+                </div>
+                <div class="opkomende-tech-item">
+                    <div class="checkbox-item"><input type="checkbox" id="opk5" name="opkomend" value="Robots"><label for="opk5">Robots</label></div>
+                    <div class="description">Machines die verschillende taken kunnen uitvoeren.</div>
+                </div>
+                <div class="opkomende-tech-item">
+                    <div class="checkbox-item"><input type="checkbox" id="opk6" name="opkomend" value="Drones"><label for="opk6">Drones</label></div>
+                    <div class="description">Onbemande vliegtuigjes.</div>
+                </div>
+                <div class="opkomende-tech-item">
+                    <div class="checkbox-item"><input type="checkbox" id="opk7" name="opkomend" value="Draagbare technologie"><label for="opk7">Draagbare technologie</label></div>
+                    <div class="description">Compacte technologie die op het lichaam gedragen wordt, zoals fitnessbanden, smartwatches.</div>
+                </div>
+                <div class="opkomende-tech-item">
+                    <div class="checkbox-item"><input type="checkbox" id="opk8" name="opkomend" value="Virtuele labs"><label for="opk8">Virtuele labs</label></div>
+                    <div class="description">Simulaties op een computer van echte laboratoriumexperimenten.</div>
+                </div>
+                <div class="opkomende-tech-item">
+                    <div class="checkbox-item"><input type="checkbox" id="opk9" name="opkomend" value="Big data analytics, databases"><label for="opk9">Big data analytics, databases</label></div>
+                    <div class="description">Het verwerken en analyseren van grote hoeveelheden data.</div>
+                </div>
+                <div class="opkomende-tech-item">
+                    <div class="checkbox-item"><input type="checkbox" id="opk10" name="opkomend" value="Cloud computing"><label for="opk10">Cloud computing</label></div>
+                    <div class="description">Opslag, rekenkracht en software via het internet.</div>
+                </div>
+                <div class="opkomende-tech-item">
+                    <div class="checkbox-item"><input type="checkbox" id="opk11" name="opkomend" value="Hologrammen"><label for="opk11">Hologrammen</label></div>
+                    <div class="description">Het weergeven van 3D-beelden via hologrammen.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page 11: Kerneigenschappen ict -->
+        <div class="page" id="page-kerneigenschappen">
+            <div class="section-title">Kerneigenschappen ict</div>
+            <p>Los van de inzet van ict, kan de ict-tool zelf verschillende eigenschappen hebben. Vink hieronder de eigenschappen aan die van toepassing zijn op jouw ict-tool.</p>
+            <div class="question-group">
+                <div class="kerneigenschappen-item">
+                    <div class="checkbox-item"><input type="checkbox" id="kern1" name="kerneigenschappen" value="Adaptieve software"><label for="kern1">Adaptieve software</label></div>
+                    <div class="description">Software die materiaal aanbiedt op basis van de input en prestatie van de student.</div>
+                </div>
+                <div class="kerneigenschappen-item">
+                    <div class="checkbox-item"><input type="checkbox" id="kern2" name="kerneigenschappen" value="Ontwerpsoftware voor onderwijs"><label for="kern2">Ontwerpsoftware voor onderwijs</label></div>
+                    <div class="description">Software om onderwijs te maken.</div>
+                </div>
+                <div class="kerneigenschappen-item">
+                    <div class="checkbox-item"><input type="checkbox" id="kern3" name="kerneigenschappen" value="Software voor games in het onderwijs"><label for="kern3">Software voor games in het onderwijs</label></div>
+                    <div class="description">Software voor games in het onderwijs.</div>
+                </div>
+                 <div class="kerneigenschappen-item">
+                    <div class="checkbox-item"><input type="checkbox" id="kern4" name="kerneigenschappen" value="Software om programmeren aan te leren"><label for="kern4">Software om programmeren aan te leren</label></div>
+                    <div class="description">Software om programmeren aan te leren.</div>
+                </div>
+                <div class="kerneigenschappen-item">
+                    <div class="checkbox-item"><input type="checkbox" id="kern5" name="kerneigenschappen" value="Klassenmanagement"><label for="kern5">Klassenmanagement</label></div>
+                    <div class="description">Software om klassenmanagement te ondersteunen.</div>
+                </div>
+                <div class="kerneigenschappen-item">
+                    <div class="checkbox-item"><input type="checkbox" id="kern6" name="kerneigenschappen" value="Intelligente tutoring"><label for="kern6">Intelligente tutoring</label></div>
+                    <div class="description">Software die directe en aangepaste instructie en feedback geeft, bedoeld om menselijke begeleiding te simuleren.</div>
+                </div>
+                <div class="kerneigenschappen-item">
+                    <div class="checkbox-item"><input type="checkbox" id="kern7" name="kerneigenschappen" value="Elektronische leeromgeving (ELO)"><label for="kern7">Elektronische leeromgeving (ELO)</label></div>
+                    <div class="description">Software voor de administratie, documentatie, volgen, rapporteren en geven van onderwijs.</div>
+                </div>
+                <div class="kerneigenschappen-item">
+                    <div class="checkbox-item"><input type="checkbox" id="kern8" name="kerneigenschappen" value="Publiceren, informeren en verspreiden"><label for="kern8">Publiceren, informeren en verspreiden</label></div>
+                    <div class="description">Het online toegankelijk maken van kennis en materialen.</div>
+                </div>
+                <div class="kerneigenschappen-item">
+                    <div class="checkbox-item"><input type="checkbox" id="kern9" name="kerneigenschappen" value="Communicatie"><label for="kern9">Communicatie</label></div>
+                    <div class="description">Het uitwisselen van informatie tussen mensen en systemen.</div>
+                </div>
+                <div class="kerneigenschappen-item">
+                    <div class="checkbox-item"><input type="checkbox" id="kern10" name="kerneigenschappen" value="Samenwerken"><label for="kern10">Samenwerken</label></div>
+                    <div class="description">Het samenwerken aan projecten of taken.</div>
+                </div>
+                <div class="kerneigenschappen-item">
+                    <div class="checkbox-item"><input type="checkbox" id="kern11" name="kerneigenschappen" value="Informatie- en bronbeheer"><label for="kern11">Informatie- en bronbeheer</label></div>
+                    <div class="description">Het organiseren en beheren van informatiebronnen, zoals een database.</div>
+                </div>
+                <div class="kerneigenschappen-item">
+                    <div class="checkbox-item"><input type="checkbox" id="kern12" name="kerneigenschappen" value="Microsoft Office"><label for="kern12">Microsoft Office</label></div>
+                    <div class="description">Eén of meerdere applicaties van Microsoft Office.</div>
+                </div>
+                <div class="kerneigenschappen-item">
+                    <div class="checkbox-item"><input type="checkbox" id="kern13" name="kerneigenschappen" value="Adobe"><label for="kern13">Adobe</label></div>
+                    <div class="description">Eén of meerdere applicaties van Adobe.</div>
+                </div>
+                <div class="kerneigenschappen-item">
+                    <div class="checkbox-item"><input type="checkbox" id="kern14" name="kerneigenschappen" value="Google"><label for="kern14">Google</label></div>
+                    <div class="description">Eén of meerdere applicaties van Google.</div>
+                </div>
+                <div class="kerneigenschappen-item">
+                    <div class="checkbox-item"><input type="checkbox" id="kern15" name="kerneigenschappen" value="Website(s)"><label for="kern15">Website(s)</label></div>
+                    <div class="description">Een specifieke website.</div>
+                </div>
+                <div class="kerneigenschappen-item">
+                    <div class="checkbox-item"><input type="checkbox" id="kern16" name="kerneigenschappen" value="Vragenlijst"><label for="kern16">Vragenlijst</label></div>
+                    <div class="description">Een digitale poll of vragenlijst.</div>
+                </div>
+                <div class="kerneigenschappen-item">
+                    <div class="checkbox-item"><input type="checkbox" id="kern17" name="kerneigenschappen" value="Quizziz"><label for="kern17">Quizziz</label></div>
+                    <div class="description">Quizziz.</div>
+                </div>
+                <div class="kerneigenschappen-item">
+                    <div class="checkbox-item"><input type="checkbox" id="kern18" name="kerneigenschappen" value="Video of foto"><label for="kern18">Video of foto</label></div>
+                    <div class="description">Video of fotomateriaal.</div>
+                </div>
+                <div class="anders-input">
+                     <input type="checkbox" id="kern-anders-cb" name="kerneigenschappen_anders_cb"> <label for="kern-anders-cb">Anders, namelijk:</label>
+                    <input type="text" id="kern-anders" name="kerneigenschappen_anders_text" placeholder="Vul hier in...">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Page 12: End & Report Link -->
+        <div class="page" id="page-end">
+            <div class="intro-doel" style="text-align: center; background-color: #5F27CD;">
+                <p><strong>Einde van de iXscan.</strong></p>
+                <p>Klik op 'Bekijk Uitslag' om jouw resultaten in te zien!</p>
+            </div>
+        </div>
+
+        <!-- Page 13: Uitslag (Report) -->
+        <div class="page" id="page-report">
+            <div class="section-title" style="background-color: #5F27CD; color: white;">Uitslag van jouw iXscan:</div>
+            <p><em>Kopieer de onderstaande tekst en plak waar jij de tekst nodig hebt. Of download de resultaten als Markdown bestand.</em></p>
+            <div id="report-output" class="report-content">
+                <!-- Report will be generated here by JavaScript -->
+            </div>
+            <button id="downloadReportButton">Download Resultaten (.md)</button>
+        </div>
+
+        <div class="navigation-buttons">
+            <button id="prevButton" style="display: none;">Vorige</button>
+            <button id="nextButton">Volgende</button>
+            <button id="viewReportButton" style="display: none;">Bekijk Uitslag</button>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const pages = document.querySelectorAll('.page');
+        const prevButton = document.getElementById('prevButton');
+        const nextButton = document.getElementById('nextButton');
+        const viewReportButton = document.getElementById('viewReportButton');
+        const reportOutput = document.getElementById('reportOutput');
+        const downloadReportButton = document.getElementById('downloadReportButton');
+
+        let currentPageIndex = 0;
+        const formData = {};
+
+        const pageOrder = [
+            'page-intro', 'page-rationales', 'page-samr', 'page-karakterisering', 
+            'page-differentieren', 'page-interactie', 'page-regie', 
+            'page-zelfregulering', 'page-assessment', 'page-opkomend', 
+            'page-kerneigenschappen', 'page-end', 'page-report'
+        ];
+
+        function showPage(index) {
+            pages.forEach(page => page.classList.remove('active'));
+            const pageToShow = document.getElementById(pageOrder[index]);
+            if (pageToShow) {
+                 pageToShow.classList.add('active');
+            }
+           
+            prevButton.style.display = index > 0 && pageOrder[index] !== 'page-report' && pageOrder[index] !== 'page-intro' ? 'inline-block' : 'none';
+            
+            if (pageOrder[index] === 'page-end') {
+                nextButton.style.display = 'none';
+                viewReportButton.style.display = 'inline-block';
+            } else if (pageOrder[index] === 'page-report') {
+                nextButton.style.display = 'none'; // No next from report
+                viewReportButton.style.display = 'none';
+                 prevButton.style.display = 'inline-block'; // Allow going back from report
+            } else if (pageOrder[index] === 'page-intro') {
+                 nextButton.style.display = 'inline-block';
+                 prevButton.style.display = 'none';
+                 viewReportButton.style.display = 'none';
+            }
+             else {
+                nextButton.style.display = 'inline-block';
+                viewReportButton.style.display = 'none';
+            }
+
+            if (pageOrder[index] === 'page-intro') {
+                nextButton.textContent = 'Start iXscan';
+            } else {
+                 nextButton.textContent = 'Volgende';
+            }
+        }
+
+        function collectPageData(pageId) {
+            const pageElement = document.getElementById(pageId);
+            if (!pageElement) return;
+            formData[pageId] = {};
+
+            if (pageId === 'page-rationales') {
+                formData[pageId].selected = Array.from(pageElement.querySelectorAll('input[name="rationales"]:checked')).map(cb => cb.labels[0].textContent);
+                if (pageElement.querySelector('#rat-anders-cb').checked) {
+                    formData[pageId].anders = pageElement.querySelector('#rat-anders').value;
+                }
+            }
+            if (pageId === 'page-samr') {
+                formData[pageId].selected = Array.from(pageElement.querySelectorAll('input[name="samr"]:checked')).map(cb => cb.labels[0].textContent);
+            }
+            if (pageId === 'page-karakterisering') {
+                formData[pageId].selected = Array.from(pageElement.querySelectorAll('input[name="karakterisering"]:checked')).map(cb => cb.labels[0].textContent);
+                 if (pageElement.querySelector('#kar-anders-cb').checked) {
+                    formData[pageId].anders = pageElement.querySelector('#kar-anders').value;
+                }
+            }
+            if (pageId === 'page-differentieren') {
+                formData[pageId].main = pageElement.querySelector('#diff-main').checked;
+                if (formData[pageId].main) {
+                    formData[pageId].subItems = [];
+                    pageElement.querySelectorAll('.differentiëren-item').forEach((item) => {
+                        const mainCheckbox = item.querySelector(`input[type="checkbox"][id^="diff-sub"]`);
+                        if (mainCheckbox.checked) {
+                            const neeCheckbox = item.querySelector(`.conditional-input-container input[type="checkbox"]`);
+                            const levelInput = item.querySelector(`.conditional-input-container input[type="number"]`);
+                            formData[pageId].subItems.push({
+                                label: mainCheckbox.dataset.label,
+                                isNee: neeCheckbox.checked,
+                                level: neeCheckbox.checked ? levelInput.value : null
+                            });
+                        }
+                    });
+                    if (pageElement.querySelector('#diff-anders-cb').checked) {
+                       formData[pageId].anders = pageElement.querySelector('#diff-anders').value;
+                    }
+                }
+            }
+            if (pageId === 'page-interactie') {
+                const selectedRadio = pageElement.querySelector('input[name="interactie"]:checked');
+                formData[pageId].selected = selectedRadio ? selectedRadio.labels[0].textContent : null;
+            }
+            if (pageId === 'page-regie') {
+                formData[pageId].regie = {};
+                pageElement.querySelectorAll('.mate-van-regie-table tbody tr').forEach(row => {
+                    const questionText = row.cells[0].textContent.trim();
+                    const checkedBox = row.querySelector('input[type="checkbox"]:checked');
+                    if (checkedBox) {
+                        const columnHeaderIndex = Array.from(row.cells).indexOf(checkedBox.closest('td'));
+                        const actor = pageElement.querySelectorAll('.mate-van-regie-table thead th')[columnHeaderIndex].textContent.trim();
+                        formData[pageId].regie[questionText] = actor;
+                    }
+                });
+            }
+            if (pageId === 'page-zelfregulering') {
+                formData[pageId].main = pageElement.querySelector('#zelfreg-main').checked;
+                if (formData[pageId].main) {
+                    formData[pageId].fases = Array.from(pageElement.querySelectorAll('input[name="zelfregulering_fase"]:checked')).map(cb => cb.labels[0].textContent);
+                    if (pageElement.querySelector('#zelfreg-anders-cb').checked) {
+                        formData[pageId].anders = pageElement.querySelector('#zelfreg-anders').value;
+                    }
+                }
+            }
+            if (pageId === 'page-assessment') {
+                formData[pageId].main = pageElement.querySelector('#assess-main').checked;
+                if (formData[pageId].main) {
+                    formData[pageId].hoe = Array.from(pageElement.querySelectorAll('input[name="assessment_hoe"]:checked')).map(cb => cb.labels[0].textContent);
+                     if (pageElement.querySelector('#assess-anders-cb').checked) {
+                        formData[pageId].anders = pageElement.querySelector('#assess-anders').value;
+                    }
+                }
+            }
+            if (pageId === 'page-opkomend') {
+                formData[pageId].selected = Array.from(pageElement.querySelectorAll('input[name="opkomend"]:checked')).map(cb => cb.labels[0].textContent);
+            }
+            if (pageId === 'page-kerneigenschappen') {
+                formData[pageId].selected = Array.from(pageElement.querySelectorAll('input[name="kerneigenschappen"]:checked')).map(cb => cb.labels[0].textContent);
+                 if (pageElement.querySelector('#kern-anders-cb').checked) {
+                    formData[pageId].anders = pageElement.querySelector('#kern-anders').value;
+                }
+            }
+        }
+
+        function generateReport() {
+            let reportMd = ""; // Changed to reportMd for Markdown
+
+            if (formData['page-rationales']) {
+                reportMd += "### Rationales\n";
+                let rationalesList = formData['page-rationales'].selected.map(item => `- ${item}`).join("\n");
+                if (formData['page-rationales'].anders) {
+                    rationalesList += (rationalesList ? "\n" : "") + `- Anders: ${formData['page-rationales'].anders}`;
+                }
+                reportMd += rationalesList ? `Er is gebruikgemaakt van de volgende reden(en) om ict in te zetten:\n${rationalesList}\n\n` : "Geen rationales geselecteerd.\n\n";
+            }
+
+            if (formData['page-samr'] && formData['page-samr'].selected.length > 0) {
+                reportMd += "### SAMR\n";
+                reportMd += formData['page-samr'].selected.map(s => `- ${s.split(':')[0].trim()}: ${s.split(':')[1].trim()}`).join("\n") + "\n\n";
+            }
+            
+            if (formData['page-karakterisering']) {
+                reportMd += "### Karakterisering ict-inzet\n";
+                let karakteriseringenList = formData['page-karakterisering'].selected.map(item => `- ${item}`).join("\n");
+                if (formData['page-karakterisering'].anders) {
+                    karakteriseringenList += (karakteriseringenList ? "\n" : "") + `- Anders: ${formData['page-karakterisering'].anders}`;
+                }
+                reportMd += karakteriseringenList ? `De inzet van ICT wordt gekenmerkt door:\n${karakteriseringenList}\n\n` : "Geen karakterisering geselecteerd.\n\n";
+            }
+
+            if (formData['page-differentieren']) {
+                reportMd += "### Cyclus van differentiëren\n";
+                if (formData['page-differentieren'].main) {
+                    reportMd += "ICT wordt ingezet om te differentiëren.\n";
+                    formData['page-differentieren'].subItems.forEach(item => {
+                        reportMd += `- ${item.label}`;
+                        if (item.isNee && item.level) {
+                            reportMd += ` (Niet voor alle studenten hetzelfde, niveau ${item.level})\n`;
+                        } else {
+                            reportMd += "\n";
+                        }
+                    });
+                     if (formData['page-differentieren'].anders) {
+                        reportMd += `- Anders: ${formData['page-differentieren'].anders}\n`;
+                    }
+                } else {
+                    reportMd += "ICT wordt niet ingezet om te differentiëren.\n";
+                }
+                reportMd += "\n";
+            }
+
+            if (formData['page-interactie'] && formData['page-interactie'].selected) {
+                reportMd += "### Interactie tussen student, docent en ict\n";
+                reportMd += `- ${formData['page-interactie'].selected}\n\n`;
+            }
+
+            if (formData['page-regie'] && Object.keys(formData['page-regie'].regie).length > 0) {
+                reportMd += "### Mate van regie\n";
+                for (const [question, actor] of Object.entries(formData['page-regie'].regie)) {
+                    reportMd += `- ${question}: **${actor}** bepaalt het meest.\n`;
+                }
+                reportMd += "\n";
+            }
+
+            if (formData['page-zelfregulering']) {
+                reportMd += "### Zelfregulerende vaardigheden\n";
+                if (formData['page-zelfregulering'].main) {
+                    reportMd += "ICT wordt ingezet om zelfregulerende vaardigheden te bevorderen in de volgende fase(s):\n";
+                    reportMd += formData['page-zelfregulering'].fases.map(f => `- ${f}`).join("\n") + "\n";
+                    if (formData['page-zelfregulering'].anders) {
+                        reportMd += `- Anders: ${formData['page-zelfregulering'].anders}\n`;
+                    }
+                } else {
+                    reportMd += "ICT wordt niet ingezet voor zelfregulerende vaardigheden.\n";
+                }
+                reportMd += "\n";
+            }
+            
+            if (formData['page-assessment']) {
+                reportMd += "### Assessment\n";
+                if (formData['page-assessment'].main) {
+                    reportMd += "ICT wordt ingezet voor assessment als volgt:\n";
+                    reportMd += formData['page-assessment'].hoe.map(h => `- ${h}`).join("\n") + "\n";
+                     if (formData['page-assessment'].anders) {
+                        reportMd += `- Anders: ${formData['page-assessment'].anders}\n`;
+                    }
+                } else {
+                    reportMd += "ICT wordt niet ingezet voor assessment.\n";
+                }
+                reportMd += "\n";
+            }
+
+            if (formData['page-opkomend'] && formData['page-opkomend'].selected.length > 0) {
+                reportMd += "### Opkomende technologieën\n";
+                reportMd += "De volgende opkomende technologieën zijn van toepassing:\n";
+                reportMd += formData['page-opkomend'].selected.map(o => `- ${o}`).join("\n") + "\n\n";
+            }
+            
+            if (formData['page-kerneigenschappen']) {
+                reportMd += "### Kerneigenschappen ict\n";
+                let kernEigenschappenList = formData['page-kerneigenschappen'].selected.map(item => `- ${item}`).join("\n");
+                if (formData['page-kerneigenschappen'].anders) {
+                    kernEigenschappenList += (kernEigenschappenList ? "\n" : "") + `- Anders: ${formData['page-kerneigenschappen'].anders}`;
+                }
+                reportMd += kernEigenschappenList ? `De ICT-tool heeft de volgende kerneigenschappen:\n${kernEigenschappenList}\n\n` : "Geen kerneigenschappen geselecteerd.\n\n";
+            }
+
+            reportOutput.textContent = reportMd.trim() ? reportMd : "Er zijn nog geen selecties gemaakt.";
+        }
+        
+        nextButton.addEventListener('click', () => {
+            collectPageData(pageOrder[currentPageIndex]);
+            if (currentPageIndex < pageOrder.length - 1) {
+                 // Skip to report page if current is 'page-end'
+                if (pageOrder[currentPageIndex] === 'page-end') {
+                    currentPageIndex = pageOrder.indexOf('page-report');
+                    generateReport();
+                } else {
+                    currentPageIndex++;
+                }
+                showPage(currentPageIndex);
+            }
+        });
+
+        prevButton.addEventListener('click', () => {
+            if (currentPageIndex > 0) {
+                // If on report page, go to 'end' page
+                if (pageOrder[currentPageIndex] === 'page-report') {
+                    currentPageIndex = pageOrder.indexOf('page-end');
+                } else {
+                    currentPageIndex--;
+                }
+                showPage(currentPageIndex);
+            }
+        });
+
+        viewReportButton.addEventListener('click', () => {
+            collectPageData(pageOrder[currentPageIndex]); 
+            currentPageIndex = pageOrder.indexOf('page-report');
+            generateReport();
+            showPage(currentPageIndex);
+        });
+
+        downloadReportButton.addEventListener('click', () => {
+            const reportText = reportOutput.textContent;
+            const filename = "iXscan_Resultaten.md"; // Changed to .md
+            const blob = new Blob([reportText], { type: 'text/markdown;charset=utf-8' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
+
+        const diffMainCheckbox = document.getElementById('diff-main');
+        const diffSubquestionsDiv = document.getElementById('diff-subquestions');
+        const diffSkipMessageDiv = document.getElementById('diff-skip-message');
+
+        diffMainCheckbox.addEventListener('change', function() {
+            const isChecked = this.checked;
+            diffSubquestionsDiv.classList.toggle('hidden', !isChecked);
+            diffSkipMessageDiv.classList.toggle('hidden', isChecked);
+        });
+
+        document.querySelectorAll('.differentiëren-item .conditional-input-container input[type="checkbox"]').forEach(cb => {
+            cb.addEventListener('change', function() {
+                const levelInput = this.parentElement.querySelector('input[type="number"]');
+                levelInput.classList.toggle('hidden', !this.checked);
+                if (!this.checked) levelInput.value = '';
+            });
+        });
+
+        const zelfregMainCheckbox = document.getElementById('zelfreg-main');
+        const zelfregSubquestionsDiv = document.getElementById('zelfreg-subquestions');
+        const zelfregSkipMessageDiv = document.getElementById('zelfreg-skip-message');
+
+        zelfregMainCheckbox.addEventListener('change', function() {
+            const isChecked = this.checked;
+            zelfregSubquestionsDiv.classList.toggle('hidden', !isChecked);
+            zelfregSkipMessageDiv.classList.toggle('hidden', isChecked);
+        });
+        
+        const assessMainCheckbox = document.getElementById('assess-main');
+        const assessSubquestionsDiv = document.getElementById('assess-subquestions');
+        const assessSkipMessageDiv = document.getElementById('assess-skip-message');
+
+        assessMainCheckbox.addEventListener('change', function() {
+            const isChecked = this.checked;
+            assessSubquestionsDiv.classList.toggle('hidden', !isChecked);
+            assessSkipMessageDiv.classList.toggle('hidden', isChecked);
+        });
+
+        document.querySelectorAll('.mate-van-regie-table tbody tr').forEach(row => {
+            const checkboxes = row.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(cb => {
+                cb.addEventListener('change', function() {
+                    if (this.checked) {
+                        checkboxes.forEach(otherCb => {
+                            if (otherCb !== this) otherCb.checked = false;
+                        });
+                    }
+                });
+            });
+        });
+        
+        showPage(currentPageIndex);
+    });
+    </script>
+</body>
+</html>

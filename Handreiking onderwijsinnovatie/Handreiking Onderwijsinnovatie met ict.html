@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iXperium Handreiking - Onderwijsinnovatie met ICT</title>
+    <style>
+        /* Basic Reset & Global Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+            color: #333;
+            background-color: #f4f7f6;
+        }
+
+        /* Header */
+        header {
+            background-color: #3273dc;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 60px;
+            flex-shrink: 0;
+        }
+        header h1 {
+            font-size: 1.4em;
+            font-weight: 500;
+        }
+        header .logo img {
+            height: 35px;
+        }
+
+        /* Main Container */
+        .main-container {
+            display: flex;
+            flex-grow: 1;
+            overflow: hidden;
+        }
+
+        /* Sidebar Navigation */
+        nav#sidebar {
+            width: 280px;
+            background-color: #eef3f7;
+            padding: 20px 0px;
+            overflow-y: auto;
+            flex-shrink: 0;
+            border-right: 1px solid #d1dbe3;
+        }
+        nav#sidebar ul {
+            list-style: none;
+        }
+        nav#sidebar ul li a {
+            display: block;
+            padding: 12px 20px;
+            text-decoration: none;
+            color: #3273dc;
+            font-weight: 500;
+            border-left: 4px solid transparent;
+            transition: background-color 0.2s ease, border-left-color 0.2s ease;
+        }
+        nav#sidebar ul li a:hover {
+            background-color: #d1dbe3;
+        }
+        nav#sidebar ul li a.active {
+            background-color: #3273dc;
+            color: white;
+            border-left-color: #205cbf;
+        }
+        nav#sidebar ul li.section-title a {
+            font-weight: bold;
+            color: #555;
+            background-color: transparent !important;
+            cursor: default;
+            border-left: none;
+            padding-top: 15px;
+            padding-bottom: 5px;
+        }
+         nav#sidebar ul li.section-title a:hover {
+            background-color: transparent !important;
+        }
+
+        /* Content Area */
+        main#content-area {
+            flex-grow: 1;
+            padding: 25px;
+            overflow-y: auto;
+            background-color: white;
+        }
+        .page-content {
+            display: none;
+        }
+        .page-content.active {
+            display: block;
+        }
+        .page-content h2 {
+            color: #3273dc;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            border-bottom: 2px solid #eef3f7;
+            padding-bottom: 10px;
+        }
+        .page-content h3 {
+            color: #205cbf;
+            margin-top: 25px;
+            margin-bottom: 10px;
+            font-size: 1.4em;
+        }
+        .page-content p, .page-content ul, .page-content ol {
+            line-height: 1.7;
+            margin-bottom: 15px;
+            font-size: 0.95em;
+        }
+        .page-content ul:not(.quiz-options), .page-content ol { /* Exclude quiz options from this margin */
+            margin-left: 25px;
+        }
+        .page-content img {
+            max-width: 100%;
+            height: auto;
+            margin: 15px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 4px;
+        }
+        .page-content .highlight-box {
+            background-color: #e6f7ff;
+            border-left: 5px solid #007bff;
+            padding: 15px 20px;
+            margin: 20px 0;
+            font-style: italic;
+            font-weight: 500;
+        }
+        .page-content .example-box {
+            border: 1px dashed #ccc;
+            padding: 15px;
+            margin: 20px 0;
+            background-color: #f9f9f9;
+        }
+        .page-content .example-box strong {
+            color: #205cbf;
+        }
+
+        /* Accordion Styles */
+        .accordion-item {
+            border: 1px solid #eef3f7;
+            margin-bottom: 5px;
+            border-radius: 4px;
+        }
+        .accordion-item .accordion-title {
+            background-color: #f0f5f9;
+            padding: 10px 15px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #3273dc;
+        }
+        .accordion-item .accordion-content {
+            padding: 15px;
+            border-top: 1px solid #eef3f7;
+        }
+
+        /* Quiz Styles */
+        .quiz-section {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px dashed #3273dc;
+        }
+        .quiz-section h3.quiz-main-title { /* Specific class for the main quiz title */
+            margin-bottom: 20px;
+            color: #205cbf;
+            font-size: 1.6em;
+        }
+        .quiz-question {
+            background-color: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .quiz-question .question-text {
+            font-weight: normal; /* Changed from 500 to normal to avoid double bolding with <strong> */
+            margin-bottom: 10px;
+            font-size: 1em;
+        }
+        .quiz-options {
+            list-style: none;
+            padding-left: 0;
+        }
+        .quiz-options li {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 10px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        .quiz-options li:hover:not(.answered) { /* Only hover if not answered */
+            background-color: #eef3f7;
+        }
+        .quiz-options li.selected.correct {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+            font-weight: bold;
+        }
+        .quiz-options li.selected.incorrect {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+         .quiz-options li.reveal-correct-answer { /* To show the actual correct answer */
+            background-color: #cce5ff; /* Light blue to highlight the correct one */
+            border-color: #b8daff;
+            font-weight: bold;
+        }
+        .quiz-options li.answered { /* To disable further interaction after an answer */
+            cursor: default;
+        }
+        .quiz-feedback {
+            margin-top: 10px;
+            padding: 8px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+        .quiz-feedback.correct-feedback {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .quiz-feedback.incorrect-feedback {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+
+        /* Footer */
+        footer {
+            background-color: #f5f5f5;
+            color: #555;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 50px;
+            border-top: 1px solid #ddd;
+            flex-shrink: 0;
+        }
+        footer button {
+            background-color: #3273dc;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+        footer button:disabled {
+            background-color: #c0c0c0;
+            cursor: not-allowed;
+        }
+        footer .progress-container {
+            display: flex;
+            align-items: center;
+            font-size: 0.85em;
+        }
+        footer #progress-bar {
+            width: 150px;
+            height: 10px;
+            background-color: #ddd;
+            border-radius: 5px;
+            margin-right: 8px;
+            overflow: hidden;
+        }
+        footer #progress-fill {
+            width: 0%;
+            height: 100%;
+            background-color: #3273dc;
+            transition: width 0.3s ease;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Handreiking Onderwijsinnovatie met ICT</h1>
+        <div class="logo">
+            <img src="images/ixperium_logo.png" alt="iXperium Logo">
+        </div>
+    </header>
+
+    <div class="main-container">
+        <nav id="sidebar">
+            <ul>
+                <li class="section-title"><a href="#">START</a></li>
+                <li><a href="#" data-page="page-welcome" class="active">Welkom</a></li>
+
+                <li class="section-title"><a href="#">SECTIE 1: INTRODUCTIE</a></li>
+                <li><a href="#" data-page="page-why">Waarom deze Handreiking?</a></li>
+                <li><a href="#" data-page="page-framework">Docentprofessionalisering & ICT: Raamwerk</a></li>
+                <li><a href="#" data-page="page-buildingblocks">Bouwstenen Effectieve Professionalisering</a></li>
+                <li><a href="#" data-page="page-securing">Borgen Competenties in Organisatie</a></li>
+                <li><a href="#" data-page="page-approach">Aanpak Verkenning (incl. Kennisquiz Sectie 1)</a></li>
+
+                <li class="section-title"><a href="#">SECTIE 2: BEOORDELEN & BORGEN</a></li>
+                <li><a href="#" data-page="page-assess-basis">Basis Competentieontwikkeling Beoordelen</a></li>
+                <li><a href="#" data-page="page-assess-testing">Passende Toetsing</a></li>
+                <li><a href="#" data-page="page-assess-programmatic">Programmatisch Toetsen</a></li>
+                <li><a href="#" data-page="page-assess-sharedviews">Gemeenschappelijke Beelden</a></li>
+                <li><a href="#" data-page="page-assess-teamindividual">Team & Individu Balans</a></li>
+                <li><a href="#" data-page="page-securing-whyhow">Competenties Borgen: Waarom & Hoe?</a></li>
+                <li><a href="#" data-page="page-securing-certification">Belang Certificeren</a></li>
+                <li><a href="#" data-page="page-securing-recognition">Erkennen & Waarderen</a></li>
+                <li><a href="#" data-page="page-securing-sustainable">Duurzaam Borgen (incl. Kennisquiz Sectie 2)</a></li>
+
+                <li class="section-title"><a href="#">SECTIE 3: FACILITEREN & ORGANISEREN</a></li>
+                <li><a href="#" data-page="page-facilitate-intro">Randvoorwaarden Duurzaam Borgen</a></li>
+                <li><a href="#" data-page="page-facilitate-vision">1. Visie</a></li>
+                <li><a href="#" data-page="page-facilitate-culture">2. Lerende Cultuur</a></li>
+                <li><a href="#" data-page="page-facilitate-support">3. Actief Faciliteren</a></li>
+                <li><a href="#" data-page="page-facilitate-evaluate">4. Continu Evalueren (incl. Kennisquiz Sectie 3)</a></li>
+
+                <li class="section-title"><a href="#">SECTIE 4: AANBEVELINGEN</a></li>
+                <li><a href="#" data-page="page-recommendations">Acht Aanbevelingen (incl. Kennisquiz Sectie 4)</a></li>
+
+                <li class="section-title"><a href="#">SECTIE 5: BRONNEN</a></li>
+                <li><a href="#" data-page="page-literature">Literatuur (Selectie)</a></li>
+                <li><a href="#" data-page="page-moreinfo">Meer Weten?</a></li>
+                <li><a href="#" data-page="page-colofon">Colofon & CC (incl. Kennisquiz Sectie 5)</a></li>
+            </ul>
+        </nav>
+
+        <main id="content-area">
+            <!-- Page Content Sections -->
+            <div class="page-content active" id="page-welcome">
+                <h2>Welkom bij de Handreiking</h2>
+                <p>Deze interactieve module is gebaseerd op de handreiking "Ingrediënten voor het Instellingsbreed Borgen van Competenties voor Onderwijsinnovatie met ICT" van iXperium, Centre of Expertise.</p>
+                <p>Gebruik de navigatie aan de linkerkant om door de verschillende secties en pagina's te bladeren.</p>
+                <img src="images/cover_image.png" alt="Omslag Rapport">
+                <h3>Auteurs:</h3>
+                <p>Manon van Zanten, Dana Uerz, Pieter van Rooij, Marloes Timmermans, Marijke Kral</p>
+                <p><strong>Publicatie:</strong> iXperium Centre of Expertise Leren met ict, 2025</p>
+                <p><strong>ISBN:</strong> 9789083500003</p>
+            </div>
+
+            <div class="page-content" id="page-why">
+                <h2>Waarom deze Handreiking?</h2>
+                <p>Onderwijsinnovatie met ICT vraagt van onderwijsprofessionals dat ze zich continu blijven ontwikkelen. Maar hoe pakt u dit als instelling gestructureerd aan? Deze handreiking biedt concrete ingrediënten en beantwoordt vragen zoals:</p>
+                <ul>
+                    <li>Over welke ICT-competenties hebben we het precies?</li>
+                    <li>Wat is het huidige competentieniveau van collega's?</li>
+                    <li>Welke ontwikkeling hebben zij nodig?</li>
+                    <li>Hoe volgen en beoordelen we de ontwikkeling van deze competenties?</li>
+                </ul>
+                <p>Technologische ontwikkelingen gaan razendsnel. ICT is een krachtig middel om de onderwijskwaliteit te verhogen, mits docenten bekwaam zijn in het gebruik ervan en zich blijven ontwikkelen. Dit vereist niet alleen specifieke competenties van docenten, maar ook een aangepaste organisatie van de onderwijsinstelling en een doordachte aanpak van professionalisering.</p>
+                <p><strong>Kernboodschap:</strong> Het is cruciaal dat competenties voor onderwijs met en over ICT tot de basisbagage van elke docent behoren. Deze handreiking helpt u daarbij.</p>
+            </div>
+
+            <div class="page-content" id="page-framework">
+                <h2>Docentprofessionalisering & ICT: Het Raamwerk</h2>
+                <p>Professionele ontwikkeling van docenten is essentieel. Het innoveren van onderwijs met ICT is complex ("dubbele innovatie"): anders inrichten én met nieuwe middelen.</p>
+                <p>Het <strong>Raamwerk docentcompetenties onderwijs met ICT</strong> (Uerz et al., 2021) biedt houvast met vier hoofddimensies:</p>
+                <ol>
+                    <li>Onderwijs ontwerpen, uitvoeren en evalueren</li>
+                    <li>Studenten toerusten voor de digitale samenleving</li>
+                    <li>Professioneel handelen als docent</li>
+                    <li>Digitale geletterdheid van de docent</li>
+                </ol>
+                <img src="images/figuur1_raamwerk.png" alt="Figuur 1: Raamwerk docentcompetenties">
+                <p>Deze dimensies zijn onderling verbonden en vragen om een holistische benadering.</p>
+            </div>
+
+            <div class="page-content" id="page-buildingblocks">
+                <h2>Bouwstenen Effectieve Professionalisering</h2>
+                <p>Effectieve docentprofessionalisering (Schildkamp et al., 2021) houdt rekening met diverse kenmerken:</p>
+                <img src="images/figuur2_bouwstenen.png" alt="Figuur 2: Bouwstenen professionalisering">
+                <p><strong>Belangrijk:</strong> Afstemming op individuele docentkenmerken en regie voor de lerende zijn cruciaal.</p>
+            </div>
+
+             <div class="page-content" id="page-securing">
+                <h2>Borgen van Competenties in Organisatie en Standaarden</h2>
+                <p>ICT-vaardigheden zijn een <strong>collectieve verantwoordelijkheid</strong>. De instelling moet zorgen dat elke docent bekwaam is. Er is een balans nodig tussen ruimte voor de docent en expliciete verwachtingen van de organisatie.</p>
+                <p>Beoordelen en borgen vraagt afstemming van o.a. competentie-eisen, professionalisering en faciliteiten.</p>
+                <p><strong>Uitdaging:</strong> ICT-competenties zijn nog niet altijd geborgd in landelijke standaarden (PDG, BDB, BKO). Verankering is nodig.</p>
+            </div>
+
+            <div class="page-content" id="page-approach">
+                <h2>Aanpak van deze Verkenning</h2>
+                <p>Deze publicatie is gebaseerd op:</p>
+                <ul>
+                    <li><strong>Expertgesprekken:</strong> Met veertien inhoudelijke experts en praktijkprofessionals.</li>
+                    <li><strong>Literatuurverkenning:</strong> Aanvullend en gevoed door experts.</li>
+                </ul>
+                <p>De inzichten zijn gestructureerd rond thema’s relevant voor het volgen, toetsen en beoordelen van ICT-competentieniveaus.</p>
+
+                <div class="quiz-section">
+                    <h3 class="quiz-main-title">Kennisquiz Sectie 1: Introductie</h3>
+                    <div class="quiz-question">
+                        <p class="question-text"><strong>Vraag 1:</strong> Wat wordt bedoeld met de "dubbele innovatie" bij onderwijs met ICT?</p>
+                        <ul class="quiz-options">
+                            <li data-correct="false">Innoveren in zowel software als hardware.</li>
+                            <li data-correct="true">Onderwijs anders inrichten ÉN dat doen met (vaak) nieuwe middelen.</li>
+                            <li data-correct="false">Innoveren voor zowel docenten als studenten.</li>
+                            <li data-correct="false">Tweemaal zoveel budget alloceren voor ICT.</li>
+                        </ul>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                    <div class="quiz-question">
+                        <p class="question-text"><strong>Vraag 2:</strong> Welke van de volgende is GEEN hoofddimensie van het Raamwerk docentcompetenties onderwijs met ICT?</p>
+                        <ul class="quiz-options">
+                            <li data-correct="false">Studenten toerusten voor de digitale samenleving.</li>
+                            <li data-correct="false">Digitale geletterdheid van de docent.</li>
+                            <li data-correct="true">Financieel beheer van ICT-middelen.</li>
+                            <li data-correct="false">Professioneel handelen als docent.</li>
+                        </ul>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTIE 2 Content -->
+            <div class="page-content" id="page-assess-basis">
+                <h2>Basis Competentieontwikkeling Beoordelen</h2>
+                <p>Beoordelen moet passen bij de competenties en professionalisering. ICT-competenties zijn complex en gelaagd (vaardigheden & mindsets).</p>
+                <p>Reflectie, feedback en bewustwording ('teacher beliefs') zijn nodig. Effectiefst is leren door toe te passen in <strong>eigen werkcontext</strong>.</p>
+                <img src="images/figuur3_miller.png" alt="Figuur 3: Piramide van Miller">
+                <div class="highlight-box">Directe toepassing van kennis in de praktijk versterkt het leren.</div>
+            </div>
+
+            <div class="page-content" id="page-assess-testing">
+                <h2>Passende Toetsing: Regie en Formatief Handelen</h2>
+                <p>Kwaliteitseis: <strong>'Constructive alignment'</strong> (Biggs, 1996) - afstemming leeruitkomsten, activiteiten, toetsing.</p>
+                <p>De lerende (onderwijsprofessional) moet <strong>regie</strong> hebben. Dit past bij de autonome professional en is effectief.</p>
+                <div class="highlight-box">Zelfregie in het leerproces maakt de docent sterker.</div>
+                <p>Een passende strategie is <strong>formatief handelen</strong>: focus op leerproces, cyclisch, inzicht gevend, informatie genererend.</p>
+                <div class="example-box">
+                    <strong>Voorbeeld: Master Ontwerpen van Eigentijds Leren (MOVEL)</strong>
+                    <p>Studenten (docenten) gebruiken een portfolio met leerervaringen uit eigen werkcontext. Dit wordt besproken in een criteriumgericht interview (CGI). Feedback, feedup en feedforward sturen het verdere leerproces.</p>
+                </div>
+            </div>
+
+            <div class="page-content" id="page-assess-programmatic">
+                <h2>Programmatisch Toetsen: De Uitgangspunten</h2>
+                <p>Formatief handelen, portfolio's en CGI's sluiten aan bij programmatisch toetsen (Van der Vleuten et al., 2018). Uitgangspunten:</p>
+                <ol>
+                    <li>Zak-/slaagbeslissingen nooit op basis van één datapunt.</li>
+                    <li>Verschillende toetsmethoden gebruiken.</li>
+                    <li>Zwaarte beslissing en aantal datapunten proportioneel.</li>
+                    <li>Reflectie en zelfsturing stimuleren via feedback/dialoog.</li>
+                    <li>Eindoordeel door mensen met voldoende expertise.</li>
+                </ol>
+                <p>Dit combineert holistisch en analytisch beoordelen.</p>
+            </div>
+
+            <div class="page-content" id="page-assess-sharedviews">
+                <h2>Eenduidigheid: Gemeenschappelijke Beelden over Niveau en Gedrag</h2>
+                <p>Voor effectieve professionalisering en een faire beoordeling (of certificering) moet het voor alle deelnemers volstrekt duidelijk zijn wat het doel en de inhoud is. Een gemeenschappelijk beeld van de benodigde competenties en ontwikkeldoelen is essentieel.</p>
+                <p><strong>Hulpmiddel:</strong> Het <strong>Raamwerk docentcompetenties onderwijs met ICT</strong> (Uerz et al., 2021; Van Zanten et al., 2023), inclusief de onderliggende gedragsindicatoren, biedt hier concrete houvast.</p>
+                <p>De vraag "Wanneer beheerst iemand een competentie goed genoeg?" moet helder beantwoord kunnen worden. Bij complexe toetsvormen (hoog in Miller's piramide) hangt de kwaliteit van de beoordeling sterk af van de expertise van de beoordelaar.</p>
+                <p><strong>Essentieel:</strong> Beoordelaars moeten de inhoud goed kennen, onderling regelmatig kalibreren en zo tot overeenstemming komen over hoe het gewenste niveau eruit ziet.</p>
+            </div>
+
+            <div class="page-content" id="page-assess-teamindividual">
+                <h2>Teamprofessionalisering versus Individuele Beoordeling</h2>
+                <p>Ontwikkeling van docentcompetenties gebeurt primair op het niveau van de <strong>individuele docent</strong>. Maatwerk en aansluiting bij persoonlijke leervragen en kenmerken zijn hierbij cruciaal.</p>
+                <p>Tegelijkertijd is een andere bouwsteen voor effectieve docentprofessionalisering dat deze gerelateerd is aan de <strong>eigen werkpraktijk</strong> en dat er <strong>samen geleerd</strong> wordt. Denk aan:</p>
+                <ul>
+                    <li>Lesson study</li>
+                    <li>Designteams</li>
+                    <li>Professionele leergemeenschappen (PLG)</li>
+                </ul>
+                <p>Veel onderwijsinstellingen werken met resultaatverantwoordelijke teams. Het professionaliseringsaanbod zou idealiter moeten aansluiten bij de gezamenlijke verantwoordelijkheid van een team.</p>
+                <div class="example-box">
+                    <strong>Uitdaging & Oplossing (Voorbeeld HAN - BKE):</strong>
+                    <p>Er kan een spanning ontstaan wanneer de leervragen van de individuele docent niet direct aansluiten bij de leervragen van het team. Bij de invoering van de Basiskwalificatie Examinering (BKE) bij de HAN werden maatwerktrajecten aangeboden. Er werd gewerkt vanuit teamvragen, maar de beoordeling en certificering vonden op individueel niveau plaats.</p>
+                </div>
+            </div>
+
+            <div class="page-content" id="page-securing-whyhow">
+                <h2>Competentieontwikkeling van Docenten Borgen: Waarom en Hoe?</h2>
+                <p>Om te zorgen dat de ontwikkeling van competenties op het gebied van onderwijsinnovatie met ICT niet vrijblijvend is, is een goede <strong>inbedding in de organisatie</strong> nodig. Een van de manieren om dit te doen is via <strong>certificering</strong>. Het borgen van competenties kan bovendien motiverend werken voor docenten om hun eigen competenties te blijven ontwikkelen.</p>
+                <p>Nadat competenties zijn beoordeeld en getoetst, rijzen de volgende vragen:</p>
+                <ul>
+                    <li>Wat doet u met dit oordeel?</li>
+                    <li>Wordt er overgegaan tot certificeren en waarom?</li>
+                    <li>Hoe wordt certificering ingestoken?</li>
+                    <li>Welke waarde en consequenties hebben die certificaten?</li>
+                    <li>Hoe kan dit proces op de lange termijn worden geborgd?</li>
+                </ul>
+                <p>Deze vragen staan centraal in de volgende pagina's van deze sectie.</p>
+            </div>
+
+            <div class="page-content" id="page-securing-certification">
+                <h2>Het Belang van Certificeren: Vrijblijvendheid Wegnemen, Motivatie Stimuleren</h2>
+                <p>Het is een zoektocht naar de juiste balans tussen:</p>
+                <ul>
+                    <li>Enerzijds: De autonomie van onderwijsprofessionals en hun intrinsieke motivatie.</li>
+                    <li>Anderzijds: Het weghalen van de vrijblijvendheid rondom competentieontwikkeling op het gebied van onderwijsinnovatie met ICT.</li>
+                </ul>
+                <p><strong>Certificering</strong> kan een effectief middel zijn om deze balans te vinden (Joosten-ten Brinke, 2022). Wanneer verwachtingen expliciet worden gemaakt, kan dit docenten stimuleren om actief aan hun competenties te werken.</p>
+                <p>Een certificeringsproces dat (veel) ruimte biedt voor <strong>autonomie en zelfregie</strong> (zoals inbreng van eigen leervragen en voorkeuren voor professionaliseringsactiviteiten) is een goede manier om intrinsieke motivatie te combineren met extrinsieke motivatie (erkenning, formele status) (Kral et al., 2019).</p>
+            </div>
+
+            <div class="page-content" id="page-securing-recognition">
+                <h2>De Kracht van Erkennen en Waarderen</h2>
+                <p>Het creëren van een <strong>lerende cultuur</strong> binnen de organisatie is een belangrijke contextuele factor voor de ontwikkeling en professionalisering van docenten (Schildkamp et al., 2021). Bij een lerende cultuur hoort een aanpak waarin docenten in hun competenties erkend en gewaardeerd worden.</p>
+                <p>Door professionalisering in te richten vanuit de waarde van erkennen en waarderen, wordt certificering een <strong>beloning</strong> in plaats van een verplichting. Certificering wordt dan bewust als middel ingezet, niet als verplicht doel.</p>
+                <p>Hierbij is goede facilitering vanuit de organisatie essentieel: leiderschap, tijd, beloningen en ondersteuning. Ook is aandacht nodig voor de competentieontwikkeling van leidinggevenden en ondersteuners.</p>
+                <div class="highlight-box">Goed certificeren is als stickers uitdelen: als beloning motiveert het.</div>
+                <h3>Vormen van certificering:</h3>
+                <ul>
+                    <li><strong>Edubadges:</strong> Digitale certificaten als bewijs van opgedane kennis of vaardigheden (Post & Meutstege, 2024; SURF, 2024). Deze worden steeds vaker gebruikt in mbo, hbo en wo.</li>
+                    <li>Er wordt gewerkt aan edubadges die instellingsoverstijgende waarde hebben (microcredentials), soms gekoppeld aan (inter)nationale kwaliteitskaders.</li>
+                    <li><strong>Voorbeeld:</strong> Het platform van SURF (www.edubadges.nl) koppelt edubadges aan een instellingsoverstijgende identiteit, waardoor ze onderling vergelijkbaar, uitwisselbaar en stapelbaar zijn.</li>
+                    <li><strong>Voordeel:</strong> Deze vorm van certificering sluit goed aan bij flexibele en contextnabije professionaliseringsactiviteiten.</li>
+                </ul>
+                <p>Het zichtbaar maken van competentieontwikkeling is waardevol voor zowel de docent (inzicht, regie) als de organisatie (inzicht in expertise, richting voor beleid, mogelijkheden voor formele erkenning zoals bij aanstelling of promotie) (Graham, 2024).</p>
+            </div>
+
+            <div class="page-content" id="page-securing-sustainable">
+                <h2>Een Continu Proces: Duurzaam Blijven Borgen</h2>
+                <p>Technologie en het gebruik daarvan in het onderwijs zijn continu in ontwikkeling. Dit betekent dat een docent na het behalen van een positieve beoordeling of certificaat <strong>nooit 'klaar' is</strong> met professionaliseren. Dit sluit naadloos aan bij concepten als:</p>
+                <ul>
+                    <li>Leven Lang Ontwikkelen.</li>
+                    <li>De docent als lerende professional (Joosten-ten Brinke, 2022; Uerz et al., 2021; Wijers & Jonker, 2020).</li>
+                </ul>
+                <p>Het beoordelen van competenties is in dit licht een <strong>middel</strong>, geen doel. Het dient om te weten of het niveau van competenties (nog steeds) goed genoeg is.</p>
+                <p>Voor een onderwijsinstelling betekent dit:</p>
+                <ul>
+                    <li>Beoordelen van competenties moet onderdeel zijn van een <strong>integrale aanpak</strong> van doorlopende en langlopende docentprofessionalisering; het is geen eindpunt.</li>
+                    <li>Competentieontwikkeling en de beoordeling daarvan moeten een <strong>vast agendapunt</strong> blijven, zowel op instellingsbreed niveau als in elk team (bijv. via visie, strategie, jaarplannen, teamplannen).</li>
+                </ul>
+                <div class="example-box">
+                    <strong>Voorbeeld (VELON):</strong> De VELON (Vereniging van Lerarenopleiders) vraagt lerarenopleiders om eens in de vier jaar hun registratie te prolongeren. Een vergelijkbare aanpak kan gelden voor onderwijsinnovatie met ICT.
+                </div>
+                <p>Een andere mogelijkheid is om het onderwerp structureel op te nemen in de <strong>HR-cyclus</strong>, zodat personeel regelmatig hierover in gesprek gaat met hun leidinggevende. HR-beleid is immers gericht op het bevorderen van deskundigheid en daarmee het verbeteren van het onderwijs (Vrielink et al., 2022).</p>
+                <div class="highlight-box">Beoordelen is niet het eindpunt, maar een middel om verder te groeien.</div>
+                <p>Om een beoordeling geen eindpunt te laten zijn en competenties duurzaam te borgen, moeten bepaalde randvoorwaarden in de organisatie op orde zijn. Deze komen in het volgende hoofdstuk aan bod.</p>
+
+                <div class="quiz-section">
+                    <h3 class="quiz-main-title">Kennisquiz Sectie 2: Beoordelen & Borgen</h3>
+                    <div class="quiz-question">
+                        <p class="question-text"><strong>Vraag 1:</strong> Wat is GEEN uitgangspunt van programmatisch toetsen volgens Van der Vleuten et al. (2018)?</p>
+                        <ul class="quiz-options">
+                            <li data-correct="true">Alle toetsen moeten een summatief karakter hebben.</li>
+                            <li data-correct="false">Zak-/slaag-beslissingen vinden nooit plaats op basis van één datapunt.</li>
+                            <li data-correct="false">Reflectie en zelfsturing van de lerende wordt gestimuleerd.</li>
+                            <li data-correct="false">Er worden verschillende toetsmethoden gebruikt.</li>
+                        </ul>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                    <div class="quiz-question">
+                        <p class="question-text"><strong>Vraag 2:</strong> Waarom is het belangrijk dat beoordelaars regelmatig kalibreren bij het beoordelen van complexe ICT-competenties?</p>
+                        <ul class="quiz-options">
+                            <li data-correct="false">Om de software voor de beoordeling up-to-date te houden.</li>
+                            <li data-correct="true">Om tot overeenstemming te komen over hoe het gewenste niveau eruitziet en de consistentie te verhogen.</li>
+                            <li data-correct="false">Om te bepalen welke docenten de training moeten volgen.</li>
+                            <li data-correct="false">Om de kosten van de beoordeling te verlagen.</li>
+                        </ul>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                     <div class="quiz-question">
+                        <p class="question-text"><strong>Vraag 3:</strong> Wat is een belangrijk voordeel van het gebruik van Edubadges voor certificering?</p>
+                        <ul class="quiz-options">
+                            <li data-correct="false">Ze zijn alleen geldig binnen de eigen instelling.</li>
+                            <li data-correct="false">Ze vereisen altijd een langdurig en formeel examentraject.</li>
+                            <li data-correct="true">Ze sluiten goed aan bij flexibele en contextnabije professionaliseringsactiviteiten en kunnen instellingsoverstijgend zijn.</li>
+                            <li data-correct="false">Ze vervangen de noodzaak voor een HR-cyclus volledig.</li>
+                        </ul>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTIE 3 Content -->
+            <div class="page-content" id="page-facilitate-intro">
+                <h2>Randvoorwaarden voor Duurzaam Borgen</h2>
+                <p>Om het proces van beoordelen en borgen van docentcompetenties voor onderwijs met ICT te verduurzamen en te faciliteren, is een aantal randvoorwaarden cruciaal (zie bijv. Post & Meutstege, 2024). Deze beoordeling en borging moeten onderdeel uitmaken van formele processen en lopende trajecten rondom professionalisering en onderwijsontwikkeling.</p>
+                <p>In dit hoofdstuk lichten we vier essentiële randvoorwaarden toe:</p>
+                <ol>
+                    <li>Een duidelijke <strong>visie</strong> op onderwijs met ICT en competentieontwikkeling.</li>
+                    <li><strong>Ruimte om te experimenteren</strong> en een lerende cultuur.</li>
+                    <li>Goede <strong>facilitering</strong> van experimenteren en leren.</li>
+                    <li>Continue <strong>evaluatie</strong> en bijstelling van het traject.</li>
+                </ol>
+            </div>
+
+            <div class="page-content" id="page-facilitate-vision">
+                <h2>Randvoorwaarde 1: Een Gedragen Visie</h2>
+                <p>Het is van groot belang dat de <strong>visie op onderwijs</strong> en de waarde die ICT daaraan kan bijdragen, in lijn is met de <strong>visie op het professionaliseren</strong> van docenten op dit vlak. Dit geldt zowel voor de inhoud als voor de vorm van de professionalisering.</p>
+                <p>Het gaat dus niet alleen om een algemene visie op onderwijs met ICT, maar ook om een <strong>strategie om deze visie te realiseren</strong>. Daarin moet aandacht zijn voor:</p>
+                <ul>
+                    <li>De opzet van docentprofessionalisering.</li>
+                    <li>De inrichting van organisatieprocessen.</li>
+                    <li>Het creëren van een lerende cultuur (Van Zanten et al., 2024).</li>
+                </ul>
+                <p>Een <strong>professionaliseringsplan</strong>, opgesteld met diverse belanghebbenden om draagvlak te creëren (Schildkamp et al., 2021), kan hierbij helpen. Vanuit de visie op onderwijsinnovatie met ICT is het goed om na te denken over:</p>
+                <ul>
+                    <li>Heldere doelstellingen.</li>
+                    <li>De professionaliseringsagenda.</li>
+                    <li>De consequenties in de aanpak van professionaliseren en certificeren.</li>
+                </ul>
+                <p>De visie dient vertaald te worden in een strategie voor professionalisering en in een samenhangend professionaliseringsbeleid waaraan structureel aandacht wordt besteed op strategisch, tactisch en operationeel niveau (Van Veen et al., 2010; Van Zanten et al., 2024).</p>
+                <p><strong>Dynamisch proces:</strong> Omdat zowel onderwijsinnovatie als technologie continu veranderen, is het essentieel om de visie en strategie regelmatig te monitoren en bij te stellen.</p>
+            </div>
+
+            <div class="page-content" id="page-facilitate-culture">
+                <h2>Randvoorwaarde 2: Een Stimulerende Lerende Cultuur</h2>
+                <p>Voor de doorlopende professionalisering van docenten is het essentieel dat er ruimte wordt gecreëerd om te <strong>experimenteren</strong> met nieuwe vormen van onderwijs met ICT en dat er een <strong>lerende cultuur</strong> ontstaat (Keane et al., 2020; Schildkamp et al., 2021).</p>
+                <p>Een open leercultuur vereist:</p>
+                <ul>
+                    <li>Mogelijkheden voor docenten om <strong>van en met elkaar te leren</strong>.</li>
+                    <li>Ruimte voor het <strong>geven en ontvangen van feedback</strong>.</li>
+                    <li>Ruimte voor het <strong>uitproberen van nieuwe ideeën</strong>.</li>
+                    <li>Een omgeving waarin <strong>fouten maken mag</strong> en gezien wordt als leermoment (Krijgsman et al., 2022; Leithwood & Sun, 2012).</li>
+                </ul>
+                <p>Het is belangrijk dat de competentieontwikkeling van medewerkers zichtbaar wordt gemaakt, erkend en gewaardeerd (zie pagina 2.8 uit het rapport). Dit heeft consequenties voor beleid: de gewenste competenties moeten een vaste plek krijgen, niet alleen in ontwikkelgesprekken, maar ook in functieomschrijvingen en het aannamebeleid (Schouwenburg, 2023).</p>
+                <p>Naast competentieontwikkeling van docenten, vraagt dit ook het nodige van leidinggevenden en ondersteuners. Het belang van onderwijsinnovatie met ICT moet door de hele organisatie zichtbaar zijn. Zo ontstaan er ook voldoende rolmodellen (Cohen et al., 2019; Post et al., 2022; Van Zanten et al., 2024).</p>
+                <div class="highlight-box">Een lerende cultuur is de motor achter voortdurende professionele ontwikkeling.</div>
+            </div>
+
+            <div class="page-content" id="page-facilitate-support">
+                <h2>Randvoorwaarde 3: Actief Faciliteren</h2>
+                <p>Om de werkdruk van docenten niet te verhogen en daadwerkelijk ruimte te maken voor professionalisering, is het cruciaal dat leidinggevenden voldoende <strong>tijd en ruimte vrijmaken</strong> voor docenten. Alleen dan kunnen zij hun competenties ontwikkelen en aantonen (Schildkamp et al., 2021). Als van docenten een bepaald competentieniveau wordt verwacht, betekent dit dat zij voldoende tijd moeten krijgen om zich te ontwikkelen, zowel in termen van uren als in concrete ruimte in het rooster.</p>
+                <p>Benodigde facilitering omvat onder meer:</p>
+                <ul>
+                    <li>Het beschikbaar maken van fysieke, inspirerende <strong>experimenteerruimtes</strong> met adequate ICT-middelen en systemen die passen bij de visie op innovatief onderwijs met ICT.</li>
+                    <li>Mogelijkheden om het geleerde daadwerkelijk <strong>toe te passen in de praktijk</strong>; dit vraagt actieve stimulering en facilitering van de organisatie en leidinggevenden.</li>
+                    <li><strong>Passende ondersteuning</strong>, zodat professionalisering op maat aangeboden kan worden. Docenten moeten weten waar en bij wie ze terecht kunnen voor hulp en in contact kunnen komen met collega's die expertise hebben op dit onderwerp. Een Centre for Teaching and Learning (CTL) kan hierin een belangrijke rol spelen.</li>
+                </ul>
+            </div>
+
+            <div class="page-content" id="page-facilitate-evaluate">
+                <h2>Randvoorwaarde 4: Continu Evalueren en Bijstellen</h2>
+                <p>Voor de kwaliteit van de certificering van docentcompetenties (en het hele professionaliseringstraject) is het noodzakelijk dat de aanpak, de doelen, het niveau en de manier van beoordelen <strong>regelmatig worden geanalyseerd en geëvalueerd</strong>. Dit moet gebeuren door:</p>
+                <ul>
+                    <li>Enerzijds de partijen die verantwoordelijk zijn voor het ontwerp en de uitvoering van de professionalisering.</li>
+                    <li>Anderzijds de deelnemers aan de professionalisering.</li>
+                </ul>
+                <p>Waar nodig moet het traject worden <strong>bijgesteld</strong>. Dit houdt onder andere in dat wordt geëvalueerd of:</p>
+                <ul>
+                    <li>De vorm van professionaliseren, de vorm van beoordelen en de gevolgen van deze beoordeling nog met elkaar in lijn zijn.</li>
+                    <li>Het traject daadwerkelijk leidt tot de gewenste competentieontwikkeling.</li>
+                </ul>
+                <p><strong>Hulpmiddel:</strong> Periodieke afname van de <strong>monitor Leren en lesgeven met ICT</strong> (zoals die van iXperium) biedt relevante informatie om het professionaliseringsbeleid en -traject bij te sturen (Kurver et al., 2023; Paas et al., 2024).</p>
+
+                <div class="quiz-section">
+                    <h3 class="quiz-main-title">Kennisquiz Sectie 3: Faciliteren & Organiseren</h3>
+                    <div class="quiz-question">
+                        <p class="question-text"><strong>Vraag 1:</strong> Welke van de volgende elementen is NIET direct onderdeel van het creëren van een 'lerende cultuur' zoals beschreven?</p>
+                        <ul class="quiz-options">
+                            <li data-correct="false">Ruimte om van en met elkaar te leren.</li>
+                            <li data-correct="true">Verplichte wekelijkse ICT-training voor alle docenten.</li>
+                            <li data-correct="false">Een omgeving waarin fouten maken mag.</li>
+                            <li data-correct="false">Mogelijkheden voor het geven en ontvangen van feedback.</li>
+                        </ul>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                    <div class="quiz-question">
+                        <p class="question-text"><strong>Vraag 2:</strong> Waarom is een heldere, gedragen visie op onderwijs met ICT en competentieontwikkeling een belangrijke randvoorwaarde?</p>
+                        <ul class="quiz-options">
+                            <li data-correct="false">Het garandeert directe financiering voor alle ICT-projecten.</li>
+                            <li data-correct="true">Het zorgt voor afstemming en richting voor professionaliseringsbeleid en -strategieën.</li>
+                            <li data-correct="false">Het elimineert de noodzaak voor individuele professionalisering.</li>
+                            <li data-correct="false">Het vervangt de noodzaak voor een Centre for Teaching and Learning (CTL).</li>
+                        </ul>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTIE 4 Content -->
+            <div class="page-content" id="page-recommendations">
+                <h2>Acht Belangrijke Aanbevelingen</h2>
+                <p>Deze publicatie beoogt bij te dragen aan het instellingsbreed beoordelen en borgen van competenties voor onderwijsinnovatie met ICT. Hieronder acht belangrijke aanbevelingen:</p>
+
+                <div class="accordion-item">
+                    <div class="accordion-title">1. Gezamenlijke beelden bij competenties en gewenst niveau</div>
+                    <div class="accordion-content">
+                        <p>Maak helder welke competenties op het gebied van onderwijsinnovatie met ICT docenten op welk niveau moeten beheersen en hoe ze zich daar naartoe kunnen ontwikkelen.</p>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-title">2. Maatwerk in professionalisering</div>
+                    <div class="accordion-content">
+                        <p>Zorg dat docentprofessionalisering zowel individueel als teamgericht plaatsvindt, met aandacht voor persoonlijke leervragen en gezamenlijke verantwoordelijkheid.</p>
+                    </div>
+                </div>
+                 <div class="accordion-item">
+                    <div class="accordion-title">3. Lerende cultuur is essentieel</div>
+                    <div class="accordion-content"><p>Creëer een lerende cultuur waarin docenten zich gezien en ondersteund voelen. Een dubbele innovatie vraagt om experimenteerruimte waar fouten maken mag.</p></div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-title">4. Formatief handelen als effectieve strategie</div>
+                    <div class="accordion-content"><p>Stimuleer het leren door korte, cyclische feedbackmomenten en bied ruimte voor zelfregie.</p></div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-title">5. Beoordeling moet passen bij complexiteit</div>
+                    <div class="accordion-content"><p>Maak reflectie, feedback en inzicht onderdeel van het proces. Competentieontwikkeling omvat kennis, vaardigheden en overtuigingen.</p></div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-title">6. Betrouwbaarheid beoordeling hangt af van expertise</div>
+                    <div class="accordion-content"><p>Investeer in expertise van beoordelaars. Regelmatige kalibratie is belangrijk voor consistente beoordelingen.</p></div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-title">7. Certificering als motivator</div>
+                    <div class="accordion-content"><p>Maak competentieontwikkeling minder vrijblijvend via certificering. Dit maakt competentieniveau zichtbaar en kan motiveren, mits regie bij de lerende ligt.</p></div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-title">8. Competentieniveau duurzaam borgen</div>
+                    <div class="accordion-content"><p>Heb blijvende aandacht voor het borgen van ICT-competenties. Snelle technologische ontwikkelingen vragen periodieke bijstelling van inhoud en vorm.</p></div>
+                </div>
+
+                 <div class="quiz-section">
+                    <h3 class="quiz-main-title">Kennisquiz Sectie 4: Aanbevelingen</h3>
+                    <div class="quiz-question">
+                        <p class="question-text"><strong>Vraag 1:</strong> Welke aanbeveling benadrukt het belang van zowel individuele als teamgerichte aanpakken in professionalisering?</p>
+                        <ul class="quiz-options">
+                            <li data-correct="true">Maatwerk in professionalisering.</li>
+                            <li data-correct="false">Certificering als motivator.</li>
+                            <li data-correct="false">Lerende cultuur is essentieel.</li>
+                            <li data-correct="false">Betrouwbaarheid van beoordeling hangt af van expertise.</li>
+                        </ul>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                    <div class="quiz-question">
+                        <p class="question-text"><strong>Vraag 2:</strong> Waarom is het volgens de aanbevelingen belangrijk om het competentieniveau duurzaam te borgen?</p>
+                        <ul class="quiz-options">
+                            <li data-correct="false">Om te voorkomen dat docenten te veel tijd aan ICT besteden.</li>
+                            <li data-correct="true">Omdat technologische ontwikkelingen snel gaan en onderwijsinnovatie met ICT continu in beweging is.</li>
+                            <li data-correct="false">Om de kosten van certificering te spreiden over meerdere jaren.</li>
+                            <li data-correct="false">Omdat het eenmalig behalen van een certificaat voldoende is voor een carrière lang.</li>
+                        </ul>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTIE 5 Content -->
+            <div class="page-content" id="page-literature">
+                <h2>Literatuur (Selectie)</h2>
+                <p>Een selectie van de gebruikte bronnen:</p>
+                <ul>
+                    <li>Baartman, L., & van der Vleuten, C. (2015). <em>Kwaliteit van een toetsprogramma.</em></li>
+                    <li>Joosten-ten Brinke, D. (2022). <em>Toetsen, beoordelen en evalueren van het leren van volwassenen.</em></li>
+                    <li>Schildkamp, K., et al. (2021). <em>Bouwstenen voor effectieve docentprofessionalisering...</em></li>
+                    <li>Uerz, D., van Zanten, M., et al. (2021). <em>Raamwerk docentcompetenties voor onderwijs met ICT...</em></li>
+                </ul>
+                <p>Voor de volledige lijst, zie de originele handreiking.</p>
+            </div>
+
+            <div class="page-content" id="page-moreinfo">
+                <h2>Meer Weten?</h2>
+                <p>Voor de volledige handreiking in PDF-formaat, en voor meer informatie over gerelateerde projecten en publicaties, kunt u terecht op de website van iXperium Centre of Expertise:</p>
+                <p><a href="https://www.ixperium.nl/onderzoeken-en-ontwikkelen/publicaties/ingredienten-voor-het-instellingsbreed-borgen-van-competenties-voor-onderwijsinnovatie-met-ict/" target="_blank" rel="noopener noreferrer">Bezoek de iXperium Website</a></p>
+            </div>
+
+            <div class="page-content" id="page-colofon">
+                <h2>Colofon & Creative Commons</h2>
+                <p><strong>iXperium Centre of Expertise Leren met ict</strong><br>
+                Academie Educatie, HAN University of Applied Sciences<br>
+                www.ixperium.nl</p>
+                <p><strong>Auteurs:</strong> Manon van Zanten, Dana Uerz, Pieter van Rooij, Marloes Timmermans, Marijke Kral</p>
+                <p>iXperium Centre of Expertise Leren met ict 2025<br>
+                ISBN 9789083500003</p>
+                <p><strong>Licentie:</strong><br>
+                Deze handreiking is beschikbaar onder een Creative Commons Naamsvermelding-NietCommercieel 4.0 Internationaal (CC BY-NC 4.0) licentie.</p>
+                <p><a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener noreferrer">
+                    <img src="images/cc_by_nc_logo.png" alt="CC BY-NC 4.0" style="border:0; max-width:88px;">
+                </a></p>
+
+                <div class="quiz-section">
+                    <h3 class="quiz-main-title">Kennisquiz Sectie 5: Afsluiting</h3>
+                     <div class="quiz-question">
+                        <p class="question-text"><strong>Vraag 1:</strong> Onder welke Creative Commons licentie is deze handreiking beschikbaar?</p>
+                        <ul class="quiz-options">
+                            <li data-correct="false">CC BY (Naamsvermelding)</li>
+                            <li data-correct="false">CC BY-SA (Naamsvermelding-GelijkDelen)</li>
+                            <li data-correct="true">CC BY-NC (Naamsvermelding-NietCommercieel)</li>
+                            <li data-correct="false">CC0 (Geen rechten voorbehouden)</li>
+                        </ul>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                    <div class="quiz-question">
+                        <p class="question-text"><strong>Vraag 2:</strong> Waar kunt u de volledige PDF van deze handreiking en gerelateerde publicaties vinden?</p>
+                        <ul class="quiz-options">
+                            <li data-correct="false">Alleen in gedrukte vorm via de HAN.</li>
+                            <li data-correct="true">Op de website van iXperium Centre of Expertise.</li>
+                            <li data-correct="false">Via een directe downloadlink in deze HTML-module.</li>
+                            <li data-correct="false">Op de website van SURF.</li>
+                        </ul>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                </div>
+            </div>
+
+
+        </main>
+    </div>
+
+    <footer>
+        <button id="prevBtn" disabled>&laquo; Vorige</button>
+        <div class="progress-container">
+            <div id="progress-bar"><div id="progress-fill"></div></div>
+            <span id="progress-text">0% Compleet</span>
+        </div>
+        <button id="nextBtn">Volgende &raquo;</button>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const sidebarLinks = document.querySelectorAll('#sidebar ul li a:not(.section-title a)');
+            const pageContents = document.querySelectorAll('.page-content');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const progressFill = document.getElementById('progress-fill');
+            const progressText = document.getElementById('progress-text');
+
+            const pageOrder = Array.from(sidebarLinks).map(link => link.dataset.page);
+            let currentPageIndex = 0;
+
+            function showPage(pageIdToShow) {
+                pageContents.forEach(page => page.classList.remove('active'));
+                sidebarLinks.forEach(link => link.classList.remove('active'));
+
+                const targetPage = document.getElementById(pageIdToShow);
+                if (targetPage) {
+                    targetPage.classList.add('active');
+                    document.getElementById('content-area').scrollTop = 0;
+                }
+
+                const targetLink = document.querySelector(`#sidebar a[data-page="${pageIdToShow}"]`);
+                if (targetLink) {
+                    targetLink.classList.add('active');
+                }
+
+                currentPageIndex = pageOrder.indexOf(pageIdToShow);
+                if (currentPageIndex === -1) currentPageIndex = 0;
+
+                updateNavigationButtons();
+                updateProgressBar();
+            }
+
+            function updateNavigationButtons() {
+                prevBtn.disabled = (currentPageIndex === 0);
+                nextBtn.disabled = (currentPageIndex === pageOrder.length - 1);
+            }
+
+            function updateProgressBar() {
+                const percentage = Math.round(((currentPageIndex + 1) / pageOrder.length) * 100);
+                progressFill.style.width = percentage + '%';
+                progressText.textContent = percentage + '% Compleet';
+            }
+
+            sidebarLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const pageId = link.dataset.page;
+                    if (pageId) {
+                        showPage(pageId);
+                    }
+                });
+            });
+
+            prevBtn.addEventListener('click', () => {
+                if (currentPageIndex > 0) {
+                    currentPageIndex--;
+                    showPage(pageOrder[currentPageIndex]);
+                }
+            });
+
+            nextBtn.addEventListener('click', () => {
+                if (currentPageIndex < pageOrder.length - 1) {
+                    currentPageIndex++;
+                    showPage(pageOrder[currentPageIndex]);
+                }
+            });
+
+            if (pageOrder.length > 0) {
+                showPage(pageOrder[0]);
+            }
+
+            // Quiz Functionality
+            const quizQuestions = document.querySelectorAll('.quiz-question');
+            quizQuestions.forEach(question => {
+                const options = question.querySelectorAll('.quiz-options li');
+                const feedbackDiv = question.querySelector('.quiz-feedback');
+
+                options.forEach(option => {
+                    option.addEventListener('click', () => {
+                        // Check if already answered to prevent re-answering
+                        if (question.classList.contains('answered')) {
+                            return;
+                        }
+                        question.classList.add('answered'); // Mark question as answered
+
+                        // Disable further clicks on options for this question
+                        options.forEach(opt => opt.classList.add('answered'));
+
+
+                        const isCorrect = option.dataset.correct === 'true';
+                        option.classList.add('selected');
+
+                        if (isCorrect) {
+                            option.classList.add('correct');
+                            feedbackDiv.textContent = 'Correct!';
+                            feedbackDiv.className = 'quiz-feedback correct-feedback'; // Reset and set class
+                        } else {
+                            option.classList.add('incorrect');
+                            feedbackDiv.className = 'quiz-feedback incorrect-feedback'; // Reset and set class
+                            // Find and highlight the correct answer
+                            const correctAnswer = question.querySelector('.quiz-options li[data-correct="true"]');
+                            if (correctAnswer) {
+                                correctAnswer.classList.add('reveal-correct-answer');
+                                feedbackDiv.textContent = 'Helaas, dat is niet correct. Het juiste antwoord is gemarkeerd.';
+                            } else {
+                                feedbackDiv.textContent = 'Helaas, dat is niet correct.';
+                            }
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>

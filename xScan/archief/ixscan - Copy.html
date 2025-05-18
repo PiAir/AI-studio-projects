@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iXscan voor onderwijstechnologie</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="ixscan-container">
+        <div class="page-header">
+            <div class="logo-container">
+                <img src="images/ixscan-logo-gears.png" alt="iXscan Logo Gears" id="header-logo">
+            </div>
+            <h1>iXscan <span class="subtitle">voor onderwijstechnologie</span></h1>
+        </div>
+
+        <!-- Page 1: Intro -->
+        <div class="page active" id="page-intro">
+            <div class="intro-doel">
+                <p><strong>Doel:</strong> Een theoretisch onderbouwd kader om de inzet van ict in onderwijssettings te beschrijven. Hiermee moeten we de inzet van ict kunnen vergelijken over designteams, projecten of samenwerkingen heen. Waar we hier praten over studenten kan ook leerlingen gelezen worden.</p>
+            </div>
+        </div>
+
+        <!-- Page 2: Rationales -->
+        <div class="page" id="page-rationales">
+            <div class="section-title">Rationales</div>
+            <div class="question-group">
+                <label class="question-text">Wat is de reden voor het inzetten van ict in het onderwijs? Er kunnen meerdere redenen zijn.</label>
+                <div class="checkbox-item"><input type="checkbox" id="rat1" name="rationales" value="Versterken van de digitale geletterdheid."><label for="rat1">Versterken van de digitale geletterdheid.</label></div>
+                <div class="checkbox-item"><input type="checkbox" id="rat2" name="rationales" value="Ondersteunen van het primaire proces."><label for="rat2">Ondersteunen van het primaire proces.</label></div>
+                <div class="checkbox-item"><input type="checkbox" id="rat3" name="rationales" value="Versterken van de motivatie van de studenten."><label for="rat3">Versterken van de motivatie van de studenten.</label></div>
+                <div class="checkbox-item"><input type="checkbox" id="rat4" name="rationales" value="Versterken van onderwijsinnovatie, het zorgen van beweging in vernieuwing de onderwijsorganisatie met technologie als katalysator."><label for="rat4">Versterken van onderwijsinnovatie, het zorgen van beweging in vernieuwing de onderwijsorganisatie met technologie als katalysator.</label></div>
+                <div class="checkbox-item"><input type="checkbox" id="rat5" name="rationales" value="Verbeteren van de toegankelijkheid van onderwijs voor studenten."><label for="rat5">Verbeteren van de toegankelijkheid van onderwijs voor studenten.</label></div>
+                <div class="checkbox-item"><input type="checkbox" id="rat6" name="rationales" value="Beter zicht op het onderwijsproces van studenten."><label for="rat6">Beter zicht op het onderwijsproces van studenten.</label></div>
+                <div class="anders-input">
+                    <input type="checkbox" id="rat-anders-cb" name="rationales_anders_cb"> <label for="rat-anders-cb">Anders, namelijk:</label>
+                    <input type="text" id="rat-anders" name="rationales_anders_text" placeholder="Vul hier in...">
+                </div>
+            </div>
+        </div>
+
+        <!-- Page 3: SAMR -->
+        <div class="page" id="page-samr">
+            <div class="section-title">SAMR</div>
+            <div class="clearfix">
+                <div class="side-graphic-container">
+                    <img src="images/samr-model.png" alt="SAMR Model" class="responsive-image">
+                </div>
+                <div class="question-group content-next-to-graphic">
+                    <label class="question-text">Met het SAMR-model kun je beschrijven hoe ict je onderwijs heeft veranderd. Vink aan welke het meest van toepassing is:</label>
+                    <div class="checkbox-item"><input type="checkbox" id="samr1" name="samr" value="Substitution: Wordt ict gebruikt als directe vervanging voor traditionele tools of processen? Een voorbeeld: in plaats van pen en papier schrijven studenten nu met een tekstverwerker op de computer."><label for="samr1">Wordt ict gebruikt als directe vervanging voor traditionele tools of processen? Een voorbeeld: in plaats van pen en papier schrijven studenten nu met een tekstverwerker op de computer.</label></div>
+                    <div class="checkbox-item"><input type="checkbox" id="samr2" name="samr" value="Augmentation: Voegt ict extra functionaliteit toe aan taken die verder hetzelfde blijven? Een voorbeeld: het gebruik van spelling- en grammaticacontrole in een tekstverwerker."><label for="samr2">Voegt ict extra functionaliteit toe aan taken die verder hetzelfde blijven? Een voorbeeld: het gebruik van spelling- en grammaticacontrole in een tekstverwerker.</label></div>
+                    <div class="checkbox-item"><input type="checkbox" id="samr3" name="samr" value="Modification: Zijn er door ict taken of activiteiten ontstaan die eerst niet mogelijk waren? Een voorbeeld: in real time samenwerken aan een document via de cloud."><label for="samr3">Zijn er door ict taken of activiteiten ontstaan die eerst niet mogelijk waren? Een voorbeeld: in real time samenwerken aan een document via de cloud.</label></div>
+                    <div class="checkbox-item"><input type="checkbox" id="samr4" name="samr" value="Redefinition: Zijn er door ict hele nieuwe leerervaringen mogelijk die eerst niet mogelijk waren? Een voorbeeld: een online platform waardoor studenten kunnen samenwerken met leeftijdsgenoten over de hele wereld."><label for="samr4">Zijn er door ict hele nieuwe leerervaringen mogelijk die eerst niet mogelijk waren? Een voorbeeld: een online platform waardoor studenten kunnen samenwerken met leeftijdsgenoten over de hele wereld.</label></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page 4: Karakterisering ict-inzet -->
+        <div class="page" id="page-karakterisering">
+            <div class="section-title">Karakterisering ict-inzet</div>
+            <div class="question-group">
+                <label class="question-text">Hoe zou je de inzet van ict willen kenmerken?</label>
+                <div class="checkbox-item"><input type="checkbox" id="kar1" name="karakterisering" value="Blended leren."><label for="kar1">Blended leren.</label></div>
+                <div class="checkbox-item"><input type="checkbox" id="kar2" name="karakterisering" value="Gamification."><label for="kar2">Gamification.</label></div>
+                <div class="checkbox-item"><input type="checkbox" id="kar3" name="karakterisering" value="Gepersonaliseerd leren."><label for="kar3">Gepersonaliseerd leren.</label></div>
+                <div class="checkbox-item"><input type="checkbox" id="kar4" name="karakterisering" value="Ervaringsgericht leren."><label for="kar4">Ervaringsgericht leren.</label></div>
+                <div class="checkbox-item"><input type="checkbox" id="kar5" name="karakterisering" value="Samenwerkend leren."><label for="kar5">Samenwerkend leren.</label></div>
+                <div class="checkbox-item"><input type="checkbox" id="kar6" name="karakterisering" value="Probleemgestuurd leren."><label for="kar6">Probleemgestuurd leren.</label></div>
+                <div class="checkbox-item"><input type="checkbox" id="kar7" name="karakterisering" value="Challenge-based leren."><label for="kar7">Challenge-based leren.</label></div>
+                <div class="checkbox-item"><input type="checkbox" id="kar8" name="karakterisering" value="Maakonderwijs."><label for="kar8">Maakonderwijs.</label></div>
+                <div class="anders-input">
+                     <input type="checkbox" id="kar-anders-cb" name="karakterisering_anders_cb"> <label for="kar-anders-cb">Anders, namelijk:</label>
+                    <input type="text" id="kar-anders" name="karakterisering_anders_text" placeholder="Vul hier in...">
+                </div>
+            </div>
+        </div>
+
+        <!-- Page 5: Cyclus van differentiëren -->
+        <div class="page" id="page-differentieren">
+            <div class="section-title">Cyclus van differentiëren</div>
+            <div class="question-group">
+                <div class="checkbox-item">
+                    <input type="checkbox" id="diff-main" name="differentieren_main">
+                    <label for="diff-main">Ict wordt ingezet om recht te doen aan verschillen tussen studenten; om te differentiëren.</label>
+                </div>
+                <div id="diff-subquestions" class="hidden">
+                    <p><strong>Hoe wordt ict ingezet om te differentiëren?</strong></p>
+                    <div class="differentiëren-graphics">
+                        <img src="images/diff-per-student.png" alt="Differentiatie per student" class="diff-graphic">
+                        <img src="images/diff-groepen-studenten.png" alt="Differentiatie groepen studenten" class="diff-graphic">
+                        <img src="images/diff-enkele-studenten-rest.png" alt="Differentiatie enkele studenten en rest" class="diff-graphic">
+                        <img src="images/diff-enkele-studenten-meerdere-groepen.png" alt="Differentiatie enkele studenten en meerdere groepen" class="diff-graphic">
+                    </div>
+                    <div class="differentiëren-item">
+                        <div class="checkbox-item"><input type="checkbox" id="diff-sub1" data-label="Door vast te stellen waar studenten moeite mee hebben"><label for="diff-sub1">Door vast te stellen waar studenten moeite mee hebben</label></div>
+                        <div class="conditional-input-container"><input type="checkbox" id="diff-sub1-nee"><label for="diff-sub1-nee">Nee</label> <input type="number" id="diff-sub1-level" min="1" max="4" class="hidden" placeholder="1-4"></div>
+                    </div>
+                    <div class="differentiëren-item">
+                        <div class="checkbox-item"><input type="checkbox" id="diff-sub2" data-label="Door de beginsituatie van studenten vast te stellen"><label for="diff-sub2">Door de beginsituatie van studenten vast te stellen</label></div>
+                        <div class="conditional-input-container"><input type="checkbox" id="diff-sub2-nee"><label for="diff-sub2-nee">Nee</label> <input type="number" id="diff-sub2-level" min="1" max="4" class="hidden" placeholder="1-4"></div>
+                    </div>
+                    <div class="differentiëren-item">
+                        <div class="checkbox-item"><input type="checkbox" id="diff-sub3" data-label="Door te differentiëren in lesstof"><label for="diff-sub3">Door te differentiëren in lesstof</label></div>
+                        <div class="conditional-input-container"><input type="checkbox" id="diff-sub3-nee"><label for="diff-sub3-nee">Nee</label> <input type="number" id="diff-sub3-level" min="1" max="4" class="hidden" placeholder="1-4"></div>
+                    </div>
+                     <div class="differentiëren-item">
+                        <div class="checkbox-item"><input type="checkbox" id="diff-sub4" data-label="Door te differentiëren in de instructie"><label for="diff-sub4">Door te differentiëren in de instructie</label></div>
+                        <div class="conditional-input-container"><input type="checkbox" id="diff-sub4-nee"><label for="diff-sub4-nee">Nee</label> <input type="number" id="diff-sub4-level" min="1" max="4" class="hidden" placeholder="1-4"></div>
+                    </div>
+                    <div class="differentiëren-item">
+                        <div class="checkbox-item"><input type="checkbox" id="diff-sub5" data-label="Door te differentiëren in de wijze waarop de studenten de leerstof verwerken"><label for="diff-sub5">Door te differentiëren in de wijze waarop de studenten de leerstof verwerken</label></div>
+                        <div class="conditional-input-container"><input type="checkbox" id="diff-sub5-nee"><label for="diff-sub5-nee">Nee</label> <input type="number" id="diff-sub5-level" min="1" max="4" class="hidden" placeholder="1-4"></div>
+                    </div>
+                    <div class="differentiëren-item">
+                        <div class="checkbox-item"><input type="checkbox" id="diff-sub6" data-label="Door te differentiëren in toetsing"><label for="diff-sub6">Door te differentiëren in toetsing</label></div>
+                        <div class="conditional-input-container"><input type="checkbox" id="diff-sub6-nee"><label for="diff-sub6-nee">Nee</label> <input type="number" id="diff-sub6-level" min="1" max="4" class="hidden" placeholder="1-4"></div>
+                    </div>
+                    <div class="differentiëren-item">
+                        <div class="checkbox-item"><input type="checkbox" id="diff-sub7" data-label="Door te differentiëren in leerdoelen voor de studenten"><label for="diff-sub7">Door te differentiëren in leerdoelen voor de studenten</label></div>
+                        <div class="conditional-input-container"><input type="checkbox" id="diff-sub7-nee"><label for="diff-sub7-nee">Nee</label> <input type="number" id="diff-sub7-level" min="1" max="4" class="hidden" placeholder="1-4"></div>
+                    </div>
+                     <div class="differentiëren-item">
+                        <div class="checkbox-item"><input type="checkbox" id="diff-sub8" data-label="Door te evalueren of het leerdoel bereikt is"><label for="diff-sub8">Door te evalueren of het leerdoel bereikt is</label></div>
+                        <div class="conditional-input-container"><input type="checkbox" id="diff-sub8-nee"><label for="diff-sub8-nee">Nee</label> <input type="number" id="diff-sub8-level" min="1" max="4" class="hidden" placeholder="1-4"></div>
+                    </div>
+                    <div class="differentiëren-item">
+                        <div class="checkbox-item"><input type="checkbox" id="diff-sub9" data-label="Door gerichte hulp te bieden bij een probleem van de student"><label for="diff-sub9">Door gerichte hulp te bieden bij een probleem van de student</label></div>
+                        <div class="conditional-input-container"><input type="checkbox" id="diff-sub9-nee"><label for="diff-sub9-nee">Nee</label> <input type="number" id="diff-sub9-level" min="1" max="4" class="hidden" placeholder="1-4"></div>
+                    </div>
+                    <div class="anders-input">
+                         <input type="checkbox" id="diff-anders-cb" name="differentieren_anders_cb"> <label for="diff-anders-cb">Anders, namelijk:</label>
+                        <input type="text" id="diff-anders" name="differentieren_anders_text" placeholder="Vul hier in...">
+                    </div>
+                </div>
+                <div id="diff-skip-message">
+                    <p><em>Zo niet, ga door naar het volgende thema.</em></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page 6: Interactie -->
+        <div class="page" id="page-interactie">
+            <div class="section-title">Interactie tussen student, docent en ict</div>
+             <div class="clearfix">
+                <div class="side-graphic-container">
+                     <img src="images/interactie-diagram.png" alt="Interactie Diagram" class="responsive-image">
+                </div>
+                <div class="question-group content-next-to-graphic">
+                    <label class="question-text">Hoe zou je de interactie tussen de student, docent en ict in het onderwijs omschrijven? Kies er één.</label>
+                    <div class="radio-item"><input type="radio" id="int1" name="interactie" value="A. De interacties tussen docent en student zijn inhoudelijk gericht op de inzet van ict (bijv. hoe drones in te zetten om te leren)."><label for="int1">A. De interacties tussen docent en student zijn inhoudelijk gericht op de inzet van ict (bijv. hoe drones in te zetten om te leren).</label></div>
+                    <div class="radio-item"><input type="radio" id="int2" name="interactie" value="B. De interacties zijn tussen student en ict (bijv. onderwijs met VR)."><label for="int2">B. De interacties zijn tussen student en ict (bijv. onderwijs met VR).</label></div>
+                    <div class="radio-item"><input type="radio" id="int3" name="interactie" value="C. De interacties zijn tussen docent en ict (bijv. het bekijken van studievoortgang in een online platform)."><label for="int3">C. De interacties zijn tussen docent en ict (bijv. het bekijken van studievoortgang in een online platform).</label></div>
+                    <div class="radio-item"><input type="radio" id="int4" name="interactie" value="D. De interacties lopen vooral van de docent naar de student (bijv. het delen van content)."><label for="int4">D. De interacties lopen vooral van de docent naar de student (bijv. het delen van content).</label></div>
+                    <div class="radio-item"><input type="radio" id="int5" name="interactie" value="E. De interacties lopen van de student via ict naar de docent (bijv. vragen insturen voor een hoorcollege)."><label for="int5">E. De interacties lopen van de student via ict naar de docent (bijv. vragen insturen voor een hoorcollege).</label></div>
+                    <div class="radio-item"><input type="radio" id="int6" name="interactie" value="F. De interacties zijn tussen studenten via ict (bijv. afstandsonderwijs)."><label for="int6">F. De interacties zijn tussen studenten via ict (bijv. afstandsonderwijs).</label></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page 7: Mate van regie -->
+        <div class="page" id="page-regie">
+            <div class="section-title">Mate van regie</div>
+            <div class="question-group">
+                <p class="question-text">Wie of wat heeft invloed op het leren bij deze inzet van ict? Dus wie bepaalt het meest:</p>
+                <table class="mate-van-regie-table">
+                    <thead>
+                        <tr>
+                            <th>Vraag</th>
+                            <th>ict</th>
+                            <th>student</th>
+                            <th>docent</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Wat er geleerd wordt</td>
+                            <td><input type="checkbox" name="regie_wat" value="ict"></td>
+                            <td><input type="checkbox" name="regie_wat" value="student"></td>
+                            <td><input type="checkbox" name="regie_wat" value="docent"></td>
+                        </tr>
+                        <tr>
+                            <td>Wanneer er geleerd wordt</td>
+                            <td><input type="checkbox" name="regie_wanneer" value="ict"></td>
+                            <td><input type="checkbox" name="regie_wanneer" value="student"></td>
+                            <td><input type="checkbox" name="regie_wanneer" value="docent"></td>
+                        </tr>
+                        <tr>
+                            <td>Waar er geleerd wordt</td>
+                            <td><input type="checkbox" name="regie_waar" value="ict"></td>
+                            <td><input type="checkbox" name="regie_waar" value="student"></td>
+                            <td><input type="checkbox" name="regie_waar" value="docent"></td>
+                        </tr>
+                        <tr>
+                            <td>Hoe er geleerd wordt</td>
+                            <td><input type="checkbox" name="regie_hoe" value="ict"></td>
+                            <td><input type="checkbox" name="regie_hoe" value="student"></td>
+                            <td><input type="checkbox" name="regie_hoe" value="docent"></td>
+                        </tr>
+                        <tr>
+                            <td>Met wie er geleerd wordt</td>
+                            <td><input type="checkbox" name="regie_metwie" value="ict"></td>
+                            <td><input type="checkbox" name="regie_metwie" value="student"></td>
+                            <td><input type="checkbox" name="regie_metwie" value="docent"></td>
+                        </tr>
+                        <tr>
+                            <td>In welk tempo er geleerd wordt</td>
+                            <td><input type="checkbox" name="regie_tempo" value="ict"></td>
+                            <td><input type="checkbox" name="regie_tempo" value="student"></td>
+                            <td><input type="checkbox" name="regie_tempo" value="docent"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Page 8: Zelfregulerende vaardigheden -->
+        <div class="page" id="page-zelfregulering">
+            <div class="section-title">Zelfregulerende vaardigheden</div>
+            <div class="question-group">
+                <div class="checkbox-item">
+                    <input type="checkbox" id="zelfreg-main" name="zelfregulering_main">
+                    <label for="zelfreg-main">Ict wordt ingezet om zelfregulerende vaardigheden van studenten te bevorderen.</label>
+                </div>
+                <div id="zelfreg-subquestions" class="hidden">
+                    <p><strong>In welke fase wordt ict ingezet voor zelfregulerende vaardigheden?</strong></p>
+                    <div class="checkbox-item"><input type="checkbox" id="zelfreg-sub1" name="zelfregulering_fase" value="Voorbereidingsfase: doelen stellen, plannen, jezelf motiveren voor de taak."><label for="zelfreg-sub1">Voorbereidingsfase: doelen stellen, plannen, jezelf motiveren voor de taak.</label></div>
+                    <div class="checkbox-item"><input type="checkbox" id="zelfreg-sub2" name="zelfregulering_fase" value="Uitvoeringsfase: concentreren op de taak, toepassen van leerstrategieën, eigen voortgang monitoren."><label for="zelfreg-sub2">Uitvoeringsfase: concentreren op de taak, toepassen van leerstrategieën, eigen voortgang monitoren.</label></div>
+                    <div class="checkbox-item"><input type="checkbox" id="zelfreg-sub3" name="zelfregulering_fase" value="Reflectiefase: zelfbeoordeling en bepalen van vervolgstappen, op basis van de resultaten."><label for="zelfreg-sub3">Reflectiefase: zelfbeoordeling en bepalen van vervolgstappen, op basis van de resultaten.</label></div>
+                    <div class="anders-input">
+                         <input type="checkbox" id="zelfreg-anders-cb" name="zelfregulering_anders_cb"> <label for="zelfreg-anders-cb">Anders, namelijk:</label>
+                        <input type="text" id="zelfreg-anders" name="zelfregulering_anders_text" placeholder="Vul hier in...">
+                    </div>
+                </div>
+                 <div id="zelfreg-skip-message">
+                    <p><em>Zo niet, ga door naar het volgende thema.</em></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page 9: Assessment -->
+        <div class="page" id="page-assessment">
+            <div class="section-title">Assessment</div>
+            <div class="question-group">
+                <div class="checkbox-item">
+                    <input type="checkbox" id="assess-main" name="assessment_main">
+                    <label for="assess-main">Ict wordt ingezet om het leren te evalueren / beoordelen / toetsen.</label>
+                </div>
+                <div id="assess-subquestions" class="hidden">
+                    <p><strong>Hoe wordt ict ingezet voor assessment?</strong></p>
+                    <div class="checkbox-item"><input type="checkbox" id="assess-sub1" name="assessment_hoe" value="Studenten beoordelen hun eigen leren (bijv. voor monitoren, evalueren, opstellen van leerplannen)."><label for="assess-sub1">Studenten beoordelen hun eigen leren (bijv. voor monitoren, evalueren, opstellen van leerplannen).</label></div>
+                    <div class="checkbox-item"><input type="checkbox" id="assess-sub2" name="assessment_hoe" value="Studenten beoordelen elkaar."><label for="assess-sub2">Studenten beoordelen elkaar.</label></div>
+                    <div class="checkbox-item"><input type="checkbox" id="assess-sub3" name="assessment_hoe" value="De ict-tool beoordeelt automatisch (bijv. cijfers berekenen, feedback geven)."><label for="assess-sub3">De ict-tool beoordeelt automatisch (bijv. cijfers berekenen, feedback geven).</label></div>
+                    <div class="anders-input">
+                         <input type="checkbox" id="assess-anders-cb" name="assessment_anders_cb"> <label for="assess-anders-cb">Anders, namelijk:</label>
+                        <input type="text" id="assess-anders" name="assessment_anders_text" placeholder="Vul hier in...">
+                    </div>
+                </div>
+                 <div id="assess-skip-message">
+                    <p><em>Zo niet, ga door naar het volgende thema.</em></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page 10: Opkomende technologieën -->
+        <div class="page" id="page-opkomend">
+            <div class="section-title">Opkomende technologieën</div>
+            <p>In de literatuur worden opkomende technologieën beschreven die impact kunnen hebben op onderwijs. Vink hieronder aan (indien van toepassing).</p>
+            <div class="question-group">
+                <div class="opkomende-tech-item">
+                    <div class="checkbox-item"><input type="checkbox" id="opk1" name="opkomend" value="Artificial intelligence"><label for="opk1">Artificial intelligence</label></div>
+                    <div class="description">AI is het vermogen van computers om taken uit te voeren waarvoor mensen hun intelligentie inzetten. Denk aan interacteren met de omgeving, analyseren, redeneren, problemen oplossen en voorspellen.</div>
+                </div>
+                <div class="opkomende-tech-item">
+                    <div class="checkbox-item"><input type="checkbox" id="opk2" name="opkomend" value="XR: Virtual en/of augmented reality"><label for="opk2">XR: Virtual en/of augmented reality</label></div>
+                    <div class="description">Immersive reality of XR (eXtended Reality) is een term die alle immersieve technologieën omvat die onze perceptie van de werkelijkheid uitbreiden, zoals Virtual Reality (VR), Augmented Reality (AR) en Mixed Reality (MR). VR creëert een volledig door computers gegenereerde omgeving die de echte wereld vervangt.</div>
+                </div>
+                <div class="opkomende-tech-item">
+                    <div class="checkbox-item"><input type="checkbox" id="opk3" name="opkomend" value="Internet of Things"><label for="opk3">Internet of Things</label></div>
+                    <div class="description">Het Internet of Things (IoT) is het netwerk van apparaten met sensoren, software en netwerkverbinding.</div>
+                </div>
+                <div class="opkomende-tech-item">
+                    <div class="checkbox-item"><input type="checkbox" id="opk4" name="opkomend" value="3D printen"><label for="opk4">3D printen</label></div>
+                    <div class="description">Driedimensionale objecten laag voor laag printen.</div>
+                </div>
+                <div class="opkomende-tech-item">
+                    <div class="checkbox-item"><input type="checkbox" id="opk5" name="opkomend" value="Robots"><label for="opk5">Robots</label></div>
+                    <div class="description">Machines die verschillende taken kunnen uitvoeren.</div>
+                </div>
+                <div class="opkomende-tech-item">
+                    <div class="checkbox-item"><input type="checkbox" id="opk6" name="opkomend" value="Drones"><label for="opk6">Drones</label></div>
+                    <div class="description">Onbemande vliegtuigjes.</div>
+                </div>
+                <div class="opkomende-tech-item">
+                    <div class="checkbox-item"><input type="checkbox" id="opk7" name="opkomend" value="Draagbare technologie"><label for="opk7">Draagbare technologie</label></div>
+                    <div class="description">Compacte technologie die op het lichaam gedragen wordt, zoals fitnessbanden, smartwatches.</div>
+                </div>
+                <div class="opkomende-tech-item">
+                    <div class="checkbox-item"><input type="checkbox" id="opk8" name="opkomend" value="Virtuele labs"><label for="opk8">Virtuele labs</label></div>
+                    <div class="description">Simulaties op een computer van echte laboratoriumexperimenten.</div>
+                </div>
+                <div class="opkomende-tech-item">
+                    <div class="checkbox-item"><input type="checkbox" id="opk9" name="opkomend" value="Big data analytics, databases"><label for="opk9">Big data analytics, databases</label></div>
+                    <div class="description">Het verwerken en analyseren van grote hoeveelheden data.</div>
+                </div>
+                <div class="opkomende-tech-item">
+                    <div class="checkbox-item"><input type="checkbox" id="opk10" name="opkomend" value="Cloud computing"><label for="opk10">Cloud computing</label></div>
+                    <div class="description">Opslag, rekenkracht en software via het internet.</div>
+                </div>
+                <div class="opkomende-tech-item">
+                    <div class="checkbox-item"><input type="checkbox" id="opk11" name="opkomend" value="Hologrammen"><label for="opk11">Hologrammen</label></div>
+                    <div class="description">Het weergeven van 3D-beelden via hologrammen.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page 11: Kerneigenschappen ict -->
+        <div class="page" id="page-kerneigenschappen">
+            <div class="section-title">Kerneigenschappen ict</div>
+            <p>Los van de inzet van ict, kan de ict-tool zelf verschillende eigenschappen hebben. Vink hieronder de eigenschappen aan die van toepassing zijn op jouw ict-tool.</p>
+            <div class="question-group">
+                <div class="kerneigenschappen-item">
+                    <div class="checkbox-item"><input type="checkbox" id="kern1" name="kerneigenschappen" value="Adaptieve software"><label for="kern1">Adaptieve software</label></div>
+                    <div class="description">Software die materiaal aanbiedt op basis van de input en prestatie van de student.</div>
+                </div>
+                <div class="kerneigenschappen-item">
+                    <div class="checkbox-item"><input type="checkbox" id="kern2" name="kerneigenschappen" value="Ontwerpsoftware voor onderwijs"><label for="kern2">Ontwerpsoftware voor onderwijs</label></div>
+                    <div class="description">Software om onderwijs te maken.</div>
+                </div>
+                <div class="kerneigenschappen-item">
+                    <div class="checkbox-item"><input type="checkbox" id="kern3" name="kerneigenschappen" value="Software voor games in het onderwijs"><label for="kern3">Software voor games in het onderwijs</label></div>
+                    <div class="description">Software voor games in het onderwijs.</div>
+                </div>
+                 <div class="kerneigenschappen-item">
+                    <div class="checkbox-item"><input type="checkbox" id="kern4" name="kerneigenschappen" value="Software om programmeren aan te leren"><label for="kern4">Software om programmeren aan te leren</label></div>
+                    <div class="description">Software om programmeren aan te leren.</div>
+                </div>
+                <div class="kerneigenschappen-item">
+                    <div class="checkbox-item"><input type="checkbox" id="kern5" name="kerneigenschappen" value="Klassenmanagement"><label for="kern5">Klassenmanagement</label></div>
+                    <div class="description">Software om klassenmanagement te ondersteunen.</div>
+                </div>
+                <div class="kerneigenschappen-item">
+                    <div class="checkbox-item"><input type="checkbox" id="kern6" name="kerneigenschappen" value="Intelligente tutoring"><label for="kern6">Intelligente tutoring</label></div>
+                    <div class="description">Software die directe en aangepaste instructie en feedback geeft, bedoeld om menselijke begeleiding te simuleren.</div>
+                </div>
+                <div class="kerneigenschappen-item">
+                    <div class="checkbox-item"><input type="checkbox" id="kern7" name="kerneigenschappen" value="Elektronische leeromgeving (ELO)"><label for="kern7">Elektronische leeromgeving (ELO)</label></div>
+                    <div class="description">Software voor de administratie, documentatie, volgen, rapporteren en geven van onderwijs.</div>
+                </div>
+                <div class="kerneigenschappen-item">
+                    <div class="checkbox-item"><input type="checkbox" id="kern8" name="kerneigenschappen" value="Publiceren, informeren en verspreiden"><label for="kern8">Publiceren, informeren en verspreiden</label></div>
+                    <div class="description">Het online toegankelijk maken van kennis en materialen.</div>
+                </div>
+                <div class="kerneigenschappen-item">
+                    <div class="checkbox-item"><input type="checkbox" id="kern9" name="kerneigenschappen" value="Communicatie"><label for="kern9">Communicatie</label></div>
+                    <div class="description">Het uitwisselen van informatie tussen mensen en systemen.</div>
+                </div>
+                <div class="kerneigenschappen-item">
+                    <div class="checkbox-item"><input type="checkbox" id="kern10" name="kerneigenschappen" value="Samenwerken"><label for="kern10">Samenwerken</label></div>
+                    <div class="description">Het samenwerken aan projecten of taken.</div>
+                </div>
+                <div class="kerneigenschappen-item">
+                    <div class="checkbox-item"><input type="checkbox" id="kern11" name="kerneigenschappen" value="Informatie- en bronbeheer"><label for="kern11">Informatie- en bronbeheer</label></div>
+                    <div class="description">Het organiseren en beheren van informatiebronnen, zoals een database.</div>
+                </div>
+                <div class="kerneigenschappen-item">
+                    <div class="checkbox-item"><input type="checkbox" id="kern12" name="kerneigenschappen" value="Microsoft Office"><label for="kern12">Microsoft Office</label></div>
+                    <div class="description">Eén of meerdere applicaties van Microsoft Office.</div>
+                </div>
+                <div class="kerneigenschappen-item">
+                    <div class="checkbox-item"><input type="checkbox" id="kern13" name="kerneigenschappen" value="Adobe"><label for="kern13">Adobe</label></div>
+                    <div class="description">Eén of meerdere applicaties van Adobe.</div>
+                </div>
+                <div class="kerneigenschappen-item">
+                    <div class="checkbox-item"><input type="checkbox" id="kern14" name="kerneigenschappen" value="Google"><label for="kern14">Google</label></div>
+                    <div class="description">Eén of meerdere applicaties van Google.</div>
+                </div>
+                <div class="kerneigenschappen-item">
+                    <div class="checkbox-item"><input type="checkbox" id="kern15" name="kerneigenschappen" value="Website(s)"><label for="kern15">Website(s)</label></div>
+                    <div class="description">Een specifieke website.</div>
+                </div>
+                <div class="kerneigenschappen-item">
+                    <div class="checkbox-item"><input type="checkbox" id="kern16" name="kerneigenschappen" value="Vragenlijst"><label for="kern16">Vragenlijst</label></div>
+                    <div class="description">Een digitale poll of vragenlijst.</div>
+                </div>
+                <div class="kerneigenschappen-item">
+                    <div class="checkbox-item"><input type="checkbox" id="kern17" name="kerneigenschappen" value="Quizziz"><label for="kern17">Quizziz</label></div>
+                    <div class="description">Quizziz.</div>
+                </div>
+                <div class="kerneigenschappen-item">
+                    <div class="checkbox-item"><input type="checkbox" id="kern18" name="kerneigenschappen" value="Video of foto"><label for="kern18">Video of foto</label></div>
+                    <div class="description">Video of fotomateriaal.</div>
+                </div>
+                <div class="anders-input">
+                     <input type="checkbox" id="kern-anders-cb" name="kerneigenschappen_anders_cb"> <label for="kern-anders-cb">Anders, namelijk:</label>
+                    <input type="text" id="kern-anders" name="kerneigenschappen_anders_text" placeholder="Vul hier in...">
+                </div>
+            </div>
+        </div>
+
+        <!-- Page 12: End & Report Link -->
+        <div class="page" id="page-end">
+            <div class="intro-doel" style="text-align: center; background-color: #5F27CD;">
+                <p><strong>Einde van de iXscan.</strong></p>
+                <p>Klik op 'Bekijk Uitslag' om jouw resultaten in te zien!</p>
+            </div>
+        </div>
+
+        <!-- Page 13: Uitslag (Report) -->
+        <div class="page" id="page-report">
+            <div class="section-title" style="background-color: #5F27CD; color: white;">Uitslag van jouw iXscan:</div>
+            <p><em>Kopieer de onderstaande tekst en plak waar jij de tekst nodig hebt. Of download de resultaten als Markdown bestand.</em></p>
+            <div id="report-output" class="report-content">
+                <!-- Report will be generated here by JavaScript -->
+            </div>
+            <button id="downloadReportButton">Download Resultaten (.md)</button>
+        </div>
+
+        <div class="navigation-buttons">
+            <button id="prevButton" style="display: none;">Vorige</button>
+            <button id="nextButton">Volgende</button>
+            <button id="viewReportButton" style="display: none;">Bekijk Uitslag</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

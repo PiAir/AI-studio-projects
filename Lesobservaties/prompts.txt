@@ -1,0 +1,32 @@
+
+
+Analyse the video, identify examples of the different interactions: 
+#1 Explaining stuff to students, 
+#2 Interacting with students, 
+#3 Students are working on their own, 
+#4 Giving feedback to students, 
+#5 Classroom Management/Procedural Instructions, 
+#6 Teacher Observation/Monitoring, 
+add categories that you think are missing.
+Then create a single HTML file (CSS and Javascript are allowed) where you embed the YouTube video (id=gDT5xFGBXUw), add the categories and examples and make the time codes clickable so that I can use the page to navigate. 
+
+
+To keep the page readable, use a two part navigation with on the left side the categories and when I select a category it will show the individual interactions.
+Make sure you dubbel check the use of the YouTube API and Javascript afterwards.
+
+
+Met de 5 docentrollen:
+Beoordeel de bijgevoegde video aan de hand van de 5 docentrollen (gastheer, presentator, didacticus, pedagoog, afsluiter). Geef niet alleen een beoordeling, maar kies per rol een aantal punten uit de video die de basis vormen voor een tip (kan beter) of top (heel goed). Maak altijd gebruik van concrete voorbeelden die via een tijdcode te koppelen zijn. 
+Maak vervolgens één HTML-bestand (CSS en Javascript zijn toegestaan) waarin je de YouTube-video insluit (id=gDT5xFGBXUw), voeg de rollen, tips en tops toe en maak de tijdcodes klikbaar, zodat ik de pagina kan gebruiken om te navigeren. Om de pagina leesbaar te houden, gebruik je een tweedelige navigatie met aan de linkerkant de vijf rollen. Wanneer ik een rol selecteer, worden de individuele tips en tops weergegeven.
+Controleer daarna nogmaals of de YouTube API en Javascript goed werken.
+
+Kijk ook naar het bijgevoegde Html-bestand voor een structuur die werkt.
+
+Variant 2 (meer nadruk op het lesobservatieformulier): Voeg onder elke rol ook een ++ (goed), + (gemiddeld), - (matig) + eventuele toelichting toe voor elk van de vier tot acht criteria die in het document voor de rollen zijn opgenomen. Als het kan neem in de toelichting eveneens tijdcodes met links op.
+
+
+VS Constitution: https://www.youtube.com/watch?v=lIkfF8VwWVg
+8th Grade Math: https://www.youtube.com/watch?v=3PRAV3T6i8Q (lange video)
+8th Grade Math: https://www.youtube.com/watch?v=gDT5xFGBXUw (kortere clip)
+Kindergarten Math https://www.youtube.com/watch?v=D2o6MDpL1v0 (identificeert Google als niet toegestane content)
+Elko Middle School: https://www.youtube.com/watch?v=7SZnuQqv6bw (2 docenten)

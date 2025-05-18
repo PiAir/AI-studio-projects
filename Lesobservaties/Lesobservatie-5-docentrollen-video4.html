@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analyse 5 Docentrollen: Constitutional Convention</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            text-align: center;
+            color: #0056b3;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        #main-container {
+            display: flex;
+            width: 95%;
+            max-width: 1400px; /* Increased max-width for better video display */
+            margin-top: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            min-height: 80vh;
+        }
+        #categories-panel {
+            width: 25%;
+            padding: 15px;
+            border-right: 1px solid #ddd;
+            background-color: #e9ecef;
+            overflow-y: auto;
+        }
+        #categories-panel h2 {
+            margin-top: 0;
+            color: #0056b3;
+            font-size: 1.2em;
+        }
+        #category-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        #category-list li {
+            padding: 10px; /* Increased padding */
+            cursor: pointer;
+            border-bottom: 1px solid #ccc;
+            transition: background-color 0.3s;
+            font-size: 1em; /* Consistent font size */
+        }
+        #category-list li:hover, #category-list li.active {
+            background-color: #007bff;
+            color: white;
+        }
+ нормальный текст.
+        #video-interactions-panel {
+            width: 75%;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+        #player-container {
+            width: 100%;
+            margin-bottom: 20px;
+            background-color: #000; /* Black background for player */
+        }
+        #player {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+        }
+        #interactions-display h3 {
+            margin-top: 0;
+            color: #0056b3;
+            font-size: 1.1em;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 5px;
+        }
+        #interaction-list {
+            list-style-type: none;
+            padding: 0;
+            max-height: 500px; /* Increased max-height */
+            overflow-y: auto;
+        }
+        #interaction-list li {
+            padding: 10px; /* Increased padding */
+            border-bottom: 1px solid #eee;
+            line-height: 1.6;
+        }
+        .timecode {
+            font-weight: bold;
+            color: #007bff;
+            cursor: pointer;
+            text-decoration: underline;
+            margin-right: 5px;
+        }
+        .timecode:hover {
+            color: #0056b3;
+        }
+        .tip-top-label {
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        .tip {
+            color: #c0392b; /* Reddish for tips */
+        }
+        .top {
+            color: #27ae60; /* Greenish for tops */
+        }
+    </style>
+</head>
+<body>
+    <h1>Analyse 5 Docentrollen: Constitutional Convention</h1>
+    <div id="main-container">
+        <div id="categories-panel">
+            <h2>Docentrollen</h2>
+            <ul id="category-list"></ul>
+        </div>
+        <div id="video-interactions-panel">
+            <div id="player-container">
+                <div id="player"></div>
+            </div>
+            <div id="interactions-display">
+                <h3 id="current-category-title">Selecteer een Rol</h3>
+                <ul id="interaction-list"></ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        var player;
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                height: '390',
+                width: '640',
+                videoId: 'lIkfF8VwWVg', // CORRECT VIDEO ID
+                playerVars: {
+                    'playsinline': 1,
+                    'cc_load_policy': 1, // Attempt to load closed captions
+                    'cc_lang_pref': 'en' // Prefer English captions if available
+                }
+            });
+        }
+
+        const interactions = [
+            // Gastheer
+            { category: "De Leraar als Gastheer", type: "Top", start: 0, end: 15, description: "De leraar (verkleed als George Washington) opent de 'conventie' en creëert direct een thematische en meeslepende setting voor de rolplay." },
+            { category: "De Leraar als Gastheer", type: "Top", start: 16, end: 39, description: "Ze legt uit hoe afgevaardigden elkaar formeel begroetten en moedigt leerlingen aan dit na te doen, inclusief handen schudden, wat de rolbeleving en interactie versterkt." },
+            { category: "De Leraar als Gastheer", type: "Top", start: 54, end: 60, description: "Instrueert leerlingen om elkaar te begroeten en rond te lopen, wat interactie en gemeenschapsgevoel bevordert." },
+            { category: "De Leraar als Gastheer", type: "Tip", start: 0, end: 5, description: "Hoewel de start sterk thematisch is, zou een korte, meer persoonlijke begroeting bij binnenkomst (voor de start van de rolplay) de relatie met individuele leerlingen nog kunnen versterken. Dit is echter lastig te combineren met de directe start in de rolplay." },
+            
+            // Presentator
+            { category: "De Leraar als Presentator", type: "Top", start: 0, end: 11, description: "Opent de conventie helder, geeft aan dat leerlingen bij hun delegaties zitten en introduceert haar rol als George Washington." },
+            { category: "De Leraar als Presentator", type: "Top", start: 115, end: 130, description: "Legt duidelijk de 'Rule of Secrecy' uit, een belangrijk kader voor de activiteit, en betrekt leerlingen bij het belang ervan (1:55-2:10)." },
+            { category: "De Leraar als Presentator", type: "Top", start: 175, end: 187, description: "Introduceert het eerste agendapunt (representatie) en geeft het woord aan een specifieke groep (Virginia) (2:55-3:07)." },
+            { category: "De Leraar als Presentator", type: "Tip", start: 570, end: 575, description: "Bij de introductie van de 'Great Compromise' (rond 9:30) zou ze nog explicieter het doel van deze nieuwe fase voor de hele groep kunnen benoemen, voordat een leerling het plan uitlegt." },
+
+            // Didacticus
+            { category: "De Leraar als Didacticus", type: "Top", start: 207, end: 227, description: "Nadat Virginia haar plan heeft gepresenteerd, schrijft de leraar de kernpunten (takken van de overheid, organisatie) op het bord. Dit structureert de informatie (3:27-3:47)." },
+            { category: "De Leraar als Didacticus", type: "Top", start: 240, end: 258, description: "Verheldert dat representatie op basis van populatie de grote staten bevoordeelt, een cruciaal concept (4:00-4:18)." },
+            { category: "De Leraar als Didacticus", type: "Top", start: 369, end: 378, description: "Geeft leerlingen expliciet de opdracht om binnen hun delegatie te discussiëren of ze het Virginia Plan steunen (6:09-6:18)." },
+            { category: "De Leraar als Didacticus", type: "Top", start: 434, end: 474, description: "Introduceert het New Jersey Plan en laat een leerling dit uitleggen, waarna ze de kernpunten weer op het bord noteert, wat vergelijking faciliteert (7:14-7:54)." },
+            { category: "De Leraar als Didacticus", type: "Top", start: 567, end: 610, description: "Leidt de presentatie van de 'Great Compromise' (Connecticut Compromise) in en laat een leerling de details uitleggen, die ze vervolgens visueel ondersteunt op het bord. Dit helpt leerlingen de oplossing voor het representatieprobleem te begrijpen (9:27-10:10)." },
+            { category: "De Leraar als Didacticus", type: "Tip", start: 227, end: 240, description: "Bij complexe concepten zoals de verschillende plannen, zou een korte check-vraag aan de hele klas ('Wie kan in eigen woorden uitleggen wat het voordeel is van het Virginia Plan voor grote staten?') kunnen helpen om het begrip te peilen voordat verder wordt gegaan." },
+
+            // Pedagoog
+            { category: "De Leraar als Pedagoog", type: "Top", start: 102, end: 115, description: "Gebruikt de gavel om de aandacht te vragen en orde te herstellen na de begroetingsronde, op een manier die past binnen de rolplay (1:42-1:55)." },
+            { category: "De Leraar als Pedagoog", type: "Top", start: 130, end: 161, description: "Benadrukt de 'Rule of Secrecy' en laat leerlingen hier een eed over afleggen. Dit creëert een serieuze, vertrouwelijke sfeer die nodig is voor open discussie binnen de rolplay (2:10-2:41)." },
+            { category: "De Leraar als Pedagoog", type: "Top", start: 165, end: 173, description: "Wijst een 'sergeant of arms' aan om de orde te bewaken (deur dichthouden), wat bijdraagt aan een ongestoorde leeromgeving (2:45-2:53)." },
+            { category: "De Leraar als Pedagoog", type: "Tip", start: 380, end: 390, description: "Er zijn momenten van rumoer (bijv. rond 6:20 als leerlingen discussiëren). Hoewel dit past bij een 'conventie', zou een korte, vriendelijke herinnering aan het volume of de gespreksregels (binnen de rol van George Washington) de focus kunnen behouden." },
+
+            // Afsluiter
+            { category: "De Leraar als Afsluiter", type: "Top", start: 909, end: 944, description: "Bedankt de leerlingen voor hun deelname en bijdrage, en sluit de 'conventie' voor die dag af, met een vooruitblik naar het volgende onderwerp (slavernij). Dit geeft een duidelijk einde aan de activiteit (15:09-15:44)." },
+            { category: "De Leraar als Afsluiter", type: "Top", start: 945, end: 961, description: "Gebruikt de gavel om de sessie formeel te beëindigen, wat consistent is met de rolplay (15:45-16:01)." },
+            { category: "De Leraar als Afsluiter", type: "Tip", start: 961, end: 961, description: "Na het formele einde van de rolplay zou een korte meta-reflectie ('Wat hebben we vandaag geleerd over de uitdagingen van het vormen van een overheid?' of 'Welke rol was het moeilijkst om tot een compromis te komen en waarom?') het leerrendement nog kunnen verhogen door leerlingen expliciet te laten reflecteren op het proces en de inhoud." }
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const categoryListEl = document.getElementById('category-list');
+            const interactionListEl = document.getElementById('interaction-list');
+            const currentCategoryTitleEl = document.getElementById('current-category-title');
+
+            const uniqueCategories = [...new Set(interactions.map(item => item.category))];
+
+            uniqueCategories.forEach(category => {
+                const li = document.createElement('li');
+                li.textContent = category;
+                li.addEventListener('click', () => {
+                    displayInteractionsForCategory(category);
+                    document.querySelectorAll('#category-list li').forEach(item => item.classList.remove('active'));
+                    li.classList.add('active');
+                });
+                categoryListEl.appendChild(li);
+            });
+
+            function displayInteractionsForCategory(category) {
+                interactionListEl.innerHTML = ''; 
+                currentCategoryTitleEl.textContent = `Tips & Tops voor: ${category}`;
+                const filteredInteractions = interactions.filter(item => item.category === category);
+                
+                if (filteredInteractions.length === 0) {
+                    const li = document.createElement('li');
+                    li.textContent = "Geen interacties opgenomen voor deze categorie.";
+                    interactionListEl.appendChild(li);
+                    return;
+                }
+
+                filteredInteractions.forEach(item => {
+                    const li = document.createElement('li');
+                    
+                    const typeLabel = document.createElement('span');
+                    typeLabel.classList.add('tip-top-label');
+                    if (item.type === "Tip") {
+                        typeLabel.textContent = "Tip:";
+                        typeLabel.classList.add('tip');
+                    } else if (item.type === "Top") {
+                        typeLabel.textContent = "Top:";
+                        typeLabel.classList.add('top');
+                    }
+                    li.appendChild(typeLabel);
+
+                    const timeLink = document.createElement('span');
+                    timeLink.classList.add('timecode');
+                    timeLink.textContent = `(${formatTime(item.start)} - ${formatTime(item.end)})`;
+                    timeLink.addEventListener('click', () => {
+                        if (player && player.seekTo) {
+                            player.seekTo(item.start, true);
+                            player.playVideo(); // Start playing after seeking
+                        }
+                    });
+                    li.appendChild(timeLink);
+                    li.appendChild(document.createTextNode(` ${item.description}`));
+                    interactionListEl.appendChild(li);
+                });
+            }
+
+            function formatTime(totalSeconds) {
+                const minutes = Math.floor(totalSeconds / 60);
+                const seconds = totalSeconds % 60;
+                return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            }
+            
+            // Optionally, display the first category by default
+            if (uniqueCategories.length > 0) {
+                // displayInteractionsForCategory(uniqueCategories[0]);
+                // if(categoryListEl.firstChild) {
+                // categoryListEl.firstChild.classList.add('active');
+                // }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iXperium Handreiking - Onderwijsinnovatie met ICT</title>
+    <style>
+        /* Basic Reset & Global Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden; /* Prevent body scroll, individual sections will scroll */
+            color: #333;
+            background-color: #f4f7f6;
+        }
+
+        /* Header */
+        header {
+            background-color: #3273dc; /* Xerte Blue */
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 60px; /* Fixed height for header */
+            flex-shrink: 0;
+        }
+        header h1 {
+            font-size: 1.4em;
+            font-weight: 500;
+        }
+        header .logo img {
+            height: 35px;
+        }
+
+        /* Main Container (Sidebar + Content) */
+        .main-container {
+            display: flex;
+            flex-grow: 1;
+            overflow: hidden; /* Important for separate scrolling */
+        }
+
+        /* Sidebar Navigation */
+        nav#sidebar {
+            width: 280px; /* Fixed width for sidebar */
+            background-color: #eef3f7; /* Light grey/blue */
+            padding: 20px 0px;
+            overflow-y: auto; /* Scroll if many items */
+            flex-shrink: 0;
+            border-right: 1px solid #d1dbe3;
+        }
+        nav#sidebar ul {
+            list-style: none;
+        }
+        nav#sidebar ul li a {
+            display: block;
+            padding: 12px 20px;
+            text-decoration: none;
+            color: #3273dc; /* Blue text */
+            font-weight: 500;
+            border-left: 4px solid transparent;
+            transition: background-color 0.2s ease, border-left-color 0.2s ease;
+        }
+        nav#sidebar ul li a:hover {
+            background-color: #d1dbe3; /* Lighter blue on hover */
+        }
+        nav#sidebar ul li a.active {
+            background-color: #3273dc; /* Xerte Blue for active */
+            color: white;
+            border-left-color: #205cbf; /* Darker blue accent */
+        }
+        nav#sidebar ul li.section-title a {
+            font-weight: bold;
+            color: #555;
+            background-color: transparent !important; /* No background for section titles */
+            cursor: default;
+            border-left: none;
+            padding-top: 15px;
+            padding-bottom: 5px;
+        }
+         nav#sidebar ul li.section-title a:hover {
+            background-color: transparent !important;
+        }
+
+
+        /* Content Area */
+        main#content-area {
+            flex-grow: 1;
+            padding: 25px;
+            overflow-y: auto; /* Scroll content independently */
+            background-color: white;
+        }
+        .page-content {
+            display: none; /* Hidden by default, shown by JS */
+        }
+        .page-content.active {
+            display: block;
+        }
+        .page-content h2 {
+            color: #3273dc;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            border-bottom: 2px solid #eef3f7;
+            padding-bottom: 10px;
+        }
+        .page-content h3 {
+            color: #205cbf;
+            margin-top: 25px;
+            margin-bottom: 10px;
+            font-size: 1.4em;
+        }
+        .page-content p, .page-content ul, .page-content ol {
+            line-height: 1.7;
+            margin-bottom: 15px;
+            font-size: 0.95em;
+        }
+        .page-content ul, .page-content ol {
+            margin-left: 25px;
+        }
+        .page-content img {
+            max-width: 100%;
+            height: auto;
+            margin: 15px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 4px;
+        }
+        .page-content .highlight-box { /* For the "Zelfregie maakt docent sterker" style */
+            background-color: #e6f7ff;
+            border-left: 5px solid #007bff;
+            padding: 15px 20px;
+            margin: 20px 0;
+            font-style: italic;
+            font-weight: 500;
+        }
+        .page-content .example-box {
+            border: 1px dashed #ccc;
+            padding: 15px;
+            margin: 20px 0;
+            background-color: #f9f9f9;
+        }
+        .page-content .example-box strong {
+            color: #205cbf;
+        }
+
+        /* Accordion-like styles for recommendations */
+        .accordion-item {
+            border: 1px solid #eef3f7;
+            margin-bottom: 5px;
+            border-radius: 4px;
+        }
+        .accordion-item .accordion-title {
+            background-color: #f0f5f9;
+            padding: 10px 15px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #3273dc;
+        }
+        .accordion-item .accordion-content {
+            padding: 15px;
+            border-top: 1px solid #eef3f7;
+            /* display: none; Initially hidden if using JS for toggle */
+        }
+
+
+        /* Footer */
+        footer {
+            background-color: #f5f5f5; /* Light grey */
+            color: #555;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 50px; /* Fixed height for footer */
+            border-top: 1px solid #ddd;
+            flex-shrink: 0;
+        }
+        footer button {
+            background-color: #3273dc;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+        footer button:disabled {
+            background-color: #c0c0c0;
+            cursor: not-allowed;
+        }
+        footer .progress-container {
+            display: flex;
+            align-items: center;
+            font-size: 0.85em;
+        }
+        footer #progress-bar {
+            width: 150px;
+            height: 10px;
+            background-color: #ddd;
+            border-radius: 5px;
+            margin-right: 8px;
+            overflow: hidden;
+        }
+        footer #progress-fill {
+            width: 0%; /* JS will update this */
+            height: 100%;
+            background-color: #3273dc; /* Xerte Blue */
+            transition: width 0.3s ease;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Handreiking Onderwijsinnovatie met ICT</h1>
+        <div class="logo">
+            <!-- Replace with actual iXperium logo -->
+            <img src="https://via.placeholder.com/150x40/FFFFFF/3273DC?text=iXPERIUM" alt="iXperium Logo">
+        </div>
+    </header>
+
+    <div class="main-container">
+        <nav id="sidebar">
+            <ul>
+                <li class="section-title"><a href="#">START</a></li>
+                <li><a href="#" data-page="page-welcome" class="active">Welkom</a></li>
+
+                <li class="section-title"><a href="#">SECTIE 1: INTRODUCTIE</a></li>
+                <li><a href="#" data-page="page-why">Waarom deze Handreiking?</a></li>
+                <li><a href="#" data-page="page-framework">Docentprofessionalisering & ICT: Raamwerk</a></li>
+                <li><a href="#" data-page="page-buildingblocks">Bouwstenen Effectieve Professionalisering</a></li>
+                <li><a href="#" data-page="page-securing">Borgen Competenties in Organisatie</a></li>
+                <li><a href="#" data-page="page-approach">Aanpak Verkenning</a></li>
+
+                <li class="section-title"><a href="#">SECTIE 2: BEOORDELEN & BORGEN</a></li>
+                <li><a href="#" data-page="page-assess-basis">Basis Competentieontwikkeling Beoordelen</a></li>
+                <li><a href="#" data-page="page-assess-testing">Passende Toetsing</a></li>
+                <li><a href="#" data-page="page-assess-programmatic">Programmatisch Toetsen</a></li>
+                <li><a href="#" data-page="page-assess-sharedviews">Gemeenschappelijke Beelden</a></li>
+                <li><a href="#" data-page="page-assess-teamindividual">Team & Individu Balans</a></li>
+                <li><a href="#" data-page="page-securing-whyhow">Competenties Borgen: Waarom & Hoe?</a></li>
+                <li><a href="#" data-page="page-securing-certification">Belang Certificeren</a></li>
+                <li><a href="#" data-page="page-securing-recognition">Erkennen & Waarderen</a></li>
+                <li><a href="#" data-page="page-securing-sustainable">Duurzaam Borgen</a></li>
+
+                <li class="section-title"><a href="#">SECTIE 3: FACILITEREN & ORGANISEREN</a></li>
+                <li><a href="#" data-page="page-facilitate-intro">Randvoorwaarden Duurzaam Borgen</a></li>
+                <li><a href="#" data-page="page-facilitate-vision">1. Visie</a></li>
+                <li><a href="#" data-page="page-facilitate-culture">2. Lerende Cultuur</a></li>
+                <li><a href="#" data-page="page-facilitate-support">3. Actief Faciliteren</a></li>
+                <li><a href="#" data-page="page-facilitate-evaluate">4. Continu Evalueren</a></li>
+
+                <li class="section-title"><a href="#">SECTIE 4: AANBEVELINGEN</a></li>
+                <li><a href="#" data-page="page-recommendations">Acht Aanbevelingen</a></li>
+
+                <li class="section-title"><a href="#">SECTIE 5: BRONNEN</a></li>
+                <li><a href="#" data-page="page-literature">Literatuur (Selectie)</a></li>
+                <li><a href="#" data-page="page-moreinfo">Meer Weten?</a></li>
+                <li><a href="#" data-page="page-colofon">Colofon & CC</a></li>
+            </ul>
+        </nav>
+
+        <main id="content-area">
+            <!-- Page Content Sections (populated by JS) -->
+            <div class="page-content active" id="page-welcome">
+                <h2>Welkom bij de Handreiking</h2>
+                <p>Deze interactieve module is gebaseerd op de handreiking "Ingrediënten voor het Instellingsbreed Borgen van Competenties voor Onderwijsinnovatie met ICT" van iXperium, Centre of Expertise.</p>
+                <p>Gebruik de navigatie aan de linkerkant om door de verschillende secties en pagina's te bladeren.</p>
+                <img src="https://via.placeholder.com/600x300/EEEEEE/3273DC?text=Omslag+Rapport" alt="Omslag Rapport Placeholder">
+                <h3>Auteurs:</h3>
+                <p>Manon van Zanten, Dana Uerz, Pieter van Rooij, Marloes Timmermans, Marijke Kral</p>
+                <p><strong>Publicatie:</strong> iXperium Centre of Expertise Leren met ict, 2025</p>
+                <p><strong>ISBN:</strong> 9789083500003</p>
+            </div>
+
+            <div class="page-content" id="page-why">
+                <h2>Waarom deze Handreiking?</h2>
+                <p>Onderwijsinnovatie met ICT vraagt van onderwijsprofessionals dat ze zich continu blijven ontwikkelen. Maar hoe pakt u dit als instelling gestructureerd aan? Deze handreiking biedt concrete ingrediënten en beantwoordt vragen zoals:</p>
+                <ul>
+                    <li>Over welke ICT-competenties hebben we het precies?</li>
+                    <li>Wat is het huidige competentieniveau van collega's?</li>
+                    <li>Welke ontwikkeling hebben zij nodig?</li>
+                    <li>Hoe volgen en beoordelen we de ontwikkeling van deze competenties?</li>
+                </ul>
+                <p>Technologische ontwikkelingen gaan razendsnel. ICT is een krachtig middel om de onderwijskwaliteit te verhogen, mits docenten bekwaam zijn in het gebruik ervan en zich blijven ontwikkelen. Dit vereist niet alleen specifieke competenties van docenten, maar ook een aangepaste organisatie van de onderwijsinstelling en een doordachte aanpak van professionalisering.</p>
+                <p><strong>Kernboodschap:</strong> Het is cruciaal dat competenties voor onderwijs met en over ICT tot de basisbagage van elke docent behoren. Deze handreiking helpt u daarbij.</p>
+            </div>
+
+            <div class="page-content" id="page-framework">
+                <h2>Docentprofessionalisering & ICT: Het Raamwerk</h2>
+                <p>Professionele ontwikkeling van docenten is essentieel. Het innoveren van onderwijs met ICT is complex ("dubbele innovatie"): anders inrichten én met nieuwe middelen.</p>
+                <p>Het <strong>Raamwerk docentcompetenties onderwijs met ICT</strong> (Uerz et al., 2021) biedt houvast met vier hoofddimensies:</p>
+                <ol>
+                    <li>Onderwijs ontwerpen, uitvoeren en evalueren</li>
+                    <li>Studenten toerusten voor de digitale samenleving</li>
+                    <li>Professioneel handelen als docent</li>
+                    <li>Digitale geletterdheid van de docent</li>
+                </ol>
+                <img src="https://via.placeholder.com/500x350/EEEEEE/3273DC?text=Figuur+1:+Raamwerk" alt="Figuur 1 Placeholder">
+                <p>Deze dimensies zijn onderling verbonden en vragen om een holistische benadering.</p>
+            </div>
+
+            <div class="page-content" id="page-buildingblocks">
+                <h2>Bouwstenen Effectieve Professionalisering</h2>
+                <p>Effectieve docentprofessionalisering (Schildkamp et al., 2021) houdt rekening met diverse kenmerken:</p>
+                <img src="https://via.placeholder.com/500x400/EEEEEE/3273DC?text=Figuur+2:+Bouwstenen" alt="Figuur 2 Placeholder">
+                <p><strong>Belangrijk:</strong> Afstemming op individuele docentkenmerken en regie voor de lerende zijn cruciaal.</p>
+            </div>
+
+             <div class="page-content" id="page-securing">
+                <h2>Borgen van Competenties in Organisatie en Standaarden</h2>
+                <p>ICT-vaardigheden zijn een <strong>collectieve verantwoordelijkheid</strong>. De instelling moet zorgen dat elke docent bekwaam is. Er is een balans nodig tussen ruimte voor de docent en expliciete verwachtingen van de organisatie.</p>
+                <p>Beoordelen en borgen vraagt afstemming van o.a. competentie-eisen, professionalisering en faciliteiten.</p>
+                <p><strong>Uitdaging:</strong> ICT-competenties zijn nog niet altijd geborgd in landelijke standaarden (PDG, BDB, BKO). Verankering is nodig.</p>
+            </div>
+
+            <div class="page-content" id="page-approach">
+                <h2>Aanpak van deze Verkenning</h2>
+                <p>Deze publicatie is gebaseerd op:</p>
+                <ul>
+                    <li><strong>Expertgesprekken:</strong> Met veertien inhoudelijke experts en praktijkprofessionals.</li>
+                    <li><strong>Literatuurverkenning:</strong> Aanvullend en gevoed door experts.</li>
+                </ul>
+                <p>De inzichten zijn gestructureerd rond thema’s relevant voor het volgen, toetsen en beoordelen van ICT-competentieniveaus.</p>
+            </div>
+
+            <!-- SECTIE 2 Content -->
+            <div class="page-content" id="page-assess-basis">
+                <h2>Basis Competentieontwikkeling Beoordelen</h2>
+                <p>Beoordelen moet passen bij de competenties en professionalisering. ICT-competenties zijn complex en gelaagd (vaardigheden & mindsets).</p>
+                <p>Reflectie, feedback en bewustwording ('teacher beliefs') zijn nodig. Effectiefst is leren door toe te passen in <strong>eigen werkcontext</strong>.</p>
+                <img src="https://via.placeholder.com/400x300/EEEEEE/3273DC?text=Figuur+3:+Piramide+van+Miller" alt="Figuur 3 Placeholder">
+                <div class="highlight-box">Directe toepassing van kennis in de praktijk versterkt het leren.</div>
+            </div>
+
+            <div class="page-content" id="page-assess-testing">
+                <h2>Passende Toetsing: Regie en Formatief Handelen</h2>
+                <p>Kwaliteitseis: <strong>'Constructive alignment'</strong> (Biggs, 1996) - afstemming leeruitkomsten, activiteiten, toetsing.</p>
+                <p>De lerende (onderwijsprofessional) moet <strong>regie</strong> hebben. Dit past bij de autonome professional en is effectief.</p>
+                <div class="highlight-box">Zelfregie in het leerproces maakt de docent sterker.</div>
+                <p>Een passende strategie is <strong>formatief handelen</strong>: focus op leerproces, cyclisch, inzicht gevend, informatie genererend.</p>
+                <div class="example-box">
+                    <strong>Voorbeeld: Master Ontwerpen van Eigentijds Leren (MOVEL)</strong>
+                    <p>Studenten (docenten) gebruiken een portfolio met leerervaringen uit eigen werkcontext. Dit wordt besproken in een criteriumgericht interview (CGI). Feedback, feedup en feedforward sturen het verdere leerproces.</p>
+                </div>
+            </div>
+
+            <div class="page-content" id="page-assess-programmatic">
+                <h2>Programmatisch Toetsen: De Uitgangspunten</h2>
+                <p>Formatief handelen, portfolio's en CGI's sluiten aan bij programmatisch toetsen (Van der Vleuten et al., 2018). Uitgangspunten:</p>
+                <ol>
+                    <li>Zak-/slaagbeslissingen nooit op basis van één datapunt.</li>
+                    <li>Verschillende toetsmethoden gebruiken.</li>
+                    <li>Zwaarte beslissing en aantal datapunten proportioneel.</li>
+                    <li>Reflectie en zelfsturing stimuleren via feedback/dialoog.</li>
+                    <li>Eindoordeel door mensen met voldoende expertise.</li>
+                </ol>
+                <p>Dit combineert holistisch en analytisch beoordelen.</p>
+            </div>
+            <!-- ... Add all other page content divs here, following the pattern ... -->
+
+            <div class="page-content" id="page-recommendations">
+                <h2>Acht Belangrijke Aanbevelingen</h2>
+                <p>Deze publicatie beoogt bij te dragen aan het instellingsbreed beoordelen en borgen van competenties voor onderwijsinnovatie met ICT. Hieronder acht belangrijke aanbevelingen:</p>
+
+                <div class="accordion-item">
+                    <div class="accordion-title">1. Gezamenlijke beelden bij competenties en gewenst niveau</div>
+                    <div class="accordion-content">
+                        <p>Maak helder welke competenties op het gebied van onderwijsinnovatie met ICT docenten op welk niveau moeten beheersen en hoe ze zich daar naartoe kunnen ontwikkelen.</p>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-title">2. Maatwerk in professionalisering</div>
+                    <div class="accordion-content">
+                        <p>Zorg dat docentprofessionalisering zowel individueel als teamgericht plaatsvindt, met aandacht voor persoonlijke leervragen en gezamenlijke verantwoordelijkheid.</p>
+                    </div>
+                </div>
+                <!-- Add other 6 recommendations similarly -->
+                 <div class="accordion-item">
+                    <div class="accordion-title">3. Lerende cultuur is essentieel</div>
+                    <div class="accordion-content"><p>Creëer een lerende cultuur waarin docenten zich gezien en ondersteund voelen. Een dubbele innovatie vraagt om experimenteerruimte waar fouten maken mag.</p></div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-title">4. Formatief handelen als effectieve strategie</div>
+                    <div class="accordion-content"><p>Stimuleer het leren door korte, cyclische feedbackmomenten en bied ruimte voor zelfregie.</p></div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-title">5. Beoordeling moet passen bij complexiteit</div>
+                    <div class="accordion-content"><p>Maak reflectie, feedback en inzicht onderdeel van het proces. Competentieontwikkeling omvat kennis, vaardigheden en overtuigingen.</p></div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-title">6. Betrouwbaarheid beoordeling hangt af van expertise</div>
+                    <div class="accordion-content"><p>Investeer in expertise van beoordelaars. Regelmatige kalibratie is belangrijk voor consistente beoordelingen.</p></div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-title">7. Certificering als motivator</div>
+                    <div class="accordion-content"><p>Maak competentieontwikkeling minder vrijblijvend via certificering. Dit maakt competentieniveau zichtbaar en kan motiveren, mits regie bij de lerende ligt.</p></div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-title">8. Competentieniveau duurzaam borgen</div>
+                    <div class="accordion-content"><p>Heb blijvende aandacht voor het borgen van ICT-competenties. Snelle technologische ontwikkelingen vragen periodieke bijstelling van inhoud en vorm.</p></div>
+                </div>
+            </div>
+
+            <div class="page-content" id="page-literature">
+                <h2>Literatuur (Selectie)</h2>
+                <p>Een selectie van de gebruikte bronnen:</p>
+                <ul>
+                    <li>Baartman, L., & van der Vleuten, C. (2015). <em>Kwaliteit van een toetsprogramma.</em></li>
+                    <li>Joosten-ten Brinke, D. (2022). <em>Toetsen, beoordelen en evalueren van het leren van volwassenen.</em></li>
+                    <li>Schildkamp, K., et al. (2021). <em>Bouwstenen voor effectieve docentprofessionalisering...</em></li>
+                    <li>Uerz, D., van Zanten, M., et al. (2021). <em>Raamwerk docentcompetenties voor onderwijs met ICT...</em></li>
+                    <!-- Add more as needed -->
+                </ul>
+                <p>Voor de volledige lijst, zie de originele handreiking.</p>
+            </div>
+
+            <div class="page-content" id="page-moreinfo">
+                <h2>Meer Weten?</h2>
+                <p>Voor de volledige handreiking in PDF-formaat, en voor meer informatie over gerelateerde projecten en publicaties, kunt u terecht op de website van iXperium Centre of Expertise:</p>
+                <p><a href="https://www.ixperium.nl/onderzoeken-en-ontwikkelen/publicaties/ingredienten-voor-het-instellingsbreed-borgen-van-competenties-voor-onderwijsinnovatie-met-ict/" target="_blank" rel="noopener noreferrer">Bezoek de iXperium Website</a></p>
+            </div>
+
+            <div class="page-content" id="page-colofon">
+                <h2>Colofon & Creative Commons</h2>
+                <p><strong>iXperium Centre of Expertise Leren met ict</strong><br>
+                Academie Educatie, HAN University of Applied Sciences<br>
+                www.ixperium.nl</p>
+                <p><strong>Auteurs:</strong> Manon van Zanten, Dana Uerz, Pieter van Rooij, Marloes Timmermans, Marijke Kral</p>
+                <p>iXperium Centre of Expertise Leren met ict 2025<br>
+                ISBN 9789083500003</p>
+                <p><strong>Licentie:</strong><br>
+                Deze handreiking is beschikbaar onder een Creative Commons Naamsvermelding-NietCommercieel 4.0 Internationaal (CC BY-NC 4.0) licentie.</p>
+                <p><a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener noreferrer">
+                    <img src="https://licensebuttons.net/l/by-nc/4.0/88x31.png" alt="CC BY-NC 4.0" style="border:0; max-width:88px;">
+                </a></p>
+            </div>
+
+
+        </main>
+    </div>
+
+    <footer>
+        <button id="prevBtn" disabled>&laquo; Vorige</button>
+        <div class="progress-container">
+            <div id="progress-bar"><div id="progress-fill"></div></div>
+            <span id="progress-text">0% Compleet</span>
+        </div>
+        <button id="nextBtn">Volgende &raquo;</button>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const sidebarLinks = document.querySelectorAll('#sidebar ul li a:not(.section-title a)');
+            const pageContents = document.querySelectorAll('.page-content');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const progressFill = document.getElementById('progress-fill');
+            const progressText = document.getElementById('progress-text');
+
+            // Create an ordered list of page IDs from the sidebar links
+            const pageOrder = Array.from(sidebarLinks).map(link => link.dataset.page);
+            let currentPageIndex = 0;
+
+            function showPage(pageIdToShow) {
+                // Hide all content pages
+                pageContents.forEach(page => page.classList.remove('active'));
+                // Remove active class from all sidebar links
+                sidebarLinks.forEach(link => link.classList.remove('active'));
+
+                // Find and show the target page
+                const targetPage = document.getElementById(pageIdToShow);
+                if (targetPage) {
+                    targetPage.classList.add('active');
+                    // Scroll content area to top
+                    document.getElementById('content-area').scrollTop = 0;
+                }
+
+                // Find and activate the target link
+                const targetLink = document.querySelector(`#sidebar a[data-page="${pageIdToShow}"]`);
+                if (targetLink) {
+                    targetLink.classList.add('active');
+                }
+
+                // Update current page index
+                currentPageIndex = pageOrder.indexOf(pageIdToShow);
+                if (currentPageIndex === -1) currentPageIndex = 0; // Fallback
+
+                updateNavigationButtons();
+                updateProgressBar();
+            }
+
+            function updateNavigationButtons() {
+                prevBtn.disabled = (currentPageIndex === 0);
+                nextBtn.disabled = (currentPageIndex === pageOrder.length - 1);
+            }
+
+            function updateProgressBar() {
+                const percentage = Math.round(((currentPageIndex + 1) / pageOrder.length) * 100);
+                progressFill.style.width = percentage + '%';
+                progressText.textContent = percentage + '% Compleet';
+            }
+
+            sidebarLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const pageId = link.dataset.page;
+                    if (pageId) {
+                        showPage(pageId);
+                    }
+                });
+            });
+
+            prevBtn.addEventListener('click', () => {
+                if (currentPageIndex > 0) {
+                    currentPageIndex--;
+                    showPage(pageOrder[currentPageIndex]);
+                }
+            });
+
+            nextBtn.addEventListener('click', () => {
+                if (currentPageIndex < pageOrder.length - 1) {
+                    currentPageIndex++;
+                    showPage(pageOrder[currentPageIndex]);
+                }
+            });
+
+            // Show the first page initially
+            if (pageOrder.length > 0) {
+                showPage(pageOrder[0]);
+            }
+
+            // Basic accordion functionality (optional, for recommendations page)
+            const accordionTitles = document.querySelectorAll('.accordion-item .accordion-title');
+            accordionTitles.forEach(title => {
+                // For this simple HTML version, we'll just leave them open
+                // If you want toggle:
+                /*
+                title.addEventListener('click', () => {
+                    const content = title.nextElementSibling;
+                    if (content.style.display === 'block') {
+                        content.style.display = 'none';
+                    } else {
+                        content.style.display = 'block';
+                    }
+                });
+                */
+            });
+        });
+    </script>
+
+</body>
+</html>

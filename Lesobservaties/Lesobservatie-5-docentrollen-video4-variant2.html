@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analyse Klasinteractie: 5 Docentrollen</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px; /* Added some padding to body */
+            background-color: #f8f9fa; /* Slightly lighter background */
+            color: #343a40; /* Darker text for better contrast */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            text-align: center;
+            color: #0056b3; /* Main accent color */
+            margin-bottom: 30px;
+        }
+        #main-container {
+            display: flex;
+            width: 98%;
+            max-width: 1500px; /* Increased for more content */
+            margin-top: 20px;
+            background-color: #ffffff; /* White background for content */
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Softer shadow */
+            border-radius: 12px; /* More rounded corners */
+        }
+        #roles-panel {
+            width: 25%; /* Gave a bit more space */
+            padding: 25px;
+            border-right: 1px solid #dee2e6; /* Lighter border */
+            background-color: #e9ecef; /* Light gray for panel */
+            overflow-y: auto;
+            border-top-left-radius: 12px;
+            border-bottom-left-radius: 12px;
+        }
+        #roles-panel h2 {
+            margin-top: 0;
+            color: #0056b3;
+            font-size: 1.4em; /* Slightly larger */
+            border-bottom: 2px solid #0056b3;
+            padding-bottom: 12px;
+            margin-bottom: 20px; /* More space below header */
+        }
+        #role-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        #role-list li {
+            padding: 12px 15px; /* More padding */
+            cursor: pointer;
+            border-bottom: 1px solid #ced4da; /* Lighter border */
+            transition: background-color 0.2s, color 0.2s;
+            border-radius: 6px; /* Rounded list items */
+            margin-bottom: 8px; /* Space between items */
+            font-size: 0.95em;
+        }
+        #role-list li:last-child {
+            border-bottom: none;
+        }
+        #role-list li:hover {
+            background-color: #dfefff; /* Lighter hover */
+            color: #0056b3;
+        }
+        #role-list li.active {
+            background-color: #007bff; /* Bootstrap primary blue */
+            color: white;
+            font-weight: bold;
+        }
+        #video-analysis-panel {
+            width: 75%;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+        }
+        #player-container {
+            width: 100%;
+            margin-bottom: 30px; /* More space below video */
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        #player {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+        }
+        #analysis-display h3 {
+            margin-top: 0;
+            color: #0056b3;
+            font-size: 1.6em; /* Larger title for selected role */
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e0e0e0;
+            margin-bottom: 20px;
+        }
+        #analysis-display h3 .role-description {
+            font-size: 0.7em;
+            font-weight: normal;
+            color: #6c757d; /* Secondary text color */
+            display: block;
+            margin-top: 5px;
+        }
+        #analysis-content .criterion-item {
+            margin-bottom: 18px; /* Space between criteria */
+            padding-bottom: 12px;
+            border-bottom: 1px dashed #e9ecef;
+        }
+        #analysis-content .criterion-item:last-child {
+            border-bottom: none;
+        }
+        #analysis-content .criterion-text {
+            font-weight: bold;
+            color: #495057; /* Darker gray for criterion text */
+            margin-bottom: 5px;
+            display: block;
+        }
+        #analysis-content .criterion-rating {
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        #analysis-content .rating-plusplus { color: #28a745; } /* Green for ++ */
+        #analysis-content .rating-plus { color: #ffc107; } /* Yellow for + */
+        #analysis-content .rating-minus { color: #dc3545; } /* Red for - */
+        #analysis-content .criterion-explanation {
+            font-size: 0.9em;
+            line-height: 1.6;
+            color: #495057;
+        }
+        .timecode {
+            font-weight: bold;
+            color: #007bff;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .timecode:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Analyse Klasinteractie: 5 Docentrollen</h1>
+    <div id="main-container">
+        <div id="roles-panel">
+            <h2>Docentrollen</h2>
+            <ul id="role-list"></ul>
+        </div>
+        <div id="video-analysis-panel">
+            <div id="player-container">
+                <div id="player"></div>
+            </div>
+            <div id="analysis-display">
+                <h3 id="current-role-title">Selecteer een rol</h3>
+                <div id="analysis-content"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        var player;
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                videoId: 'gDT5xFGBXUw', // Video ID
+                playerVars: {
+                    'playsinline': 1,
+                    'hl': 'nl',
+                    'cc_lang_pref': 'nl'
+                }
+            });
+        }
+
+        function seekToTime(seconds) {
+            if (player && typeof player.seekTo === 'function') {
+                player.seekTo(seconds, true);
+                if (typeof player.playVideo === 'function') {
+                    player.playVideo();
+                }
+            }
+        }
+
+        const rolesData = [
+            {
+                name: "Gastheer",
+                description: "stemt af op leerlingen",
+                criteria: [
+                    { text: "1. ontvangt hij de ll en legt hij contact met hen en de klas?", rating: "+", explanation: "De docent start de les met een klassikale begroeting en een opstartopgave (<span class=\"timecode\" onclick=\"seekToTime(7)\">0:07</span>), wat contact met de klas als geheel legt. Voor een ++ score zou explicieter individueel contact bij binnenkomst (bijv. bij de deur) wenselijk zijn." },
+                    { text: "2. is hij zichtbaar, kijkt hij iedereen aan, is hij vriendelijk?", rating: "++", explanation: "De docent is de hele les zichtbaar, loopt rond (<span class=\"timecode\" onclick=\"seekToTime(41)\">0:41</span>, <span class=\"timecode\" onclick=\"seekToTime(583)\">9:43</span>), maakt oogcontact en heeft een vriendelijke, benaderbare houding." },
+                    { text: "3. is hij organisatorisch klaar om de klas te ontvangen?", rating: "++", explanation: "De les start direct met een opgave op het smartboard (<span class=\"timecode\" onclick=\"seekToTime(7)\">0:07</span>), wat duidt op een goede organisatorische voorbereiding. Materialen worden tijdig uitgedeeld (<span class=\"timecode\" onclick=\"seekToTime(480)\">8:00</span>)." },
+                    { text: "4. is hij toegankelijk en benaderbaar, geeft hij het voorbeeld?", rating: "++", explanation: "Leerlingen stellen vragen en de docent reageert geduldig en ondersteunend (<span class=\"timecode\" onclick=\"seekToTime(52)\">0:52</span>, <span class=\"timecode\" onclick=\"seekToTime(107)\">1:47</span>). Ze loopt rond en is beschikbaar voor hulp. Haar eigen focus en werkhouding zijn voorbeeldig." }
+                ]
+            },
+            {
+                name: "Presentator",
+                description: "vangt en richt de aandacht",
+                criteria: [
+                    { text: "1. heeft hij de opening voorbereid, kan hij aandacht vragen?", rating: "++", explanation: "De opening met de 'warm-up' (<span class=\"timecode\" onclick=\"seekToTime(7)\">0:07</span>) is goed voorbereid. De docent vraagt en krijgt effectief aandacht voor instructies." },
+                    { text: "2. vertelt hij in begrijpelijke taal en enthousiast met stem & lijf?", rating: "+", explanation: "De taal is begrijpelijk en duidelijk. Het enthousiasme is aanwezig (<span class=\"timecode\" onclick=\"seekToTime(158)\">2:38</span> bij uitleg grafiek), maar meer variatie in stem en dynamiek gedurende de gehele instructie zou de presentatie nog krachtiger kunnen maken." },
+                    { text: "3. kondigt hij het doel en de inhoud van de les aan?", rating: "++", explanation: "Ja, de docent verwijst expliciet naar het leerdoel (8.EE.6) op het bord (<span class=\"timecode\" onclick=\"seekToTime(256)\">4:16</span>) en legt uit wat er behandeld zal worden (rate of change and slope)." },
+                    { text: "4. staat hij stevig en congruent voor de klas, eist hij aandacht?", rating: "++", explanation: "De docent staat zelfverzekerd voor de klas en behoudt de aandacht, bijvoorbeeld bij het introduceren van nieuwe taken en het geven van instructies (<span class=\"timecode\" onclick=\"seekToTime(401)\">6:41</span>)." }
+                ]
+            },
+            {
+                name: "Didacticus",
+                description: "geeft instructie en zet leerlingen aan het werk",
+                criteria: [
+                    { text: "1. motiveert hij ll voor de leertaken, voor het vak?", rating: "+", explanation: "De relevantie van de 'warm-up' (prijs per pond <span class=\"timecode\" onclick=\"seekToTime(18)\">0:18</span>) is praktisch. De connectie met muziek CD's (<span class=\"timecode\" onclick=\"seekToTime(343)\">5:43</span>) is een goede poging de lesstof herkenbaar te maken. De expliciete motivatie *waarom* deze specifieke wiskunde belangrijk is, kan nog versterkt worden." },
+                    { text: "2. zet hij ll snel aan het werk en houdt hij de vaart in de klas?", rating: "++", explanation: "Leerlingen worden snel aan het werk gezet met de opstartopgave (<span class=\"timecode\" onclick=\"seekToTime(29)\">0:29</span>) en later met de hoofdtaak (<span class=\"timecode\" onclick=\"seekToTime(551)\">9:11</span>). De les heeft een goede voortgang." },
+                    { text: "3. geeft hij complete instructie met controle, laat hij daarna los?", rating: "++", explanation: "Instructies voor de opstartopgave (<span class=\"timecode\" onclick=\"seekToTime(14)\">0:14</span> - <span class=\"timecode\" onclick=\"seekToTime(27)\">0:27</span>) en de hoofdtaak (<span class=\"timecode\" onclick=\"seekToTime(401)\">6:41</span> - <span class=\"timecode\" onclick=\"seekToTime(431)\">7:11</span>) zijn duidelijk. De docent controleert begrip (bijv. <span class=\"timecode\" onclick=\"seekToTime(1000)\">16:40</span> bij individuele hulp) en laat leerlingen dan zelfstandig werken." },
+                    { text: "4. gebruikt hij passende werkvormen (met samenwerken)?", rating: "++", explanation: "Er is een mix van klassikale instructie, individueel werk ('private think time' <span class=\"timecode\" onclick=\"seekToTime(413)\">6:53</span>) en groepswerk (<span class=\"timecode\" onclick=\"seekToTime(417)\">6:57</span>), wat passend is voor de leerdoelen." },
+                    { text: "5. geeft hij ll zinvol commentaar op hun werk?", rating: "++", explanation: "De docent geeft specifieke en constructieve feedback tijdens het rondlopen, zoals het wijzen op een rekenfout of het bevestigen van een correcte aanpak (bijv. <span class=\"timecode\" onclick=\"seekToTime(41)\">0:41</span>, <span class=\"timecode\" onclick=\"seekToTime(1015)\">16:55</span>)." },
+                    { text: "6. stoort hij het leren niet en kijkt hij hoe er gewerkt wordt?", rating: "++", explanation: "De docent loopt observerend rond (<span class=\"timecode\" onclick=\"seekToTime(56)\">0:56</span>, <span class=\"timecode\" onclick=\"seekToTime(732)\">12:12</span>) en intervenieert gericht waar nodig, zonder het algehele leerproces van anderen te verstoren." },
+                    { text: "7. geeft hij les op hun niveau, vraagt hij niet te veel of te weinig?", rating: "+", explanation: "De opdrachten lijken over het algemeen passend. De docent checkt begrip bij individuele leerlingen (<span class=\"timecode\" onclick=\"seekToTime(974)\">16:14</span>). Expliciete differentiatie in de aangeboden opdrachten is niet direct zichtbaar, maar de individuele hulp suggereert aanpassing." },
+                    { text: "8. richt hij zich op leren, laat hij het zichtbaar/hoorbaar maken?", rating: "++", explanation: "Leerdoelen worden benoemd (<span class=\"timecode\" onclick=\"seekToTime(256)\">4:16</span>). Uitleg is gericht op begrip en het 'waarom' achter stappen, zoals de discussie over de betekenis van de helling in de opstartopgave (<span class=\"timecode\" onclick=\"seekToTime(142)\">2:22</span>) en het interpreteren van de uitkomst bij de CD-opgave (<span class=\"timecode\" onclick=\"seekToTime(1105)\">18:25</span>)." }
+                ]
+            },
+            {
+                name: "Pedagoog",
+                description: "zorgt voor veiligheid en grijpt in",
+                criteria: [
+                    { text: "1. zorgt hij voor een veilige sfeer, benoemt hij gewenst gedrag?", rating: "++", explanation: "De sfeer is positief en veilig. De docent stelt leerlingen gerust bij (vermeende) foute antwoorden (<span class=\"timecode\" onclick=\"seekToTime(93)\">1:33</span>, <span class=\"timecode\" onclick=\"seekToTime(107)\">1:47</span>, <span class=\"timecode\" onclick=\"seekToTime(138)\">2:18</span>). Gewenst gedrag wordt impliciet gestimuleerd door positieve bekrachtiging van inzet en antwoorden." },
+                    { text: "2. neemt hij ll serieus, kent hij ze, toont hij respect voor ll?", rating: "++", explanation: "De docent luistert aandachtig naar antwoorden en redeneringen van leerlingen, stelt vervolgvragen om hun denken te verduidelijken (<span class=\"timecode\" onclick=\"seekToTime(110)\">1:50</span>), en gebruikt consequent de namen van leerlingen, wat respect en erkenning toont." },
+                    { text: "3. heeft hij overwicht, benoemt hij wat hij ziet (1e overtreding)?", rating: "++", explanation: "De docent heeft duidelijk overwicht; de klas is over het algemeen taakgericht en respectvol. Er zijn geen duidelijke overtredingen te zien die direct ingrijpen vereisen, wat ook wijst op een goed klassenmanagement." },
+                    { text: "4. geeft hij complimenten waar mogelijk en beperkt hij straf?", rating: "++", explanation: "Er wordt veelvuldig positieve bekrachtiging en complimenten gegeven, zoals 'Very good' (<span class=\"timecode\" onclick=\"seekToTime(41)\">0:41</span>, <span class=\"timecode\" onclick=\"seekToTime(503)\">8:23</span>, <span class=\"timecode\" onclick=\"seekToTime(694)\">11:34</span>). Straffen zijn niet nodig of zichtbaar." },
+                    { text: "5. laat hij zijn gevoelens zien, kan hij beheerst boos worden?", rating: "+", explanation: "De docent toont positieve emoties zoals enthousiasme en geduld. Er was geen situatie die boosheid zou vereisen. Ze blijft te allen tijde beheerst en professioneel." },
+                    { text: "6. corrigeert hij ongewenst gedrag neutraal volgens de drieslag?", rating: "N.v.t.", explanation: "Geen ongewenst gedrag waargenomen dat expliciete correctie via de drieslag vereiste." },
+                    { text: "7. hanteert hij voor ieder bekende normen/regels rechtvaardig?", rating: "++ (aanname)", explanation: "De interacties lijken consistent en eerlijk voor alle leerlingen. Er zijn geen aanwijzingen van onrechtvaardige behandeling of willekeur." },
+                    { text: "8. laat hij leerlingen delen in verantwoordelijkheden?", rating: "+", explanation: "Leerlingen krijgen de verantwoordelijkheid om zelfstandig (<span class=\"timecode\" onclick=\"seekToTime(413)\">6:53</span>) en in groepen (<span class=\"timecode\" onclick=\"seekToTime(417)\">6:57</span>) te werken en hun bevindingen te delen. Meer expliciete gedeelde verantwoordelijkheid (bijv. voor klassenregels, uitdelen materialen) is niet direct zichtbaar, maar het eigenaarschap over het leerproces wordt wel gestimuleerd." }
+                ]
+            },
+            {
+                name: "Allrounder (Afsluiter)",
+                description: "sluit de les goed af",
+                criteria: [
+                    { text: "1. sluit hij de les op tijd af, laat hij opruimen en inpakken?", rating: "N.v.t.", explanation: "De video eindigt voordat de les volledig is afgesloten; dit kan niet beoordeeld worden." },
+                    { text: "2. geeft duidelijke instructie over het gewenste gedrag van ll", rating: "+", explanation: "Instructies voor de taak en de overgang naar groepswerk zijn duidelijk (<span class=\"timecode\" onclick=\"seekToTime(401)\">6:41</span>). Instructies specifiek voor het einde van de les/opruimen zijn niet zichtbaar." },
+                    { text: "3. rondt de les inhoudelijk af", rating: "N.v.t.", explanation: "De docent plant wel een klassikale bespreking van de groepsresultaten (<span class=\"timecode\" onclick=\"seekToTime(425)\">7:05</span>), wat een goede stap is naar inhoudelijke afronding, maar de daadwerkelijke afronding is niet in beeld." },
+                    { text: "4. geeft een samenvatting / overzicht van de les", rating: "N.v.t.", explanation: "Een volledige samenvatting van de les is niet zichtbaar in het beschikbare videomateriaal." }
+                ]
+            }
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const roleListElement = document.getElementById('role-list');
+            const analysisContentElement = document.getElementById('analysis-content');
+            const currentRoleTitleElement = document.getElementById('current-role-title');
+
+            rolesData.forEach(role => {
+                const li = document.createElement('li');
+                li.textContent = role.name;
+                li.setAttribute('data-role', role.name);
+                li.addEventListener('click', () => {
+                    displayRoleAnalysis(role.name);
+                    document.querySelectorAll('#role-list li').forEach(item => item.classList.remove('active'));
+                    li.classList.add('active');
+                });
+                roleListElement.appendChild(li);
+            });
+
+            function displayRoleAnalysis(roleName) {
+                analysisContentElement.innerHTML = ''; // Clear previous
+                
+                const role = rolesData.find(r => r.name === roleName);
+                if (!role) {
+                    currentRoleTitleElement.innerHTML = "Rol niet gevonden";
+                    return;
+                }
+
+                currentRoleTitleElement.innerHTML = `${role.name} <span class="role-description">${role.description}</span>`;
+
+                if (role.criteria && role.criteria.length > 0) {
+                    role.criteria.forEach(criterion => {
+                        const criterionDiv = document.createElement('div');
+criterionDiv.classList.add('criterion-item');
+                        
+                        const textP = document.createElement('span');
+                        textP.classList.add('criterion-text');
+                        textP.textContent = criterion.text;
+                        criterionDiv.appendChild(textP);
+
+                        const ratingSpan = document.createElement('span');
+                        ratingSpan.classList.add('criterion-rating');
+                        if (criterion.rating === "++") ratingSpan.classList.add('rating-plusplus');
+                        else if (criterion.rating === "+") ratingSpan.classList.add('rating-plus');
+                        else if (criterion.rating === "-") ratingSpan.classList.add('rating-minus');
+                        ratingSpan.textContent = `Beoordeling: ${criterion.rating}`;
+                        criterionDiv.appendChild(ratingSpan);
+
+                        const explanationP = document.createElement('p');
+                        explanationP.classList.add('criterion-explanation');
+                        explanationP.innerHTML = criterion.explanation; // Use innerHTML to render timecode spans
+                        criterionDiv.appendChild(explanationP);
+                        
+                        analysisContentElement.appendChild(criterionDiv);
+                    });
+                } else {
+                    const p = document.createElement('p');
+                    p.textContent = "Geen criteria geanalyseerd voor deze rol.";
+                    analysisContentElement.appendChild(p);
+                }
+            }
+            
+            // Display the first role by default if rolesData is not empty
+            if (rolesData.length > 0) {
+                displayRoleAnalysis(rolesData[0].name);
+                const firstRoleLi = roleListElement.querySelector(`li[data-role="${rolesData[0].name}"]`);
+                if (firstRoleLi) {
+                    firstRoleLi.classList.add('active');
+                }
+            }
+        });
+    </script>
+</body>
+</html>
