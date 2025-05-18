@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Advanced Digital Learning Aids - MŠMT Showcase</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; display: flex; height: 100vh; overflow: hidden; background-color: #fff; }
+    #navigation {
+      width: 280px;
+      min-width: 250px;
+      padding: 20px;
+      background-color: #003366; 
+      color: #ffffff;
+      height: 100vh;
+      overflow-y: auto;
+      box-sizing: border-box;
+    }
+    #navigation h3 {
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-size: 1.3em;
+      border-bottom: 1px solid #004080;
+      padding-bottom: 10px;
+    }
+    .tab-container { display: flex; flex-direction: column; }
+    .tab-container button {
+      background-color: transparent;
+      color: #e0e0e0;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      padding: 12px 15px;
+      transition: background-color 0.3s, color 0.3s;
+      font-size: 1em;
+      text-align: left;
+      width: 100%;
+      margin-bottom: 3px;
+      border-radius: 4px;
+    }
+    .tab-container button:hover { background-color: #004080; color: #ffffff; }
+    .tab-container button.active {
+      background-color: #0059b3; 
+      color: #ffffff;
+      font-weight: bold;
+    }
+
+    #main-content-area {
+      flex-grow: 1;
+      padding: 25px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+     #main-content-area h2 {
+        font-size: 1.8em;
+        color: #333;
+        margin-bottom: 20px;
+        text-align: left;
+    }
+
+    #player-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 800px;
+      min-height: 400px;
+      height: 650px; /* Default height, can adjust aspect ratio if needed */
+      background-color: #000;
+      margin-bottom: 25px;
+      align-self: flex-start;
+    }
+    #player {
+      width: 100%;
+      height: 100%;
+    }
+    #subtitles {
+      width: calc(100% - 20px); 
+      min-height: 40px;
+      text-align: center;
+      position: absolute;
+      bottom: 10px;
+      left: 10px; 
+      right: 10px; 
+      font-size: clamp(14px, 2.2vw, 18px);
+      color: white;
+      background-color: rgba(0, 0, 0, 0.65);
+      padding: 6px 10px;
+      text-shadow: 1px 1px 1px black, -1px -1px 1px black, 1px -1px 1px black, -1px 1px 1px black;
+      pointer-events: none;
+      z-index: 10;
+      box-sizing: border-box;
+      border-radius: 4px;
+      opacity: 0.95;
+      line-height: 1.3;
+    }
+
+    .tab-content {
+      display: none;
+      padding: 20px;
+      border: 1px solid #dee2e6;
+      border-radius: 5px;
+      background-color: #fdfdfd;
+      animation: fadeEffect 0.4s;
+      margin-top: 0;
+      width: 100%;
+      max-width: 800px;
+      align-self: flex-start;
+      box-sizing: border-box;
+    }
+    @keyframes fadeEffect { from {opacity: 0;} to {opacity: 1;} }
+    .tab-content h4 { 
+      margin-top: 0;
+      color: #003366; 
+      font-size: 1.4em;
+      margin-bottom: 15px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #003366;
+    }
+    .tab-content p.description {
+        margin-bottom: 20px;
+        font-size: 1em;
+        line-height: 1.6;
+        color: #495057;
+    }
+    .tab-content ul { list-style-type: none; padding-left: 0; }
+    .tab-content li { margin-bottom: 18px; font-size: 0.95em; line-height: 1.6; }
+    .tab-content li strong {
+      display: block;
+      margin-bottom: 5px;
+      color: #0056b3;
+      font-weight: bold;
+      font-size: 1.05em;
+    }
+     .tab-content li .answer {
+        color: #343a40;
+        padding-left: 10px; 
+    }
+    .tab-content a { color: #0069d9; text-decoration: none; font-weight: 600; }
+    .tab-content a:hover { text-decoration: underline; color: #0056b3; }
+
+  </style>
+</head>
+<body>
+
+  <div id="navigation">
+    <h3>Video Topics</h3>
+    <div class="tab-container">
+      <button class="tab-link" onclick="openTopic(event, 'VideoSummary')" id="defaultOpen">Video Summary</button>
+      <button class="tab-link" onclick="openTopic(event, 'IntroductionFunding')" data-seek="33">Intro & Funding</button>
+      <button class="tab-link" onclick="openTopic(event, 'PhysicsSamLabs')" data-seek="58">Physics: SAM Labs</button>
+      <button class="tab-link" onclick="openTopic(event, 'SchoolStrategy')" data-seek="139">School Strategy</button>
+      <button class="tab-link" onclick="openTopic(event, 'EnglishDashRobot')" data-seek="188">English: Dash Robot</button>
+      <button class="tab-link" onclick="openTopic(event, 'ICTCoordinator3DPrinting')" data-seek="204">ICT & 3D Printing</button>
+      <button class="tab-link" onclick="openTopic(event, 'Math3DPrinting')" data-seek="301">Math: 3D Printing</button>
+      <button class="tab-link" onclick="openTopic(event, 'OtherSubjectsMicrobit')" data-seek="314">Other Subjects: Micro:bit</button>
+      <button class="tab-link" onclick="openTopic(event, 'InformaticsCodeyRocky')" data-seek="364">Informatics: Codey Rocky</button>
+      <button class="tab-link" onclick="openTopic(event, 'ResourcesSupport')" data-seek="399">Resources & Support</button>
+    </div>
+  </div>
+
+  <div id="main-content-area">
+    <h2>Showcase: Advanced Digital Learning Aids in Czech Schools (MŠMT)</h2>
+    
+    <div style="align-self: flex-start; margin-bottom: 10px;">
+      <label for="subtitleLanguage" style="font-weight: bold;">Subtitle Language: </label>
+      <select id="subtitleLanguage" onchange="switchSubtitleLanguage()">
+        <option value="en" selected>English</option>
+        <option value="nl">Nederlands</option>
+        <!-- Add other languages here if VTT files are provided -->
+      </select>
+    </div>
+    <div id="player-wrapper">
+      <div id="player"></div>
+      <div id="subtitles"></div>
+    </div>
+
+    <div id="VideoSummary" class="tab-content">
+      <h4>Video Summary</h4>
+      <p class="description">This video by MŠMT (Ministry of Education, Youth and Sports, Czech Republic) showcases the effective use of advanced digital learning aids in a Czech elementary school (ZŠ Dr. Edvarda Beneše, Praha-Čakovice). It highlights how Ministry funding is enabling schools to integrate tools like programmable robots (SAM Labs, Dash, Micro:bit, Codey Rocky) and 3D printers across various subjects including Physics, English, Informatics, and Math. Teachers discuss their strategies for selecting and implementing these aids, emphasizing teamwork, teacher training, and the goal of developing students' computational thinking and digital competencies for the future. The video encourages other schools to explore these technologies and provides resources for further information.</p>
+    </div>
+
+    <div id="IntroductionFunding" class="tab-content">
+      <h4>Introduction & Funding</h4>
+      <p class="description">Overview of the Ministry's initiative and financial support for digital education.</p>
+      <ul>
+        <li><strong>Q: What is the purpose of the Ministry of Education's funding for schools?</strong>
+            <span class="answer">A: To help schools prevent the digital divide and acquire advanced digital learning aids. <a href="#" onclick="seekTo(33); return false;">(00:33)</a></span></li>
+        <li><strong>Q: Who is this video intended for?</strong>
+            <span class="answer">A: School principals, ICT coordinators, and teachers who are deciding on implementing digital learning aids. <a href="#" onclick="seekTo(46); return false;">(00:46)</a></span></li>
+      </ul>
+    </div>
+
+    <div id="PhysicsSamLabs" class="tab-content">
+      <h4>Physics: SAM Labs Classroom Kit</h4>
+      <p class="description">Demonstrating the use of SAM Labs for practical physics experiments.</p>
+      <ul>
+        <li><strong>Q: What digital tool is used in the physics class shown?</strong>
+            <span class="answer">A: The SAM Labs Classroom Kit, which includes sensors connectable to iPads via Bluetooth. <a href="#" onclick="seekTo(82); return false;">(01:22)</a></span></li>
+        <li><strong>Q: What experiment are the students conducting?</strong>
+            <span class="answer">A: They are building a winch to lift an object and then calculate the work and power of the motor. <a href="#" onclick="seekTo(93); return false;">(01:33)</a></span></li>
+      </ul>
+    </div>
+    
+    <div id="SchoolStrategy" class="tab-content">
+      <h4>School Strategy for Digital Aids</h4>
+      <p class="description">Insights into how the school selects and integrates digital learning tools.</p>
+      <ul>
+        <li><strong>Q: How does the school decide which digital aids to purchase?</strong>
+            <span class="answer">A: They often choose aids they already have experience with. The team of informatics teachers and subject teachers collaborate on decisions. <a href="#" onclick="seekTo(146); return false;">(02:26)</a>, <a href="#" onclick="seekTo(162); return false;">(02:42)</a></span></li>
+      </ul>
+    </div>
+
+    <div id="EnglishDashRobot" class="tab-content">
+      <h4>English: Dash Robot for Language Learning</h4>
+      <p class="description">Using programmable robots to enhance English language lessons.</p>
+      <ul>
+        <li><strong>Q: How is a programmable robot (Dash) used in English lessons?</strong>
+            <span class="answer">A: Children can record their voice, and the robot repeats it. This can be used for practicing pronunciation or interactive dialogues. <a href="#" onclick="seekTo(188); return false;">(03:08)</a></span></li>
+      </ul>
+    </div>
+
+    <div id="ICTCoordinator3DPrinting" class="tab-content">
+      <h4>ICT Coordination & 3D Printing</h4>
+      <p class="description">The role of the ICT coordinator and the application of 3D printing in education.</p>
+      <ul>
+        <li><strong>Q: How does the ICT coordinator choose digital aids?</strong>
+            <span class="answer">A: Through ongoing sharing with colleagues (e.g., Facebook groups, school teams), attending training, and then applying them in various subjects. <a href="#" onclick="seekTo(211); return false;">(03:31)</a></span></li>
+        <li><strong>Q: What is a favored digital tool for the ICT coordinator, and how is it used?</strong>
+            <span class="answer">A: 3D printing is highly attractive for students. They design and print items for home use (e.g., cable holders) and educational aids for the school. <a href="#" onclick="seekTo(243); return false;">(04:03)</a>, <a href="#" onclick="seekTo(261); return false;">(04:21)</a></span></li>
+        <li><strong>Q: What practical items have students 3D printed?</strong>
+            <span class="answer">A: Clocks (designing alarm clocks, adding mechanisms), Christmas tree decorations, and tokens for sports day events. <a href="#" onclick="seekTo(277); return false;">(04:37)</a></span></li>
+      </ul>
+    </div>
+    
+    <div id="Math3DPrinting" class="tab-content">
+      <h4>Mathematics: 3D Printed Aids</h4>
+      <p class="description">Creating custom tools for mathematics education using 3D printers.</p>
+      <ul>
+        <li><strong>Q: How is 3D printing used in mathematics?</strong>
+            <span class="answer">A: To create various rulers, protractors, aids for the Hejný method of mathematics, puzzles, blocks, and brain teasers. <a href="#" onclick="seekTo(306); return false;">(05:06)</a></span></li>
+      </ul>
+    </div>
+
+    <div id="OtherSubjectsMicrobit" class="tab-content">
+      <h4>Other Subjects: Micro:bit and Dash</h4>
+      <p class="description">Utilizing versatile tools like Micro:bit and Dash across different subjects.</p>
+      <ul>
+        <li><strong>Q: How is Micro:bit used in physics?</strong>
+            <span class="answer">A: To create thermometers. Students can design the thermometer, potentially collaborating with art teachers for aesthetics. <a href="#" onclick="seekTo(325); return false;">(05:25)</a></span></li>
+        <li><strong>Q: How is Micro:bit and Dash used in English?</strong>
+            <span class="answer">A: Micro:bit can display text. The Dash robot is used more often as it can speak, aiding language practice. <a href="#" onclick="seekTo(343); return false;">(05:43)</a></span></li>
+      </ul>
+    </div>
+
+    <div id="InformaticsCodeyRocky" class="tab-content">
+      <h4>Informatics: Codey Rocky Robot</h4>
+      <p class="description">Programming robots for specific movements in informatics class.</p>
+      <ul>
+        <li><strong>Q: What robot is used in the informatics class shown?</strong>
+            <span class="answer">A: Codey Rocky, programmed using the Makeblock application. <a href="#" onclick="seekTo(368); return false;">(06:08)</a>, <a href="#" onclick="seekTo(372); return false;">(06:12)</a></span></li>
+        <li><strong>Q: What task are the students programming the Codey Rocky robot to do?</strong>
+            <span class="answer">A: To perform rectilinear (straight line) motion and then curvilinear (curved) motion. <a href="#" onclick="seekTo(381); return false;">(06:21)</a></span></li>
+      </ul>
+    </div>
+
+    <div id="ResourcesSupport" class="tab-content">
+      <h4>Resources, Support, and Funding Conditions</h4>
+      <p class="description">Information on where to find support and guidelines for using educational funds.</p>
+      <ul>
+        <li><strong>Q: Where can schools find inspiration and information on digital aids?</strong>
+            <span class="answer">A: From MŠMT resources like edu.cz/digitalizujeme and by consulting IT Gurus (or "friends on the phone"). <a href="#" onclick="seekTo(401); return false;">(06:41)</a>, <a href="#" onclick="seekTo(420); return false;">(07:00)</a></span></li>
+        <li><strong>Q: What is important about using funds from the National Recovery Plan?</strong>
+            <span class="answer">A: They must be used in accordance with the specified conditions, purpose, and criteria published in Gazette 01/2022 or the official Call. <a href="#" onclick="seekTo(428); return false;">(07:08)</a></span></li>
+        <li><strong>Q: Where can more information be found?</strong>
+            <span class="answer">A: edu.cz/digitalizujeme and revize.edu.cz. <a href="#" onclick="seekTo(433); return false;">(07:13)</a> (Text on screen)</span></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <script>
+    let player;
+    let subtitles = [];
+    let animationFrameId = null; // Used to control the subtitle rendering loop
+
+    function onYouTubeIframeAPIReady() {
+      const currentOrigin = window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port: '');
+      player = new YT.Player('player', {
+        videoId: '__fUX5Z2JVU', // Correct Video ID
+        playerVars: {
+            'playsinline': 1,
+            'cc_load_policy': 0, // Disable YouTube's own CC
+            'iv_load_policy': 3, // Disable annotations
+            'origin': currentOrigin 
+        },
+        events: {
+          onReady: onPlayerReady,
+          onStateChange: onPlayerStateChange
+        }
+      });
+    }
+    
+    function switchSubtitleLanguage() {
+      const lang = document.getElementById('subtitleLanguage').value;
+      const filename = lang === 'nl' ? 'subtitles_nl.vtt' : 'subtitles_en.vtt';
+      loadSubtitles(filename);
+    }
+
+    async function loadSubtitles(file = 'subtitles_en.vtt') {
+      try {
+        const res = await fetch(file);
+        if (!res.ok) {
+            console.error('Failed to load subtitles. Status:', res.status, res.statusText);
+            document.getElementById('subtitles').innerText = 'Error: Subtitles not found.';
+            return;
+        }
+        const text = await res.text();
+        parseVTT(text);
+      } catch (error) {
+        console.error('Error fetching subtitles:', error);
+        document.getElementById('subtitles').innerText = 'Error: Could not load subtitles.';
+      }
+    }
+
+    function parseVTT(data) {
+        subtitles = [];
+        const lines = data.split(/\r?\n/);
+        let cue = null;
+        let textBuffer = '';
+
+        for (let i = 0; i < lines.length; i++) {
+            let line = lines[i].trim();
+            if (line === 'WEBVTT' || line === '') {
+                 if (line === '' && cue && textBuffer) { // Handle empty lines within a cue's text
+                    textBuffer += '\n'; 
+                 }
+                 continue;
+            }
+
+
+            if (line.includes('-->')) {
+                if (cue && textBuffer) { // Push previous cue if it has text
+                    cue.text = textBuffer.trim();
+                    subtitles.push(cue);
+                }
+                textBuffer = ''; // Reset text buffer for new cue
+                const [startStr, endStr] = line.split('-->');
+                try {
+                    cue = { start: parseTime(startStr.trim()), end: parseTime(endStr.trim()), text: '' };
+                } catch (e) {
+                    console.error("Error parsing timecode:", line, e);
+                    cue = null; // Invalidate cue if time parsing fails
+                }
+            } else if (cue) { // If it's not a timecode line and we have an active cue
+                if (textBuffer) textBuffer += '\n';
+                textBuffer += line;
+            }
+        }
+        // Push the last cue
+        if (cue && textBuffer) {
+            cue.text = textBuffer.trim();
+            subtitles.push(cue);
+        }
+    }
+
+
+    function parseTime(timeString) {
+        const parts = timeString.split(':');
+        let seconds;
+        // Expects HH:MM:SS.mmm or MM:SS.mmm
+        if (parts.length === 3) { // HH:MM:SS.mmm
+            seconds = (parseInt(parts[0], 10) * 3600) +
+                      (parseInt(parts[1], 10) * 60) +
+                      parseFloat(parts[2].replace(',', '.'));
+        } else if (parts.length === 2) { // MM:SS.mmm
+            seconds = (parseInt(parts[0], 10) * 60) +
+                      parseFloat(parts[1].replace(',', '.'));
+        } else {
+            console.error("Invalid VTT time format:", timeString);
+            return -1; // Invalid time
+        }
+        if (isNaN(seconds)) {
+            console.error("Parsed time resulted in NaN for:", timeString);
+            return -1;
+        }
+        return seconds;
+    }
+
+    function renderSubtitles() {
+      if (!player || typeof player.getCurrentTime !== 'function' || subtitles.length === 0) {
+        if (player && player.getPlayerState() === YT.PlayerState.PLAYING) { // Only recall if meant to be playing
+            animationFrameId = requestAnimationFrame(renderSubtitles);
+        }
+        return;
+      }
+      const currentTime = player.getCurrentTime();
+      const currentSubtitle = subtitles.find(cue => currentTime >= cue.start && currentTime <= cue.end);
+      document.getElementById('subtitles').innerText = currentSubtitle ? currentSubtitle.text : '';
+      
+      if (player.getPlayerState() === YT.PlayerState.PLAYING) {
+          animationFrameId = requestAnimationFrame(renderSubtitles);
+      } else {
+          animationFrameId = null; 
+      }
+    }
+
+    function onPlayerReady(event) {
+      loadSubtitles().then(() => {
+        // Subtitles are loaded, ready.
+      });
+    }
+
+    function onPlayerStateChange(event) {
+        if (event.data === YT.PlayerState.PLAYING) {
+            if (!animationFrameId) { 
+                animationFrameId = requestAnimationFrame(renderSubtitles);
+            }
+        } else {
+            if (animationFrameId) { 
+                cancelAnimationFrame(animationFrameId);
+                animationFrameId = null;
+            }
+            // Update subtitles one last time for paused/ended/cued state
+             if (player && typeof player.getCurrentTime === 'function' && subtitles.length > 0) {
+                const currentTime = player.getCurrentTime();
+                const currentSubtitle = subtitles.find(cue => currentTime >= cue.start && currentTime <= cue.end);
+                document.getElementById('subtitles').innerText = currentSubtitle ? currentSubtitle.text : '';
+            }
+        }
+    }
+    
+    function openTopic(evt, topicName) {
+      if (evt && evt.currentTarget && evt.currentTarget.dataset.seek) {
+        seekTo(parseFloat(evt.currentTarget.dataset.seek));
+      }
+
+      let i, tabcontent, tablinks;
+      tabcontent = document.getElementsByClassName("tab-content");
+      for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+      }
+      tablinks = document.getElementsByClassName("tab-link");
+      for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+      }
+      const targetTabContent = document.getElementById(topicName);
+      if (targetTabContent) {
+        targetTabContent.style.display = "block";
+      }
+      if (evt && evt.currentTarget) {
+        evt.currentTarget.className += " active";
+      }
+    }
+
+    function seekTo(seconds) {
+      if (player && typeof player.seekTo === 'function') {
+        player.seekTo(seconds, true);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const defaultOpenButton = document.getElementById('defaultOpen');
+        if (defaultOpenButton) {
+            openTopic({currentTarget: defaultOpenButton}, 'VideoSummary');
+        }
+        switchSubtitleLanguage(); // Load default subtitles on page load
+    });
+
+  </script>
+</body>
+</html>
