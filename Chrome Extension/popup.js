@@ -9,12 +9,17 @@ const imageLinksDiv = document.getElementById('imageLinks');
 const originalUrlsDiv = document.getElementById('originalUrls');
 const copyResolvedLinksButton = document.getElementById('copyResolvedLinksButton');
 const statusMessageDiv = document.getElementById('statusMessage');
+const extensionVersionDiv = document.getElementById('extensionVersion');
 
 function setStatus(message, isError = false) {
   statusMessageDiv.textContent = message;
   statusMessageDiv.style.color = isError ? 'red' : '#555';
 }
 
+// Display extension version
+if (extensionVersionDiv) {
+  extensionVersionDiv.textContent = `v${chrome.runtime.getManifest().version}`;
+}
 
 extractButton.addEventListener('click', async () => {
   setStatus("Extracting content...");
@@ -88,26 +93,34 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         let allResolvedLinksForCopy = ""; // For the copy button
 
         if (response && response.unshortenedLinks && response.unshortenedLinks.length > 0) {
-          originalUrlsDiv.innerHTML = ''; // Clear "unshortening" status
+          originalUrlsDiv.innerHTML = '';
 
           response.unshortenedLinks.forEach(item => {
             const div = document.createElement('div');
             const a = document.createElement('a');
-            a.href = item.originalUrl;
-            // Display only the original URL, but make it clickable
-            a.textContent = item.originalUrl;
-            a.title = `Original short link: ${item.shortUrl}`; // Tooltip for the original
+            a.href = item.resolvedUrl;
+            a.textContent = item.resolvedUrl;
+            a.title = `Original short link: ${item.shortUrl}`;
             a.target = "_blank";
             div.appendChild(a);
+            // Add manual resolve button
+            const resolveBtn = document.createElement('button');
+            resolveBtn.textContent = 'Resolve';
+            resolveBtn.className = 'secondary';
+            resolveBtn.style.marginLeft = '8px';
+            resolveBtn.onclick = () => {
+              chrome.runtime.sendMessage({ action: 'openLinkInTab', url: item.resolvedUrl });
+            };
+            div.appendChild(resolveBtn);
             originalUrlsDiv.appendChild(div);
 
-            allResolvedLinksForCopy += `${item.originalUrl}\n`; // Add to list for copying
+            allResolvedLinksForCopy += `${item.resolvedUrl}\n`;
 
             const placeholderRegex = new RegExp(item.placeholder.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g');
-            processedBody = processedBody.replace(placeholderRegex, item.originalUrl);
+            processedBody = processedBody.replace(placeholderRegex, item.resolvedUrl);
           });
           copyResolvedLinksButton.dataset.resolvedLinks = allResolvedLinksForCopy.trim();
-          setStatus("Extraction and link processing complete.", false);
+          setStatus("Extraction complete. Use the Resolve button to manually follow lnkd.in links.", false);
 
         } else if (response && response.error) {
             setStatus(`Error unshortening links: ${response.error}`, true);
@@ -178,3 +191,6 @@ copyResolvedLinksButton.addEventListener('click', () => {
     setStatus("No resolved links to copy.", false);
   }
 });
+
+// Change label to clarify these are lnkd.in links, not resolved links
+document.querySelector('label[for="originalUrls"]').textContent = 'lnkd.in Links (manual resolve):';

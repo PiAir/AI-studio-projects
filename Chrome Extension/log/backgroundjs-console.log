@@ -1,0 +1,9 @@
+background.js:274 Background service worker started/restarted.
+background.js:236 Service worker started. No offscreen document detected initially.
+background.js:218 Background: Received message not handled by specific if/else blocks or already responded to: {action: 'scrapedData', data: {…}}
+Access to fetch at 'https://lnkd.in/e2K5Rjw5' from origin 'chrome-extension://jjnbabfpadfcfckebgfdoahgbbofabfd' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+Unchecked runtime.lastError: Invalid value for bounds. Bounds must be at least 50% within visible screen space.
+background.js:96 Fetch failed loading: HEAD "https://lnkd.in/e2K5Rjw5".
+resolveShortUrl @ background.js:96
+(anonymous) @ background.js:182
+(anonymous) @ background.js:179

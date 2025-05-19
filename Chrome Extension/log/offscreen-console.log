@@ -1,0 +1,105 @@
+background.js:264 Background service worker started/restarted.
+background.js:226 Service worker started. No offscreen document detected initially.
+background.js:208 Background: Received message not handled by specific if/else blocks or already responded to: Object
+background.js:94 Attempting to resolve: https://lnkd.in/eFfcf2QH
+background.js:94 Attempting to resolve: https://lnkd.in/ewrYXiPa
+Access to fetch at 'https://lnkd.in/eFfcf2QH' from origin 'chrome-extension://jjnbabfpadfcfckebgfdoahgbbofabfd' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+background.js:144 Error unshortening https://lnkd.in/eFfcf2QH via initial fetch: Failed to fetch. Attempting offscreen as fallback.
+resolveShortUrl @ background.js:144
+await in resolveShortUrl
+(anonymous) @ background.js:173
+(anonymous) @ background.js:172
+Access to fetch at 'https://lnkd.in/ewrYXiPa' from origin 'chrome-extension://jjnbabfpadfcfckebgfdoahgbbofabfd' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+background.js:144 Error unshortening https://lnkd.in/ewrYXiPa via initial fetch: Failed to fetch. Attempting offscreen as fallback.
+resolveShortUrl @ background.js:144
+await in resolveShortUrl
+(anonymous) @ background.js:173
+(anonymous) @ background.js:172
+offscreen.js:3 Offscreen script v0.2.7 loaded.
+lnkd.in/li/track:1 
+            
+            
+           Failed to load resource: net::ERR_BLOCKED_BY_CLIENT
+lnkd.in/li/track:1 
+            
+            
+           Failed to load resource: net::ERR_BLOCKED_BY_CLIENT
+lnkd.in/li/track:1 
+            
+            
+           Failed to load resource: net::ERR_BLOCKED_BY_CLIENT
+lnkd.in/li/track:1 
+            
+            
+           Failed to load resource: net::ERR_BLOCKED_BY_CLIENT
+Refused to frame 'https://www.buzzsprout.com/' because an ancestor violates the following Content Security Policy directive: "frame-ancestors *". Note that '*' matches only URLs with network schemes ('http', 'https', 'ws', 'wss'), or URLs whose scheme matches `self`'s scheme. The scheme 'https:' must be added explicitly.
+
+lnkd.in/li/track:1 
+            
+            
+           Failed to load resource: net::ERR_BLOCKED_BY_CLIENT
+lnkd.in/li/track:1 
+            
+            
+           Failed to load resource: net::ERR_BLOCKED_BY_CLIENT
+lnkd.in/li/track:1 
+            
+            
+           Failed to load resource: net::ERR_BLOCKED_BY_CLIENT
+lnkd.in/li/track:1 
+            
+            
+           Failed to load resource: net::ERR_BLOCKED_BY_CLIENT
+offscreen.js:15 Uncaught SecurityError: Failed to read a named property 'href' from 'Location': Blocked a frame with origin "chrome-extension://jjnbabfpadfcfckebgfdoahgbbofabfd" from accessing a cross-origin frame.
+offscreen.js:15 Uncaught SecurityError: Failed to read a named property 'href' from 'Location': Blocked a frame with origin "chrome-extension://jjnbabfpadfcfckebgfdoahgbbofabfd" from accessing a cross-origin frame.
+background.js:208 Background: Received message not handled by specific if/else blocks or already responded to: Object
+background.js:94 Attempting to resolve: https://lnkd.in/eFfcf2QH
+background.js:94 Attempting to resolve: https://lnkd.in/ewrYXiPa
+Access to fetch at 'https://lnkd.in/eFfcf2QH' from origin 'chrome-extension://jjnbabfpadfcfckebgfdoahgbbofabfd' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+background.js:144 Error unshortening https://lnkd.in/eFfcf2QH via initial fetch: Failed to fetch. Attempting offscreen as fallback.
+resolveShortUrl @ background.js:144
+await in resolveShortUrl
+(anonymous) @ background.js:173
+(anonymous) @ background.js:172
+Access to fetch at 'https://lnkd.in/ewrYXiPa' from origin 'chrome-extension://jjnbabfpadfcfckebgfdoahgbbofabfd' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+background.js:144 Error unshortening https://lnkd.in/ewrYXiPa via initial fetch: Failed to fetch. Attempting offscreen as fallback.
+resolveShortUrl @ background.js:144
+await in resolveShortUrl
+(anonymous) @ background.js:173
+(anonymous) @ background.js:172
+lnkd.in/li/track:1 
+            
+            
+           Failed to load resource: net::ERR_BLOCKED_BY_CLIENT
+lnkd.in/li/track:1 
+            
+            
+           Failed to load resource: net::ERR_BLOCKED_BY_CLIENT
+lnkd.in/li/track:1 
+            
+            
+           Failed to load resource: net::ERR_BLOCKED_BY_CLIENT
+lnkd.in/li/track:1 
+            
+            
+           Failed to load resource: net::ERR_BLOCKED_BY_CLIENT
+Refused to frame 'https://www.buzzsprout.com/' because an ancestor violates the following Content Security Policy directive: "frame-ancestors *". Note that '*' matches only URLs with network schemes ('http', 'https', 'ws', 'wss'), or URLs whose scheme matches `self`'s scheme. The scheme 'https:' must be added explicitly.
+
+lnkd.in/li/track:1 
+            
+            
+           Failed to load resource: net::ERR_BLOCKED_BY_CLIENT
+lnkd.in/li/track:1 
+            
+            
+           Failed to load resource: net::ERR_BLOCKED_BY_CLIENT
+lnkd.in/li/track:1 
+            
+            
+           Failed to load resource: net::ERR_BLOCKED_BY_CLIENT
+lnkd.in/li/track:1 
+            
+            
+           Failed to load resource: net::ERR_BLOCKED_BY_CLIENT
+offscreen.js:15 Uncaught SecurityError: Failed to read a named property 'href' from 'Location': Blocked a frame with origin "chrome-extension://jjnbabfpadfcfckebgfdoahgbbofabfd" from accessing a cross-origin frame.
+offscreen.js:15 Uncaught SecurityError: Failed to read a named property 'href' from 'Location': Blocked a frame with origin "chrome-extension://jjnbabfpadfcfckebgfdoahgbbofabfd" from accessing a cross-origin frame.

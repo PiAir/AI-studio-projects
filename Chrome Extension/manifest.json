@@ -1,19 +1,18 @@
 {
   "manifest_version": 3,
-  "name": "LinkedIn Post to WordPress Helper",
-  "version": "0.1.4",
-  "description": "Extracts content from the active LinkedIn post page for easy copying to WordPress.",
+  "name": "LinkedIn Post Extractor",
+  "version": "0.2.17",
+  "description": "Extracts content from LinkedIn posts, including text, image URLs, and unshortens lnkd.in links.",
   "permissions": [
     "activeTab",
     "scripting",
-    "clipboardWrite",
     "offscreen",
-    "downloads"
+    "downloads",
+    "webNavigation"
   ],
-  "host_permissions": [
-    "*://*.lnkd.in/*",
-    "*://*.linkedin.com/*"
-  ],
+  "background": {
+    "service_worker": "background.js"
+  },
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
@@ -27,7 +26,7 @@
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
   },
-  "background": {
-    "service_worker": "background.js"
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'; frame-src https://* http://* blob: data:;"
   }
 }
