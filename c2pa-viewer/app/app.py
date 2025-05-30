@@ -6,7 +6,6 @@ from werkzeug.utils import secure_filename
 
 UPLOAD_FOLDER = 'uploads'
 JSON_OUTPUT_FOLDER = 'json_outputs'
-# GEWIJZIGD: 'jpg' en 'jpeg' toegevoegd aan toegestane extensies
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
 app = Flask(__name__)
@@ -41,50 +40,71 @@ def generate_c2pa_summary(parsed_json_data):
         if not manifest_data_to_parse:
             return ["Geen manifesten gevonden in de data."]
 
-        # Titel van het bestand uit het manifest halen (indien aanwezig)
-        manifest_title = manifest_data_to_parse.get("title")
-        if manifest_title:
-            # summary_points.append(f"Bestandstitel (uit manifest): {manifest_title}") # Optioneel
-            pass
-
-
-        claim_generator_info = manifest_data_to_parse.get("claim_generator_info")
-        if isinstance(claim_generator_info, list) and claim_generator_info:
-            claim_generator_name = claim_generator_info[0].get("name")
-            if claim_generator_name:
-                summary_points.append(f"Referenties afgegeven door: {claim_generator_name}")
+        # Prioriteit voor "created" action softwareAgent
+        created_by_tool = None
+        ai_generated_flag = False
 
         assertions = manifest_data_to_parse.get("assertions", [])
         actions_assertion = next((a for a in assertions if a.get("label") == "c2pa.actions.v2"), None)
+        
         if actions_assertion and isinstance(actions_assertion.get("data"), dict) and isinstance(actions_assertion["data"].get("actions"), list):
             for action_item in actions_assertion["data"]["actions"]:
                 if isinstance(action_item, dict):
                     action_type = action_item.get("action")
-                    software_agent_name = action_item.get("softwareAgent", {}).get("name")
+                    software_agent_info = action_item.get("softwareAgent") # Kan een string of dict zijn
+                    software_agent_name = None
+                    
+                    if isinstance(software_agent_info, dict):
+                        software_agent_name = software_agent_info.get("name")
+                    elif isinstance(software_agent_info, str): # Soms is softwareAgent direct een string
+                        software_agent_name = software_agent_info
+
                     digital_source_type = action_item.get("digitalSourceType")
 
                     if action_type == "c2pa.created":
                         if software_agent_name:
-                            summary_points.append(f"Gemaakt met: {software_agent_name}")
-                        else:
-                             summary_points.append(f"Gemaakt (bron: {digital_source_type or 'onbekend'})")
+                            created_by_tool = software_agent_name # Bewaar deze voor prominente weergave
                         if digital_source_type and "trainedAlgorithmicMedia" in digital_source_type:
-                            summary_points.append("AI is gebruikt om afbeelding (mogelijk volledig) te genereren.")
-                    elif software_agent_name:
-                        action_verb = action_type.split('.')[-1] if action_type else "bewerkt"
-                        summary_points.append(f"Afbeelding {action_verb} met: {software_agent_name}")
+                            ai_generated_flag = True
+                    # We kunnen hier nog andere acties loggen als dat gewenst is, maar focussen nu op 'created'
 
+        # Samenvatting opbouwen
+        if created_by_tool:
+            summary_points.append(f"Gemaakt met: {created_by_tool}")
+        
+        if ai_generated_flag:
+            # Voorkom dubbele melding als created_by_tool al "GPT" etc. bevat
+            if not created_by_tool or not any(ai_kw in created_by_tool.lower() for ai_kw in ["gpt", "dall-e", "firefly", "midjourney"]):
+                summary_points.append("AI is gebruikt om afbeelding (mogelijk volledig) te genereren.")
+        
+        # Claim generator als het nog niet genoemd is door created_by_tool
+        claim_generator_info = manifest_data_to_parse.get("claim_generator_info")
+        if isinstance(claim_generator_info, list) and claim_generator_info:
+            claim_generator_name = claim_generator_info[0].get("name")
+            if claim_generator_name and (not created_by_tool or created_by_tool.lower() != claim_generator_name.lower()):
+                 # Soms is claim_generator de tool, soms de organisatie.
+                 # Als het al in "Gemaakt met" staat, niet nogmaals toevoegen tenzij het de organisatie is.
+                if not any(cg_part in (created_by_tool or "").lower() for cg_part in claim_generator_name.lower().split()):
+                    summary_points.append(f"Referenties afgegeven door: {claim_generator_name}")
+
+
+        # Issuer van de signature
         signature_info = manifest_data_to_parse.get("signature_info", {})
         issuer = signature_info.get("issuer")
-        if issuer and (not claim_generator_info or issuer != claim_generator_info[0].get("name")):
+        # Voeg alleen toe als het nieuwe info is en nog niet genoemd
+        mentioned_parties = [p.split(': ')[-1].lower() for p in summary_points]
+        if issuer and issuer.lower() not in mentioned_parties:
             summary_points.append(f"Handtekening uitgegeven door: {issuer}")
         
         if not summary_points and manifest_data_to_parse:
              summary_points.append("Algemene C2PA-informatie aanwezig. Bekijk JSON voor details.")
         return summary_points if summary_points else ["Geen specifieke samenvattingspunten gevonden, bekijk de volledige JSON."]
+
     except Exception as e:
         app.logger.error(f"Error generating C2PA summary: {e}", exc_info=True)
         return [f"Kon geen samenvatting genereren (fout: {type(e).__name__}). Bekijk de volledige JSON."]
+
+# ... (rest van app.py blijft hetzelfde als in het vorige antwoord) ...
 
 @app.route('/', methods=['GET'])
 def index_get():
@@ -103,12 +123,7 @@ def upload_file():
     if file and allowed_file(file.filename):
         original_filename_base, original_file_ext = os.path.splitext(file.filename)
         secure_filename_base = secure_filename(original_filename_base)
-        
-        # Maak een unieke bestandsnaam om conflicten te voorkomen, maar behoud de extensie
-        # Dit is optioneel, maar goede praktijk als veel gebruikers uploaden
-        # Voor nu houden we het simpel met secure_filename
         processed_filename = secure_filename(file.filename)
-        
         filepath = os.path.join(app.config['UPLOAD_FOLDER'], processed_filename)
         file.save(filepath)
 
@@ -116,9 +131,7 @@ def upload_file():
         c2pa_summary_points = None
         error_message = None
         info_message = None
-        # JSON bestandsnaam baseren op de *verwerkte* (veilige) bestandsnaam
         json_filename_to_save = processed_filename + '.json'
-
 
         try:
             c2patool_path = '/usr/local/bin/c2patool'
@@ -156,7 +169,6 @@ def upload_file():
                 if is_no_c2pa_data_error:
                     info_message = "Geen C2PA-metadata aangetroffen in dit bestand."
                     c2pa_data_json_string = None 
-                    # json_filename_to_save blijft None als er geen data is
                 else:
                     error_message = f"c2patool fout (code {process.returncode}): {error_output}"
                 
@@ -172,15 +184,13 @@ def upload_file():
             error_message = f"Een onverwachte fout is opgetreden: {str(e)}"
 
         return render_template('index.html',
-                               filename=processed_filename, # Gebruik de verwerkte bestandsnaam voor weergave
+                               filename=processed_filename,
                                c2pa_data=c2pa_data_json_string,
                                c2pa_summary=c2pa_summary_points,
-                               # Alleen een downloadbare JSON-bestandsnaam als er data is en geen fout die dataverwerking voorkwam
                                json_download_filename=json_filename_to_save if c2pa_data_json_string and not error_message else None,
                                error=error_message,
                                info_message=info_message)
 
-    # GEWIJZIGD: flash-bericht aanpassen voor meerdere bestandstypes
     flash(f'Ongeldig bestandstype. Alleen {", ".join(ALLOWED_EXTENSIONS)} zijn toegestaan.')
     return redirect(url_for('index_get'))
 
