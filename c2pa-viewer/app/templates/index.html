@@ -5,8 +5,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PNG C2PA Metadata Viewer</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    {# << GEWIJZIGD: Highlight.js CSS via CDN >> #}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css"> {# Of kies een andere stijl, bijv. atom-one-dark.min.css #}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css"> {# Voorbeeld: GitHub stijl #}
+    <style>
+        .c2pa-summary {
+            background-color: #f8f9fa; /* Lichtgrijze achtergrond */
+            border: 1px solid #dee2e6; /* Subtiele rand */
+            border-radius: .25rem; /* Afgeronde hoeken */
+            padding: 1rem 1.25rem; /* Padding binnen de box */
+            margin-bottom: 1.5rem; /* Ruimte onder de samenvatting */
+            font-size: 0.95em;
+        }
+        .c2pa-summary h3 {
+            margin-top: 0;
+            margin-bottom: 0.75rem;
+            color: #212529; /* Donkere tekstkleur voor titel */
+            font-size: 1.1em; /* Iets kleinere titel dan H2 */
+            font-weight: 500;
+        }
+        .c2pa-summary ul {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 0;
+        }
+        .c2pa-summary ul li {
+            padding: 0.3rem 0;
+            display: flex;
+            align-items: center;
+            color: #495057; /* Iets lichtere tekstkleur voor items */
+        }
+        .c2pa-summary ul li .icon {
+            margin-right: 0.75em;
+            font-size: 1.3em; /* Iets grotere iconen */
+            min-width: 25px; /* Zorgt voor uitlijning als icoon mist */
+            text-align: center;
+        }
+        .json-controls {
+            margin-top: 1em;
+            margin-bottom: 0.5em; /* Ruimte voor JSON blok als het verschijnt */
+            text-align: left; /* Knoppen links */
+        }
+        .toggle-json-btn {
+            background-color: #6c757d;
+            color: white;
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.875em;
+            margin-right: 10px;
+        }
+        .toggle-json-btn:hover {
+            background-color: #5a6268;
+        }
+        /* Aanpassing voor de .button (download knop) om consistent te zijn met toggle knop */
+        .button { 
+            padding: 6px 12px;
+            font-size: 0.875em;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -40,17 +96,42 @@
             </div>
         {% endif %}
 
+        {% if c2pa_summary %}
+        <div class="c2pa-summary">
+            <h3>Referenties voor content</h3>
+            <ul>
+                {% for point in c2pa_summary %}
+                <li>
+                    {% if 'AI is gebruikt' in point %}
+                        <span class="icon">✨</span>
+                    {% elif 'Gemaakt met' in point or 'Bewerkt' in point or 'Gebruikte app' in point %}
+                        <span class="icon">💻</span>
+                    {% elif 'Referenties afgegeven' in point or 'Handtekening uitgegeven' in point %}
+                        <span class="icon">🛡️</span> {# Schildje voor issuer/signature authority #}
+                    {% else %}
+                        <span class="icon">ℹ️</span>
+                    {% endif %}
+                    {{ point }}
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
         {% if c2pa_data %}
-            <h2>C2PA Metadata (JSON)</h2>
-            <div id="c2pa-data">
-                <pre><code class="language-json">{{ c2pa_data }}</code></pre>
+            <div class="json-controls">
+                <button onclick="toggleJsonDisplay()" class="toggle-json-btn">Toon Volledige JSON</button>
+                {% if json_download_filename %}
+                <a href="{{ url_for('download_json', json_filename=json_download_filename) }}" class="button">Download JSON</a>
+                {% endif %}
             </div>
-            {% if json_download_filename %}
-            <div style="margin-top: 1em; text-align: center;">
-                <a href="{{ url_for('download_json', json_filename=json_download_filename) }}" class="button">Download C2PA Metadata (JSON)</a>
+            <div id="c2pa-data-container" style="display:none;">
+                <h2 style="margin-top:0.5em;">Volledige C2PA Metadata (JSON)</h2>
+                <div id="c2pa-data">
+                    <pre><code class="language-json">{{ c2pa_data }}</code></pre>
+                </div>
             </div>
-            {% endif %}
-        {% elif error %}
+        {% elif error and not c2pa_summary %}
              <h2>C2PA Metadata</h2>
             <div id="c2pa-data">
                 <pre>{{ error }}</pre>
@@ -62,11 +143,21 @@
         <p>© 2024 C2PA Viewer</p>
     </footer>
 
-    {# << GEWIJZIGD: Highlight.js JavaScript via CDN >> #}
-    {# Laadt de core library, die JSON zou moeten bevatten #}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-    {# Als JSON apart geladen moet worden (meestal niet nodig voor 11.x.x core) #}
-    {# <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/json.min.js"></script> #}
-    <script>hljs.highlightAll();</script>
+    <script>
+        hljs.highlightAll();
+
+        function toggleJsonDisplay() {
+            var jsonDataContainer = document.getElementById('c2pa-data-container');
+            var button = document.querySelector('.toggle-json-btn'); // Pak de eerste knop met die class
+            if (jsonDataContainer.style.display === 'none' || jsonDataContainer.style.display === '') {
+                jsonDataContainer.style.display = 'block';
+                button.textContent = 'Verberg Volledige JSON';
+            } else {
+                jsonDataContainer.style.display = 'none';
+                button.textContent = 'Toon Volledige JSON';
+            }
+        }
+    </script>
 </body>
 </html>

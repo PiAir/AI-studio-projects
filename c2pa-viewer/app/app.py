@@ -5,27 +5,78 @@ from flask import Flask, request, redirect, url_for, render_template, send_from_
 from werkzeug.utils import secure_filename
 
 UPLOAD_FOLDER = 'uploads'
-JSON_OUTPUT_FOLDER = 'json_outputs' # << NIEUWE MAPCONFIGURATIE
+JSON_OUTPUT_FOLDER = 'json_outputs'
 ALLOWED_EXTENSIONS = {'png'}
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.config['JSON_OUTPUT_FOLDER'] = JSON_OUTPUT_FOLDER # << NIEUWE MAPCONFIGURATIE
+app.config['JSON_OUTPUT_FOLDER'] = JSON_OUTPUT_FOLDER
 app.secret_key = 'supersecretkey'
 
-# Maak de mappen als ze niet bestaan
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
-if not os.path.exists(JSON_OUTPUT_FOLDER): # << NIEUWE MAP AANMAKEN
+if not os.path.exists(JSON_OUTPUT_FOLDER):
     os.makedirs(JSON_OUTPUT_FOLDER)
 
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-@app.route('/', methods=['GET'])
-def index():
-    return render_template('index.html')
+def generate_c2pa_summary(parsed_json_data):
+    """Genereert een eenvoudige samenvatting van C2PA data."""
+    summary_points = []
+    try:
+        if not parsed_json_data or "manifests" not in parsed_json_data:
+            return ["Geen valide C2PA manifest data gevonden voor samenvatting."]
+
+        # Probeer informatie uit het actieve manifest te halen
+        active_manifest_label = parsed_json_data.get("active_manifest")
+        if not active_manifest_label or active_manifest_label not in parsed_json_data["manifests"]:
+            # Val terug op het eerste manifest als actieve niet (goed) is gespecificeerd
+            if parsed_json_data["manifests"]:
+                active_manifest_label = list(parsed_json_data["manifests"].keys())[0]
+            else:
+                 return ["Geen manifesten gevonden in de data."]
+
+
+        manifest = parsed_json_data["manifests"].get(active_manifest_label, {})
+
+        # 1. Claim generator
+        claim_generator = manifest.get("claim_generator_info", [{}])[0].get("name")
+        if claim_generator:
+            summary_points.append(f"Referenties afgegeven door: {claim_generator}")
+
+        # 2. Acties - zoek naar "created" en "softwareAgent"
+        actions_assertion = next((a for a in manifest.get("assertions", []) if a.get("label") == "c2pa.actions.v2"), None)
+        if actions_assertion and "data" in actions_assertion and "actions" in actions_assertion["data"]:
+            for action_item in actions_assertion["data"]["actions"]:
+                action_type = action_item.get("action")
+                software_agent = action_item.get("softwareAgent", {}).get("name")
+                digital_source_type = action_item.get("digitalSourceType")
+
+                if action_type == "c2pa.created":
+                    if software_agent:
+                        summary_points.append(f"Gemaakt met: {software_agent}")
+                    if digital_source_type and "trainedAlgorithmicMedia" in digital_source_type:
+                        summary_points.append("Mogelijk (volledig) gegenereerd door AI.")
+                elif software_agent: # Voor andere acties zoals "converted", "edited"
+                    summary_points.append(f"Bewerkt/geconverteerd met: {software_agent}")
+        
+        # 3. Issuer van de signature
+        issuer = manifest.get("signature_info", {}).get("issuer")
+        if issuer and issuer != claim_generator : # Voeg alleen toe als het nieuwe info is
+            summary_points.append(f"Handtekening uitgever: {issuer}")
+
+
+        if not summary_points:
+            return ["Geen directe samenvattingspunten gevonden, bekijk de volledige JSON."]
+
+        return summary_points
+
+    except Exception as e:
+        # print(f"Error generating summary: {e}") # Voor debuggen
+        return [f"Kon geen samenvatting genereren (fout: {type(e).__name__}). Bekijk de volledige JSON."]
+
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
@@ -38,13 +89,14 @@ def upload_file():
         return redirect(url_for('index'))
 
     if file and allowed_file(file.filename):
-        original_filename = secure_filename(file.filename) # Bewaar originele bestandsnaam voor JSON
+        original_filename = secure_filename(file.filename)
         filepath = os.path.join(app.config['UPLOAD_FOLDER'], original_filename)
         file.save(filepath)
 
-        c2pa_data_json_string = None # Dit wordt de string voor weergave en opslag
+        c2pa_data_json_string = None
+        c2pa_summary_points = None # << NIEUW
         error_message = None
-        json_filename_to_save = original_filename + '.json' # bv. image.png.json
+        json_filename_to_save = original_filename + '.json'
 
         try:
             c2patool_path = '/usr/local/bin/c2patool'
@@ -58,25 +110,19 @@ def upload_file():
             if process.returncode == 0:
                 raw_json_output = process.stdout
                 try:
-                    # Parseer en formatteer voor nette weergave en opslag
                     parsed_json = json.loads(raw_json_output)
                     c2pa_data_json_string = json.dumps(parsed_json, indent=4)
+                    c2pa_summary_points = generate_c2pa_summary(parsed_json) # << GENEREER SAMENVATTING
 
-                    # Sla de geformatteerde JSON op
                     json_save_path = os.path.join(app.config['JSON_OUTPUT_FOLDER'], json_filename_to_save)
                     with open(json_save_path, 'w') as f_json:
                         f_json.write(c2pa_data_json_string)
-
                 except json.JSONDecodeError:
-                    # Als het geen valide JSON is, toon en sla het op zoals het is (minder waarschijnlijk nu het werkt)
                     c2pa_data_json_string = raw_json_output
                     error_message = "Output van c2patool was geen valide JSON, maar wordt wel getoond."
-                    # Sla de ruwe output op als het geen JSON is
                     json_save_path = os.path.join(app.config['JSON_OUTPUT_FOLDER'], json_filename_to_save)
-                    with open(json_save_path, 'w') as f_json: # Overschrijf met ruwe data
+                    with open(json_save_path, 'w') as f_json:
                         f_json.write(raw_json_output)
-
-
             else:
                 error_output = process.stderr or process.stdout
                 if "No C2PA marker found" in error_output or "No manifest found" in error_output:
@@ -85,7 +131,7 @@ def upload_file():
                     error_message = f"c2patool fout (code {process.returncode}): {error_output}"
                 if not error_output.strip():
                     error_message = f"c2patool gaf een foutcode {process.returncode} zonder specifieke melding."
-
+        # ... (rest van except blokken blijven hetzelfde) ...
         except FileNotFoundError:
             error_message = f"c2patool uitvoerbaar bestand niet gevonden op: {c2patool_path}. Controleer de Dockerfile."
         except PermissionError:
@@ -93,20 +139,26 @@ def upload_file():
         except Exception as e:
             error_message = f"Een onverwachte fout is opgetreden: {str(e)}"
 
+
         return render_template('index.html',
-                               filename=original_filename, # Dit is de PNG bestandsnaam
+                               filename=original_filename,
                                c2pa_data=c2pa_data_json_string,
-                               json_download_filename=json_filename_to_save if c2pa_data_json_string and not error_message else None, # Geef JSON bestandsnaam door voor downloadlink
+                               c2pa_summary=c2pa_summary_points, # << GEEF SAMENVATTING DOOR
+                               json_download_filename=json_filename_to_save if c2pa_data_json_string and not error_message else None,
                                error=error_message)
 
     flash('Ongeldig bestandstype, alleen PNG is toegestaan.')
     return redirect(url_for('index'))
 
+@app.route('/', methods=['GET']) # Moet boven upload_file staan of default render template index() aanroepen
+def index_get():
+    return render_template('index.html')
+
+
 @app.route('/uploads/<filename>')
 def get_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
-# << NIEUWE ROUTE VOOR DOWNLOADEN JSON >>
 @app.route('/download_json/<json_filename>')
 def download_json(json_filename):
     try:
@@ -116,11 +168,7 @@ def download_json(json_filename):
                                    mimetype='application/json')
     except FileNotFoundError:
         flash(f"JSON-bestand {json_filename} niet gevonden voor download.", "error")
-        # Redirect naar de hoofdpagina, of toon een 404-pagina
-        # We moeten de oorspronkelijke PNG-naam ergens vandaan halen om de pagina correct te renderen,
-        # wat lastig is als we alleen de json_filename hebben.
-        # Een simpele redirect is misschien het beste.
-        return redirect(url_for('index'))
+        return redirect(url_for('index_get')) # Verwijs naar de GET route voor index
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
