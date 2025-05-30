@@ -22,6 +22,14 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+def get_software_agent_name(agent_data):
+    """Helper om naam uit softwareAgent te halen, of het nu string of dict is."""
+    if isinstance(agent_data, str):
+        return agent_data
+    if isinstance(agent_data, dict):
+        return agent_data.get("name")
+    return None
+
 def generate_c2pa_summary(parsed_json_data):
     summary_points = []
     try:
@@ -40,60 +48,81 @@ def generate_c2pa_summary(parsed_json_data):
         if not manifest_data_to_parse:
             return ["Geen manifesten gevonden in de data."]
 
-        # Prioriteit voor "created" action softwareAgent
         created_by_tool = None
         ai_generated_flag = False
+        other_actions_agents = []
 
+        # 1. Claim Generator (verschillende mogelijke veldnamen)
+        claim_generator_text = None
+        if "claim_generator_info" in manifest_data_to_parse: # OpenAI-stijl
+            cg_info_list = manifest_data_to_parse["claim_generator_info"]
+            if isinstance(cg_info_list, list) and cg_info_list:
+                claim_generator_text = cg_info_list[0].get("name")
+        elif "claim_generator" in manifest_data_to_parse: # Adobe Firefly-stijl
+            claim_generator_text = manifest_data_to_parse["claim_generator"]
+            # Vaak bevat dit meer dan alleen de naam, bijv. "Adobe_Firefly adobe_c2pa/0.12.4..."
+            # Probeer de toolnaam eruit te filteren
+            if claim_generator_text and " " in claim_generator_text:
+                 possible_tool_name = claim_generator_text.split(" ")[0].replace("_", " ")
+                 if possible_tool_name.lower() in ["adobe firefly", "chatgpt", "openai"]: # Herken bekende tools
+                     claim_generator_text = possible_tool_name
+
+
+        # 2. Acties
         assertions = manifest_data_to_parse.get("assertions", [])
-        actions_assertion = next((a for a in assertions if a.get("label") == "c2pa.actions.v2"), None)
+        # Zoek naar c2pa.actions of c2pa.actions.v2
+        actions_assertion = next((a for a in assertions if a.get("label") in ["c2pa.actions", "c2pa.actions.v2"]), None)
         
         if actions_assertion and isinstance(actions_assertion.get("data"), dict) and isinstance(actions_assertion["data"].get("actions"), list):
             for action_item in actions_assertion["data"]["actions"]:
                 if isinstance(action_item, dict):
                     action_type = action_item.get("action")
-                    software_agent_info = action_item.get("softwareAgent") # Kan een string of dict zijn
-                    software_agent_name = None
-                    
-                    if isinstance(software_agent_info, dict):
-                        software_agent_name = software_agent_info.get("name")
-                    elif isinstance(software_agent_info, str): # Soms is softwareAgent direct een string
-                        software_agent_name = software_agent_info
-
+                    software_agent_name = get_software_agent_name(action_item.get("softwareAgent"))
                     digital_source_type = action_item.get("digitalSourceType")
 
                     if action_type == "c2pa.created":
                         if software_agent_name:
-                            created_by_tool = software_agent_name # Bewaar deze voor prominente weergave
+                            created_by_tool = software_agent_name
                         if digital_source_type and "trainedAlgorithmicMedia" in digital_source_type:
                             ai_generated_flag = True
-                    # We kunnen hier nog andere acties loggen als dat gewenst is, maar focussen nu op 'created'
+                    elif software_agent_name: # Andere acties
+                        if software_agent_name not in other_actions_agents: # Voorkom duplicaten
+                             other_actions_agents.append(software_agent_name)
+
 
         # Samenvatting opbouwen
         if created_by_tool:
             summary_points.append(f"Gemaakt met: {created_by_tool}")
-        
+        elif claim_generator_text and any(tool_kw in claim_generator_text.lower() for tool_kw in ["firefly", "chatgpt", "gpt", "dall-e"]):
+            # Als 'created_by_tool' mist, maar claim_generator lijkt een tool te zijn.
+            created_by_tool = claim_generator_text # Gebruik voor verdere logica
+            summary_points.append(f"Gemaakt met/door: {claim_generator_text}")
+
+
         if ai_generated_flag:
-            # Voorkom dubbele melding als created_by_tool al "GPT" etc. bevat
-            if not created_by_tool or not any(ai_kw in created_by_tool.lower() for ai_kw in ["gpt", "dall-e", "firefly", "midjourney"]):
+            if not created_by_tool or not any(ai_kw in created_by_tool.lower() for ai_kw in ["gpt", "dall-e", "firefly", "midjourney", "adobe"]):
                 summary_points.append("AI is gebruikt om afbeelding (mogelijk volledig) te genereren.")
         
-        # Claim generator als het nog niet genoemd is door created_by_tool
-        claim_generator_info = manifest_data_to_parse.get("claim_generator_info")
-        if isinstance(claim_generator_info, list) and claim_generator_info:
-            claim_generator_name = claim_generator_info[0].get("name")
-            if claim_generator_name and (not created_by_tool or created_by_tool.lower() != claim_generator_name.lower()):
-                 # Soms is claim_generator de tool, soms de organisatie.
-                 # Als het al in "Gemaakt met" staat, niet nogmaals toevoegen tenzij het de organisatie is.
-                if not any(cg_part in (created_by_tool or "").lower() for cg_part in claim_generator_name.lower().split()):
-                    summary_points.append(f"Referenties afgegeven door: {claim_generator_name}")
+        # Toon "Referenties afgegeven door" als het een andere entiteit is dan de creatietool
+        if claim_generator_text and (not created_by_tool or created_by_tool.lower() not in claim_generator_text.lower()):
+             summary_points.append(f"Referenties afgegeven door: {claim_generator_text}")
+
+
+        # Andere tools die betrokken waren (als die er zijn en niet al genoemd)
+        for agent in other_actions_agents:
+            if agent.lower() != (created_by_tool or "").lower() and agent.lower() != (claim_generator_text or "").lower():
+                summary_points.append(f"Ook gebruikt: {agent}")
 
 
         # Issuer van de signature
         signature_info = manifest_data_to_parse.get("signature_info", {})
         issuer = signature_info.get("issuer")
-        # Voeg alleen toe als het nieuwe info is en nog niet genoemd
-        mentioned_parties = [p.split(': ')[-1].lower() for p in summary_points]
-        if issuer and issuer.lower() not in mentioned_parties:
+        
+        # Voeg issuer alleen toe als het nog niet is genoemd (als tool, claim generator)
+        mentioned_entities = [created_by_tool, claim_generator_text]
+        mentioned_entities_lower = [e.lower() for e in mentioned_entities if e]
+        
+        if issuer and issuer.lower() not in mentioned_entities_lower:
             summary_points.append(f"Handtekening uitgegeven door: {issuer}")
         
         if not summary_points and manifest_data_to_parse:
@@ -104,7 +133,9 @@ def generate_c2pa_summary(parsed_json_data):
         app.logger.error(f"Error generating C2PA summary: {e}", exc_info=True)
         return [f"Kon geen samenvatting genereren (fout: {type(e).__name__}). Bekijk de volledige JSON."]
 
-# ... (rest van app.py blijft hetzelfde als in het vorige antwoord) ...
+# ... (rest van app.py blijft hetzelfde) ...
+# Zorg ervoor dat de routes en de main if-block correct zijn zoals in het vorige volledige app.py antwoord.
+# Hieronder alleen de relevante delen voor de duidelijkheid, de rest is identiek.
 
 @app.route('/', methods=['GET'])
 def index_get():
@@ -147,7 +178,7 @@ def upload_file():
                 try:
                     parsed_json = json.loads(raw_json_output)
                     c2pa_data_json_string = json.dumps(parsed_json, indent=4)
-                    c2pa_summary_points = generate_c2pa_summary(parsed_json)
+                    c2pa_summary_points = generate_c2pa_summary(parsed_json) # <<<< HIER GEBRUIKT
                     json_save_path = os.path.join(app.config['JSON_OUTPUT_FOLDER'], json_filename_to_save)
                     with open(json_save_path, 'w') as f_json:
                         f_json.write(c2pa_data_json_string)
