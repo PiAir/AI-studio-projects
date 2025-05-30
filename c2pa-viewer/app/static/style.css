@@ -1,0 +1,120 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+header {
+    background-color: #00447C; /* Dark blue, similar to Ixperium */
+    color: white;
+    padding: 1em 0;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 2em;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2em;
+}
+
+.container {
+    width: 80%;
+    max-width: 900px;
+    background-color: white;
+    padding: 2em;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    margin-bottom: 2em;
+}
+
+h2 {
+    color: #007BFF; /* A lighter blue for headings */
+    border-bottom: 2px solid #007BFF;
+    padding-bottom: 0.3em;
+    margin-top: 0;
+}
+
+.upload-area {
+    border: 2px dashed #007BFF;
+    border-radius: 8px;
+    padding: 2em;
+    text-align: center;
+    cursor: pointer;
+    background-color: #f9f9f9;
+    margin-bottom: 1.5em;
+}
+
+.upload-area p {
+    margin: 0;
+    font-size: 1.2em;
+    color: #555;
+}
+
+#fileElem {
+    display: none;
+}
+
+#gallery img {
+    max-width: 100%;
+    height: auto;
+    margin-top: 1em;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 5px;
+}
+
+#c2pa-data {
+    margin-top: 1.5em;
+    background-color: #282c34; /* Dark background for JSON */
+    color: #abb2bf; /* Light text for JSON */
+    padding: 1em;
+    border-radius: 5px;
+    overflow-x: auto; /* For long lines in JSON */
+    max-height: 400px; /* Scrollable for large JSON */
+}
+
+pre {
+    white-space: pre-wrap;       /* Since CSS 2.1 */
+    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}
+
+footer {
+    text-align: center;
+    padding: 1em 0;
+    color: #777;
+    font-size: 0.9em;
+    width: 100%;
+    margin-top: auto; /* Pushes footer to the bottom */
+}
+/* ... (bestaande CSS) ... */
+
+#c2pa-data {
+    margin-top: 1.5em;
+    /* Achtergrond wordt nu bepaald door highlight.js stijl, of zet een neutrale: */
+    /* background-color: #f6f8fa; */ /* Voorbeeld voor lichte stijl zoals GitHub */
+    /* color: #24292e; */ /* Voorbeeld voor lichte stijl zoals GitHub */
+    padding: 1em; /* Kan aangepast/verwijderd worden afhankelijk van hljs stijl */
+    border: 1px solid #ddd; /* Voeg een rand toe als de achtergrond wegvalt */
+    border-radius: 5px;
+    overflow-x: auto;
+    max-height: 500px; /* Iets meer ruimte misschien? */
+}
+
+/* De <pre> en <code> tags binnen #c2pa-data worden gestyled door highlight.js */
+/* Je kunt hier eventueel de standaard browser-styling voor <pre> resetten als nodig */
+#c2pa-data pre {
+    margin: 0; /* Verwijder standaard marge van pre als hljs stijl dit niet doet */
+    padding: 0; /* Verwijder standaard padding van pre als hljs stijl dit niet doet */
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}

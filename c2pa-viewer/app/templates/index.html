@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PNG C2PA Metadata Viewer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    {# << NIEUW: Highlight.js CSS >> #}
+    <link rel="stylesheet" href="{{ url_for('static', filename='highlight/github.min.css') }}"> {# Pas 'github.min.css' aan als je een andere stijl hebt gekozen #}
+</head>
+<body>
+    <header>
+        <h1>PNG C2PA Metadata Uitlezer</h1>
+    </header>
+
+    <div class="container">
+        <h2>Upload uw PNG-bestand</h2>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <ul class=flashes>
+            {% for category, message in messages %}
+              <li class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+        <form id="uploadForm" method="post" enctype="multipart/form-data" action="{{ url_for('upload_file') }}">
+            <div class="upload-area" id="drop-area">
+                <input type="file" name="file" id="fileElem" accept="image/png" required onchange="document.getElementById('uploadForm').submit()">
+                <label for="fileElem">
+                    <p>Sleep hier uw PNG-bestand naartoe of <strong>klik om te selecteren</strong>.</p>
+                </label>
+            </div>
+        </form>
+
+        {% if filename %}
+            <h2>Geüploade Afbeelding</h2>
+            <div id="gallery">
+                <img src="{{ url_for('get_file', filename=filename) }}" alt="Geüploade PNG">
+            </div>
+        {% endif %}
+
+        {% if c2pa_data %}
+            <h2>C2PA Metadata (JSON)</h2>
+            {# GEWIJZIGD: class="language-json" toegevoegd aan <pre> tag voor highlight.js #}
+            <div id="c2pa-data">
+                <pre><code class="language-json">{{ c2pa_data }}</code></pre>
+            </div>
+            {% if json_download_filename %}
+            <div style="margin-top: 1em; text-align: center;">
+                <a href="{{ url_for('download_json', json_filename=json_download_filename) }}" class="button">Download C2PA Metadata (JSON)</a>
+            </div>
+            {% endif %}
+        {% elif error %}
+             <h2>C2PA Metadata</h2>
+            <div id="c2pa-data">
+                {# Foutmeldingen willen we misschien niet als JSON highlighten, dus hier geen <code> tag #}
+                <pre>{{ error }}</pre>
+            </div>
+        {% endif %}
+    </div>
+
+    <footer>
+        <p>© 2024 C2PA Viewer</p>
+    </footer>
+
+    {# << NIEUW: Highlight.js JavaScript en initialisatie >> #}
+    <script src="{{ url_for('static', filename='highlight/highlight.min.js') }}"></script>
+    <script>hljs.highlightAll();</script>
+</body>
+</html>

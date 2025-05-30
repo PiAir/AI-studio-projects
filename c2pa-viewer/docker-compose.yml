@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "8055:5000" # Map poort 5000 van de host naar poort 5000 van de container
+    volumes:
+      - ./uploads:/app/uploads # Mount de lokale 'uploads' map naar '/app/uploads' in de container
+      - ./app/json_outputs:/app/json_outputs
+    environment:
+      - FLASK_ENV=development # Verander naar 'production' voor live deployment
+      - FLASK_DEBUG=1 # Zet op 0 voor productie
+    container_name: c2pa_viewer_web
+    restart: 'unless-stopped'
+    networks:
+      - lsio  
+      - nginx-network
+networks:
+     lsio:
+        external: true 
+     nginx-network:
+        external: true
