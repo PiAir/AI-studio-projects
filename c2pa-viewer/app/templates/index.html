@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>C2PA Metadata Viewer</title> {# Titel iets algemener #}
+    <title>C2PA Metadata Viewer</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
     <style>
-        /* ... (bestaande CSS stijlen voor summary, knoppen, etc. blijven hetzelfde) ... */
+        /* ... (bestaande CSS stijlen) ... */
         .c2pa-summary {
             background-color: #f8f9fa;
             border: 1px solid #dee2e6;
@@ -69,15 +69,25 @@
             color: #495057;
             margin-top: 1em;
         }
+        /* Stijl voor video player */
+        #gallery video {
+            max-width: 100%; /* Zorgt dat video niet breder is dan container */
+            height: auto;    /* Behoud aspect ratio */
+            display: block;  /* Voorkom extra ruimte onder video */
+            margin-top: 1em;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 5px;
+        }
     </style>
 </head>
 <body>
     <header>
-        <h1>C2PA Metadata Uitlezer</h1> {# Titel iets algemener #}
+        <h1>C2PA Metadata Uitlezer</h1>
     </header>
 
     <div class="container">
-        <h2>Upload uw afbeeldingsbestand (PNG, JPG)</h2> {# Tekst aangepast #}
+        <h2>Upload uw media bestand (PNG, JPG, MP4)</h2> {# Tekst aangepast #}
         {% with messages = get_flashed_messages(with_categories=true) %}
           {% if messages %}
             <ul class=flashes>
@@ -90,20 +100,31 @@
         <form id="uploadForm" method="post" enctype="multipart/form-data" action="{{ url_for('upload_file') }}">
             <div class="upload-area" id="drop-area">
                 {# GEWIJZIGD: accept attribuut aangepast #}
-                <input type="file" name="file" id="fileElem" accept="image/png, image/jpeg" required onchange="document.getElementById('uploadForm').submit()">
+                <input type="file" name="file" id="fileElem" accept="image/png, image/jpeg, video/mp4" required onchange="document.getElementById('uploadForm').submit()">
                 <label for="fileElem">
-                    <p>Sleep hier uw PNG of JPG bestand naartoe of <strong>klik om te selecteren</strong>.</p> {# Tekst aangepast #}
+                    <p>Sleep hier uw PNG, JPG of MP4 bestand naartoe of <strong>klik om te selecteren</strong>.</p> {# Tekst aangepast #}
                 </label>
             </div>
         </form>
 
         {% if filename %}
-            <h2>Geüploade Afbeelding</h2>
+            <h2>Geüploade Media</h2>
             <div id="gallery">
-                <img src="{{ url_for('get_file', filename=filename) }}" alt="Geüploade afbeelding">
+                {# GEWIJZIGD: Conditionele weergave voor image of video #}
+                {% if file_extension in ['png', 'jpg', 'jpeg'] %}
+                    <img src="{{ url_for('get_file', filename=filename) }}" alt="Geüploade afbeelding">
+                {% elif file_extension == 'mp4' %}
+                    <video controls width="600"> {# Width is een suggestie, kan aangepast #}
+                        <source src="{{ url_for('get_file', filename=filename) }}" type="video/mp4">
+                        Uw browser ondersteunt de video tag niet. Probeer een modernere browser.
+                    </video>
+                {% else %}
+                    <p>Voorbeeldweergave voor dit bestandstype ({{ file_extension }}) niet direct ondersteund.</p>
+                {% endif %}
             </div>
         {% endif %}
 
+        {# ... (rest van de C2PA summary en JSON weergave blijft hetzelfde) ... #}
         {% if c2pa_summary %}
         <div class="c2pa-summary">
             <h3>Referenties voor content</h3>
@@ -152,7 +173,7 @@
     </div>
 
     <footer>
-        <p>© 2024 C2PA Viewer</p>
+        <p>© 2024 C2PA Viewer - build using AI Studio</p>
     </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
