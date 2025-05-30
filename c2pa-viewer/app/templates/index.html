@@ -3,91 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>C2PA Metadata Viewer</title>
+    <title>C2PA & EXIF Metadata Viewer</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
     <style>
-        /* ... (bestaande CSS stijlen) ... */
-        .c2pa-summary {
-            background-color: #f8f9fa;
-            border: 1px solid #dee2e6;
-            border-radius: .25rem;
-            padding: 1rem 1.25rem;
-            margin-bottom: 1.5rem;
-            font-size: 0.95em;
+        body { font-family: 'Arial', sans-serif; margin: 0; padding: 0; background-color: #f4f4f4; color: #333; display: flex; flex-direction: column; align-items: center; min-height: 100vh;}
+        header { background-color: #00447C; color: white; padding: 1em 0; text-align: center; width: 100%; margin-bottom: 2em; }
+        header h1 { margin: 0; font-size: 2em; }
+        .container { width: 80%; max-width: 900px; background-color: white; padding: 2em; border-radius: 8px; box-shadow: 0 0 15px rgba(0,0,0,0.1); margin-bottom: 2em;}
+        h2 { color: #007BFF; border-bottom: 2px solid #007BFF; padding-bottom: 0.3em; margin-top: 0; }
+        .upload-area { border: 2px dashed #007BFF; border-radius: 8px; padding: 2em; text-align: center; cursor: pointer; background-color: #f9f9f9; margin-bottom: 1.5em; }
+        .upload-area p { margin: 0; font-size: 1.2em; color: #555; }
+        #fileElem { display: none; }
+        #gallery img, #gallery video, #gallery audio { max-width: 100%; height: auto; display: block; margin-top: 1em; border: 1px solid #ddd; border-radius: 4px; padding: 5px; }
+        #c2pa-data-content pre, #exif-data-content pre { white-space: pre-wrap; word-wrap: break-word; }
+        #c2pa-data-content, #exif-data-content { margin-top: 0.5em; background-color: #282c34; color: #abb2bf; padding: 1em; border-radius: 5px; overflow-x: auto; max-height: 400px;}
+        footer { text-align: center; padding: 1em 0; color: #777; font-size: 0.9em; width: 100%; margin-top: auto; }
+        .flashes { list-style-type: none; padding: 0; margin-bottom: 1em; }
+        .flashes li { padding: 0.75em; margin-bottom: 0.5em; border-radius: 4px; }
+        .flashes li.error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .flashes li.success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .flashes li.info { background-color: #cce5ff; color: #004085; border: 1px solid #b8daff; }
+        .c2pa-summary { background-color: #f8f9fa; border: 1px solid #dee2e6; border-radius: .25rem; padding: 1rem 1.25rem; margin-bottom: 1.5rem; font-size: 0.95em; }
+        .c2pa-summary h3 { margin-top: 0; margin-bottom: 0.75rem; color: #212529; font-size: 1.1em; font-weight: 500; }
+        .c2pa-summary ul { list-style: none; padding-left: 0; margin-bottom: 0; }
+        .c2pa-summary ul li { padding: 0.3rem 0; display: flex; align-items: center; color: #495057; }
+        .c2pa-summary ul li .icon { margin-right: 0.75em; font-size: 1.3em; min-width: 25px; text-align: center; }
+        .controls-set { margin-top: 1em; margin-bottom: 0.5em; text-align: left; }
+        .action-button, .toggle-data-btn {
+            background-color: #6c757d; color: white; padding: 8px 15px; border: none;
+            border-radius: 4px; cursor: pointer; font-size: 0.9em; margin-right: 10px;
+            text-decoration: none; display: inline-block; line-height: normal; margin-bottom: 5px;
         }
-        .c2pa-summary h3 {
-            margin-top: 0;
-            margin-bottom: 0.75rem;
-            color: #212529;
-            font-size: 1.1em;
-            font-weight: 500;
-        }
-        .c2pa-summary ul {
-            list-style: none;
-            padding-left: 0;
-            margin-bottom: 0;
-        }
-        .c2pa-summary ul li {
-            padding: 0.3rem 0;
-            display: flex;
-            align-items: center;
-            color: #495057;
-        }
-        .c2pa-summary ul li .icon {
-            margin-right: 0.75em;
-            font-size: 1.3em;
-            min-width: 25px;
-            text-align: center;
-        }
-        .json-controls {
-            margin-top: 1em;
-            margin-bottom: 0.5em;
-            text-align: left;
-        }
-        .action-button {
-            background-color: #6c757d;
-            color: white;
-            padding: 8px 15px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.9em;
-            margin-right: 10px;
-            text-decoration: none;
-            display: inline-block;
-            line-height: normal;
-        }
-        .action-button:hover {
-            background-color: #5a6268;
-        }
-        .info-message {
-            padding: 10px;
-            background-color: #e9ecef;
-            border: 1px solid #ced4da;
-            border-radius: 4px;
-            color: #495057;
-            margin-top: 1em;
-        }
-        /* Stijl voor video player */
-        #gallery video {
-            max-width: 100%; /* Zorgt dat video niet breder is dan container */
-            height: auto;    /* Behoud aspect ratio */
-            display: block;  /* Voorkom extra ruimte onder video */
-            margin-top: 1em;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            padding: 5px;
-        }
+        .action-button:hover, .toggle-data-btn:hover { background-color: #5a6268; }
+        .info-message { padding: 10px; background-color: #e9ecef; border: 1px solid #ced4da; border-radius: 4px; color: #495057; margin-top: 1em; }
+        .data-container { display:none; margin-top: 0.5em; }
+        .data-container h2 { margin-top:0; font-size: 1.3em; color: #007BFF; border-bottom: 1px solid #007BFF; padding-bottom: 0.2em; }
     </style>
 </head>
 <body>
     <header>
-        <h1>C2PA Metadata Uitlezer</h1>
+        <h1>C2PA & EXIF Metadata Uitlezer</h1>
     </header>
 
     <div class="container">
-        <h2>Upload uw media bestand (PNG, JPG, MP4)</h2> {# Tekst aangepast #}
+        <h2>Upload uw media bestand (PNG, JPG, MP4, WAV, MP3)</h2>
         {% with messages = get_flashed_messages(with_categories=true) %}
           {% if messages %}
             <ul class=flashes>
@@ -99,10 +59,9 @@
         {% endwith %}
         <form id="uploadForm" method="post" enctype="multipart/form-data" action="{{ url_for('upload_file') }}">
             <div class="upload-area" id="drop-area">
-                {# GEWIJZIGD: accept attribuut aangepast #}
-                <input type="file" name="file" id="fileElem" accept="image/png, image/jpeg, video/mp4" required onchange="document.getElementById('uploadForm').submit()">
+                <input type="file" name="file" id="fileElem" accept="image/png, image/jpeg, video/mp4, audio/wav, audio/mpeg" required onchange="document.getElementById('uploadForm').submit()">
                 <label for="fileElem">
-                    <p>Sleep hier uw PNG, JPG of MP4 bestand naartoe of <strong>klik om te selecteren</strong>.</p> {# Tekst aangepast #}
+                    <p>Sleep hier uw PNG, JPG, MP4, WAV of MP3 bestand naartoe of <strong>klik om te selecteren</strong>.</p>
                 </label>
             </div>
         </form>
@@ -110,35 +69,32 @@
         {% if filename %}
             <h2>Geüploade Media</h2>
             <div id="gallery">
-                {# GEWIJZIGD: Conditionele weergave voor image of video #}
                 {% if file_extension in ['png', 'jpg', 'jpeg'] %}
                     <img src="{{ url_for('get_file', filename=filename) }}" alt="Geüploade afbeelding">
                 {% elif file_extension == 'mp4' %}
-                    <video controls width="600"> {# Width is een suggestie, kan aangepast #}
-                        <source src="{{ url_for('get_file', filename=filename) }}" type="video/mp4">
-                        Uw browser ondersteunt de video tag niet. Probeer een modernere browser.
-                    </video>
+                    <video controls width="600">
+                        <source src="{{ url_for('get_file', filename=filename) }}" type="video/mp4">Uw browser ondersteunt video niet.</video>
+                {% elif file_extension in AUDIO_EXTENSIONS %}
+                    <audio controls>
+                        <source src="{{ url_for('get_file', filename=filename) }}" type="audio/{{ 'mpeg' if file_extension == 'mp3' else file_extension }}">
+                        Uw browser ondersteunt audio niet.
+                    </audio>
                 {% else %}
-                    <p>Voorbeeldweergave voor dit bestandstype ({{ file_extension }}) niet direct ondersteund.</p>
+                    <p>Voorbeeldweergave voor {{ file_extension }} niet direct ondersteund.</p>
                 {% endif %}
             </div>
         {% endif %}
 
-        {# ... (rest van de C2PA summary en JSON weergave blijft hetzelfde) ... #}
         {% if c2pa_summary %}
         <div class="c2pa-summary">
-            <h3>Referenties voor content</h3>
+            <h3>Referenties voor content (C2PA)</h3>
             <ul>
                 {% for point in c2pa_summary %}
                 <li>
-                    {% if 'AI is gebruikt' in point %}
-                        <span class="icon">✨</span>
-                    {% elif 'Gemaakt met' in point or 'Bewerkt' in point or 'Gebruikte app' in point %}
-                        <span class="icon">💻</span>
-                    {% elif 'Referenties afgegeven' in point or 'Handtekening uitgegeven' in point %}
-                        <span class="icon">🛡️</span>
-                    {% else %}
-                        <span class="icon">ℹ️</span>
+                    {% if 'AI is gebruikt' in point %} <span class="icon">✨</span>
+                    {% elif 'Gemaakt met' in point or 'Bewerkt' in point or 'Gebruikte app' in point %} <span class="icon">💻</span>
+                    {% elif 'Referenties afgegeven' in point or 'Handtekening uitgegeven' in point %} <span class="icon">🛡️</span>
+                    {% else %} <span class="icon">ℹ️</span>
                     {% endif %}
                     {{ point }}
                 </li>
@@ -147,48 +103,60 @@
         </div>
         {% endif %}
 
-        {% if c2pa_data %}
-            <div class="json-controls">
-                <button onclick="toggleJsonDisplay()" class="action-button">Toon Volledige JSON</button>
+        <div class="controls-set">
+            {% if c2pa_data %}
+                <button onclick="toggleDataDisplay('c2pa-data-container', this, 'C2PA JSON')" class="toggle-data-btn">Toon C2PA JSON</button>
                 {% if json_download_filename %}
-                <a href="{{ url_for('download_json', json_filename=json_download_filename) }}" class="action-button">Download JSON</a>
+                <a href="{{ url_for('download_json', json_filename=json_download_filename) }}" class="action-button">Download C2PA JSON</a>
                 {% endif %}
-            </div>
-            <div id="c2pa-data-container" style="display:none;">
-                <h2 style="margin-top:0.5em;">Volledige C2PA Metadata (JSON)</h2>
-                <div id="c2pa-data">
+            {% endif %}
+            {% if exif_data %}
+                <button onclick="toggleDataDisplay('exif-data-container', this, 'EXIF Data')" class="toggle-data-btn">Toon EXIF Data</button>
+            {% endif %}
+        </div>
+
+        {% if c2pa_data %}
+            <div id="c2pa-data-container" class="data-container">
+                <h2>Volledige C2PA Metadata (JSON)</h2>
+                <div id="c2pa-data-content">
                     <pre><code class="language-json">{{ c2pa_data }}</code></pre>
                 </div>
             </div>
-        {% elif info_message %}
-            <div class="info-message">
-                <p>{{ info_message }}</p>
+        {% endif %}
+
+        {% if exif_data %}
+            <div id="exif-data-container" class="data-container">
+                <h2>EXIF Data</h2>
+                <div id="exif-data-content">
+                    <pre><code class="language-json">{{ exif_data }}</code></pre>
+                </div>
             </div>
+        {% endif %}
+
+        {% if info_message and not c2pa_data %}
+            <div class="info-message"><p>{{ info_message }}</p></div>
         {% elif error and not c2pa_summary and not info_message %}
-             <h2>Fout bij C2PA Metadata</h2>
-            <div id="c2pa-data">
+             <h2 style="color: #dc3545;">Fout bij Metadata</h2> {# Fouttitel rood gemaakt #}
+            <div id="error-message-content" style="background-color: #f8d7da; color: #721c24; border-color: #f5c6cb; padding: 1em; border-radius: 5px;">
                 <pre>{{ error }}</pre>
             </div>
         {% endif %}
     </div>
 
-    <footer>
-        <p>© 2024 C2PA Viewer - build using AI Studio</p>
-    </footer>
+    <footer><p>© 2024 C2PA & EXIF Viewer - created by AI Studio</p></footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <script>
         hljs.highlightAll();
 
-        function toggleJsonDisplay() {
-            var jsonDataContainer = document.getElementById('c2pa-data-container');
-            var button = document.querySelector('.json-controls .action-button');
-            if (jsonDataContainer.style.display === 'none' || jsonDataContainer.style.display === '') {
-                jsonDataContainer.style.display = 'block';
-                button.textContent = 'Verberg Volledige JSON';
+        function toggleDataDisplay(containerId, buttonElement, dataTypeLabel) {
+            var dataContainer = document.getElementById(containerId);
+            if (dataContainer.style.display === 'none' || dataContainer.style.display === '') {
+                dataContainer.style.display = 'block';
+                buttonElement.textContent = 'Verberg ' + dataTypeLabel;
             } else {
-                jsonDataContainer.style.display = 'none';
-                button.textContent = 'Toon Volledige JSON';
+                dataContainer.style.display = 'none';
+                buttonElement.textContent = 'Toon ' + dataTypeLabel;
             }
         }
     </script>
