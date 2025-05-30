@@ -6,7 +6,8 @@ from werkzeug.utils import secure_filename
 
 UPLOAD_FOLDER = 'uploads'
 JSON_OUTPUT_FOLDER = 'json_outputs'
-ALLOWED_EXTENSIONS = {'png'}
+# GEWIJZIGD: 'jpg' en 'jpeg' toegevoegd aan toegestane extensies
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -39,6 +40,13 @@ def generate_c2pa_summary(parsed_json_data):
         
         if not manifest_data_to_parse:
             return ["Geen manifesten gevonden in de data."]
+
+        # Titel van het bestand uit het manifest halen (indien aanwezig)
+        manifest_title = manifest_data_to_parse.get("title")
+        if manifest_title:
+            # summary_points.append(f"Bestandstitel (uit manifest): {manifest_title}") # Optioneel
+            pass
+
 
         claim_generator_info = manifest_data_to_parse.get("claim_generator_info")
         if isinstance(claim_generator_info, list) and claim_generator_info:
@@ -93,15 +101,24 @@ def upload_file():
         return redirect(url_for('index_get'))
 
     if file and allowed_file(file.filename):
-        original_filename = secure_filename(file.filename)
-        filepath = os.path.join(app.config['UPLOAD_FOLDER'], original_filename)
+        original_filename_base, original_file_ext = os.path.splitext(file.filename)
+        secure_filename_base = secure_filename(original_filename_base)
+        
+        # Maak een unieke bestandsnaam om conflicten te voorkomen, maar behoud de extensie
+        # Dit is optioneel, maar goede praktijk als veel gebruikers uploaden
+        # Voor nu houden we het simpel met secure_filename
+        processed_filename = secure_filename(file.filename)
+        
+        filepath = os.path.join(app.config['UPLOAD_FOLDER'], processed_filename)
         file.save(filepath)
 
         c2pa_data_json_string = None
         c2pa_summary_points = None
-        error_message = None # Dit wordt gebruikt voor echte fouten
-        info_message = None  # Dit wordt gebruikt voor "geen metadata"
-        json_filename_to_save = original_filename + '.json'
+        error_message = None
+        info_message = None
+        # JSON bestandsnaam baseren op de *verwerkte* (veilige) bestandsnaam
+        json_filename_to_save = processed_filename + '.json'
+
 
         try:
             c2patool_path = '/usr/local/bin/c2patool'
@@ -132,14 +149,14 @@ def upload_file():
                 no_c2pa_messages = [
                     "No C2PA marker found", 
                     "No manifest found",
-                    "Error: No claim found" # Toegevoegd
+                    "Error: No claim found"
                 ]
                 is_no_c2pa_data_error = any(msg.lower() in error_output.lower() for msg in no_c2pa_messages)
 
                 if is_no_c2pa_data_error:
-                    info_message = "Geen C2PA-metadata aangetroffen in dit bestand." # Gebruik info_message
+                    info_message = "Geen C2PA-metadata aangetroffen in dit bestand."
                     c2pa_data_json_string = None 
-                    json_filename_to_save = None 
+                    # json_filename_to_save blijft None als er geen data is
                 else:
                     error_message = f"c2patool fout (code {process.returncode}): {error_output}"
                 
@@ -155,14 +172,16 @@ def upload_file():
             error_message = f"Een onverwachte fout is opgetreden: {str(e)}"
 
         return render_template('index.html',
-                               filename=original_filename,
+                               filename=processed_filename, # Gebruik de verwerkte bestandsnaam voor weergave
                                c2pa_data=c2pa_data_json_string,
                                c2pa_summary=c2pa_summary_points,
-                               json_download_filename=json_filename_to_save if c2pa_data_json_string else None,
+                               # Alleen een downloadbare JSON-bestandsnaam als er data is en geen fout die dataverwerking voorkwam
+                               json_download_filename=json_filename_to_save if c2pa_data_json_string and not error_message else None,
                                error=error_message,
-                               info_message=info_message) # << info_message doorgeven
+                               info_message=info_message)
 
-    flash('Ongeldig bestandstype, alleen PNG is toegestaan.')
+    # GEWIJZIGD: flash-bericht aanpassen voor meerdere bestandstypes
+    flash(f'Ongeldig bestandstype. Alleen {", ".join(ALLOWED_EXTENSIONS)} zijn toegestaan.')
     return redirect(url_for('index_get'))
 
 @app.route('/uploads/<filename>')

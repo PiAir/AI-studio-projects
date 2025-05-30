@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PNG C2PA Metadata Viewer</title>
+    <title>C2PA Metadata Viewer</title> {# Titel iets algemener #}
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
     <style>
+        /* ... (bestaande CSS stijlen voor summary, knoppen, etc. blijven hetzelfde) ... */
         .c2pa-summary {
             background-color: #f8f9fa;
             border: 1px solid #dee2e6;
@@ -44,41 +45,39 @@
             margin-bottom: 0.5em;
             text-align: left;
         }
-        /* Uniforme knopstijl */
         .action-button {
-            background-color: #6c757d; /* Grijs */
+            background-color: #6c757d;
             color: white;
-            padding: 8px 15px; /* Iets meer padding */
+            padding: 8px 15px;
             border: none;
             border-radius: 4px;
             cursor: pointer;
             font-size: 0.9em;
             margin-right: 10px;
-            text-decoration: none; /* Voor <a> tags */
-            display: inline-block; /* Voor <a> tags */
-            line-height: normal; /* Zorgt voor betere verticale uitlijning */
+            text-decoration: none;
+            display: inline-block;
+            line-height: normal;
         }
         .action-button:hover {
             background-color: #5a6268;
         }
-        .info-message { /* Stijl voor het "geen metadata" bericht */
+        .info-message {
             padding: 10px;
-            background-color: #e9ecef; /* Lichtgrijs, iets donkerder dan summary */
+            background-color: #e9ecef;
             border: 1px solid #ced4da;
             border-radius: 4px;
             color: #495057;
             margin-top: 1em;
         }
-
     </style>
 </head>
 <body>
     <header>
-        <h1>PNG C2PA Metadata Uitlezer</h1>
+        <h1>C2PA Metadata Uitlezer</h1> {# Titel iets algemener #}
     </header>
 
     <div class="container">
-        <h2>Upload uw PNG-bestand</h2>
+        <h2>Upload uw afbeeldingsbestand (PNG, JPG)</h2> {# Tekst aangepast #}
         {% with messages = get_flashed_messages(with_categories=true) %}
           {% if messages %}
             <ul class=flashes>
@@ -90,9 +89,10 @@
         {% endwith %}
         <form id="uploadForm" method="post" enctype="multipart/form-data" action="{{ url_for('upload_file') }}">
             <div class="upload-area" id="drop-area">
-                <input type="file" name="file" id="fileElem" accept="image/png" required onchange="document.getElementById('uploadForm').submit()">
+                {# GEWIJZIGD: accept attribuut aangepast #}
+                <input type="file" name="file" id="fileElem" accept="image/png, image/jpeg" required onchange="document.getElementById('uploadForm').submit()">
                 <label for="fileElem">
-                    <p>Sleep hier uw PNG-bestand naartoe of <strong>klik om te selecteren</strong>.</p>
+                    <p>Sleep hier uw PNG of JPG bestand naartoe of <strong>klik om te selecteren</strong>.</p> {# Tekst aangepast #}
                 </label>
             </div>
         </form>
@@ -100,7 +100,7 @@
         {% if filename %}
             <h2>Geüploade Afbeelding</h2>
             <div id="gallery">
-                <img src="{{ url_for('get_file', filename=filename) }}" alt="Geüploade PNG">
+                <img src="{{ url_for('get_file', filename=filename) }}" alt="Geüploade afbeelding">
             </div>
         {% endif %}
 
@@ -126,7 +126,7 @@
         </div>
         {% endif %}
 
-        {% if c2pa_data %} {# JSON data en knoppen alleen tonen als er data is #}
+        {% if c2pa_data %}
             <div class="json-controls">
                 <button onclick="toggleJsonDisplay()" class="action-button">Toon Volledige JSON</button>
                 {% if json_download_filename %}
@@ -139,13 +139,13 @@
                     <pre><code class="language-json">{{ c2pa_data }}</code></pre>
                 </div>
             </div>
-        {% elif info_message %} {# Als er geen c2pa_data is, maar wel een info_message (zoals "geen metadata") #}
+        {% elif info_message %}
             <div class="info-message">
                 <p>{{ info_message }}</p>
             </div>
-        {% elif error and not c2pa_summary and not info_message %} {# Alleen echte fouten tonen als er geen summary of info is #}
+        {% elif error and not c2pa_summary and not info_message %}
              <h2>Fout bij C2PA Metadata</h2>
-            <div id="c2pa-data"> {# Kan hernoemd worden of een andere div voor fouten #}
+            <div id="c2pa-data">
                 <pre>{{ error }}</pre>
             </div>
         {% endif %}
@@ -161,7 +161,7 @@
 
         function toggleJsonDisplay() {
             var jsonDataContainer = document.getElementById('c2pa-data-container');
-            var button = document.querySelector('.json-controls .action-button'); // Specifieker maken
+            var button = document.querySelector('.json-controls .action-button');
             if (jsonDataContainer.style.display === 'none' || jsonDataContainer.style.display === '') {
                 jsonDataContainer.style.display = 'block';
                 button.textContent = 'Verberg Volledige JSON';
