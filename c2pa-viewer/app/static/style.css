@@ -96,25 +96,24 @@ footer {
     width: 100%;
     margin-top: auto; /* Pushes footer to the bottom */
 }
-/* ... (bestaande CSS) ... */
 
 #c2pa-data {
     margin-top: 1.5em;
-    /* Achtergrond wordt nu bepaald door highlight.js stijl, of zet een neutrale: */
-    /* background-color: #f6f8fa; */ /* Voorbeeld voor lichte stijl zoals GitHub */
-    /* color: #24292e; */ /* Voorbeeld voor lichte stijl zoals GitHub */
-    padding: 1em; /* Kan aangepast/verwijderd worden afhankelijk van hljs stijl */
-    border: 1px solid #ddd; /* Voeg een rand toe als de achtergrond wegvalt */
-    border-radius: 5px;
+    /* Achtergrond en kleur worden nu primair door de gekozen highlight.js stijl bepaald.
+       Je kunt hier een fallback of aanvullende styling doen. */
+    /* background-color: #f6f8fa; */ /* Voorbeeld passend bij GitHub lichte stijl */
+    padding: 0; /* Laat padding over aan de <pre> of de hljs-stijl zelf */
+    border: 1px solid #eaeaea; /* Lichte rand */
+    border-radius: 6px;
     overflow-x: auto;
-    max-height: 500px; /* Iets meer ruimte misschien? */
+    max-height: 500px;
 }
 
-/* De <pre> en <code> tags binnen #c2pa-data worden gestyled door highlight.js */
-/* Je kunt hier eventueel de standaard browser-styling voor <pre> resetten als nodig */
+/* De <pre> en <code> tags binnen #c2pa-data worden gestyled door highlight.js.
+   De hljs-stijlen voegen vaak zelf padding toe aan de <pre> of <code>. */
 #c2pa-data pre {
-    margin: 0; /* Verwijder standaard marge van pre als hljs stijl dit niet doet */
-    padding: 0; /* Verwijder standaard padding van pre als hljs stijl dit niet doet */
+    margin: 0;
     white-space: pre-wrap;
     word-wrap: break-word;
+    /* padding: 1em; */ /* Vaak al in hljs-stijl, anders hier toevoegen */
 }

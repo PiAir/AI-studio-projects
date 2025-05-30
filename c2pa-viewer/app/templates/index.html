@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PNG C2PA Metadata Viewer</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    {# << NIEUW: Highlight.js CSS >> #}
-    <link rel="stylesheet" href="{{ url_for('static', filename='highlight/github.min.css') }}"> {# Pas 'github.min.css' aan als je een andere stijl hebt gekozen #}
+    {# << GEWIJZIGD: Highlight.js CSS via CDN >> #}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css"> {# Of kies een andere stijl, bijv. atom-one-dark.min.css #}
 </head>
 <body>
     <header>
@@ -42,7 +42,6 @@
 
         {% if c2pa_data %}
             <h2>C2PA Metadata (JSON)</h2>
-            {# GEWIJZIGD: class="language-json" toegevoegd aan <pre> tag voor highlight.js #}
             <div id="c2pa-data">
                 <pre><code class="language-json">{{ c2pa_data }}</code></pre>
             </div>
@@ -54,7 +53,6 @@
         {% elif error %}
              <h2>C2PA Metadata</h2>
             <div id="c2pa-data">
-                {# Foutmeldingen willen we misschien niet als JSON highlighten, dus hier geen <code> tag #}
                 <pre>{{ error }}</pre>
             </div>
         {% endif %}
@@ -64,8 +62,11 @@
         <p>© 2024 C2PA Viewer</p>
     </footer>
 
-    {# << NIEUW: Highlight.js JavaScript en initialisatie >> #}
-    <script src="{{ url_for('static', filename='highlight/highlight.min.js') }}"></script>
+    {# << GEWIJZIGD: Highlight.js JavaScript via CDN >> #}
+    {# Laadt de core library, die JSON zou moeten bevatten #}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    {# Als JSON apart geladen moet worden (meestal niet nodig voor 11.x.x core) #}
+    {# <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/json.min.js"></script> #}
     <script>hljs.highlightAll();</script>
 </body>
 </html>
