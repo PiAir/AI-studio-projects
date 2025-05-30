@@ -5,7 +5,7 @@ from flask import Flask, request, redirect, url_for, render_template, send_from_
 from werkzeug.utils import secure_filename
 
 UPLOAD_FOLDER = 'uploads'
-JSON_OUTPUT_FOLDER = 'json_outputs' # Map voor opgeslagen JSON
+JSON_OUTPUT_FOLDER = 'json_outputs'
 ALLOWED_EXTENSIONS = {'png'}
 
 app = Flask(__name__)
@@ -13,7 +13,6 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['JSON_OUTPUT_FOLDER'] = JSON_OUTPUT_FOLDER
 app.secret_key = 'supersecretkey'
 
-# Maak de mappen als ze niet bestaan
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
 if not os.path.exists(JSON_OUTPUT_FOLDER):
@@ -24,7 +23,6 @@ def allowed_file(filename):
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 def generate_c2pa_summary(parsed_json_data):
-    """Genereert een eenvoudige samenvatting van C2PA data."""
     summary_points = []
     try:
         if not parsed_json_data or "manifests" not in parsed_json_data:
@@ -35,21 +33,19 @@ def generate_c2pa_summary(parsed_json_data):
 
         if active_manifest_label and active_manifest_label in parsed_json_data["manifests"]:
             manifest_data_to_parse = parsed_json_data["manifests"][active_manifest_label]
-        elif parsed_json_data["manifests"]: # Val terug op het eerste manifest
+        elif parsed_json_data["manifests"]:
             first_manifest_key = list(parsed_json_data["manifests"].keys())[0]
             manifest_data_to_parse = parsed_json_data["manifests"][first_manifest_key]
         
         if not manifest_data_to_parse:
             return ["Geen manifesten gevonden in de data."]
 
-        # 1. Claim generator
         claim_generator_info = manifest_data_to_parse.get("claim_generator_info")
         if isinstance(claim_generator_info, list) and claim_generator_info:
             claim_generator_name = claim_generator_info[0].get("name")
             if claim_generator_name:
                 summary_points.append(f"Referenties afgegeven door: {claim_generator_name}")
 
-        # 2. Acties
         assertions = manifest_data_to_parse.get("assertions", [])
         actions_assertion = next((a for a in assertions if a.get("label") == "c2pa.actions.v2"), None)
         if actions_assertion and isinstance(actions_assertion.get("data"), dict) and isinstance(actions_assertion["data"].get("actions"), list):
@@ -62,35 +58,25 @@ def generate_c2pa_summary(parsed_json_data):
                     if action_type == "c2pa.created":
                         if software_agent_name:
                             summary_points.append(f"Gemaakt met: {software_agent_name}")
-                        else: # Soms is er geen softwareAgent maar wel direct een digitalSourceType
+                        else:
                              summary_points.append(f"Gemaakt (bron: {digital_source_type or 'onbekend'})")
-
                         if digital_source_type and "trainedAlgorithmicMedia" in digital_source_type:
                             summary_points.append("AI is gebruikt om afbeelding (mogelijk volledig) te genereren.")
-                    
-                    elif software_agent_name : # Voor andere acties zoals "converted", "edited"
+                    elif software_agent_name:
                         action_verb = action_type.split('.')[-1] if action_type else "bewerkt"
                         summary_points.append(f"Afbeelding {action_verb} met: {software_agent_name}")
 
-
-        # 3. Issuer van de signature
         signature_info = manifest_data_to_parse.get("signature_info", {})
         issuer = signature_info.get("issuer")
-        # Voeg alleen toe als het nieuwe info is en nog niet genoemd als claim_generator
         if issuer and (not claim_generator_info or issuer != claim_generator_info[0].get("name")):
             summary_points.append(f"Handtekening uitgegeven door: {issuer}")
         
-        # Fallback als er helemaal geen punten zijn
         if not summary_points and manifest_data_to_parse:
              summary_points.append("Algemene C2PA-informatie aanwezig. Bekijk JSON voor details.")
-
-
         return summary_points if summary_points else ["Geen specifieke samenvattingspunten gevonden, bekijk de volledige JSON."]
-
     except Exception as e:
         app.logger.error(f"Error generating C2PA summary: {e}", exc_info=True)
         return [f"Kon geen samenvatting genereren (fout: {type(e).__name__}). Bekijk de volledige JSON."]
-
 
 @app.route('/', methods=['GET'])
 def index_get():
@@ -113,7 +99,8 @@ def upload_file():
 
         c2pa_data_json_string = None
         c2pa_summary_points = None
-        error_message = None
+        error_message = None # Dit wordt gebruikt voor echte fouten
+        info_message = None  # Dit wordt gebruikt voor "geen metadata"
         json_filename_to_save = original_filename + '.json'
 
         try:
@@ -131,24 +118,32 @@ def upload_file():
                     parsed_json = json.loads(raw_json_output)
                     c2pa_data_json_string = json.dumps(parsed_json, indent=4)
                     c2pa_summary_points = generate_c2pa_summary(parsed_json)
-
                     json_save_path = os.path.join(app.config['JSON_OUTPUT_FOLDER'], json_filename_to_save)
                     with open(json_save_path, 'w') as f_json:
                         f_json.write(c2pa_data_json_string)
                 except json.JSONDecodeError:
-                    c2pa_data_json_string = raw_json_output # Toon ruwe output als parsen mislukt
+                    c2pa_data_json_string = raw_json_output 
                     error_message = "Output van c2patool was geen valide JSON, maar wordt wel getoond."
-                    # Sla de ruwe output op
                     json_save_path = os.path.join(app.config['JSON_OUTPUT_FOLDER'], json_filename_to_save)
                     with open(json_save_path, 'w') as f_json:
                         f_json.write(raw_json_output)
-            else: # c2patool gaf een foutcode
+            else: 
                 error_output = process.stderr or process.stdout
-                if "No C2PA marker found" in error_output or "No manifest found" in error_output:
-                    error_message = "Geen C2PA-manifest gevonden in het bestand."
+                no_c2pa_messages = [
+                    "No C2PA marker found", 
+                    "No manifest found",
+                    "Error: No claim found" # Toegevoegd
+                ]
+                is_no_c2pa_data_error = any(msg.lower() in error_output.lower() for msg in no_c2pa_messages)
+
+                if is_no_c2pa_data_error:
+                    info_message = "Geen C2PA-metadata aangetroffen in dit bestand." # Gebruik info_message
+                    c2pa_data_json_string = None 
+                    json_filename_to_save = None 
                 else:
                     error_message = f"c2patool fout (code {process.returncode}): {error_output}"
-                if not error_output.strip(): # Fallback als er geen specifieke melding is
+                
+                if not error_output.strip() and not is_no_c2pa_data_error:
                     error_message = f"c2patool gaf een foutcode {process.returncode} zonder specifieke melding."
         
         except FileNotFoundError:
@@ -163,8 +158,9 @@ def upload_file():
                                filename=original_filename,
                                c2pa_data=c2pa_data_json_string,
                                c2pa_summary=c2pa_summary_points,
-                               json_download_filename=json_filename_to_save if c2pa_data_json_string and not error_message else None,
-                               error=error_message)
+                               json_download_filename=json_filename_to_save if c2pa_data_json_string else None,
+                               error=error_message,
+                               info_message=info_message) # << info_message doorgeven
 
     flash('Ongeldig bestandstype, alleen PNG is toegestaan.')
     return redirect(url_for('index_get'))

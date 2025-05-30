@@ -5,21 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PNG C2PA Metadata Viewer</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css"> {# Voorbeeld: GitHub stijl #}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
     <style>
         .c2pa-summary {
-            background-color: #f8f9fa; /* Lichtgrijze achtergrond */
-            border: 1px solid #dee2e6; /* Subtiele rand */
-            border-radius: .25rem; /* Afgeronde hoeken */
-            padding: 1rem 1.25rem; /* Padding binnen de box */
-            margin-bottom: 1.5rem; /* Ruimte onder de samenvatting */
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: .25rem;
+            padding: 1rem 1.25rem;
+            margin-bottom: 1.5rem;
             font-size: 0.95em;
         }
         .c2pa-summary h3 {
             margin-top: 0;
             margin-bottom: 0.75rem;
-            color: #212529; /* Donkere tekstkleur voor titel */
-            font-size: 1.1em; /* Iets kleinere titel dan H2 */
+            color: #212529;
+            font-size: 1.1em;
             font-weight: 500;
         }
         .c2pa-summary ul {
@@ -31,37 +31,45 @@
             padding: 0.3rem 0;
             display: flex;
             align-items: center;
-            color: #495057; /* Iets lichtere tekstkleur voor items */
+            color: #495057;
         }
         .c2pa-summary ul li .icon {
             margin-right: 0.75em;
-            font-size: 1.3em; /* Iets grotere iconen */
-            min-width: 25px; /* Zorgt voor uitlijning als icoon mist */
+            font-size: 1.3em;
+            min-width: 25px;
             text-align: center;
         }
         .json-controls {
             margin-top: 1em;
-            margin-bottom: 0.5em; /* Ruimte voor JSON blok als het verschijnt */
-            text-align: left; /* Knoppen links */
+            margin-bottom: 0.5em;
+            text-align: left;
         }
-        .toggle-json-btn {
-            background-color: #6c757d;
+        /* Uniforme knopstijl */
+        .action-button {
+            background-color: #6c757d; /* Grijs */
             color: white;
-            padding: 6px 12px;
+            padding: 8px 15px; /* Iets meer padding */
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            font-size: 0.875em;
+            font-size: 0.9em;
             margin-right: 10px;
+            text-decoration: none; /* Voor <a> tags */
+            display: inline-block; /* Voor <a> tags */
+            line-height: normal; /* Zorgt voor betere verticale uitlijning */
         }
-        .toggle-json-btn:hover {
+        .action-button:hover {
             background-color: #5a6268;
         }
-        /* Aanpassing voor de .button (download knop) om consistent te zijn met toggle knop */
-        .button { 
-            padding: 6px 12px;
-            font-size: 0.875em;
+        .info-message { /* Stijl voor het "geen metadata" bericht */
+            padding: 10px;
+            background-color: #e9ecef; /* Lichtgrijs, iets donkerder dan summary */
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            color: #495057;
+            margin-top: 1em;
         }
+
     </style>
 </head>
 <body>
@@ -107,7 +115,7 @@
                     {% elif 'Gemaakt met' in point or 'Bewerkt' in point or 'Gebruikte app' in point %}
                         <span class="icon">💻</span>
                     {% elif 'Referenties afgegeven' in point or 'Handtekening uitgegeven' in point %}
-                        <span class="icon">🛡️</span> {# Schildje voor issuer/signature authority #}
+                        <span class="icon">🛡️</span>
                     {% else %}
                         <span class="icon">ℹ️</span>
                     {% endif %}
@@ -118,11 +126,11 @@
         </div>
         {% endif %}
 
-        {% if c2pa_data %}
+        {% if c2pa_data %} {# JSON data en knoppen alleen tonen als er data is #}
             <div class="json-controls">
-                <button onclick="toggleJsonDisplay()" class="toggle-json-btn">Toon Volledige JSON</button>
+                <button onclick="toggleJsonDisplay()" class="action-button">Toon Volledige JSON</button>
                 {% if json_download_filename %}
-                <a href="{{ url_for('download_json', json_filename=json_download_filename) }}" class="button">Download JSON</a>
+                <a href="{{ url_for('download_json', json_filename=json_download_filename) }}" class="action-button">Download JSON</a>
                 {% endif %}
             </div>
             <div id="c2pa-data-container" style="display:none;">
@@ -131,9 +139,13 @@
                     <pre><code class="language-json">{{ c2pa_data }}</code></pre>
                 </div>
             </div>
-        {% elif error and not c2pa_summary %}
-             <h2>C2PA Metadata</h2>
-            <div id="c2pa-data">
+        {% elif info_message %} {# Als er geen c2pa_data is, maar wel een info_message (zoals "geen metadata") #}
+            <div class="info-message">
+                <p>{{ info_message }}</p>
+            </div>
+        {% elif error and not c2pa_summary and not info_message %} {# Alleen echte fouten tonen als er geen summary of info is #}
+             <h2>Fout bij C2PA Metadata</h2>
+            <div id="c2pa-data"> {# Kan hernoemd worden of een andere div voor fouten #}
                 <pre>{{ error }}</pre>
             </div>
         {% endif %}
@@ -149,7 +161,7 @@
 
         function toggleJsonDisplay() {
             var jsonDataContainer = document.getElementById('c2pa-data-container');
-            var button = document.querySelector('.toggle-json-btn'); // Pak de eerste knop met die class
+            var button = document.querySelector('.json-controls .action-button'); // Specifieker maken
             if (jsonDataContainer.style.display === 'none' || jsonDataContainer.style.display === '') {
                 jsonDataContainer.style.display = 'block';
                 button.textContent = 'Verberg Volledige JSON';
