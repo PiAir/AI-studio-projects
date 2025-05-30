@@ -1,0 +1,20 @@
+De bijgevoegde pdf bevat een dilemmaspel over studiedata.
+De eerste pagina's bevatten de rollen (steeds 2 pagina's per rol): Beleidsmedewerker, Docent, Onderzoeker, Studentbegeleider, Student, Functionaris voor gegevensbescherming, Ethische Commissie.
+Haal de informatie over de rollen (rol, naam, beschrijving, behoeften, houding) uit de pagina's en sla ze op in JSON formaat. Voeg ook een 'afbeelding' veld toe met een placeholder voor een afbeelding voor de rol. De QR-codes mag je negeren.
+Daarna komen de casussen. Elke casus heeft 1 of meerdere dilemma's:
+* Welzijnsmonitoring (3 dilemma’s): over studentbegeleiding en de zorgtaak van onderwijsinstellingen.
+* Monitoring van studiegedrag (4 dilemma’s): over de inzet van LMS-data om studiegedrag te volgen.
+* Data delen over instromers (2 dilemma’s): over het delen van studiedata met andere instellingen.
+* Predictive analytics (4 dilemma’s): over het voorspellen van studiesucces.
+* Uitwisselingsstudenten (3 dilemma’s): over wetenschappelijk onderzoek en het delen van studiedata.
+* Tweetalig onderwijs (1 dilemma): over rekenschap en communicatie bij beleidsonderzoek.
+* Onderwijsinnovatie (1 dilemma): over wetenschappelijk onderzoek en rolvermenging.
+Haal de informatie over elk dilemma (de casus-naam, titel van het dilemma, volgnummer van het dilemma binnen de casus, de bijbehorende rollen, de omschrijving, de antwoordopties, de reflectie) uit de pagina's en sla ze op in JSON formaat.
+Maak nu een enkel HTML document (met CSS - gebruik de opmaak van de PDF als voorbeeld en JavaScript).
+Voeg de beide JSON structuren toe aan het HTML document.
+De speler kan eerst 1 van de 7 casussen kiezen. Daarna krijgt hij de informatie van de voorkant van het kaartje bij het eerste dilemma van die casus te zien. Nog niet de reflectie.
+Eronder worden de voorkanten van de kaartjes van de bijbehorende rollen te zien. Als de speler op een rolkaartje klikt dan draait het kaartje om zodat ook de achterkant te lezen is (zorg voor CSS transitie).
+Als de speler op de kaart met het dilemma klikt, komt eerst de bevestigingsvraag of de speler klaar is met het gesprek en de overwegingen wil zien. Als de gebruiker ja klikt, wordt de overweging bij het dilemma getoond.
+Als er meerdere dilemma's binnen de casus zijn, krijgt de speler de optie om naar het volgende dilemma te gaan, er is altijd een knop om terug naar het startscherm te gaan.
+Zorg dat de pagina aantrekkelijk uitziet en responsief is, dus om kan gaan met verschillende schermafmetingen.
+

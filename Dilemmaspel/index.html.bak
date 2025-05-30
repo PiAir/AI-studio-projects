@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dilemmaspel Studiedata</title>
+    <style>
+        :root {
+            --color-beleidsmedewerker: #F08C2D;
+            --color-docent: #3E9B4C;
+            --color-onderzoeker: #2B78B7;
+            --color-studentbegeleider: #D6267F;
+            --color-student: #BFA130;
+            --color-fg: #3E3A87;
+            --color-ethische-commissie: #008C7F;
+            --color-text-light: #ffffff;
+            --color-text-dark: #333333;
+            --color-background: #f4f4f4;
+            --color-card-background: #ffffff;
+            --color-dilemma-welzijn: #D6267F;
+            --color-dilemma-monitoring: #F08C2D;
+            --color-dilemma-delen: #BFA130;
+            --color-dilemma-predictive: #3E3A87;
+            --color-dilemma-uitwisseling: #2B78B7;
+            --color-dilemma-tweetalig: #3E9B4C;
+            --color-dilemma-innovatie: #008C7F;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            background-color: var(--color-background);
+            color: var(--color-text-dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px; /* Max container breedte */
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        #start-screen h1, #dilemma-screen h1#casus-title-display {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--color-text-dark);
+        }
+        #start-screen h1#main-title {
+            font-size: 2.5em;
+            color: #2c3e50;
+        }
+
+
+        .case-buttons button, .nav-buttons button {
+            display: block;
+            width: 100%;
+            padding: 15px 20px;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+            cursor: pointer;
+            border: none;
+            border-radius: 8px;
+            color: var(--color-text-light);
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .case-buttons button:hover, .nav-buttons button:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .case-buttons button[data-casus="Welzijnsmonitoring"] { background-color: var(--color-dilemma-welzijn); }
+        .case-buttons button[data-casus="Monitoring van studiegedrag"] { background-color: var(--color-dilemma-monitoring); }
+        .case-buttons button[data-casus="Data delen over instromers"] { background-color: var(--color-dilemma-delen); }
+        .case-buttons button[data-casus="Predictive analytics"] { background-color: var(--color-dilemma-predictive); }
+        .case-buttons button[data-casus="Uitwisselingsstudenten"] { background-color: var(--color-dilemma-uitwisseling); }
+        .case-buttons button[data-casus="Tweetalig onderwijs"] { background-color: var(--color-dilemma-tweetalig); }
+        .case-buttons button[data-casus="Onderwijsinnovatie"] { background-color: var(--color-dilemma-innovatie); }
+
+
+        .card {
+            background-color: var(--color-card-background);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .dilemma-card-container {
+            margin-bottom: 30px;
+        }
+        
+        .dilemma-card {
+            cursor: pointer;
+            border-left: 10px solid;
+            transition: box-shadow 0.3s ease;
+        }
+        .dilemma-card:hover {
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        .dilemma-card .dilemma-icon {
+            font-size: 1.5em;
+            margin-right: 10px;
+            position: absolute;
+            bottom: 15px;
+            left: 20px;
+            opacity: 0.7;
+        }
+
+        .dilemma-card h2 {
+            margin-top: 0;
+            font-size: 1.8em;
+        }
+         .dilemma-card h2 .dilemma-number {
+            font-size: 0.8em;
+            font-weight: normal;
+            color: #777;
+        }
+
+        .dilemma-card ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .dilemma-card ul li {
+            margin-bottom: 10px;
+            padding: 10px 15px;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+            border-left: 3px solid #ddd;
+        }
+        .dilemma-card ul li strong {
+            margin-right: 8px;
+            color: var(--color-text-dark);
+        }
+
+        .reflection-card {
+            background-color: #e8f4fd;
+            border-left: 5px solid #2B78B7;
+            margin-top: 20px;
+            padding: 25px;
+        }
+        .reflection-card h3 {
+            color: #2B78B7;
+            margin-top: 0;
+        }
+
+        #roles-container {
+            display: flex;
+            flex-wrap: wrap; /* Allow cards to wrap to the next line */
+            gap: 20px; 
+            justify-content: center; /* Center cards if they don't fill the whole row */
+            padding-bottom: 10px; 
+        }
+
+        .role-card-wrapper {
+            width: 270px; /* Fixed width for better control with wrapping */
+            /* max-width: 280px; /* Removed as fixed width is set */
+            /* min-width: 250px; /* Removed as fixed width is set */
+            height: 500px; 
+            perspective: 1000px;
+            cursor: pointer;
+            flex: 0 0 auto; 
+            margin-bottom: 20px; 
+        }
+
+        .role-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: left;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            border-radius: 10px;
+        }
+
+        .role-card-wrapper.is-flipped .role-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .role-card-front, .role-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 10px;
+            padding: 20px; 
+            box-sizing: border-box;
+            overflow-y: auto; /* Allow vertical scroll WITHIN the card if content overflows */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .role-card-front {
+            color: white;
+        }
+        .role-card-front .role-image-placeholder {
+            width: 80px; 
+            height: 80px; 
+            border-radius: 50%;
+            background-color: rgba(255,255,255,0.3);
+            margin: 0 auto 15px auto; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            font-weight: bold;
+        }
+        .role-card-front h3 {
+            margin-top: 0;
+            font-size: 1.5em; 
+            text-align: center;
+            margin-bottom: 10px;
+            line-height: 1.2; /* Adjust line height for multi-line titles */
+        }
+        /* OPTIE 1: Specifieke styling voor lange rolnaam */
+        .role-card-front.Functionaris_voor_gegevensbescherming h3 {
+            font-size: 1.3em; /* Iets kleiner voor deze specifieke rol */
+        }
+
+        .role-card-front .description-short {
+            font-size: 0.9em; 
+            margin-bottom: auto; 
+        }
+         .role-card-front .meer-weten {
+            font-style: italic;
+            font-size: 0.8em; 
+            text-align: right;
+            margin-top: 10px;
+        }
+
+
+        .role-card-back {
+            background-color: var(--color-card-background);
+            color: var(--color-text-dark);
+            transform: rotateY(180deg);
+        }
+        .role-card-back h4 {
+            margin-top: 0;
+            margin-bottom: 5px; 
+            color: var(--color-text-dark); 
+            font-size: 1.2em; 
+        }
+        .role-card-back p, .role-card-back ul {
+            font-size: 0.9em; 
+            margin-bottom: 8px; 
+        }
+        .role-card-back ul {
+            padding-left: 20px; 
+            margin-top: 0;
+        }
+         .role-card-back li {
+            margin-bottom: 5px; 
+        }
+
+        .nav-buttons {
+            margin-top: 30px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap; 
+        }
+        .nav-buttons button {
+             background-color: #555;
+             flex-grow: 1; 
+        }
+         .nav-buttons button#next-dilemma-btn {
+            background-color: var(--color-docent);
+        }
+        .nav-buttons button#back-to-start-btn {
+            background-color: var(--color-beleidsmedewerker);
+        }
+
+
+        .hidden {
+            display: none !important;
+        }
+
+        .role-card-front.Beleidsmedewerker { background-color: var(--color-beleidsmedewerker); }
+        .role-card-front.Docent { background-color: var(--color-docent); }
+        .role-card-front.Onderzoeker { background-color: var(--color-onderzoeker); }
+        .role-card-front.Studentbegeleider { background-color: var(--color-studentbegeleider); }
+        .role-card-front.Student { background-color: var(--color-student); }
+        .role-card-front.Functionaris_voor_gegevensbescherming { background-color: var(--color-fg); }
+        .role-card-front.Ethische_Commissie { background-color: var(--color-ethische-commissie); }
+        
+        @media (max-width: 1180px) { /* (270px width + 20px gap) * 4 = 1160px. Give some buffer. */
+            /* On screens smaller than this, 4 cards might not fit comfortably, so they will wrap. */
+             #roles-container {
+                /* justify-content: flex-start; /* Or keep center if preferred when wrapping */
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            #roles-container {
+                flex-direction: column; 
+                align-items: center; 
+            }
+            .role-card-wrapper {
+                width: 90%; 
+                max-width: 350px; 
+            }
+            .dilemma-card h2 {
+                font-size: 1.5em;
+            }
+            .nav-buttons {
+                flex-direction: column;
+            }
+        }
+        @media (max-width: 500px) {
+            .role-card-wrapper {
+                width: 100%; 
+            }
+            .role-card-front h3 {
+                font-size: 1.3em; /* Algemeen kleinere titels op zeer kleine schermen */
+            }
+             .role-card-front.Functionaris_voor_gegevensbescherming h3 {
+                font-size: 1.2em; /* Nog iets kleiner voor de lange titel */
+            }
+        }
+    .info-kader {
+        background-color: #e9ecef; /* Een lichte, neutrale achtergrondkleur */
+        border: 1px solid #ced4da; /* Een subtiele rand */
+        border-radius: 8px;        /* Afgeronde hoeken */
+        padding: 20px;
+        margin-top: 40px;          /* Ruimte boven het kader */
+        font-size: 0.9em;
+        line-height: 1.5;
+        color: #495057; /* Een zachte donkergrijze tekstkleur */
+    }
+
+    .info-kader p {
+        margin-bottom: 15px; /* Ruimte tussen paragrafen */
+    }
+    .info-kader p:last-child {
+        margin-bottom: 0; /* Geen extra marge onder de laatste paragraaf */
+    }
+
+    .info-kader a {
+        color: var(--color-onderzoeker); /* Gebruik een van je thema kleuren voor links */
+        text-decoration: none;
+    }
+
+    .info-kader a:hover {
+        text-decoration: underline;
+    }
+
+
+    </style>
+</head>
+<body>
+
+    <div id="start-screen" class="container">
+        <h1 id="main-title">Dilemmaspel Studiedata</h1>
+        <h2>Kies een Casus</h2>
+        <div class="case-buttons">
+            <!-- Knoppen worden hier door JS ingevoegd -->
+        </div>
+    <div class="info-kader">
+            <p>
+                Het doel van het dilemmaspel is om een discussie aan te moedigen over privacy en ethiek in de praktijk van datagedreven werken bij onderwijsinstellingen.
+                Op basis van fictieve voorbeelden komen aspecten uit het <a href="https://www.versnellingsplan.nl/Kennisbank/referentiekader-privacy-en-ethiek-voor-studiedata/" target="_blank" rel="noopener noreferrer">Referentiekader privacy en ethiek voor studiedata</a> aan bod. Deze dilemma's kunnen de deelnemers vanuit verschillende rollen benaderen. Ze kiezen een persona en bedenken vanuit die invalshoek een antwoord.
+            </p>
+            <p>
+                Het referentiekader is uitgeven onder een Creative Commons Naamsvermelding 4.0-licentie.<br>
+                Volledige referentie: Zone Veilig en Betrouwbaar Benutten van Studiedata (2021). Referentiekader privacy en ethiek voor studiedata. Utrecht: Versnellingsplan Onderwijsinnovatie met ICT.
+                (<a href="https://www.versnellingsplan.nl/Kennisbank/referentiekader-privacy-en-ethiek-voor-studiedata/" target="_blank" rel="noopener noreferrer">link naar pagina</a>)
+            </p>
+            <p>
+                Deze online versie van het dilemmaspel gebruikt de teksten zoals beschikbaar in <a href="https://www.versnellingsplan.nl/wp-content/uploads/2022/04/Dilemmaspel-studiedata-kaarten.pdf" target="_blank" rel="noopener noreferrer">de pdf bij het dilemmaspel</a> in de veronderstelling dat deze onder dezelfde licentie vallen als het referentiekader.
+            </p>
+        </div>       
+    </div>
+
+    <div id="dilemma-screen" class="container hidden">
+        <h1 id="casus-title-display"></h1>
+        <div id="dilemma-card-container">
+            <!-- Dilemma kaart wordt hier door JS ingevoegd -->
+        </div>
+        <div id="roles-container">
+            <!-- Rolkaarten worden hier door JS ingevoegd -->
+        </div>
+        <div class="nav-buttons">
+            <button id="next-dilemma-btn">Volgend Dilemma</button>
+            <button id="back-to-start-btn">Terug naar Start</button>
+        </div>
+    </div>
+
+    <script>
+        const rolesData = [
+            {
+                "rol": "Beleidsmedewerker",
+                "naam": "Safae",
+                "beschrijving_kort": "Safae is beleidsmedewerker bij een hoger onderwijsinstelling. Ze ontwikkelt onderwijsbeleid en geeft adviezen aan het college van bestuur, faculteitsbestuurders en opleidingsdirecteuren.",
+                "beschrijving_lang": "Daarvoor kijkt ze naar ontwikkelingen binnen en buiten de eigen instelling. Studiedata zijn voor Safae een middel om beleid te onderbouwen en problemen vroegtijdig te signaleren. Ze ziet kansen om er de kwaliteit van het beleid mee te verbeteren, effectiever te evalueren en efficiënter haar werk te doen.",
+                "behoeften": [
+                    "Data relevant voor actuele beleidsvraagstukken.",
+                    "(Trend)data om beleidsmaatregelen te evalueren.",
+                    "Directe toegang tot data, om zelf aanvullende analyses te kunnen doen."
+                ],
+                "houdingen": [
+                    {
+                        "titel": "De techno-optimist",
+                        "beschrijving": "nadruk op nieuwe inzichten. Studiedata bieden kansen voor het toetsen van beleid gebaseerd op intuïtie en mogelijk achterhaalde aannames."
+                    },
+                    {
+                        "titel": "De hoeder",
+                        "beschrijving": "nadruk op reputatie. Studiedata kunnen bijdragen aan onderwijskwaliteit en de reputatie van de instelling, maar ophef en schandalen liggen op de loer."
+                    }
+                ],
+                "afbeelding": "placeholder_safae.png"
+            },
+            {
+                "rol": "Docent",
+                "naam": "Sandjai",
+                "beschrijving_kort": "Sandjai is docent in het hoger onderwijs. Hij geeft studenten les in verschillende vormen, van hoorcolleges voor grote groepen tot kleine werkgroepen en individuele begeleiding van afstudeeronderzoeken.",
+                "beschrijving_lang": "Sandjai kan met studiedata zijn onderwijs beter afstemmen op de voortgang en prestaties van zijn studenten. Zo kan hij struikelblokken aanpassen en extra aandacht geven aan de onderwerpen waar (delen van) de studenten moeite mee hebben.",
+                "behoeften": [
+                    "Inzicht in het leerproces van studenten en knelpunten daarin, liefst al tijdens de looptijd van een vak.",
+                    "Algemene trends die breder zijn dan zijn eigen vakken.",
+                    "Ruimte en middelen om zijn vakken naar zijn inzicht zo effectief mogelijk in te richten en te geven."
+                ],
+                "houdingen": [
+                    {
+                        "titel": "De ervaringsdeskundige",
+                        "beschrijving": "nadruk op vakmanschap. Goed onderwijs geven is een kunst die niet makkelijk in cijfertjes te vangen is."
+                    },
+                    {
+                        "titel": "De bèta",
+                        "beschrijving": "nadruk op bewijslast. Data geven nieuwe inzichten en leveren vaak betere keuzes op dan intuïtie en onderbuik, mits ze kwalitatief goed en valide zijn."
+                    }
+                ],
+                "afbeelding": "placeholder_sandjai.png"
+            },
+            {
+                "rol": "Onderzoeker",
+                "naam": "Simon",
+                "beschrijving_kort": "Simon is onderzoeker bij een vakgroep Onderwijskunde. Hij doet nationaal en internationaal onderzoek naar het hoger onderwijs, waarbij hij graag met grote datasets werkt. Daarnaast geeft hij een deel van de week zelf les aan studenten.",
+                "beschrijving_lang": "Simon wil studiedata gebruiken om de kwaliteit van zijn onderzoek te verbeteren, meer impact te hebben en efficiënter te werken met zijn collega's. Daarvoor heeft hij toegang nodig tot meerjarige, kwalitatief hoogstaande en betrouwbare data. Hij gaat ervan uit dat onderwijsinstellingen zorgvuldig zijn bij de verzameling daarvan.",
+                "behoeften": [
+                    "Meerjarige, kwalitatief hoogstaande en betrouwbare data.",
+                    "Data relevant voor nationale en internationale wetenschappelijke vraagstukken.",
+                    "Valide data met heldere definities die aansluiten op (inter)nationale standaarden.",
+                    "Toegang tot studiedata, ook bij andere instellingen.",
+                    "Simon moet geregeld met nieuwe voorstellen voor en resultaten van onderzoek komen. Hij is daarom altijd op zoek naar nieuwe, wetenschappelijk relevante databronnen."
+                ],
+                "houdingen": [
+                    {
+                        "titel": "De ontdekker",
+                        "beschrijving": "nadruk op exploratie. Als we wisten wat we deden, heette het geen onderzoek. Waardevolle inzichten doe je op door data te combineren, te zoeken naar onverwachte verbanden en nieuwe bronnen aan te boren."
+                    },
+                    {
+                        "titel": "De toetser",
+                        "beschrijving": "nadruk op kwaliteit. Wetenschap is het meest gebaat bij streng opgezette onderzoeksontwerpen en data van de hoogst mogelijke betrouwbaarheid en validiteit."
+                    }
+                ],
+                "afbeelding": "placeholder_simon.png"
+            },
+            {
+                "rol": "Studentbegeleider",
+                "naam": "Silvia",
+                "beschrijving_kort": "Silvia is studentbegeleider bij een hoger onderwijsinstelling. Ze monitort de voortgang van studenten van haar opleiding en geeft hun adviezen waarmee ze zoveel mogelijk uit hun opleiding kunnen halen.",
+                "beschrijving_lang": "Studiedata zijn voor Silvia een manier om beter te weten wie tegenover haar zit. Zo hoopt ze de kwaliteit van haar adviezen te verbeteren, effectievere gesprekken te voeren met studenten en haar werk efficiënter te kunnen doen.",
+                "behoeften": [
+                    "Heldere, overzichtelijke informatie per student om persoonlijke adviezen mee te kunnen geven.",
+                    "De human touch en ruimte voor maatwerk in haar begeleiding."
+                ],
+                "houdingen": [
+                    {
+                        "titel": "De mensenwerker",
+                        "beschrijving": "nadruk op begrip. Begeleiding vraagt om empathie en aandacht voor de persoonlijke situatie."
+                    },
+                    {
+                        "titel": "De gids",
+                        "beschrijving": "nadruk op inzicht. Begeleiding vraagt om kennis van de wegen die andere studenten hebben bewandeld en hun ervaringen daarmee."
+                    },
+                    {
+                        "titel": "De realist",
+                        "beschrijving": "nadruk op tijd. Begeleiding vraagt om tijd. Gebruik van studiedata moet uitvoerbaar zijn en het liefst zelfs tijd besparen, zodat die benut kan worden voor beter advies."
+                    }
+                ],
+                "afbeelding": "placeholder_silvia.png"
+            },
+            {
+                "rol": "Student",
+                "naam": "Samir",
+                "beschrijving_kort": "Samir is student bij een hoger onderwijsinstelling. Hij geniet van zijn vakken en het studentenleven daaromheen en hoopt snel af te kunnen studeren.",
+                "beschrijving_lang": "Studiedata zijn voor Samir data over hem. Hij verwacht goed onderwijs en passende ondersteuning en begrijpt dat studiedata daar belangrijk voor zijn. Welke data er precies over hem zijn weet hij niet, en het geeft hem soms een onprettig gevoel hoeveel er allemaal over hem wordt bijgehouden, binnen en buiten zijn onderwijsinstelling.",
+                "behoeften": [
+                    "Goed onderwijs en grip op zijn eigen studieloopbaan.",
+                    "Toegang tot begrijpelijke informatie over wat er met zijn gegevens gebeurt.",
+                    "Samir wil vlot en zonder fouten zijn studie doorlopen.",
+                    "Samir houdt studie en privé het liefst gescheiden.",
+                    "Een bijbaan, extracurriculaire activiteiten, hobby's en dan ook nog vakken halen... Samir heeft het druk met andere zaken dan studiedata."
+                ],
+                "houdingen": [
+                    {
+                        "titel": "De individualist",
+                        "beschrijving": "nadruk op prestaties. Een belangrijk deel van studeren is dat je je vakken en diploma haalt. Studiedata zijn interessant als ze daar voor jouzelf aan bijdragen."
+                    },
+                    {
+                        "titel": "De kritische student",
+                        "beschrijving": "nadruk op inclusiviteit. Gebruik van studiedata moet ongelijkheid verminderen, niet bijdragen aan profilering en controle."
+                    },
+                    {
+                        "titel": "De meeprater",
+                        "beschrijving": "nadruk op betrokkenheid. Goed onderwijs ontstaat in samenspraak. Het is belangrijk om als student bij te dragen aan de instelling én dat de instelling daar ruimte voor biedt."
+                    }
+                ],
+                "afbeelding": "placeholder_samir.png"
+            },
+            {
+                "rol": "Functionaris voor gegevensbescherming",
+                "naam": "Sam",
+                "beschrijving_kort": "Sam is de Functionaris voor Gegevensbescherming (FG) van een onderwijsinstelling. Sam houdt vanuit die onafhankelijke rol toezicht op de naleving van de wet- en regelgeving op het gebied van de bescherming van persoonsgegevens en adviseert het bestuur gevraagd en ongevraagd over de verplichtingen die daaruit voortvloeien.",
+                "beschrijving_lang": "Sam kent het spanningsveld rond het gebruik van studiedata als geen ander. Vaak is de FG de eerste die bezwaren en risico's bij het gebruik van studiedata aankaart. Dat wordt niet altijd in dank afgenomen, maar Sam weet dat het voor de instelling belangrijk is om te voldoen aan wettelijke verplichtingen en verantwoord om te gaan met studiedata. Het is beter om gebreken vooraf aan te kaarten dan ze achteraf pas aan het licht te laten komen.",
+                "behoeften": [
+                    "Vroegtijdig betrokken worden bij alle aangelegenheden die met het benutten van studiedata te maken hebben.",
+                    "Gesprekspartner zijn binnen de organisatie.",
+                    "Bijdragen aan het creëren van een gegevensbeschermingscultuur.",
+                    "Tijd om alle vraagstukken te kunnen behandelen.",
+                    "Bewustzijn van de regels rond gebruik van studiedata binnen de instelling en de (juridische) gevolgen daarvan."
+                ],
+                "houdingen": [
+                    {
+                        "titel": "De waakhond",
+                        "beschrijving": "nadruk op risico's. Sam is er in de eerste plaats om misstanden te voorkomen."
+                    },
+                    {
+                        "titel": "De omdenker",
+                        "beschrijving": "nadruk op mogelijkheden. Sam denkt het liefste mee over wat er wél kan. De bedoelingen met studiedata zijn tenslotte goed en met een beetje creativiteit mag er veel."
+                    }
+                ],
+                "afbeelding": "placeholder_sam.png"
+            },
+            {
+                "rol": "Ethische Commissie",
+                "naam": "Simone",
+                "beschrijving_kort": "Simone is lid van een Ethische Commissie die wetenschappelijke onderzoeksvoorstellen beoordeelt. Vaak zie je deze bij medische faculteiten, maar bij haar universiteit is er ook een voor onderwijsonderzoek.",
+                "beschrijving_lang": "Vanuit de Ethische Commissie ziet Simone erop toe dat onderzoek aan de juiste ethische en juridische standaarden voldoet. Simone ziet veel waarde in studiedata en zet zich juist daarom in voor het verantwoord gebruik ervan. Alleen door onderzoeksvoorstellen kritisch onder de loep te blijven nemen, kan het draagvlak ervoor behouden worden.",
+                "behoeften": [
+                    "Hoogwaardig onderzoek dat bijdraagt aan de reputatie van de instelling.",
+                    "Kennis over de rol van de Ethische Commissie bij onderzoeksvoorstellen.",
+                    "Heldere richtlijnen voor de beoordeling van onderzoeksvoorstellen."
+                ],
+                "houdingen": [
+                    {
+                        "titel": "De waarden-ethicus",
+                        "beschrijving": "nadruk op waarden. Goed onderzoek wordt geleid door waarden als objectiviteit, eerlijkheid, openheid en verantwoording."
+                    },
+                    {
+                        "titel": "De deontoloog",
+                        "beschrijving": "nadruk op principes. De regels zijn er met een reden."
+                    },
+                    {
+                        "titel": "De consequentialist",
+                        "beschrijving": "nadruk op gevolgen. In elke situatie moet je zoeken naar de optie met de beste uitkomsten voor iedereen."
+                    }
+                ],
+                "afbeelding": "placeholder_simone.png"
+            }
+        ];
+
+        const dilemmasData = [
+            // Welzijnsmonitoring
+            {
+                "casus_naam": "Welzijnsmonitoring",
+                "titel": "Welzijns-app",
+                "volgnummer": 1,
+                "rollen": ["Studentbegeleider", "Beleidsmedewerker", "Student", "Functionaris voor gegevensbescherming"],
+                "omschrijving": "Een onderwijsinstelling is tijdens de Corona-pandemie bezorgd over de toegenomen stress onder studenten. Door het afstandsonderwijs is daar minder zicht op. De instelling wil daarom een app ontwikkelen die het welzijn van studenten in kaart brengt op basis van zelfrapportage en studenten feedback en advies geeft, zodat elke student weet hoe die zijn of haar welzijn verder kan verbeteren en waar binnen de instelling de nodige hulp hierbij geboden kan worden. Is de app wenselijk in deze opzet?",
+                "antwoorden": [
+                    {"letter": "A", "tekst": "Ja. De instelling heeft een morele zorgplicht naar studenten en heeft in deze situatie geen andere mogelijkheden om daaraan te voldoen."},
+                    {"letter": "B", "tekst": "Ja, zolang studenten de app vrijwillig gebruiken is er geen bezwaar."},
+                    {"letter": "C", "tekst": "Nee, advies en interventies op het gebied van welzijn zijn mensenwerk en kunnen niet aan een app worden overgelaten."},
+                    {"letter": "D", "tekst": "Nee, een onderwijsinstelling zou zich niet moeten bezighouden met deze vorm van monitoring van welzijn."}
+                ],
+                "reflectie": "De meeste onderwijsinstellingen willen wanneer mogelijk bijdragen aan het welzijn onder studenten. Bij afstandsonderwijs zijn de mogelijkheden hiervoor beperkter dan wanneer medewerkers de studenten fysiek ontmoeten. Een app kan daarom een uitkomst bieden. Daarbij zijn er wel mogelijke zorgen. Zo is het de vraag hoe goed het geautomatiseerde advies zal zijn. De kwaliteit zal niet hetzelfde zijn als bij direct contact met een professional (zie 2.2.4). Vrijwillige deelname van de studenten zal in elk geval een vereiste zijn. Het is daarnaast nog de vraag of de onderwijsinstelling de geëigende partij is om een dergelijke app aan te bieden. Past dit binnen de kernwaarden en -taken van de instelling? De instelling moet ook de juiste competenties hebben om deze app te ontwikkelen. Een slechte uitvoering kan leiden tot privacyrisico's en imagoschade."
+            },
+            {
+                "casus_naam": "Welzijnsmonitoring",
+                "titel": "Ondersteuning met bestaande gegevens",
+                "volgnummer": 2,
+                "rollen": ["Studentbegeleider", "Beleidsmedewerker", "Student", "Functionaris voor gegevensbescherming"],
+                "omschrijving": "De onderwijsinstelling besluit af te zien van de app. Studentbegeleiders zijn echter nog steeds bezorgd over het welzijn van studenten en willen daarom meer gaan doen met reeds beschikbare studiedata. Ze stellen voor om een systeem op te zetten dat op basis van recente toetsprestaties, afwezigheid bij colleges en tentamens en activiteit in de digitale leeromgeving studenten identificeert met een hoog risico op stressgerelateerde vertraging en uitval. Deze kunnen ze dan proactief hulp aanbieden. Is dit een goed idee?",
+                "antwoorden": [
+                    {"letter": "A", "tekst": "Ja. Begeleiders gebruiken dit soort informatie toch al, het systeem maakt dit alleen effectiever."},
+                    {"letter": "B", "tekst": "Ja. Gezien de morele zorgplicht van de instelling en de moeilijke situatie is dit een passend middel."},
+                    {"letter": "C", "tekst": "Nee. Deze data geven een te beperkt beeld van studentenwelzijn om bruikbaar te zijn voor dit doel."},
+                    {"letter": "D", "tekst": "Nee. Studenten zo op de voet volgen doet af aan hun autonomie en eigen verantwoordelijkheid."}
+                ],
+                "reflectie": "Studentbegeleiders gebruiken vaak al achtergrondinformatie over de studenten voor hun gesprekken. Een systeem dat automatisch risicogevallen identificeert, is echter een wezenlijk ander gebruik van studiedata. Een mogelijke zorg is dat dit systeem te veel automatiseert en daarmee de menselijke maat verloren gaat (zie 2.2.4). Studenten worden geprofileerd en kunnen zich gemonitord voelen. Het gaat hier echter wel alleen om de uitnodiging voor een gesprek, waar dieper op de individuele situatie van de student ingegaan kan worden. Er dient voorkomen te worden dat het systeem gezondheidsgegevens in enige vorm vastlegt. Gegevens over welzijn zijn immers bijzondere persoonsgegevens die op uitzonderingen na niet verwerkt mogen worden (zie 3.4.2). Indien uitsluitend reguliere gegevens over studieprestaties worden verwerkt, kan wel de vraag gesteld worden wat de betekenis van deze gegevens is. Kun je het welzijn van studenten bevorderen door hun toetsprestaties en studieactiviteit te volgen, of ben je dan eigenlijk gewoon met studiesucces bezig?"
+            },
+            {
+                "casus_naam": "Welzijnsmonitoring",
+                "titel": "Informatievoorziening",
+                "volgnummer": 3,
+                "rollen": ["Studentbegeleider", "Beleidsmedewerker", "Student", "Functionaris voor gegevensbescherming"],
+                "omschrijving": "De instelling besluit het systeem uit het vorige dilemma te ontwikkelen. De instelling vindt dit passen binnen het bestaande gebruik van studiedata, waarover de instelling studenten informeert via een privacyverklaring. De studentbegeleiders geven daarom geen aanvullende uitleg in de uitnodigingsmail die ze sturen naar risicostudenten. Een aantal studenten reageert echter verontwaardigd op het feit dat zij zonder toelichting (niet) worden uitgenodigd. Hebben zij gelijk?",
+                "antwoorden": [
+                    {"letter": "A", "tekst": "Nee. Het gaat over gebruik van bestaande studiedata waarvan zij zouden kunnen weten dat die hiervoor gebruikt worden."},
+                    {"letter": "B", "tekst": "Ja. De begeleiders hadden in de mail in elk geval naar de privacyverklaring moeten verwijzen."},
+                    {"letter": "C", "tekst": "Ja. De begeleiders hadden hun specifieke gebruik van studiedata toe moeten lichten."},
+                    {"letter": "D", "tekst": "Ja. Aanvullend hadden de begeleiders studenten op hun rechten moeten wijzen, zoals die op inzage, correctie en bezwaar."}
+                ],
+                "reflectie": "De instelling had de studenten inderdaad beter moeten informeren. Een algemene privacyverklaring, zeker als daar niet naar verwezen wordt, biedt onvoldoende informatie (zie 6.2). De begeleiders hadden in elk geval moeten benoemen welke studiedata zij gebruiken en het doel, de grondslag en de zorgvuldigheidsmaatregelen voor hun specifieke toepassing (zie 6.1). Studenten moeten ook geïnformeerd worden over hoe zij hun rechten uit kunnen oefenen (zie 7.1). Natuurlijk is er een balans tussen transparantie en bondigheid: het is niet de bedoeling dat de uitnodiging zelf ondersneeuwt onder alle informatie over studiedata. Een praktische oplossing kan zijn om de informatie gelaagd te geven (zie 6.3). Dit kan bijvoorbeeld met een algemene privacyverklaring met ook informatie over de rechten, een aanvullende webpagina met informatie over dit specifieke gebruik van studiedata en verwijzingen naar beide bronnen in de uitnodigingsmail zelf."
+            },
+            // Monitoring van studiegedrag
+            {
+                "casus_naam": "Monitoring van studiegedrag",
+                "titel": "Volgen met LMS-data",
+                "volgnummer": 1,
+                "rollen": ["Docent", "Beleidsmedewerker", "Student", "Functionaris voor gegevensbescherming"],
+                "omschrijving": "Een onderwijsinstelling wil haar digitale leer- en werkomgeving gebruiken om op basis van gebruikersdata van studenten hun studiegedrag te volgen. Het gaat om data uit het learning management system (LMS) zoals hoe vaak zij bepaalde pagina's bezoeken, op welke tijdstippen zij inloggen, of zij bestanden downloaden en welke antwoorden zij op tussentijdse toetsen geven. Met die data wil de instelling vakken aanpassen en studenten adviseren. Welke data is hiervoor gepast?",
+                "antwoorden": [
+                    {"letter": "A", "tekst": "Alleen data waarvan effect bewezen is."},
+                    {"letter": "B", "tekst": "Alleen data waarvan de student mag verwachten dat die gebruikt worden."},
+                    {"letter": "C", "tekst": "Alleen data die al voor andere toepassingen verzameld worden."},
+                    {"letter": "D", "tekst": "Alle data die het LMS kan verzamelen, zolang het geen bijzondere persoonsgegevens zijn."}
+                ],
+                "reflectie": "Onderwijsinstellingen kunnen met hun digitale omgeving studiedata verzamelen. Hierbij moet het uitgangspunt in elk geval zijn dat alleen nodige data verwerkt worden (dataminimalisatie; zie 4.3). Data met een bewezen effect heeft dan ook de voorkeur, maar dit bewijs zal er niet altijd (al) zijn. Of studiedata (zonder verdere informatievoorziening) verwerkt mogen worden, hangt ook van het type gegevens af. Studenten kunnen verwachten dat de instelling toetsresultaten bijhoudt, maar dat geldt niet voor alle gegevens. Bij data die al voor andere toepassingen verzameld is, is de vraag of de doelen verenigbaar zijn (zie 4.1). LMS'en zijn vaak internationaal ontwikkeld. Dat ze opties bieden om bepaalde data te verzamelen, betekent daarom niet vanzelf dat dat ook mag en past binnen de Nederlandse context. Het is daarom verstandig om kritisch te blijven. Bijzondere persoonsgegevens mogen op uitzonderingen na in elk geval niet gebruikt worden als studiedata."
+            },
+            {
+                "casus_naam": "Monitoring van studiegedrag",
+                "titel": "Toegang voor docent",
+                "volgnummer": 2,
+                "rollen": ["Docent", "Beleidsmedewerker", "Student", "Functionaris voor gegevensbescherming"],
+                "omschrijving": "De instelling verzamelt data over het studiegedrag die ze onder meer gebruikt om vakken te verbeteren. Daarvoor maakt een beleidsmedewerker na afloop van vakken rapportages die gedeeld worden met de docenten. Een van die docenten wil graag terwijl het vak nog loopt al toegang tot de data, om zo bijvoorbeeld te zien of hulpbronnen zoals documenten, video's en tussentijdse toetsen gebruikt worden. Is het verstandig om hem die toegang te geven?",
+                "antwoorden": [
+                    {"letter": "A", "tekst": "Nee. De docent zou met de data ook het studiegedrag van zijn studenten kunnen controleren en die mogelijkheid is onwenselijk."},
+                    {"letter": "B", "tekst": "Alleen data die direct nuttig is en geanonimiseerd kan worden."},
+                    {"letter": "C", "tekst": "Nu niet. De instelling kan wel aankondigen dat dit vanaf volgend jaar gaat gebeuren, zodat studenten dan van tevoren weten dat dit gebeurt."},
+                    {"letter": "D", "tekst": "Ja. De data worden verzameld om vakken te verbeteren en dat kan zo nog effectiever."}
+                ],
+                "reflectie": "Data over studiegedrag kan nuttige tussentijdse inzichten opleveren. Tegelijkertijd brengt gebruik van real-time studiedata terwijl het vak loopt het risico met zich mee dat de docent de data gebruikt om studiegedrag te controleren en bijvoorbeeld de studenten aan te spreken, wat afdoet aan de veiligheid en vrijheid die studenten voelen om te studeren hoe zij willen (zie 2.1.1). Natuurlijk kan controle juist gewenst zijn (bijvoorbeeld of studenten een werkcollege voorbereid hebben), maar dit zou dan niet moeten gebeuren met een systeem dat data verzamelt voor kwaliteitszorg (zie 4.1). Het is daarom in elk geval belangrijk om kritisch te zijn welke data de docent echt nodig heeft (zie 4.3) en de data waar mogelijk te anonimiseren. Daarbij is het wel de vraag in hoeverre de data echt anoniem kunnen worden bij een vak met een beperkte omvang (zie 8.3.1). Of studenten vooraf ingelicht moeten worden hangt af van wat er eerder al is gecommuniceerd (zie 6.2). Dit is echter een dusdanig ingrijpende wijziging dat het op zijn minst verstandig is om hen vooraf in te lichten en er niet pas tijdens het vak achter te laten komen."
+            },
+            {
+                "casus_naam": "Monitoring van studiegedrag",
+                "titel": "Activiteit- en resultaatprofielen",
+                "volgnummer": 3,
+                "rollen": ["Docent", "Studentbegeleider", "Student", "Functionaris voor gegevensbescherming"],
+                "omschrijving": "De instelling bedenkt een specifieke toepassing van het voorgaande monitoringssysteem. Deze toepassing deelt studenten binnen een vak in vier groepen in op basis van hun mate van activiteit in de digitale leeromgeving (hoog of laag) en hun prestaties bij tussentijdse toetsen (hoog of laag). Met deze indeling wil de instelling studenten gerichter ondersteunen, bijvoorbeeld door actieve maar slecht presterende studenten extra uitleg te bieden en goed presterende maar inactieve studenten extra uit te dagen. Is dit wenselijk?",
+                "antwoorden": [
+                    {"letter": "A", "tekst": "Ja. Het systeem biedt simpele handvatten bij keuzes die nu met minder onderbouwing toch al gemaakt worden."},
+                    {"letter": "B", "tekst": "Ja, zolang er geen besluiten aan verbonden worden."},
+                    {"letter": "C", "tekst": "Nee, dit systeem heeft te weinig voorspellende waarde voor zijn doel."},
+                    {"letter": "D", "tekst": "Nee, dit soort vormen van profilering en monitoring van studenten zijn principieel verkeerd."}
+                ],
+                "reflectie": "Studenten gerichte ondersteuning bieden is lastig maar wel belangrijk. Studiedata kunnen daarbij helpen, zoals in dit geval. Het is wel belangrijk om te beseffen dat het hierbij gaat om een vorm van profilering. Op basis hiervan mogen in elk geval geen besluiten met rechtsgevolgen worden genomen (zie 7.8). Ook is het belangrijk doel, grondslag en zorgvuldigheidsmaatregelen duidelijk te bepalen (zie hoofdstuk 4). Daarnaast zijn de betrouwbaarheid en validiteit van de data belangrijke aandachtspunten. In dit systeem zijn die waarschijnlijk beperkt: de (meetbare) digitale activiteit en tussentijdse prestaties zeggen misschien weinig over de motivatie en capaciteit van studenten. Dit vraagt om een zorgvuldige onderbouwing (zie 2.2.3 voor meer informatie over methodologische aspecten)."
+            },
+            {
+                "casus_naam": "Monitoring van studiegedrag",
+                "titel": "Boze student",
+                "volgnummer": 4,
+                "rollen": ["Docent", "Studentbegeleider", "Student", "Functionaris voor gegevensbescherming"],
+                "omschrijving": "De toepassing uit het vorige dilemma wordt ingevoerd bij een vak. De docent biedt de studenten hulp aan op basis van hun indeling als actieve of inactieve en goed of slecht presterende studenten, met daarbij uitleg hoe ze daarop gekomen zijn. Hij krijgt daarop een boze reactie van een student. Deze is ingedeeld als slecht presterend en inactief, maar zegt dat hij onterecht als lui behandeld wordt omdat hij altijd samen met een studiegenoot op diens laptop werkt. Wat zou de docent hiermee moeten doen?",
+                "antwoorden": [
+                    {"letter": "A", "tekst": "Het is een les voor de volgende keer: de docent had niet aan de leerlingen moeten laten weten waar het aanbod op gebaseerd was."},
+                    {"letter": "B", "tekst": "Excuses aanbieden en inspelen op individuele situatie en mogelijke hulpvraag van de student."},
+                    {"letter": "C", "tekst": "Hem wijzen op zijn relevante rechten."},
+                    {"letter": "D", "tekst": "Het systeem niet meer gebruiken."}
+                ],
+                "reflectie": "Het monitoringssysteem is een vorm van profileren met een reëel risico dat studenten onjuist worden ingedeeld. Het kan dan verleidelijk zijn om er niet open over te zijn dat dit gebeurt. Transparant zijn is echter niet alleen verstandig, om rekenschap af te leggen en zo vertrouwen te creëren (zie 2.2.1), het is ook verplicht (zie 6.2). De student heeft het recht om te weten welke informatie van hem gebruikt wordt en hoe (de logica van het algoritme), om om correctie van de gegevens te vragen en om bezwaar te maken tegen de verwerking (zie hoofdstuk 7). Idealiter hoeft de docent hem daar niet op te wijzen (die is tenslotte ook geen privacy-expert), maar communiceert de persoon of afdeling die intern verantwoordelijk is voor het systeem daar zelf over. Tot slot kan de docent er ook voor kiezen het systeem niet meer te gebruiken. Naast een instellingsbrede afweging of het systeem wenselijk is, is er tenslotte ook de individuele of het past binnen zijn waarden en onderwijsfilosofie."
+            },
+             // Data delen over instromers
+            {
+                "casus_naam": "Data delen over instromers",
+                "titel": "Data delen met een andere instelling",
+                "volgnummer": 1,
+                "rollen": ["Beleidsmedewerker", "Studentbegeleider", "Student", "Functionaris voor gegevensbescherming"],
+                "omschrijving": "Een beleidsmedewerker van een hogeschool wordt door een MBO-instelling gevraagd om studiedata over de prestaties van doorgestroomde leerlingen. De MBO-instelling wil de data gebruiken om de begeleiding aan mogelijke doorstromers te verbeteren. De beleidsmedewerker wil hiervoor een overeenkomst opstellen. Wat zouden zij hierin moeten vastleggen?",
+                "antwoorden": [
+                    {"letter": "A", "tekst": "Het is niet nodig om afspraken te maken."},
+                    {"letter": "B", "tekst": "Dat de MBO-instelling het referentiekader of vergelijkbare uitgangspunten hanteert voor het gebruik van de data."},
+                    {"letter": "C", "tekst": "Het doel en de grondslag van de verwerking voor beide instellingen."},
+                    {"letter": "D", "tekst": "Een overeenkomst is niet genoeg. De gegevens mogen alleen gedeeld worden als ze geaggregeerd en geanonimiseerd kunnen worden."}
+                ],
+                "reflectie": "Het delen van persoonsgegevens is een verwerking van die gegevens. Beide instellingen moeten daarvoor een welbepaald doel en grondslag hebben en gepaste zorgvuldigheidsmaatregelen treffen (zie 8.2). Mocht het voor het doel mogelijk zijn om de data geanonimiseerd te delen, heeft dat ook de voorkeur. Dit soort privacy by design verkleint de risico's van het delen van data (zie 8.3). Wanneer de instelling die de gegevens levert verder niets te maken heeft met de verwerking en analyse, is er geen sprake van gezamenlijke verantwoordelijken. Afspraken maken over het gebruik van de data is dan aan te bevelen maar niet verplicht (zie 8.2). Als de eerste instelling wel nog betrokken is bij de analyse, is er wel een gezamenlijke verantwoordelijkheid en zijn afspraken nodig. Het is in beide gevallen aan te raden om je ervan te vergewissen dat de andere organisatie dezelfde uitgangspunten respecteert. Het MBO valt niet onder het referentiekader en de uitgangspunten kunnen dus verschillen."
+            },
+            {
+                "casus_naam": "Data delen over instromers",
+                "titel": "Data delen met het buitenland",
+                "volgnummer": 2,
+                "rollen": ["Beleidsmedewerker", "Studentbegeleider", "Student", "Functionaris voor gegevensbescherming"],
+                "omschrijving": "Een Nederlandse universiteit met veel buitenlandse masterstudenten heeft vergelijkbare data over de prestaties van studenten met vooropleidingen bij verschillende (internationale) universiteiten. Een buitenlandse instelling wil graag toegang tot die data, om daarmee eigen studenten advies te geven over hun kansen in het buitenland. Zou de Nederlandse universiteit die data – bij een geldige grondslag – moeten delen?",
+                "antwoorden": [
+                    {"letter": "A", "tekst": "Ja, het is een goede kans om potentiële studenten beter te laten informeren."},
+                    {"letter": "B", "tekst": "Ja, maar alleen als de instelling binnen de EU ligt. Daarbuiten kan niet op de gegevensbescherming vertrouwd worden."},
+                    {"letter": "C", "tekst": "Nee, de gegevens mogen alleen gedeeld worden als ze geaggregeerd en geanonimiseerd kunnen worden."},
+                    {"letter": "D", "tekst": "Nee, de gegevens zijn niet geschikt voor dit soort advies. Het is beter om ze niet te geven."}
+                ],
+                "reflectie": "Bij het delen van data is het belangrijk waar de instelling ligt. Binnen de EU geldt de AVG, maar daarbuiten zal wet- en regelgeving anders zijn. Het delen van gegevens mag, maar het is belangrijk de nodige waarborgen te treffen voor gegevensbescherming. Daarnaast moeten ook hier beide instellingen een doel en grondslag hebben en moeten de betrokkenen geïnformeerd worden (zie 8.2). Of het delen ook wenselijk is, hangt af van de proportionaliteit: wat levert het op, welke risico's zitten eraan vast en welke waarborgen zijn te treffen (zie 2.2.2 en 2.2.3)? Het is in elk geval de vraag hoe nuttig de gegevens zullen zijn voor de ontvangende instelling. Afhankelijk van waar die gevestigd is, kan het om de gegevens van een erg kleine groep studenten gaan, die ook nog verschillende studies doen. Dit maakt het onzeker of de gegevens te gebruiken zijn voor kwalitatief goede adviezen. Om dezelfde reden is het de vraag of de gegevens echt te anonimiseren zijn (zie 8.3.1)."
+            },
+            // Predictive analytics
+            {
+                "casus_naam": "Predictive analytics",
+                "titel": "Onderwijsbeleid",
+                "volgnummer": 1,
+                "rollen": ["Beleidsmedewerker", "Beleidsmedewerker", "Student", "Functionaris voor gegevensbescherming"],
+                "omschrijving": "Een instelling richt een programma op om het studiesucces van haar studenten te verbeteren. Als onderdeel ervan wil de instelling predictive analytics inzetten op basis van gegevens over bijvoorbeeld vooropleiding, leeftijd en woonplaats van studenten gekoppeld aan cijfers over studievoortgang. Het doel is om een prognose te kunnen maken van de kans op uitval en relevante achtergrondkenmerken en daarmee het onderwijsbeleid te verbeteren (denk bijvoorbeeld aan het bieden van ondersteuningsfaciliteiten). Is dit een goed idee?",
+                "antwoorden": [
+                    {"letter": "A", "tekst": "Ja, predictive analytics kunnen waardevolle en onverwachte inzichten opleveren."},
+                    {"letter": "B", "tekst": "Alleen als de instelling heel specifiek onderbouwt welke gegevens waarvoor ingezet worden."},
+                    {"letter": "C", "tekst": "Nee, dit type onderzoek is problematisch. De instelling moet niet sturen op achtergrondkenmerken zoals vooropleiding."},
+                    {"letter": "D", "tekst": "Nee, het risico op labeling en uitsluiting is te groot."}
+                ],
+                "reflectie": "De mogelijkheden om data te koppelen en slimme voorspellingen te doen nemen toe. Dat levert waardevolle nieuwe inzichten op, maar vraagt ook om aandacht voor de risico's. Een daarvan is ‘koppelen om het koppelen': het gebruik van data omdat die nou eenmaal beschikbaar is, zonder aandacht voor de noodzakelijkheid en proportionaliteit (zie 2.2.3). Met het oog op die criteria is het belangrijk welke data gebruikt worden. In dit voorbeeld zijn dat achtergrondkenmerken van studenten. Deze gegevens kunnen belangrijk zijn voor specifieke beleidsvragen, bijvoorbeeld als het erom gaat met welke mogelijke hulpbehoeften studenten instromen in de instelling. Voor andere toepassingen zal het gebruik wellicht minder waarde hebben. De precieze gegevens die gebruikt worden zijn ook bepalend voor de balans tussen het individuele belang van de student en het collectieve belang bij goed onderwijs (zie 2.2.2). Het verbeteren van onderwijsbeleid is een legitiem doel voor het gebruik van studiedata, maar veel hangt af van het precieze gebruik. Of specifieke gegevens nodig en nuttig zijn, zal per toepassing bekeken moeten worden."
+            },
+            {
+                "casus_naam": "Predictive analytics",
+                "titel": "Studentbegeleiding",
+                "volgnummer": 2,
+                "rollen": ["Beleidsmedewerker", "Studentbegeleider", "Student", "Functionaris voor gegevensbescherming"],
+                "omschrijving": "De instelling overweegt om dezelfde analyses ook in te zetten voor individuele interventies bij de begeleiding van studenten. Op basis van bekende verbanden tussen achtergrondkenmerken, prestaties en studiesucces worden dan studenten met extra behoefte aan ondersteuning geïdentificeerd en worden effectieve interventies gezocht. De informatie wordt in elk geval ingezet om studenten uit te nodigen voor gesprekken en in de voorbereiding van die gesprekken. Is dit een verstandige toepassing van het systeem?",
+                "antwoorden": [
+                    {"letter": "A", "tekst": "Ja, dit is een mooie toepassing van de gegevens van een student in zijn of haar directe belang."},
+                    {"letter": "B", "tekst": "Ja, dit geeft begeleiders de kans om meer maatwerk te bieden."},
+                    {"letter": "C", "tekst": "Nee, deze analyses doen af aan de aandacht voor de individuele situatie van studenten."},
+                    {"letter": "D", "tekst": "Nee, dit soort analyses leidt tot onwenselijke profilering en labeling, ook wanneer de bedoelingen goed zijn."}
+                ],
+                "reflectie": "Anders dan in het vorige dilemma worden de studiedata hier ingezet voor individuele interventies. Dit betekent dat het gebruik directer ten goede komt aan de individuele studenten, maar ook dat kritisch gekeken moet worden naar de kans op negatieve effecten. Een daarvan is het risico op onwenselijke profilering en labeling, dat aanwezig is bij het gebruik van achtergrondkenmerken voor dit soort toepassingen (zie 2.2.2). Er mogen in elk geval geen geautomatiseerde besluiten genomen worden die rechtsgevolgen hebben of de betrokkene anderszins aanmerkelijk treffen (zie 7.8). De inzichten uit de genoemde gegevens en analyses kunnen studentbegeleiders kansen geven om meer maatwerk te bieden en hun werk efficiënter te doen. Dezelfde inzichten kunnen echter afdoen aan de aandacht voor de individuele student, wanneer ze buitensporig veel aandacht en gewicht krijgen. Veel zal afhangen van de manier waarop en het begrip waarmee de studentbegeleiders met de data omgaan en de precieze invulling van het systeem, waaronder hoeveel er geautomatiseerd wordt (zie 2.2.4)."
+            },
+            {
+                "casus_naam": "Predictive analytics",
+                "titel": "Uitnodigingsmail",
+                "volgnummer": 3,
+                "rollen": ["Studentbegeleider", "Beleidsmedewerker", "Student", "Functionaris voor gegevensbescherming"],
+                "omschrijving": "De instelling besluit om het systeem inderdaad in te zetten bij de studentbegeleiding. Het systeem identificeert op basis van algoritmes studenten met een mogelijke hulpbehoefte en begeleiders nodigen hen uit voor (aanvullende) gesprekken en bereiden die gesprekken voor met de achtergrondinformatie. Hoe kunnen zij de betreffende studenten hier het best over informeren?",
+                "antwoorden": [
+                    {"letter": "A", "tekst": "Niet. Als wordt ingegaan op hoe de studenten geselecteerd zijn, kan dat hun zelfbeeld aantasten."},
+                    {"letter": "B", "tekst": "Met (een verwijzing naar) uitleg over de algemene werking van het systeem, zonder in te gaan op de afweging voor de specifieke student."},
+                    {"letter": "C", "tekst": "Door toe te lichten op basis van welke kenmerken de student naar voren is gekomen in het systeem."},
+                    {"letter": "D", "tekst": "Door, aanvullend op antwoord c, de studenten te wijzen op hun relevante rechten."}
+                ],
+                "reflectie": "Betrokkenen moeten geïnformeerd worden over het gebruik van hun (studie)data. Dat moet in de uitnodiging die naar de student gestuurd wordt en in algemene zin via de privacyverklaring en toelichting op het studiesuccesprogramma (zie 6.3). Dat de keus door een algoritme gemaakt wordt, betekent daarbij niet dat de instelling niet meer toe hoeft te lichten hoe die tot stand kwam; de instelling moet kunnen blijven uitleggen waarom en op basis waarvan bepaalde keuzes worden gemaakt (zie <a href=\"sources/Referentiekader-privacy-en-ethiek-voor-studiedata.pdf#page=12.67\" target=\"_blank\">2.2.4</a>). Studenten hebben verschillende relevante rechten, bijvoorbeeld om te weten welke informatie over hen hoe gebruikt is (ook wanneer dit door een algoritme gedaan wordt). Bij de informatievoorziening moet de instelling die rechten faciliteren (zie 7.1)."
+            },
+            {
+                "casus_naam": "Predictive analytics",
+                "titel": "Inspraak",
+                "volgnummer": 4,
+                "rollen": ["Beleidsmedewerker", "Studentbegeleider", "Student", "Functionaris voor gegevensbescherming"],
+                "omschrijving": "Er wordt besloten om in de uitnodigingsmails toe te lichten hoe studenten zijn geselecteerd. Nadat begeleiders de eerste uitnodigingen uitsturen, volgt al snel een aantal reacties van studenten die verontwaardigd zijn over de redenen dat zij uitgenodigd worden voor een extra gesprek. Het bestuur van de instelling schrikt hiervan en wil opnieuw nadenken over de inrichting van het programma. Wat zou het bestuur moeten besluiten?",
+                "antwoorden": [
+                    {"letter": "A", "tekst": "Om het programma stop te zetten."},
+                    {"letter": "B", "tekst": "Om beter te communiceren hoe de gegevens (niet) gebruikt worden."},
+                    {"letter": "C", "tekst": "Om studenten een extra mogelijkheid te geven om niet deel te nemen aan het systeem."},
+                    {"letter": "D", "tekst": "Om het programma in overleg met studenten(vertegenwoordigers) te herzien."}
+                ],
+                "reflectie": "Een natuurlijke reactie op ophef is om het programma stop te zetten. Voor wie in de voorgaande dilemma's al tegen het programma was, is dit een logische optie. Voor wie dit niet was, is het de moeite om te denken of het hier gaat om fundamentele bezwaren of dat er mogelijkheden zijn om de kritiekpunten te verhelpen. Beter uitleggen hoe de gegevens van de studenten gebruikt worden en welke conclusies en besluiten er niet mee onderbouwd worden, kan daarvoor een goede eerste stap zijn. Het kan helpen om de bezwaren van de studenten helderder te krijgen. Er is echter een goede kans dat het op zichzelf onvoldoende is om de bezwaren weg te nemen. Studenten een extra mogelijkheid geven om niet deel te nemen aan het systeem kan dan een goede optie zijn. Afhankelijk van de grondslag hadden ze die al, maar was dit wellicht nog niet duidelijk. In overleg met studenten de inrichting van het systeem herzien is de meest tijdrovende optie. Het is echter ook de optie waarin de meeste rekenschap afgelegd wordt en kan bijdragen aan toekomstig gebruik van studiedata, via inhoudelijke aanpassingen, bewustzijn en draagvlak (zie 2.2.1)."
+            },
+             // Uitwisselingsstudenten
+            {
+                "casus_naam": "Uitwisselingsstudenten",
+                "titel": "Onderwijsonderzoek",
+                "volgnummer": 1,
+                "rollen": ["Onderzoeker", "Beleidsmedewerker", "Student", "Ethische Commissie"],
+                "omschrijving": "Een wetenschapper doet onderzoek naar prestaties van uitwisselingsstudenten. Hij vermoedt dat er bepaalde groepen zijn met een groter risico op uitval en het niet halen van vakken en wil dit graag onderzoeken met data van een universiteit. Hij dient een aanvraag in voor gegevens over de prestaties van uitwisselingsstudenten en de universiteiten waar zij vandaan komen in de afgelopen jaren. Een relevante beleidsmedewerker heeft deze data, maar in gescheiden databases. Onder welke voorwaarden mag zij de data delen?",
+                "antwoorden": [
+                    {"letter": "A", "tekst": "Dat het uitsluitend voor wetenschappelijk gebruik is."},
+                    {"letter": "B", "tekst": "Daarbovenop dat de wetenschapper doel en grondslag helder heeft vastgelegd en de nodige zorgvuldigheidsmaatregelen treft."},
+                    {"letter": "C", "tekst": "Daarbovenop dat de beleidsmedewerker dit zelf ook doet."},
+                    {"letter": "D", "tekst": "Onder geen voorwaarden. De databases zijn niet voor niets gescheiden."}
+                ],
+                "reflectie": "De wetenschapper wil de studiedata voor een ander doel gebruiken dan waarvoor deze verzameld zijn. Deze nieuwe verwerking vereist een doel en grondslag (zie hoofdstuk 4). Belangrijk hierbij is of het gebruik verenigbaar is met het doel waarvoor de data oorspronkelijk verzameld zijn. Bij wetenschappelijk onderwijsonderzoek mag hier in principe van uitgegaan worden, maar ook dan blijven een duidelijk doel en passende waarborgen vereist (zie 4.1). Ook het delen van de studiedata door de beleidsmedewerker is een verwerking van die gegevens. Aan haar kant zijn hiervoor dus ook een doel en grondslag nodig. Of er verdere afspraken nodig zijn, hangt onder meer af van de samenwerkingsvorm en de mogelijke gezamenlijke verantwoordelijkheid van de partijen (zie 8.2). Het combineren van databases is niet per definitie verkeerd, maar brengt wel risico's met zich mee. Gecombineerd kunnen de data meer (privacygevoelige) inzichten bieden dan afzonderlijk. Het is daarom vaak een aanleiding om een risicoanalyse zoals een Data Protection Impact Assessment te doen (zie 8.1). Er zijn natuurlijk ook andere voorwaarden waaraan voldaan moet worden, zoals het informeren van de betrokkenen en faciliteren van hun rechten (zie hoofdstuk 6 en 7)."
+            },
+            {
+                "casus_naam": "Uitwisselingsstudenten",
+                "titel": "Pseudonimiseren en anonimiseren",
+                "volgnummer": 2,
+                "rollen": ["Onderzoeker", "Beleidsmedewerker", "Student", "Ethische Commissie"],
+                "omschrijving": "De instelling besluit de data te delen met de wetenschapper. De beleidsmedewerker is wel bezorgd over privacyrisico's en eventuele gevoeligheden, aangezien het gaat over data van studenten van partneruniversiteiten. Daarom wil ze passende voorzorgsmaatregelen treffen om de data te beschermen. Wat kan zij hiervoor het beste doen?",
+                "antwoorden": [
+                    {"letter": "A", "tekst": "De data anonimiseren door hem zover te aggregeren dat gegevens niet meer herleidbaar zijn."},
+                    {"letter": "B", "tekst": "De data pseudonimiseren door met een sleutel studentnummers te vervangen door een ander kenmerk."},
+                    {"letter": "C", "tekst": "Alleen de data sturen die strikt noodzakelijk zijn voor het beantwoorden van de onderzoeksvraag."},
+                    {"letter": "D", "tekst": "Er zijn al afspraken gemaakt met de wetenschapper. Deze extra voorzorgsmaatregelen zijn niet nodig."}
+                ],
+                "reflectie": "Bij het verwerken van data is het belangrijk om zorgvuldigheidsmaatregelen te treffen. Eén mogelijkheid is het anonimiseren van data. Data is anoniem als het voor welke partij dan ook, met inzet van (voor het doel) redelijke middelen, onwaarschijnlijk is hieruit personen te identificeren (zie 8.3.1). In dit geval zijn het geen persoonsgegevens meer. Het is wel de vraag of de analyse van de wetenschapper nog wel mogelijk is als je de data van uitwisselingsstudenten van verschillende universiteiten – waarschijnlijk vrij kleine groepen individuen – aggregeert tot een niveau waarop ze niet meer herleidbaar zijn. Bij pseudonimiseren zijn de gegevens alleen herleidbaar met aanvullende data, zoals de sleutel (zie 8.3.1). Indien mogelijk is dit altijd een goede keuze. Het helpt om te voorkomen dat ongewenste personen de koppeling tussen persoon en gegevens kunnen maken, zoals de wetenschapper maar ook eventuele derde partijen die de data in handen krijgen. Daarbij is het wel belangrijk om kritisch te bekijken met welke andere data derden de koppeling nog meer zouden kunnen maken. Dataminimalisatie is altijd een vereiste bij gegevensverwerking. Alleen gegevens die noodzakelijk zijn, mogen worden verwerkt (zie 4.3)."
+            },
+            {
+                "casus_naam": "Uitwisselingsstudenten",
+                "titel": "Valorisatie",
+                "volgnummer": 3,
+                "rollen": ["Onderzoeker", "Beleidsmedewerker", "Student", "Ethische Commissie"],
+                "omschrijving": "De wetenschapper krijgt de gegevens gepseudonimiseerd van de beleidsmedewerker en doet zijn onderzoek. De gecombineerde data van de twee databases laten zien dat er inderdaad specifieke risicogroepen zijn op basis van studierichting en het land van de universiteit waar de studenten vandaan komen. Hij vertelt aan de beleidsmedewerker dat de bevindingen interessant zijn. Die wil de gecombineerde data graag zelf nader bestuderen. Mag de onderzoeker deze delen?",
+                "antwoorden": [
+                    {"letter": "A", "tekst": "Ja, dit soort valorisatie hoort bij het doel van wetenschappelijk onderzoek."},
+                    {"letter": "B", "tekst": "Ja. De data komen van de beleidsmedewerker, het zou gek zijn om ze niet te delen."},
+                    {"letter": "C", "tekst": "Nee, maar eventuele geaggregeerde inzichten wel."},
+                    {"letter": "D", "tekst": "Nee, inzichten horen alleen via officiële kanalen zoals wetenschappelijke journals gedeeld te worden."}
+                ],
+                "reflectie": "Valorisatie is een belangrijk onderdeel van wetenschap. Dat onderzoek relevante inzichten oplevert voor betrokkenen is mooi en wetenschappelijke inzichten mogen ook best buiten officiële publicaties gedeeld worden. Zodra het echter om herleidbare persoonsgegevens gaat, geldt privacyregelgeving (zie 3.4.2). Dat het algemene doel van wetenschappelijk onderzoek is om nuttige inzichten op te leveren, betekent niet dat het vanzelfsprekend is om de data te delen. Het delen vereist opnieuw een doel en grondslag (zie 8.2). Dat de data oorspronkelijk van de beleidsmedewerker zelf komen is daarvoor niet relevant: door het combineren van de databases zijn nieuwe data ontstaan. Om de data zelf te combineren heeft de beleidsmedewerker tenslotte ook een geldig doel en grondslag nodig. Deze voorwaarden gelden dus alleen voor het delen van de persoonsgegevens. Geaggregeerde, niet-herleidbare uitkomsten en inzichten die geen persoonsgegevens meer bevatten, kunnen zonder probleem gedeeld worden (zie 8.3.1). De beleidsmedewerker kan dus best beleid ontwikkelen op basis van de uitkomsten, zolang die niet herleidbaar zijn tot individuen."
+            },
+            // Tweetalig onderwijs
+            {
+                "casus_naam": "Tweetalig onderwijs",
+                "titel": "Tweetalig onderwijs",
+                "volgnummer": 1,
+                "rollen": ["Beleidsmedewerker", "Docent", "Student", "Functionaris voor gegevensbescherming"],
+                "omschrijving": "Een beleidsmedewerker wil inzicht krijgen of er verschil is in de cijfermatige resultaten van een vak dat in het Engels en Nederlands wordt gegeven. Hiervoor wil ze de cijfers van alle 2000 studenten van dit vak in de afgelopen twee jaar betrekken. Om de studenten te informeren, plaatst ze een nieuwsbericht op de website van de opleiding waarin ze vertelt over het onderzoek. Geeft ze daarmee voldoende rekenschap?",
+                "antwoorden": [
+                    {"letter": "A", "tekst": "Ja. De data zijn al eerder verzameld voor dit soort toepassingen, dus zelfs deze informatie had niet gehoeven."},
+                    {"letter": "B", "tekst": "Ja. Meer is onnodig, de studenten merken toch niets van het onderzoek."},
+                    {"letter": "C", "tekst": "Nee, ze zou ook de reden voor het onderzoek en de afwegingen van de instelling moeten toelichten."},
+                    {"letter": "D", "tekst": "Nee, ze zou daarnaast ook de opties die studenten hebben voor inspraak of om (niet) mee te doen moeten toelichten."}
+                ],
+                "reflectie": "Het gaat hier om een niet erg invasieve toepassing van studiedata, die ook nog eens al eerder verzameld zijn. Bij die verzameling moesten betrokken al worden geïnformeerd. Dat betekent echter niet dat ze bij dit nieuwe gebruik van hun persoonsgegevens niet meer geïnformeerd hoeven te worden (zie 6.2). De beleidsmedewerker moet de studenten in elk geval informeren over het doel van het onderzoek, de grondslag en de zorgvuldigheidsoverwegingen (zie 6.1). Rekenschap is echter een breder begrip, dat ook gaat over aanspreekbaarheid (bij wie kunnen studenten terecht met vragen, zorgen en klachten?) en later ook het informeren over de uitkomsten van het onderzoek (zie 2.2.1). Niet al deze informatie is specifiek voor dit onderzoek en niet alle studenten zullen erop zitten te wachten. Alle informatie in een nieuwsbericht plaatsen is dus wellicht niet de meest praktische optie. Het is aan te raden om gelaagd te communiceren, waarbij de belangrijkste zaken direct worden vermeld en er voor nadere informatie wordt doorverwezen naar algemenere bronnen zoals een privacyverklaring (zie 6.3)."
+            },
+            // Onderwijsinnovatie
+            {
+                "casus_naam": "Onderwijsinnovatie",
+                "titel": "Onderwijsinnovatie",
+                "volgnummer": 1,
+                "rollen": ["Docent", "Onderzoeker", "Student", "Ethische Commissie"],
+                "omschrijving": "Een docent experimenteert graag met vernieuwende onderwijsvormen. Hij verwerkt Scrum-principes in een van zijn vakken, om studenten zo meer structuur en richting te bieden. Die interventie lijkt een positief effect te hebben. Om zijn inzichten verder te onderbouwen, wil hij dit voor een wetenschappelijke studie onderzoeken op basis van zowel specifieke studiedata over huidige studenten als algemenere studiedata over voormalige studenten die de instelling heeft voor onderwijsbeleid. Mag hij deze data gebruiken?",
+                "antwoorden": [
+                    {"letter": "A", "tekst": "Nee, bij beide typen data zijn problemen."},
+                    {"letter": "B", "tekst": "Niet de historische data, tenzij die geanonimiseerd worden of hij de voormalige studenten nog om toestemming kan vragen voor gebruik."},
+                    {"letter": "C", "tekst": "Niet de data over huidige studenten. Als hun eigen docent ze om toestemming vraagt, kunnen zij niet vrijuit weigeren."},
+                    {"letter": "D", "tekst": "Ja, hij mag beide typen data gebruiken."}
+                ],
+                "reflectie": "Dat de docent zijn inzichten wil delen, is lovenswaardig. In dit geval creëert zijn dubbelrol als docent en wetenschappelijk onderzoeker echter een ingewikkelde situatie. Gebruik van persoonsgegevens bij dergelijk wetenschappelijk onderzoek is vaak gebaseerd op de toestemming van betrokkenen. Deze toestemming moet vrij, geïnformeerd, specifiek en ondubbelzinnig gegeven zijn (zie 4.2.1.). In deze situatie zijn er bij dat eerste vraagtekens te plaatsen: de studenten staan in een afhankelijkheidsrelatie tot hun docent. Dat hij ook wetenschapper is, verandert dit niet. Wellicht zou het beter zijn als een ander het onderzoek doet. Voor de historische data is een belangrijke vraag of het nieuwe gebruik verenigbaar is met het doel waarvoor de data verzameld zijn. De AVG stelt dat dat in principe mag worden aangenomen bij gebruik van studiedata voor wetenschappelijk onderzoek. Om echter te borgen dat studiedata daadwerkelijk verantwoord wordt gebruikt, is niettemin vereist dat een duidelijk doel moet zijn bepaald voor de verwerking van de gegevens en moeten nog steeds passende waarborgen worden getroffen (zie 4.1). Ook is er nog steeds een informatieplicht (zie hoofdstuk 6). Wanneer de data voor het onderzoek geanonimiseerd kunnen worden, verdient dit de voorkeur (zie 8.3.1)."
+            }
+        ];
+
+        const casusColors = {
+            "Welzijnsmonitoring": "var(--color-dilemma-welzijn)",
+            "Monitoring van studiegedrag": "var(--color-dilemma-monitoring)",
+            "Data delen over instromers": "var(--color-dilemma-delen)",
+            "Predictive analytics": "var(--color-dilemma-predictive)",
+            "Uitwisselingsstudenten": "var(--color-dilemma-uitwisseling)",
+            "Tweetalig onderwijs": "var(--color-dilemma-tweetalig)",
+            "Onderwijsinnovatie": "var(--color-dilemma-innovatie)"
+        };
+
+        const startScreen = document.getElementById('start-screen');
+        const dilemmaScreen = document.getElementById('dilemma-screen');
+        const caseButtonsContainer = document.querySelector('.case-buttons');
+        const dilemmaCardContainer = document.getElementById('dilemma-card-container');
+        const rolesContainer = document.getElementById('roles-container');
+        const nextDilemmaBtn = document.getElementById('next-dilemma-btn');
+        const backToStartBtn = document.getElementById('back-to-start-btn');
+        const casusTitleDisplay = document.getElementById('casus-title-display');
+
+        let currentCasusNaam = '';
+        let dilemmasInCurrentCasus = [];
+        let currentDilemmaIndex = 0;
+
+        function getRoleByName(name) {
+            return rolesData.find(role => role.rol === name);
+        }
+        
+        function getRoleCssClass(roleName) {
+            return roleName.replace(/\s+/g, '_');
+        }
+
+        function populateStartScreen() {
+            const casusNamen = [...new Set(dilemmasData.map(d => d.casus_naam))];
+            caseButtonsContainer.innerHTML = '';
+            casusNamen.forEach(casusNaam => {
+                const button = document.createElement('button');
+                button.textContent = casusNaam;
+                button.dataset.casus = casusNaam;
+                button.style.backgroundColor = casusColors[casusNaam] || '#ccc';
+                button.addEventListener('click', () => selectCasus(casusNaam));
+                caseButtonsContainer.appendChild(button);
+            });
+        }
+
+        function selectCasus(casusNaam) {
+            currentCasusNaam = casusNaam;
+            dilemmasInCurrentCasus = dilemmasData.filter(d => d.casus_naam === currentCasusNaam);
+            dilemmasInCurrentCasus.sort((a, b) => a.volgnummer - b.volgnummer);
+            currentDilemmaIndex = 0;
+            loadDilemma(currentDilemmaIndex);
+            startScreen.classList.add('hidden');
+            dilemmaScreen.classList.remove('hidden');
+            casusTitleDisplay.textContent = currentCasusNaam;
+             window.scrollTo(0, 0);
+        }
+
+        function loadDilemma(index) {
+            const dilemma = dilemmasInCurrentCasus[index];
+            if (!dilemma) return;
+
+            dilemmaCardContainer.innerHTML = ''; 
+
+            const dilemmaCard = document.createElement('div');
+            dilemmaCard.classList.add('card', 'dilemma-card');
+            dilemmaCard.style.borderLeftColor = casusColors[dilemma.casus_naam] || '#ccc';
+            
+            let dilemmaTitleHtml = `<h2>${dilemma.titel}`;
+            if (dilemmasInCurrentCasus.length > 1) {
+                 dilemmaTitleHtml += ` <span class="dilemma-number">(${dilemma.volgnummer}/${dilemmasInCurrentCasus.length})</span>`;
+            }
+            dilemmaTitleHtml += `</h2>`;
+
+            let antwoordenHtml = '<ul>';
+            dilemma.antwoorden.forEach(antw => {
+                antwoordenHtml += `<li><strong>${antw.letter}</strong> ${antw.tekst}</li>`;
+            });
+            antwoordenHtml += '</ul>';
+            
+            dilemmaCard.innerHTML = `
+                ${dilemmaTitleHtml}
+                <p>${dilemma.omschrijving.replace(/\n/g, '<br>')}</p>
+                ${antwoordenHtml}
+                <span class="dilemma-icon">💬</span>
+            `;
+            dilemmaCard.addEventListener('click', () => showReflection(dilemma));
+            dilemmaCardContainer.appendChild(dilemmaCard);
+
+            rolesContainer.innerHTML = '';
+            const uniqueRoles = [...new Set(dilemma.rollen)];
+            uniqueRoles.forEach(roleName => {
+                const roleData = getRoleByName(roleName);
+                if (roleData) {
+                    rolesContainer.appendChild(createRoleCardElement(roleData));
+                } else {
+                    console.warn(`Rol niet gevonden: ${roleName}`);
+                }
+            });
+            
+            updateNavigationButtons();
+        }
+
+        function createRoleCardElement(roleData) {
+            const wrapper = document.createElement('div');
+            wrapper.classList.add('role-card-wrapper');
+
+            const inner = document.createElement('div');
+            inner.classList.add('role-card-inner');
+
+            const front = document.createElement('div');
+            front.classList.add('role-card-front', getRoleCssClass(roleData.rol));
+            front.innerHTML = `
+                <div class="role-image-placeholder">${roleData.naam ? roleData.naam.substring(0,1).toUpperCase() : '?'}</div>
+                <h3>${roleData.rol}</h3>
+                <p class="description-short">${roleData.beschrijving_kort.replace(/\n/g, '<br>')}</p>
+                <p class="meer-weten">Meer weten over ${roleData.naam}?</p>
+            `;
+
+            const back = document.createElement('div');
+            back.classList.add('role-card-back');
+            let behoeftenHtml = '<ul>';
+            roleData.behoeften.forEach(b => behoeftenHtml += `<li>${b}</li>`);
+            behoeftenHtml += '</ul>';
+
+            let houdingenHtml = '<ul>';
+            roleData.houdingen.forEach(h => houdingenHtml += `<li><strong>${h.titel}:</strong> ${h.beschrijving}</li>`);
+            houdingenHtml += '</ul>';
+
+            back.innerHTML = `
+                <h4>Over ${roleData.naam} (${roleData.rol})</h4>
+                <p>${roleData.beschrijving_lang.replace(/\n/g, '<br>')}</p>
+                <h4>Behoeften:</h4>
+                ${behoeftenHtml}
+                <h4>Houding (dilemma):</h4>
+                ${houdingenHtml}
+            `;
+            
+            inner.appendChild(front);
+            inner.appendChild(back);
+            wrapper.appendChild(inner);
+
+            wrapper.addEventListener('click', () => {
+                wrapper.classList.toggle('is-flipped');
+            });
+            return wrapper;
+        }
+        
+        function showReflection(dilemma) {
+            const oldReflection = dilemmaCardContainer.querySelector('.reflection-card');
+            if (oldReflection) {
+                oldReflection.remove();
+            }
+
+            if (confirm('Klaar met het gesprek en de overwegingen/reflectie bekijken?')) {
+                const reflectionCard = document.createElement('div');
+                reflectionCard.classList.add('card', 'reflection-card');
+                reflectionCard.innerHTML = `
+                    <h3>Reflectie: ${dilemma.titel}</h3>
+                    <p>${dilemma.reflectie.replace(/\n/g, '<br>')}</p>
+                `;
+                dilemmaCardContainer.appendChild(reflectionCard);
+                reflectionCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        }
+
+        function updateNavigationButtons() {
+            if (currentDilemmaIndex >= dilemmasInCurrentCasus.length - 1) {
+                nextDilemmaBtn.classList.add('hidden');
+            } else {
+                nextDilemmaBtn.classList.remove('hidden');
+            }
+        }
+        
+        nextDilemmaBtn.addEventListener('click', () => {
+            if (currentDilemmaIndex < dilemmasInCurrentCasus.length - 1) {
+                currentDilemmaIndex++;
+                loadDilemma(currentDilemmaIndex);
+                dilemmaCardContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+
+        backToStartBtn.addEventListener('click', () => {
+            dilemmaScreen.classList.add('hidden');
+            startScreen.classList.remove('hidden');
+            window.scrollTo(0, 0);
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            populateStartScreen();
+        });
+
+    </script>
+</body>
+</html>

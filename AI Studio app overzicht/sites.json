@@ -1,0 +1,66 @@
+[
+  {
+    "volgnummer": 1,
+    "url": "https://ictoblog.com/html/Cszech_school_i8n/",
+    "afbeeldingUrl": "images/app1.png",
+    "titel": "Showcase: Geavanceerde Digitale Leermiddelen in Tsjechische Scholen (MŠMT)",
+    "omschrijving": "Gegenereerd door AI-studio: Site die uit 1 pagina bestaat, een YouTube video embed, daar via een overlay ondertiteling bij weergeeft. Ook de navigatiestructuur voor vragen en antwoorden is gegeneerd op basis van een prompt en analyse van de video."
+  },
+  {
+    "volgnummer": 2,
+    "url": "https://ictoblog.com/html/iXscan/",
+    "afbeeldingUrl": "images/app2.png",
+    "titel": "HTML versie van de iXscan",
+    "omschrijving": "Gegenereerd door AI-studio: Op basis van een schermfilmpje van de oorspronkele Excelversie van de iXscan is deze ogenschijnlijk meer-pagina versie van de iXscan ontwikkeld. Het is 1 HTML-bestand met navigatie, report generatie en Markdown export van het rapport."
+  },
+  {
+    "volgnummer": 3,
+    "url": "https://ictoblog.com/html/Conjecture_mapping/",
+    "afbeeldingUrl": "images/app3.png",
+    "titel": "Conjecture Mapping Tool",
+    "omschrijving": "Gegenereerd door AI-studio: 1 HTML-bestand dat het mogelijk maakt een conjecture mapping uit te voeren. Inclusief optie voor export naar SVG. De conjecture map kan als JSON opgeslagen worden en dan later weer geïmporteerd voor verdere bewerking."
+  },
+  {
+    "volgnummer": 4,
+    "url": "https://ictoblog.com/html/Dilemmaspel/",
+    "afbeeldingUrl": "images/app4.png",
+    "titel": "Dilemmaspel Studiedata",
+    "omschrijving": "Gegenereerd door AI-studio: Online spelvorm gebaseerd op het Dilemmaspel Studiedata van het Versnellingsplan. 1 HTML-bestand gegenereerd op basis van de PDF met de spelkaarten."
+  },
+  {
+    "volgnummer": 5,
+    "url": "https://ictoblog.com/html/Coach%20or%20Crutch%20Using%20AI%20to%20hone%20self%20regulation%20(not%20outsource%20it).html",
+    "afbeeldingUrl": "images/app5.png",
+    "titel": "Coach or Crutch? Using AI to Hone Self-Regulation, Not Outsource It",
+    "omschrijving": "Gegenereerd door AI-studio: Op basis van de MP3 en wat contextuele informatie is deze 1 HTML-bestand omgeving gegenereerd die voor eenvoudige toegang tot delen van een podcast zorgt."
+  },
+  {
+    "volgnummer": 6,
+    "url": "https://ictoblog.com/html/Lesobservaties/",
+    "afbeeldingUrl": "images/app6.png",
+    "titel": "Analyse Klasinteractie: 5 Docentrollen",
+    "omschrijving": "Gegenereerd door AI-studio: Proof of concept van een tool die video-opnames van een les analyseert aan de HAN van een PDF met een observatieschema en daar dan een 1 HTML-bestand omgeving voor genereerd heeft voor de rapportage."
+  },
+  {
+    "volgnummer": 7,
+    "url": "https://ictoblog.com/html/",
+    "afbeeldingUrl": "images/app7.png",
+    "titel": "Webpagina met applicaties",
+    "omschrijving": "Gegenereerd door AI-studio: Om dan meteen maar even helemaal meta te gaan: deze pagina met apps is ook door AI-studio gegenereerd. Hij bestaat uit 1 HTML-pagina met een los json-bestand dat ingeladen wordt met alle informatie over de applicaties, navigatiestructuur voor als er > 6 apps zijn (zoals nu) wordt automatisch getoond."
+  }
+  ,
+  {
+    "volgnummer": 8,
+    "url": "#",
+    "afbeeldingUrl": "images/app8.png",
+    "titel": "Overzicht AR/VR apps",
+    "omschrijving": "Gegenereerd door AI-studio: Nog even zonder URL omdat hij nog onderdeel is van een ontwikkelproces voor een stuk professionalisering: een interactieve lijst met filter opties voor AR/VR-applicaties voor verschillende onderwijssectoren en vakken. Gegenereerd met een prompt op basis van een pdf van een Excelbestand (AI-studio kan Excelbestanden nog niet automatisch inlezen). Bestaat uit 1 HTML-bestand, CSS en JavaScript in het bestand"
+  },
+  {
+    "volgnummer": 9,
+    "url": "https://c2pa.ictoblog.com/",
+    "afbeeldingUrl": "images/app9.png",
+    "titel": "C2PA",
+    "omschrijving": "Gegenereerd door AI-studio: Met veel meer dan 1 prompt, zie het bericht op ictoblog.nl voor uitleg over de tool. De korte versie: je upload een JPG of PNG en als er C2PA metadata in de afbeelding zit, dan wordt die weergegeven. De broncode is op github beschikbaar, maar vereist Docker om te draaien."
+  }
+]

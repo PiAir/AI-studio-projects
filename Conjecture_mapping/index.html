@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conjecture Map Tool</title> 
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .map-controls {
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+            gap: 10px;
+            justify-content: center;
+        }
+
+        /* Style for Export/Import buttons in .map-controls */
+        .map-controls button {
+            background-color: #28a745; /* Green like add-cell-btn */
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            font-size: 0.9em; /* Consistent font size */
+        }
+        .map-controls button:hover {
+            background-color: #218838; /* Darker green on hover */
+        }
+
+
+        #conjecture-map-editor {
+            display: flex;
+            gap: 20px;
+            width: 100%;
+            max-width: 1600px;
+            position: relative;
+            overflow-x: auto;
+            margin-bottom: 20px; /* Space for scrollbar if needed */
+        }
+
+        .column {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            min-width: 250px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .column h2 {
+            font-size: 1.2em;
+            margin-top: 0;
+            margin-bottom: 10px;
+            text-align: center;
+            color: #333;
+        }
+
+        .cells-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            min-height: 50px;
+        }
+
+        .cell {
+            background-color: #e9f5ff;
+            border: 1px solid #b3d7ff;
+            border-radius: 6px;
+            padding: 10px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .cell-content {
+            padding: 8px;
+            min-height: 30px;
+            background-color: #fff;
+            border: 1px dashed #ccc;
+            border-radius: 4px;
+            outline: none;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            text-align: center;
+        }
+        .cell-content:focus {
+            border-style: solid;
+            border-color: #80bdff;
+        }
+
+
+        .cell-actions {
+            display: flex;
+            gap: 5px;
+            justify-content: flex-end;
+        }
+
+        /* Keep original style for +/-/x buttons inside cells */
+        .cell-actions button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 3px 6px;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+        .cell-actions button:hover {
+            background-color: #0056b3;
+        }
+        .cell-actions .disconnect-btn {
+            background-color: #dc3545;
+        }
+        .cell-actions .disconnect-btn:hover {
+            background-color: #c82333;
+        }
+        .cell-actions .delete-cell-btn {
+            background-color: #6c757d;
+            margin-left: auto;
+            margin-right: 5px;
+        }
+        .cell-actions .delete-cell-btn:hover {
+            background-color: #545b62;
+        }
+
+
+        .add-cell-btn { /* This is the "Item Toevoegen" button */
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            align-self: center;
+            margin-top: 5px;
+            font-size: 0.9em; /* Consistent font size */
+        }
+        .add-cell-btn:hover {
+            background-color: #218838;
+        }
+
+        #connections-svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        #connections-svg line {
+            stroke: #007bff;
+            stroke-width: 2;
+        }
+        #connections-svg path {
+            stroke: #007bff;
+            stroke-width: 2;
+            fill: none;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 8px;
+        }
+        .close-modal-btn {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close-modal-btn:hover,
+        .close-modal-btn:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        #modal-cell-list button {
+            display: block;
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            text-align: left;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        #modal-cell-list button:hover {
+            background-color: #e0e0e0;
+        }
+        #modal-cell-list button.connected {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+        }
+
+        .mobile-nav-controls {
+            display: none;
+            margin-bottom: 15px;
+            gap: 10px;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            h1 {
+                font-size: 1.5em; /* Slightly smaller title on mobile */
+            }
+            #conjecture-map-editor {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .column {
+                min-width: unset;
+                width: 100%;
+                display: none;
+            }
+            .column.active-mobile {
+                display: flex;
+            }
+            .mobile-nav-controls {
+                display: flex;
+                justify-content: center;
+            }
+        }
+        #json-file-input {
+            display: none; /* Hidden file input */
+        }
+    </style>
+</head>
+<body>
+    <h1>Conjecture Mapping Tool</h1>
+
+    <div class="map-controls">
+        <button id="export-svg-btn">Exporteer naar SVG</button>
+        <button id="export-json-btn">Exporteer naar JSON</button>
+        <button id="import-json-btn">Importeer van JSON</button>
+        <input type="file" id="json-file-input" accept=".json">
+    </div>
+
+    <div class="mobile-nav-controls">
+        <button id="prev-col-btn">Vorige Kolom</button>
+        <button id="next-col-btn">Volgende Kolom</button>
+    </div>
+
+    <div id="conjecture-map-editor">
+        <div class="column" id="column-0" data-col-index="0">
+            <h2>High-level conjecture</h2>
+            <div class="cells-container"></div>
+            <button class="add-cell-btn" data-col-index="0">Item Toevoegen</button>
+        </div>
+        <div class="column" id="column-1" data-col-index="1">
+            <h2>Embodiment</h2>
+            <div class="cells-container"></div>
+            <button class="add-cell-btn" data-col-index="1">Item Toevoegen</button>
+        </div>
+        <div class="column" id="column-2" data-col-index="2">
+            <h2>Mediating Processes</h2>
+            <div class="cells-container"></div>
+            <button class="add-cell-btn" data-col-index="2">Item Toevoegen</button>
+        </div>
+        <div class="column" id="column-3" data-col-index="3">
+            <h2>Outcomes</h2>
+            <div class="cells-container"></div>
+            <button class="add-cell-btn" data-col-index="3">Item Toevoegen</button>
+        </div>
+        <svg id="connections-svg">
+            <defs>
+                <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5"
+                    markerWidth="6" markerHeight="6"
+                    orient="auto-start-reverse">
+                  <path d="M 0 0 L 10 5 L 0 10 z" fill="#007bff" />
+                </marker>
+              </defs>
+        </svg>
+    </div>
+
+    <div id="connection-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal-btn" id="close-connection-modal-btn">&times;</span>
+            <h3 id="modal-title">Beheer Verbindingen</h3>
+            <div id="modal-cell-list"></div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const editor = document.getElementById('conjecture-map-editor');
+            const columns = [
+                document.getElementById('column-0'),
+                document.getElementById('column-1'),
+                document.getElementById('column-2'),
+                document.getElementById('column-3')
+            ];
+            const svgCanvas = document.getElementById('connections-svg');
+            const connectionModal = document.getElementById('connection-modal');
+            const closeModalBtn = document.getElementById('close-connection-modal-btn');
+            const modalTitle = document.getElementById('modal-title');
+            const modalCellList = document.getElementById('modal-cell-list');
+            const exportSvgBtn = document.getElementById('export-svg-btn');
+            const exportJsonBtn = document.getElementById('export-json-btn');
+            const importJsonBtn = document.getElementById('import-json-btn');
+            const jsonFileInput = document.getElementById('json-file-input');
+            const prevColBtn = document.getElementById('prev-col-btn');
+            const nextColBtn = document.getElementById('next-col-btn');
+
+            let cellsData = [[], [], [], []];
+            let currentModalData = {};
+            let currentMobileColumnIndex = 0;
+
+            function initialize() {
+                columns.forEach((col, index) => {
+                    const addBtn = col.querySelector('.add-cell-btn');
+                    addBtn.addEventListener('click', () => addCell(index));
+                });
+                closeModalBtn.addEventListener('click', () => connectionModal.style.display = 'none');
+                window.addEventListener('click', (event) => {
+                    if (event.target == connectionModal) connectionModal.style.display = 'none';
+                });
+                exportSvgBtn.addEventListener('click', generateAndDownloadSVG);
+                exportJsonBtn.addEventListener('click', exportMapToJson);
+                importJsonBtn.addEventListener('click', () => jsonFileInput.click());
+                jsonFileInput.addEventListener('change', importMapFromJson);
+
+                prevColBtn.addEventListener('click', showPrevColumn);
+                nextColBtn.addEventListener('click', showNextColumn);
+                checkResponsiveView();
+                window.addEventListener('resize', checkResponsiveView);
+                renderAll();
+            }
+
+            function checkResponsiveView() {
+                const isMobile = window.innerWidth <= 768;
+                if (isMobile) {
+                    editor.classList.add('mobile-view');
+                    document.querySelector('.mobile-nav-controls').style.display = 'flex';
+                    svgCanvas.style.display = 'none';
+                    updateMobileView();
+                } else {
+                    editor.classList.remove('mobile-view');
+                    document.querySelector('.mobile-nav-controls').style.display = 'none';
+                    svgCanvas.style.display = 'block';
+                    columns.forEach(col => col.style.display = 'flex');
+                    renderConnections();
+                }
+            }
+
+            function updateMobileView() {
+                columns.forEach((col, index) => {
+                    col.style.display = index === currentMobileColumnIndex ? 'flex' : 'none';
+                    col.classList.toggle('active-mobile', index === currentMobileColumnIndex);
+                });
+                prevColBtn.disabled = currentMobileColumnIndex === 0;
+                nextColBtn.disabled = currentMobileColumnIndex === columns.length - 1;
+            }
+
+            function showPrevColumn() {
+                if (currentMobileColumnIndex > 0) {
+                    currentMobileColumnIndex--;
+                    updateMobileView();
+                }
+            }
+
+            function showNextColumn() {
+                if (currentMobileColumnIndex < columns.length - 1) {
+                    currentMobileColumnIndex++;
+                    updateMobileView();
+                }
+            }
+
+            function generateId() {
+                return 'cell_' + Math.random().toString(36).substr(2, 9);
+            }
+
+            function addCell(columnIndex, text = 'Nieuw item...') {
+                const cellId = generateId();
+                const cellData = { id: cellId, text: text, connections: [] };
+                cellsData[columnIndex].push(cellData);
+                renderColumn(columnIndex);
+                if (svgCanvas.style.display !== 'none') {
+                    renderConnections();
+                }
+            }
+
+            function deleteCell(columnIndex, cellId) {
+                cellsData[columnIndex] = cellsData[columnIndex].filter(cell => cell.id !== cellId);
+                if (columnIndex > 0) {
+                    cellsData[columnIndex - 1].forEach(prevCell => {
+                        prevCell.connections = prevCell.connections.filter(connId => connId !== cellId);
+                    });
+                }
+                renderAll();
+            }
+
+            function updateCellText(columnIndex, cellId, newText) {
+                const cell = cellsData[columnIndex].find(c => c.id === cellId);
+                if (cell) cell.text = newText;
+            }
+
+            function openConnectionModal(sourceCellId, sourceColumnIndex, mode) {
+                currentModalData = { sourceCellId, sourceColumnIndex, mode };
+                modalCellList.innerHTML = '';
+                const sourceCell = cellsData[sourceColumnIndex].find(c => c.id === sourceCellId);
+                if (!sourceCell) return;
+                const targetColumnIndex = sourceColumnIndex + 1;
+                if (targetColumnIndex >= columns.length) {
+                    alert("Kan niet verbinden: dit is de laatste kolom.");
+                    return;
+                }
+                modalTitle.textContent = mode === 'connect' ? 'Verbind met item' : 'Verbreek verbinding';
+                const targetCells = cellsData[targetColumnIndex];
+                if (targetCells.length === 0 && mode === 'connect') {
+                    modalCellList.innerHTML = '<p>Geen items in volgende kolom.</p>';
+                } else if (mode === 'disconnect' && sourceCell.connections.length === 0) {
+                     modalCellList.innerHTML = '<p>Geen verbindingen om te verbreken.</p>';
+                } else {
+                    targetCells.forEach(targetCell => {
+                        const isConnected = sourceCell.connections.includes(targetCell.id);
+                        if (mode === 'connect' || (mode === 'disconnect' && isConnected)) {
+                            const btn = document.createElement('button');
+                            btn.textContent = targetCell.text;
+                            btn.title = targetCell.text;
+                            btn.onclick = () => handleConnectionAction(targetCell.id);
+                            if (mode === 'connect' && isConnected) {
+                                btn.disabled = true;
+                                btn.classList.add('connected');
+                                btn.textContent += " (Verbonden)";
+                            }
+                            modalCellList.appendChild(btn);
+                        }
+                    });
+                     if (modalCellList.childElementCount === 0 && mode === 'disconnect'){
+                        modalCellList.innerHTML = '<p>Geen verbindingen om te verbreken.</p>';
+                    }
+                }
+                connectionModal.style.display = 'block';
+            }
+
+            function handleConnectionAction(targetCellId) {
+                const { sourceCellId, sourceColumnIndex, mode } = currentModalData;
+                const sourceCell = cellsData[sourceColumnIndex].find(c => c.id === sourceCellId);
+                if (!sourceCell) return;
+                if (mode === 'connect') {
+                    if (!sourceCell.connections.includes(targetCellId)) {
+                        sourceCell.connections.push(targetCellId);
+                    }
+                } else if (mode === 'disconnect') {
+                    sourceCell.connections = sourceCell.connections.filter(id => id !== targetCellId);
+                }
+                if (svgCanvas.style.display !== 'none') {
+                    renderConnections();
+                }
+                connectionModal.style.display = 'none';
+            }
+
+            function renderAll() {
+                columns.forEach((_, index) => renderColumn(index));
+                if (svgCanvas.style.display !== 'none') {
+                    renderConnections();
+                }
+                if (window.innerWidth <= 768) updateMobileView();
+            }
+
+            function renderColumn(columnIndex) {
+                const columnDiv = columns[columnIndex];
+                const cellsContainer = columnDiv.querySelector('.cells-container');
+                cellsContainer.innerHTML = '';
+                cellsData[columnIndex].forEach(cellData => {
+                    const cellDiv = document.createElement('div');
+                    cellDiv.className = 'cell';
+                    cellDiv.dataset.cellId = cellData.id;
+                    cellDiv.dataset.columnIndex = columnIndex;
+                    const contentDiv = document.createElement('div');
+                    contentDiv.className = 'cell-content';
+                    contentDiv.textContent = cellData.text;
+                    contentDiv.contentEditable = true;
+                    contentDiv.addEventListener('blur', (e) => {
+                        updateCellText(columnIndex, cellData.id, e.target.textContent);
+                        if (svgCanvas.style.display !== 'none') renderConnections();
+                    });
+                    contentDiv.addEventListener('keypress', (e) => {
+                        if (e.key === 'Enter' && !e.shiftKey) {
+                            e.preventDefault();
+                            e.target.blur();
+                        }
+                    });
+                    const actionsDiv = document.createElement('div');
+                    actionsDiv.className = 'cell-actions';
+                    const deleteBtn = document.createElement('button');
+                    deleteBtn.className = 'delete-cell-btn';
+                    deleteBtn.textContent = '×';
+                    deleteBtn.title = 'Verwijder item';
+                    deleteBtn.onclick = () => {
+                        if (confirm(`Weet u zeker dat u "${cellData.text.substring(0,30)}..." wilt verwijderen?`)) {
+                             deleteCell(columnIndex, cellData.id);
+                        }
+                    };
+                    actionsDiv.appendChild(deleteBtn);
+                    if (columnIndex < columns.length - 1) {
+                        const connectBtn = document.createElement('button');
+                        connectBtn.className = 'connect-btn';
+                        connectBtn.textContent = '+';
+                        connectBtn.title = 'Voeg verbinding toe';
+                        connectBtn.onclick = () => openConnectionModal(cellData.id, columnIndex, 'connect');
+                        actionsDiv.appendChild(connectBtn);
+                        const disconnectBtn = document.createElement('button');
+                        disconnectBtn.className = 'disconnect-btn';
+                        disconnectBtn.textContent = '-';
+                        disconnectBtn.title = 'Verwijder verbinding';
+                        disconnectBtn.onclick = () => openConnectionModal(cellData.id, columnIndex, 'disconnect');
+                        actionsDiv.appendChild(disconnectBtn);
+                    }
+                    cellDiv.appendChild(contentDiv);
+                    cellDiv.appendChild(actionsDiv);
+                    cellsContainer.appendChild(cellDiv);
+                });
+            }
+
+            function getCellElement(cellId) {
+                return editor.querySelector(`.cell[data-cell-id="${cellId}"]`);
+            }
+
+            function renderConnections() {
+                if (svgCanvas.style.display === 'none') return;
+                svgCanvas.innerHTML = `<defs>
+                    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5"
+                        markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                      <path d="M 0 0 L 10 5 L 0 10 z" fill="#007bff" />
+                    </marker>
+                  </defs>`;
+                const editorRect = editor.getBoundingClientRect();
+                for (let colIdx = 0; colIdx < cellsData.length - 1; colIdx++) {
+                    cellsData[colIdx].forEach(sourceCellData => {
+                        const sourceElem = getCellElement(sourceCellData.id);
+                        if (!sourceElem) return;
+                        const sourceRect = sourceElem.getBoundingClientRect();
+                        const startX = sourceRect.right - editorRect.left;
+                        const numConnections = sourceCellData.connections.length;
+                        let startYBase = sourceRect.top + sourceRect.height / 2 - editorRect.top;
+                        sourceCellData.connections.forEach((targetCellId, connectionIndex) => {
+                            const targetElem = getCellElement(targetCellId);
+                            if (!targetElem) return;
+                            const targetRect = targetElem.getBoundingClientRect();
+                            const endX = targetRect.left - editorRect.left;
+                            const endY = targetRect.top + targetRect.height / 2 - editorRect.top;
+                            let currentStartY = startYBase;
+                            if (numConnections > 1) {
+                                const spreadRange = sourceRect.height * 0.5;
+                                const step = numConnections > 1 ? spreadRange / (numConnections - 1) : 0;
+                                currentStartY = (startYBase - spreadRange / 2) + (connectionIndex * step);
+                            }
+                            const angle = Math.atan2(endY - currentStartY, endX - startX);
+                            const arrowHeadLength = 6;
+                            const adjustedEndX = endX - arrowHeadLength * Math.cos(angle);
+                            const adjustedEndY = endY - arrowHeadLength * Math.sin(angle);
+                            const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                            line.setAttribute('x1', startX);
+                            line.setAttribute('y1', currentStartY);
+                            line.setAttribute('x2', adjustedEndX);
+                            line.setAttribute('y2', adjustedEndY);
+                            line.setAttribute('marker-end', 'url(#arrow)');
+                            svgCanvas.appendChild(line);
+                        });
+                    });
+                }
+            }
+
+            let resizeTimeout;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(() => { checkResponsiveView(); }, 100);
+            });
+
+            function escapeHTML(str) {
+                if (typeof str !== 'string') return '';
+                let escapedStr = str.replace(/&/g, '&amp;')
+                                   .replace(/</g, '&lt;')
+                                   .replace(/>/g, '&gt;')
+                                   .replace(/"/g, '&quot;')
+                                   .replace(/'/g, '&#39;');
+                escapedStr = escapedStr.replace(/\u00A0/g, '&#160;');
+                return escapedStr;
+            }
+            
+            function getCellSvgRenderInfo(cellId, editorContainerRect, fixedCellWidth) {
+                const cellEl = editor.querySelector(`.cell[data-cell-id="${cellId}"]`);
+                if (!cellEl) return null;
+                const htmlRect = cellEl.getBoundingClientRect();
+                const colEl = cellEl.closest('.column');
+                const colRect = colEl.getBoundingClientRect();
+                // Ensure editorContainerRect has valid left/top before using for offset calculation
+                const offsetX = editorContainerRect ? editorContainerRect.left : 0;
+                const offsetY = editorContainerRect ? editorContainerRect.top : 0;
+
+                const svgCellX = (colRect.left - offsetX) + (colRect.width - fixedCellWidth) / 2;
+                const svgCellY = htmlRect.top - offsetY;
+                return { x: svgCellX, y: svgCellY, width: fixedCellWidth, height: htmlRect.height };
+            }
+
+            function generateSVGString() {
+                const mapContainer = document.getElementById('conjecture-map-editor');
+                const editorRectForSVG = mapContainer.getBoundingClientRect(); // Base for all calculations
+                
+                // Attempt to make all columns temporarily visible for accurate measurement
+                const originalColumnDisplays = [];
+                columns.forEach(col => {
+                    originalColumnDisplays.push(col.style.display);
+                    col.style.display = 'flex'; // Make sure it's rendered for getBoundingClientRect
+                });
+                // Force a reflow if necessary, though direct style change might be enough for getBoundingClientRect
+                mapContainer.offsetHeight; 
+
+
+                let svgWidth = mapContainer.scrollWidth;
+                let svgHeight = mapContainer.scrollHeight;
+                const svgFixedCellWidth = 200;
+                const svgCellPadding = 5;
+                const curveFactor = 0.4;
+                let svgString = `<svg width="${svgWidth}" height="${svgHeight}" xmlns="http://www.w3.org/2000/svg" xmlns:xhtml="http://www.w3.org/1999/xhtml">`;
+                svgString += `<style>
+                    .svg-cell-rect { fill: #e9f5ff; stroke: #b3d7ff; stroke-width: 1; }
+                    .svg-column-title { font-family: sans-serif; font-size: 14px; font-weight: bold; fill: #333; text-anchor: middle; dominant-baseline: middle; }
+                    .svg-foreign-div {
+                        font-family: sans-serif; font-size: 12px; color: #333;
+                        height: 100%; width: 100%;
+                        overflow-wrap: break-word; word-wrap: break-word;
+                        display: flex; align-items: center; justify-content: center; text-align: center;
+                        box-sizing: border-box; padding: ${svgCellPadding}px;
+                    }
+                    path { stroke: #007bff; stroke-width: 2; fill: none; }
+                </style>`;
+                svgString += `<defs>
+                    <marker id="arrowExport" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                        <path d="M 0 0 L 10 5 L 0 10 z" fill="#007bff" />
+                    </marker>
+                </defs>`;
+                
+                const columnElements = Array.from(mapContainer.querySelectorAll('.column'));
+                let calculatedSvgWidth = 0; // To recalculate width based on actual column rendering
+
+                columnElements.forEach((colEl, colIdx) => {
+                    const colRect = colEl.getBoundingClientRect(); // Should be accurate now
+                    const colXoffset = colRect.left - editorRectForSVG.left;
+                    const colHtmlWidth = colRect.width;
+                    calculatedSvgWidth = Math.max(calculatedSvgWidth, colXoffset + colHtmlWidth);
+
+
+                    const titleEl = colEl.querySelector('h2');
+                    if (titleEl) {
+                        const titleHtmlRect = titleEl.getBoundingClientRect();
+                        const titleYPos = titleHtmlRect.top - editorRectForSVG.top + titleHtmlRect.height / 2;
+                        svgString += `<text x="${colXoffset + colHtmlWidth / 2}" y="${titleYPos}" class="svg-column-title">${escapeHTML(titleEl.textContent)}</text>`;
+                    }
+                    cellsData[colIdx].forEach((cellData) => {
+                        const svgInfo = getCellSvgRenderInfo(cellData.id, editorRectForSVG, svgFixedCellWidth);
+                        if (!svgInfo || svgInfo.height === 0 ) { // Fallback for cells somehow not rendered
+                            console.warn("SVG Export: Could not get valid rect for cell", cellData.id, "in column", colIdx);
+                            return; // Skip this cell if no valid info
+                        }
+                        
+                        svgString += `<rect x="${svgInfo.x}" y="${svgInfo.y}" width="${svgInfo.width}" height="${svgInfo.height}" class="svg-cell-rect" rx="6" ry="6" />`;
+                        const textContent = getCellElement(cellData.id)?.querySelector('.cell-content')?.textContent || cellData.text;
+                        svgString += `<foreignObject x="${svgInfo.x}" y="${svgInfo.y}" width="${svgInfo.width}" height="${svgInfo.height}">`;
+                        svgString +=    `<xhtml:div class="svg-foreign-div">${escapeHTML(textContent)}</xhtml:div>`;
+                        svgString += `</foreignObject>`;
+                    });
+                });
+                 // Restore original display styles for columns
+                columns.forEach((col, index) => {
+                    col.style.display = originalColumnDisplays[index];
+                });
+                checkResponsiveView(); // Re-apply mobile view if it was active
+
+                // Update overall SVG dimensions if calculated width is greater
+                if (calculatedSvgWidth > svgWidth) svgWidth = calculatedSvgWidth;
+                let maxY = 0;
+                 cellsData.forEach(col => col.forEach(cell => {
+                    const cellEl = getCellElement(cell.id);
+                    if(cellEl) {
+                        const y = cellEl.getBoundingClientRect().bottom - editorRectForSVG.top;
+                        if (y > maxY) maxY = y;
+                    }
+                 }));
+                 if (maxY + 20 > svgHeight) svgHeight = maxY + 20;
+
+                svgString = svgString.replace(/width="\d+(\.\d+)?px"/, `width="${svgWidth}"`).replace(/width="\d+"/, `width="${svgWidth}"`).replace(/height="\d+"/, `height="${svgHeight}"`);
+
+
+                for (let colIdx = 0; colIdx < cellsData.length - 1; colIdx++) {
+                    cellsData[colIdx].forEach(sourceCellData => {
+                        const sourceSvgInfo = getCellSvgRenderInfo(sourceCellData.id, editorRectForSVG, svgFixedCellWidth);
+                        if (!sourceSvgInfo || sourceSvgInfo.height === 0) return;
+
+                        const numConnections = sourceCellData.connections.length;
+                        let sourceBaseY = sourceSvgInfo.y + sourceSvgInfo.height / 2;
+                        const sourceX = sourceSvgInfo.x + sourceSvgInfo.width;
+                        sourceCellData.connections.forEach((targetCellId, connectionIndex) => {
+                            const targetSvgInfo = getCellSvgRenderInfo(targetCellId, editorRectForSVG, svgFixedCellWidth);
+                            if (!targetSvgInfo || targetSvgInfo.height === 0) return;
+
+                            let currentSourceY = sourceBaseY;
+                            if (numConnections > 1) {
+                                const spreadRange = sourceSvgInfo.height * 0.5;
+                                const step = numConnections > 1 ? spreadRange / (numConnections - 1) : 0;
+                                currentSourceY = (sourceBaseY - spreadRange / 2) + (connectionIndex * step);
+                            }
+                            const targetX = targetSvgInfo.x;
+                            const targetY = targetSvgInfo.y + targetSvgInfo.height / 2; 
+                            const cx1 = sourceX + (targetX - sourceX) * curveFactor;
+                            const cy1 = currentSourceY;
+                            const cx2 = targetX - (targetX - sourceX) * curveFactor;
+                            const cy2 = targetY;
+                            svgString += `<path d="M ${sourceX} ${currentSourceY} C ${cx1} ${cy1}, ${cx2} ${cy2}, ${targetX} ${targetY}" marker-end="url(#arrowExport)" />`;
+                        });
+                    });
+                }
+                svgString += `</svg>`;
+                return svgString;
+            }
+
+            function generateAndDownloadSVG() {
+                const svgData = generateSVGString();
+                const blob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = 'conjecture_map.svg';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+            }
+
+            function exportMapToJson() {
+                if (cellsData.every(col => col.length === 0)) {
+                    alert("De map is leeg. Er is niets om te exporteren.");
+                    return;
+                }
+                const jsonData = JSON.stringify(cellsData, null, 2);
+                const blob = new Blob([jsonData], { type: 'application/json;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = 'conjecture_map_data.json';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+            }
+
+            function importMapFromJson(event) {
+                const file = event.target.files[0];
+                if (!file) return;
+
+                if (cellsData.some(col => col.length > 0)) {
+                    if (!confirm("De huidige map bevat data. Weet u zeker dat u wilt importeren en de huidige map wilt overschrijven?")) {
+                        jsonFileInput.value = "";
+                        return;
+                    }
+                }
+
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    try {
+                        const importedData = JSON.parse(e.target.result);
+                        if (Array.isArray(importedData) && 
+                            importedData.length <= 4 && // Allow fewer than 4 columns if saved that way
+                            importedData.every(col => Array.isArray(col) && 
+                                col.every(cell => typeof cell === 'object' && 
+                                                  cell !== null && 
+                                                  'id' in cell && 
+                                                  'text' in cell && 
+                                                  'connections' in cell && 
+                                                  Array.isArray(cell.connections)))) {
+                            // Ensure cellsData has 4 columns even if importedData has fewer
+                            const newCellsData = [[], [], [], []];
+                            for (let i = 0; i < importedData.length; i++) {
+                                newCellsData[i] = importedData[i];
+                            }
+                            cellsData = newCellsData;
+                            renderAll();
+                            alert("Map succesvol geïmporteerd!");
+                        } else {
+                            throw new Error("Ongeldige JSON structuur voor conjecture map data.");
+                        }
+                    } catch (error) {
+                        alert("Fout bij importeren van JSON: " + error.message);
+                        console.error("JSON Import Error:", error);
+                    } finally {
+                        jsonFileInput.value = "";
+                    }
+                };
+                reader.readAsText(file);
+            }
+
+            initialize();
+        });
+    </script>
+</body>
+</html>

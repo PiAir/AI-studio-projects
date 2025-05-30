@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Overzicht van met AI gemaakte webapplicaties</title>
+    <style>
+        body {
+            font-family: 'Source Sans Pro', Arial, sans-serif; /* Geïnspireerd door iXperium */
+            margin: 0;
+            padding: 20px;
+            background-color: #f8f9fa; /* Lichte achtergrond */
+            color: #333;
+        }
+
+        header {
+            background-color: #5F259F; /* Paars van iXperium */
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            color: white;
+            margin: 0;
+            font-size: 2.5em;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        .app-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive grid */
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .app-card {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .app-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .app-card img {
+            width: 100%;
+            height: 200px; /* Vaste hoogte voor afbeeldingen */
+            object-fit: cover; /* Zorgt dat afbeelding goed schaalt/cropt */
+            border-bottom: 1px solid #eee;
+        }
+
+        .app-card-content {
+            padding: 20px;
+            flex-grow: 1; /* Zorgt dat content de resterende ruimte vult */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .app-card-content h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 1.4em;
+        }
+
+        .app-card-content h3 a {
+            text-decoration: none;
+            color: #5F259F; /* Paars voor links */
+            font-weight: bold;
+        }
+
+        .app-card-content h3 a:hover {
+            text-decoration: underline;
+            color: #00A9E0; /* Blauw bij hover, zoals iXperium */
+        }
+
+        .app-card-content p {
+            font-size: 0.95em;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 0;
+            flex-grow: 1; /* Paragraaf neemt beschikbare ruimte */
+        }
+
+        .pagination {
+            text-align: center;
+            margin-top: 30px;
+            padding-bottom: 20px;
+        }
+
+        .pagination button, .pagination span {
+            background-color: #5F259F;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            margin: 0 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+        }
+
+        .pagination button:hover:not(:disabled) {
+            background-color: #00A9E0; /* Blauw bij hover */
+        }
+
+        .pagination button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .pagination .page-number.active {
+            background-color: #FFD700; /* Geel voor actieve pagina */
+            color: #333;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Overzicht van met AI gemaakte webapplicaties</h1>
+    </header>
+
+    <div class="container">
+        <div id="app-grid" class="app-grid">
+            <!-- Applicatie kaarten worden hier geladen door JavaScript -->
+        </div>
+        <div id="pagination" class="pagination">
+            <!-- Paginering knoppen worden hier geladen door JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        const itemsPerPage = 6;
+        let currentPage = 1;
+        let sitesData = [];
+
+        async function loadSitesData() {
+            try {
+                const response = await fetch('sites.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                sitesData = await response.json();
+                // Sorteer op volgnummer voor de zekerheid, mocht JSON niet gesorteerd zijn
+                sitesData.sort((a, b) => a.volgnummer - b.volgnummer);
+                renderPage();
+            } catch (error) {
+                console.error("Kon sites.json niet laden:", error);
+                const appGrid = document.getElementById('app-grid');
+                appGrid.innerHTML = '<p style="color: red; text-align: center;">Kon de applicatiedata niet laden. Controleer of het bestand sites.json bestaat en correct is.</p>';
+            }
+        }
+
+        function renderPage() {
+            const appGrid = document.getElementById('app-grid');
+            const paginationControls = document.getElementById('pagination');
+            
+            appGrid.innerHTML = ''; // Maak de grid leeg
+            paginationControls.innerHTML = ''; // Maak paginering leeg
+
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const paginatedItems = sitesData.slice(startIndex, endIndex);
+
+            paginatedItems.forEach(site => {
+                const card = document.createElement('div');
+                card.className = 'app-card';
+                
+                // Plaatshouder afbeelding als de gespecificeerde afbeelding niet laadt
+                const img = document.createElement('img');
+                img.src = site.afbeeldingUrl;
+                img.alt = `Screenshot van ${site.titel}`;
+                img.onerror = function() {
+                    // Fallback als afbeelding niet laadt
+                    this.onerror=null; // voorkom oneindige loop als placeholder ook niet laadt
+                    this.src='images/placeholder.png'; // Zorg dat je een images/placeholder.png hebt
+                    this.alt='Placeholder afbeelding';
+                };
+
+
+                const content = document.createElement('div');
+                content.className = 'app-card-content';
+
+                const title = document.createElement('h3');
+                const link = document.createElement('a');
+                link.href = site.url;
+                link.textContent = site.titel;
+                // link.target = "_blank"; // Optioneel: open in nieuw tabblad
+                title.appendChild(link);
+
+                const description = document.createElement('p');
+                description.textContent = site.omschrijving;
+
+                content.appendChild(title);
+                content.appendChild(description);
+                card.appendChild(img);
+                card.appendChild(content);
+                appGrid.appendChild(card);
+            });
+
+            renderPaginationControls();
+        }
+
+        function renderPaginationControls() {
+            const paginationControls = document.getElementById('pagination');
+            const totalPages = Math.ceil(sitesData.length / itemsPerPage);
+
+            if (totalPages <= 1) return; // Geen paginering nodig voor 1 pagina of minder
+
+            // Vorige knop
+            const prevButton = document.createElement('button');
+            prevButton.textContent = 'Vorige';
+            prevButton.disabled = currentPage === 1;
+            prevButton.onclick = () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    renderPage();
+                }
+            };
+            paginationControls.appendChild(prevButton);
+
+            // Paginanummer knoppen
+            for (let i = 1; i <= totalPages; i++) {
+                const pageButton = document.createElement('button');
+                pageButton.textContent = i;
+                pageButton.classList.add('page-number');
+                if (i === currentPage) {
+                    pageButton.classList.add('active');
+                }
+                pageButton.onclick = () => {
+                    currentPage = i;
+                    renderPage();
+                };
+                paginationControls.appendChild(pageButton);
+            }
+
+            // Volgende knop
+            const nextButton = document.createElement('button');
+            nextButton.textContent = 'Volgende';
+            nextButton.disabled = currentPage === totalPages;
+            nextButton.onclick = () => {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    renderPage();
+                }
+            };
+            paginationControls.appendChild(nextButton);
+        }
+
+        // Start het laden van de data wanneer de pagina geladen is
+        document.addEventListener('DOMContentLoaded', loadSitesData);
+    </script>
+</body>
+</html>

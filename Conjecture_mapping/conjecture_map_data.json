@@ -1,0 +1,81 @@
+[
+  [
+    {
+      "id": "cell_9nzyq9tjg",
+      "text": "High level conjecture about how  to support learning in some context",
+      "connections": [
+        "cell_9clf576k0",
+        "cell_bmr2d86e5",
+        "cell_wxb6ebudd",
+        "cell_cv6306vuw"
+      ]
+    }
+  ],
+  [
+    {
+      "id": "cell_9clf576k0",
+      "text": "Tools and materials",
+      "connections": [
+        "cell_dzytfefi2",
+        "cell_fel5iu3lh"
+      ]
+    },
+    {
+      "id": "cell_bmr2d86e5",
+      "text": "Task Structures",
+      "connections": [
+        "cell_dzytfefi2"
+      ]
+    },
+    {
+      "id": "cell_wxb6ebudd",
+      "text": "Participant Structures",
+      "connections": [
+        "cell_fel5iu3lh"
+      ]
+    },
+    {
+      "id": "cell_cv6306vuw",
+      "text": "Discursive Practices",
+      "connections": [
+        "cell_dzytfefi2",
+        "cell_fel5iu3lh"
+      ]
+    }
+  ],
+  [
+    {
+      "id": "cell_dzytfefi2",
+      "text": "Observable interactions",
+      "connections": [
+        "cell_12gm0zv9m",
+        "cell_2lelyfvjo"
+      ]
+    },
+    {
+      "id": "cell_fel5iu3lh",
+      "text": "Participant artifacts",
+      "connections": [
+        "cell_199j1id27",
+        "cell_12gm0zv9m"
+      ]
+    }
+  ],
+  [
+    {
+      "id": "cell_12gm0zv9m",
+      "text": "Learning",
+      "connections": []
+    },
+    {
+      "id": "cell_199j1id27",
+      "text": "Interest/Motivation",
+      "connections": []
+    },
+    {
+      "id": "cell_2lelyfvjo",
+      "text": "Etc.",
+      "connections": []
+    }
+  ]
+]
