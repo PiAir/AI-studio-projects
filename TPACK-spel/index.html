@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TPACK Spel 2.0</title>
+    <style>
+        /* --- Algemene Layout & Achtergrond --- */
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+
+        #main-container {
+            position: relative;
+            width: 800px;
+            height: 800px;
+            margin: 40px auto;
+        }
+
+        #background-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* --- AANGEPASTE CLIPBOARD STYLING --- */
+        #clipboard-container {
+            position: absolute;
+            top: 75px;   /* Iets naar boven verplaatst */
+            left: 200px;  /* Iets naar rechts verplaatst */
+            width: 320px; /* Smaller gemaakt */
+#            background-color: white;
+            padding: 80px 20px 40px 20px; /* Horizontale padding verkleind */
+#            box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+        }
+
+        #clip {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 50px;
+            background-color: #7f8c8d;
+            border: 1px solid #34495e;
+            border-radius: 10px 10px 0 0;
+            box-shadow: inset 0 4px 8px rgba(0,0,0,0.3);
+        }
+        
+        #clip::before {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 5px;
+            background-color: #bdc3c7;
+            border-radius: 2px;
+        }
+
+        /* --- Startscherm & Gameplay --- */
+        .startscherm, .gameplay {
+            text-align: center;
+        }
+
+        .gameplay {
+            display: none;
+        }
+        
+        #tpack-diagram-start {
+             width: 150px;
+             margin-top: 20px;
+             cursor: pointer;
+             transition: transform 0.2s ease-in-out;
+        }
+        
+        #tpack-diagram-start:hover {
+            transform: scale(1.05);
+        }
+
+        .tpack-item {
+            margin: 15px 0;
+            text-align: left;
+            padding-left: 20px;
+            transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+        }
+
+        .tpack-item h3 {
+            display: flex;
+            align-items: center;
+            font-size: 1.1em;
+            color: #333;
+            margin: 0 0 5px 0;
+            font-weight: bold;
+        }
+
+        .tpack-item h3 img {
+            width: 22px;
+            height: 22px;
+            margin-right: 12px;
+            cursor: pointer;
+        }
+        
+        .tpack-item p {
+            font-size: 1.4em;
+            color: #c0392b;
+            margin: 0 0 0 34px;
+            font-weight: bold;
+        }
+        
+        #instruction {
+            margin-top: 40px;
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #2c3e50;
+            text-align: center;
+        }
+        
+        /* --- Animaties --- */
+        .updating {
+            opacity: 0;
+            transform: translateY(-15px);
+        }
+
+        /* --- Knoppen styling --- */
+        button {
+            background: #fefefe;
+            background: linear-gradient(to bottom,  #fefefe 0%,#f2f2f2 100%);
+            border: 1px solid #bbb;
+            border-radius: 4px;
+            padding: 8px 18px;
+            font-size: 15px;
+            color: #333;
+            cursor: pointer;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            transition: all 0.2s ease-in-out;
+            margin-top: 10px;
+        }
+        
+        button:hover {
+            border-color: #999;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        button:active {
+            background: #e8e8e8;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+        }
+
+        /* --- Modal/Popup voor TPACK afbeelding --- */
+        #modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.7); z-index: 1000;
+            display: flex; justify-content: center; align-items: center;
+            visibility: hidden; opacity: 0; transition: opacity 0.3s, visibility 0.3s;
+        }
+        #modal-overlay.visible { visibility: visible; opacity: 1; }
+        #modal-content {
+            position: relative; background-color: #fff; padding: 20px;
+            border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            transform: scale(0.9); transition: transform 0.3s;
+        }
+        #modal-overlay.visible #modal-content { transform: scale(1); }
+        #modal-content img { max-width: 80vw; max-height: 80vh; display: block; }
+        #modal-close {
+            position: absolute; top: -15px; right: -15px; width: 30px; height: 30px;
+            background: #e74c3c; color: white; border-radius: 50%; border: 2px solid white;
+            text-align: center; line-height: 28px; font-weight: bold; cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+        }
+    </style>
+</head>
+<body>
+    <div id="main-container">
+        <img id="background-img" src="background.jpg" alt="Achtergrond met handen die een klembord vasthouden">
+        
+        <div id="clipboard-container">
+ 
+            <!-- Scherm 1: Start -->
+            <div class="startscherm">
+                <h2>Het TPACK-spel</h2>
+                <p>Klik op de startknop om een set van 3 TPACK onderdelen te krijgen. Bedenk op basis daarvan een lessituatie.</p>
+                <p><img src="tpack.jpg" id="tpack-diagram-start" alt="TPACK Diagram"></p>
+		<p><button id="start-button">Start</button></p>
+               
+            </div>
+
+            <!-- Scherm 2: Gameplay -->
+            <div class="gameplay">
+                <div id="item-pedagogy" class="tpack-item" data-category="pedagogy">
+                    <h3><img src="recycle.png" alt="Ververs Pedagogy"> Pedagogy</h3>
+                    <p></p>
+                </div>
+                <div id="item-technology" class="tpack-item" data-category="technology">
+                    <h3><img src="recycle.png" alt="Ververs Technology"> Technology</h3>
+                    <p></p>
+                </div>
+                <div id="item-content" class="tpack-item" data-category="content">
+                    <h3><img src="recycle.png" alt="Ververs Content"> Content</h3>
+                    <p></p>
+                </div>
+                
+                <p id="instruction">Bedenk een lessituatie op basis van de 3 gegeven onderdelen.</p>
+                <button id="refresh-button">Ververs alles</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal -->
+    <div id="modal-overlay">
+        <div id="modal-content">
+            <span id="modal-close">X</span>
+            <img src="tpack_groot.jpg" alt="Grote versie van het TPACK model">
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const tpackData = {
+                pedagogy: ["Onderzoekend leren", "Ontwerpend leren", "Expliciete directe instructie", "Samenwerkend leren", "Spel-gebaseerd leren", "Probleemgestuurd onderwijs", "Peer instructie", "Flipped classroom"],
+                technology: ["Virtuele werkruimte", "Online simulatie", "Digitale mindmap", "Educatieve game", "Video-annotatie tool", "QR-codes", "Augmented Reality app", "Programmeermodule", "Sensor-interface"],
+                content: ["Natuurkunde", "Scheikunde", "Biologie", "Wiskunde", "Geschiedenis", "Aardrijkskunde", "Nederlandse taal", "Engelse taal", "Maatschappijleer"]
+            };
+            const startButton = document.getElementById('start-button');
+            const refreshButton = document.getElementById('refresh-button');
+            const startScreen = document.querySelector('.startscherm');
+            const gameScreen = document.querySelector('.gameplay');
+            const allItems = document.querySelectorAll('.tpack-item');
+            const tpackImageSmall = document.getElementById('tpack-diagram-start');
+            const modalOverlay = document.getElementById('modal-overlay');
+            const modalClose = document.getElementById('modal-close');
+            const getRandomItem = (arr) => arr[Math.floor(Math.random() * arr.length)];
+            const refreshSingleItem = (itemElement) => {
+                const category = itemElement.dataset.category;
+                const pElement = itemElement.querySelector('p');
+                if (category && pElement) {
+                    itemElement.classList.add('updating');
+                    setTimeout(() => {
+                        pElement.textContent = getRandomItem(tpackData[category]);
+                        itemElement.classList.remove('updating');
+                    }, 300);
+                }
+            };
+            const generateNewScenario = () => {
+                allItems.forEach(item => item.classList.add('updating'));
+                setTimeout(() => {
+                    allItems.forEach(item => {
+                        const category = item.dataset.category;
+                        const pElement = item.querySelector('p');
+                        pElement.textContent = getRandomItem(tpackData[category]);
+                        item.classList.remove('updating');
+                    });
+                }, 300);
+            };
+            const showModal = () => modalOverlay.classList.add('visible');
+            const hideModal = () => modalOverlay.classList.remove('visible');
+            startButton.addEventListener('click', () => {
+                startScreen.style.display = 'none';
+                gameScreen.style.display = 'block';
+                generateNewScenario();
+            });
+            refreshButton.addEventListener('click', generateNewScenario);
+            gameScreen.addEventListener('click', (event) => {
+                const target = event.target;
+                if (target.tagName === 'IMG' && target.closest('h3')) {
+                    refreshSingleItem(target.closest('.tpack-item'));
+                }
+            });
+            tpackImageSmall.addEventListener('click', showModal);
+            modalClose.addEventListener('click', hideModal);
+            modalOverlay.addEventListener('click', (event) => {
+                if (event.target === modalOverlay) hideModal();
+            });
+        });
+    </script>
+</body>
+</html>
