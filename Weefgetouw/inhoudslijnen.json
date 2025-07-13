@@ -1,0 +1,1474 @@
+[{
+	"id": "ict",
+	"naam": "Praktische ICT-vaardigheden",
+	"subdomeinen": [{
+		"naam": "Digitale technologie",
+		"labels": [{
+			"naam": "Impact van digitale technologie",
+			"competenties": [{
+				"id": "comp-ict-1",
+				"fase": 1,
+				"tekst": "Beseffen dat veel apparaten, speelgoed en robots een computer bevatten."
+			},
+			{
+				"id": "comp-ict-2",
+				"fase": 2,
+				"tekst": "Beseffen dat veel apparaten, speelgoed en robots een computer bevatten."
+			},
+			{
+				"id": "comp-ict-3",
+				"fase": 3,
+				"tekst": "Bespreken van belang en impact van digitale technologie op allerlei terreinen in onze huidige samenleving"
+			},
+			{
+				"id": "comp-ict-4",
+				"fase": 3,
+				"tekst": "Realiseren dat digitale technologie altijd in ontwikkeling is en dat er steeds nieuwe toepassingen voor gecreëerd kunnen worden"
+			},
+			{
+				"id": "comp-ict-5",
+				"fase": 3,
+				"tekst": "Beseffen dat via digitale technologie wereldwijd data wordt gedeeld en opgeslagen en dat dit veiligheidsrisico’s kent"
+			},
+			{
+				"id": "comp-ict-6",
+				"fase": 3,
+				"tekst": "Realiseren dat het gebruik van digitale technologie zoals het internet en mobiele netwerken nooit gratis is. Je betaalt met geld of met data"
+			}]
+		},
+		{
+			"naam": "Gebruik van digitale technologie",
+			"competenties": [{
+				"id": "comp-ict-7",
+				"fase": 1,
+				"tekst": "Samen verkennen waar in de omgeving digitale technologie wordt gebruikt"
+			},
+			{
+				"id": "comp-ict-8",
+				"fase": 2,
+				"tekst": "Bespreken van voorbeelden van digitale technologie in het dagelijks leven van mensen (bijv. tv kijken via streamingsdiensten, reizen met ov-chipkaart, contactloos betalen, kopen en verkopen via internet)"
+			},
+			{
+				"id": "comp-ict-9",
+				"fase": 2,
+				"tekst": "Verkennen voor welke doelen digitale netwerken worden gebruikt"
+			},
+			{
+				"id": "comp-ict-10",
+				"fase": 3,
+				"tekst": "Exploreren van toepassingen van digitale technologie in het dagelijks leven van mensen zoals bij wonen, werken, vrije tijd, reizen en contact met de overheid"
+			},
+			{
+				"id": "comp-ict-11",
+				"fase": 3,
+				"tekst": "Verkennen hoe digitale technologie het mogelijk maakt om wereldwijd informatie te delen en te handelen in producten en diensten"
+			},
+			{
+				"id": "comp-ict-12",
+				"fase": 3,
+				"tekst": "Verkennen van functies van digitale netwerken in verschillende contexten (persoonlijke communicatie, onderwijs, professionele communicatie en globale communicatie)"
+			}]
+		}]
+	},
+	{
+		"naam": "Digitale apparaten",
+		"labels": [{
+			"naam": "Werken met digitale apparaten",
+			"competenties": [{
+				"id": "comp-ict-13",
+				"fase": 1,
+				"tekst": "Herkennen van verschillende digitale apparaten zoals smartphone, tablet, computer of speelgoed"
+			},
+			{
+				"id": "comp-ict-14",
+				"fase": 1,
+				"tekst": "Kennismaken met een aantal standaard handelingen bij digitale apparaten zoals aansluiten, aanzetten en uitzetten"
+			},
+			{
+				"id": "comp-ict-15",
+				"fase": 1,
+				"tekst": "Werken met een digitaal apparaat d.m.v. aaanraakscherm, muis en/of toetsenbord"
+			},
+			{
+				"id": "comp-ict-16",
+				"fase": 1,
+				"tekst": "Verkennen van een toetsenbord (letters, cijfers, tekens en speciale toetsen)"
+			},
+			{
+				"id": "comp-ict-17",
+				"fase": 1,
+				"tekst": "Zorgvuldig omgaan met digitale apparaten als tablet en computer"
+			},
+			{
+				"id": "comp-ict-18",
+				"fase": 2,
+				"tekst": "Inventariseren van digitale apparaten waarbij het gebruik vraagt om praktische ict-vaardigheden"
+			},
+			{
+				"id": "comp-ict-19",
+				"fase": 2,
+				"tekst": "Aansluiten en werken met verschillende digitale apparaten"
+			},
+			{
+				"id": "comp-ict-20",
+				"fase": 2,
+				"tekst": "Vaardig omgaan met een toetsenbord"
+			},
+			{
+				"id": "comp-ict-21",
+				"fase": 2,
+				"tekst": "Beseffen dat een digitaal netwerk wordt gevormd door aan elkaar gekoppelde digitale apparaten die data met elkaar uitwisselen en bewaren"
+			},
+			{
+				"id": "comp-ict-22",
+				"fase": 3,
+				"tekst": "Ontdekken wat het gebruik van een digitaal apparaat vraagt aan praktische ict-vaardigheden"
+			},
+			{
+				"id": "comp-ict-23",
+				"fase": 3,
+				"tekst": "Kennisnemen van mogelijke functies van een computer: rekenen, archiveren, representeren en spelen"
+			},
+			{
+				"id": "comp-ict-24",
+				"fase": 3,
+				"tekst": "Kennisnemen van het besturings-systeem van digitale apparaten"
+			},
+			{
+				"id": "comp-ict-25",
+				"fase": 3,
+				"tekst": "Herkennen van specifieke kenmerken van digitale apparaten en kiezen van een geschikt apparaat voor een bepaald doel"
+			},
+			{
+				"id": "comp-ict-26",
+				"fase": 3,
+				"tekst": "Aansluiten van een digitaal apparaat op internet via wifi of kabel"
+			}]
+		},
+		{
+			"naam": "Aandacht voor welzijn bij het gebruik van digitale apparaten",
+			"competenties": [{
+				"id": "comp-ict-27",
+				"fase": 1,
+				"tekst": "Aandacht hebben voor houding van lichaam en ogen bij het werken met digitale apparaten"
+			},
+			{
+				"id": "comp-ict-28",
+				"fase": 2,
+				"tekst": "Beseffen van het belang van een goede houding (lichaam en ogen) bij gebruik van digitale apparaten"
+			},
+			{
+				"id": "comp-ict-29",
+				"fase": 2,
+				"tekst": "Realiseren dat het gebruik van digitale technologie invloed kan hebben op je gezondheid en welzijn"
+			},
+			{
+				"id": "comp-ict-30",
+				"fase": 3,
+				"tekst": "Beseffen dat schermtijd en langdurig gebruik van digitale apparaten invloed heeft op de gezondheid en het welzijn van de mens zoals ogen, lichaamshouding of slaap"
+			}]
+		}]
+	},
+	{
+		"naam": "Apps en software",
+		"labels": [{
+			"naam": "Apps en software gebruiken en beheren",
+			"competenties": [{
+				"id": "comp-ict-31",
+				"fase": 1,
+				"tekst": "Starten, afsluiten en wisselen van apps op een digitaal apparaat"
+			},
+			{
+				"id": "comp-ict-32",
+				"fase": 1,
+				"tekst": "Kennismaken met spelletjes en educatieve apps op verschillende digitale apparaten"
+			},
+			{
+				"id": "comp-ict-33",
+				"fase": 1,
+				"tekst": "Elkaar helpen bij het gebruik van een app"
+			},
+			{
+				"id": "comp-ict-34",
+				"fase": 1,
+				"tekst": "Bespreken dat een app soms vraagt om toegang via een (al dan niet visueel) wachtwoord en hoe daar verstandig mee om te gaan"
+			},
+			{
+				"id": "comp-ict-35",
+				"fase": 2,
+				"tekst": "Gebruiken van apps en software op digitale apparaten"
+			},
+			{
+				"id": "comp-ict-36",
+				"fase": 2,
+				"tekst": "Gebruiken van educatieve programma's bij het leren"
+			},
+			{
+				"id": "comp-ict-37",
+				"fase": 2,
+				"tekst": "Aanmaken van een account als dat nodig is en inloggen binnen bepaalde te gebruiken software"
+			},
+			{
+				"id": "comp-ict-38",
+				"fase": 2,
+				"tekst": "Omgaan met mappen/bestanden/documenten (bestandsbeheer)"
+			},
+			{
+				"id": "comp-ict-39",
+				"fase": 2,
+				"tekst": "Bespreken van het belang van veilige wachtwoorden bij apps en software en hoe daar verstandig mee om te gaan"
+			},
+			{
+				"id": "comp-ict-40",
+				"fase": 3,
+				"tekst": "Gebruiken van apps en software op digitale apparaten"
+			},
+			{
+				"id": "comp-ict-41",
+				"fase": 3,
+				"tekst": "Omgaan met verschillende bestandstypen en bestanden (opslaan/terugvinden, kopiëren/verwijderen) op verschillende opslagmedia"
+			},
+			{
+				"id": "comp-ict-42",
+				"fase": 3,
+				"tekst": "Downloaden, installeren, gebruiken en verwijderen van apps"
+			}]
+		},
+		{
+			"naam": "Functioneel gebruiken van apps voor browsen op internet, communiceren en samenwerken",
+			"competenties": [{
+				"id": "comp-ict-43",
+				"fase": 1,
+				"tekst": "Kennismaken met basisfunctionaliteiten van een internetbrowser"
+			},
+			{
+				"id": "comp-ict-44",
+				"fase": 1,
+				"tekst": "Kennismaken met eenvoudige communicatie-apps"
+			},
+			{
+				"id": "comp-ict-45",
+				"fase": 1,
+				"tekst": "Samen ontdekken van mogelijkheden om online samen te werken"
+			},
+			{
+				"id": "comp-ict-46",
+				"fase": 2,
+				"tekst": "Gebruiken van een internetbrowser"
+			},
+			{
+				"id": "comp-ict-47",
+				"fase": 2,
+				"tekst": "Verkennen van passende communicatie-apps om berichten uit te wisselen met anderen"
+			},
+			{
+				"id": "comp-ict-48",
+				"fase": 2,
+				"tekst": "Gebruiken van een app om samen te werken"
+			},
+			{
+				"id": "comp-ict-49",
+				"fase": 3,
+				"tekst": "Gebruiken van een communicatie- app die past bij een bepaald communicatiedoel"
+			},
+			{
+				"id": "comp-ict-50",
+				"fase": 3,
+				"tekst": "Exploreren van de opbouw van verschillende websites en van de kenmerkende elementen"
+			},
+			{
+				"id": "comp-ict-51",
+				"fase": 3,
+				"tekst": "Samenwerken, organiseren en uitvoeren in een digitale samenwerkings-omgeving"
+			},
+			{
+				"id": "comp-ict-52",
+				"fase": 3,
+				"tekst": "Bewust zijn van het gebruik van veilige wachtwoorden bij het aanmaken van een account op een website of app"
+			}]
+		},
+		{
+			"naam": "Functioneel gebruik van apps voor werken met tekeningen, tekst, audio, video, presentaties en spreadsheets",
+			"competenties": [{
+				"id": "comp-ict-53",
+				"fase": 1,
+				"tekst": "Gebruiken van eenvoudige tekenapps en apps om afbeeldingen te bewerken"
+			},
+			{
+				"id": "comp-ict-54",
+				"fase": 1,
+				"tekst": "Werken met een eenvoudige app voor tekstverwerking"
+			},
+			{
+				"id": "comp-ict-55",
+				"fase": 1,
+				"tekst": "Gebruiken van een digitale camera voor het maken van foto's en video's"
+			},
+			{
+				"id": "comp-ict-56",
+				"fase": 1,
+				"tekst": "Gebruiken van een daarvoor geschikt digitaal apparaat om audio-opnames te maken"
+			},
+			{
+				"id": "comp-ict-57",
+				"fase": 2,
+				"tekst": "Gebruiken van de basis-functionaliteit van apps voor tekeningen, tekst en presentaties"
+			},
+			{
+				"id": "comp-ict-58",
+				"fase": 2,
+				"tekst": "Verkennen van mogelijkheden voor visuele en grafische vormgeving binnen apps"
+			},
+			{
+				"id": "comp-ict-59",
+				"fase": 2,
+				"tekst": "Exploreren van apps voor audio en video"
+			},
+			{
+				"id": "comp-ict-60",
+				"fase": 2,
+				"tekst": "Kiezen van een geschikte app die bij het gebruiksdoel past (bijv. het maken van een tekening, een tekst of een presentatie)"
+			},
+			{
+				"id": "comp-ict-61",
+				"fase": 3,
+				"tekst": "Ontdekken en gebruiken van gevorderde functionaliteit in apps voor tekstverwerking en presentaties zoals het opmaken van teksten en pagina's/dia's"
+			},
+			{
+				"id": "comp-ict-62",
+				"fase": 3,
+				"tekst": "Ontdekken en gebruiken van gevorderde functionaliteit in een app voor video zoals met een camera opgenomen scenes monteren tot een videofilmpje"
+			},
+			{
+				"id": "comp-ict-63",
+				"fase": 3,
+				"tekst": "Ontdekken en gebruiken van gevorderde functionaliteit in apps voor tekeningen en audio"
+			},
+			{
+				"id": "comp-ict-64",
+				"fase": 3,
+				"tekst": "Gebruiken van de basis-functionaliteit van een app voor spreadsheets"
+			},
+			{
+				"id": "comp-ict-65",
+				"fase": 3,
+				"tekst": "Inzetten van apps voor tekeningen, tekst, audio, video, presentaties en spreadsheets bij het leerproces"
+			},
+			{
+				"id": "comp-ict-66",
+				"fase": 3,
+				"tekst": "Verzamelen en creëren van de benodigde 'content' voor een digitale presentatie"
+			}]
+		}]
+	}]
+},
+{
+	"id": "mediawijsheid",
+	"naam": "Mediawijsheid",
+	"subdomeinen": [{
+		"naam": "Digitale media en digitale content",
+		"labels": [{
+			"naam": "Digitale media gebruiken",
+			"competenties": [{
+				"id": "comp-media-67",
+				"fase": 1,
+				"tekst": "Samen verkennen van enkele digitale media en functies"
+			},
+			{
+				"id": "comp-media-68",
+				"fase": 1,
+				"tekst": "Praten over positieve aspecten en de gevaren van digitale media"
+			},
+			{
+				"id": "comp-media-69",
+				"fase": 1,
+				"tekst": "Exploreren in digitale programma's en op afgeschermde websites"
+			},
+			{
+				"id": "comp-media-70",
+				"fase": 2,
+				"tekst": "Verkennen van functies van diverse digitale media en dat deze veranderen en zich ontwikkelen"
+			},
+			{
+				"id": "comp-media-71",
+				"fase": 2,
+				"tekst": "Beseffen dat digitale media steeds veranderen, nieuwe vormen verschijnen en oude verdwijnen"
+			},
+			{
+				"id": "comp-media-72",
+				"fase": 2,
+				"tekst": "Samen bespreken van de invloed en reikwijdte van content in digitale media"
+			},
+			{
+				"id": "comp-media-73",
+				"fase": 3,
+				"tekst": "Begrijpen van de werking en eigenschappen van digitale media"
+			},
+			{
+				"id": "comp-media-74",
+				"fase": 3,
+				"tekst": "Onderzoeken van functies van nieuwe vormen van digitale media"
+			},
+			{
+				"id": "comp-media-75",
+				"fase": 3,
+				"tekst": "Samen verkennen hoe media- mechanismen verleiden om steeds verder te lezen, kijken, klikken of spelen"
+			},
+			{
+				"id": "comp-media-76",
+				"fase": 3,
+				"tekst": "Kiezen van een geschikt platform voor het delen van eigen content (passend bij doel en doelgroep)"
+			}]
+		},
+		{
+			"naam": "Kenmerken van digitale content",
+			"competenties": [{
+				"id": "comp-media-77",
+				"fase": 1,
+				"tekst": "Kennismaken met verschillende elementen van content in digitale media zoals teksten, foto's, afbeeldingen, audio- en videofragmenten"
+			},
+			{
+				"id": "comp-media-78",
+				"fase": 1,
+				"tekst": "Samen verkennen of content in digitale media nieuws, ontspanning of reclame is"
+			},
+			{
+				"id": "comp-media-79",
+				"fase": 1,
+				"tekst": "Samen verkennen van de rol van reclame in digitale media"
+			},
+			{
+				"id": "comp-media-80",
+				"fase": 2,
+				"tekst": "Onderzoeken van kenmerken van online content op websites en in communicatieapps"
+			},
+			{
+				"id": "comp-media-81",
+				"fase": 2,
+				"tekst": "Herkennen van de functie van content in digitale media (commercieel, informerend, amuserend of meningsvormend)"
+			},
+			{
+				"id": "comp-media-82",
+				"fase": 2,
+				"tekst": "Realiseren dat content door iedereen gemaakt en op allerlei digitale media gepubliceerd kan worden"
+			},
+			{
+				"id": "comp-media-83",
+				"fase": 2,
+				"tekst": "Verkennen van het doel en de betrouwbaarheid van content in digitale media"
+			},
+			{
+				"id": "comp-media-84",
+				"fase": 3,
+				"tekst": "Onderzoeken van kenmerken van commerciële, informerende, amuserende en meningsvormende content in diverse digitale media"
+			},
+			{
+				"id": "comp-media-85",
+				"fase": 3,
+				"tekst": "Onderzoeken en vergelijken van het doel en de betrouwbaarheid van content in digitale media (zowel inhoud als afzender)"
+			},
+			{
+				"id": "comp-media-86",
+				"fase": 3,
+				"tekst": "Beseffen dat content in digitale media een gekleurd beeld kan geven van de werkelijkheid"
+			},
+			{
+				"id": "comp-media-87",
+				"fase": 3,
+				"tekst": "Inzien dat het doel van online content 'verpakt' kan worden"
+			},
+			{
+				"id": "comp-media-88",
+				"fase": 3,
+				"tekst": "Bespreken van de rol van reclame in veel online content (bijv. inspelen op voorkeuren en koopgedrag)"
+			},
+			{
+				"id": "comp-media-89",
+				"fase": 3,
+				"tekst": "Verkennen van de functie en invloed van beeldtaal in digitale content"
+			},
+			{
+				"id": "comp-media-90",
+				"fase": 3,
+				"tekst": "Exploreren van toepassingen van digitale technologie in het dagelijks leven van mensen zoals bij wonen, werken, vrije tijd, reizen en contact met de overheid"
+			}]
+		},
+		{
+			"naam": "Veilig en bewust omgaan met digitale content",
+			"naam": "Veilig en bewust omgaan met digitale content",
+			"competenties": [{
+				"id": "comp-media-91",
+				"fase": 2,
+				"tekst": "Zorgvuldig handelen bij het surfen op internet"
+			},
+			{
+				"id": "comp-media-92",
+				"fase": 2,
+				"tekst": "Bespreken dat digitale media ook ongewone en ongewenste content kunnen bevatten"
+			},
+			{
+				"id": "comp-media-93",
+				"fase": 3,
+				"tekst": "Beseffen dat bij het gebruik van digitale media sporen worden achtergelaten door de gebruiker"
+			},
+			{
+				"id": "comp-media-94",
+				"fase": 3,
+				"tekst": "Realiseren dat bij het surfen op internet de aangeboden informatie vaak wordt gepersonaliseerd d.m.v. cookies"
+			},
+			{
+				"id": "comp-media-95",
+				"fase": 3,
+				"tekst": "Bewust zijn dat digitale media ook ongewone en ongewenste content kunnen bevatten"
+			},
+			{
+				"id": "comp-media-96",
+				"fase": 3,
+				"tekst": "Herkennen wanneer informatie op sociale media ongewenst of schokkend is én weten met wie dit te bespreken is (vertrouwenspersoon)"
+			},
+			{
+				"id": "comp-media-97",
+				"fase": 3,
+				"tekst": "Veilig omgaan met eigen digitale content bij het creëren, publiceren en delen ('eens geplaatst, voor altijd geplaatst')"
+			},
+			{
+				"id": "comp-media-98",
+				"fase": 3,
+				"tekst": "Beseffen van het belang om zorgvuldig om te gaan met digitale content van anderen of content waarin anderen herkenbaar voorkomen"
+			},
+			{
+				"id": "comp-media-99",
+				"fase": 3,
+				"tekst": "Bespreken hoe te handelen bij ongewenst gebruik en misbruik van eigen digitale content"
+			}]
+		}]
+	},
+	{
+		"naam": "Online communiceren",
+		"labels": [{
+			"naam": "Veilig en bewust online communiceren",
+			"competenties": [{
+				"id": "comp-media-100",
+				"fase": 2,
+				"tekst": "Samen bespreken van functie en werking (o.a. impact) van sociale media"
+			},
+			{
+				"id": "comp-media-101",
+				"fase": 2,
+				"tekst": "Bespreken van risico's van het delen van persoonlijke informatie op websites en sociale netwerken"
+			},
+			{
+				"id": "comp-media-102",
+				"fase": 2,
+				"tekst": "Samen verkennen van risico's van veelvuldig gebruik van digitale media"
+			},
+			{
+				"id": "comp-media-103",
+				"fase": 3,
+				"tekst": "Bespreken van voor- en nadelen van het deelnemen aan sociale media"
+			},
+			{
+				"id": "comp-media-104",
+				"fase": 3,
+				"tekst": "Ontdekken en ervaren van mogelijkheden van sociale media in een veilige omgeving"
+			},
+			{
+				"id": "comp-media-105",
+				"fase": 3,
+				"tekst": "Beseffen van het belang van veilig gedrag bij deelnemen aan sociale media"
+			},
+			{
+				"id": "comp-media-106",
+				"fase": 3,
+				"tekst": "Bewust zijn van het belang van sociale gedragsregels bij het gebruik van sociale media (op een respectvolle wijze omgaan met elkaar)"
+			},
+			{
+				"id": "comp-media-107",
+				"fase": 3,
+				"tekst": "Bespreken van het belang om bewust om te gaan met persoonlijke profielen op sociale media en hoe daarvoor te zorgen"
+			},
+			{
+				"id": "comp-media-108",
+				"fase": 3,
+				"tekst": "Herkennen van en omgaan met ongewenste communicatie (bijv. online shaming)"
+			},
+			{
+				"id": "comp-media-109",
+				"fase": 3,
+				"tekst": "Bewust zijn dat zowel de zender als de ontvanger een vertaalslag maakt van content op sociale media"
+			},
+			{
+				"id": "comp-media-110",
+				"fase": 3,
+				"tekst": "Realiseren dat een online bijdrage of reactie weer (nieuwe) kan oproepen"
+			},
+			{
+				"id": "comp-media-111",
+				"fase": 3,
+				"tekst": "Bespreken dat op sociale platforms mensen een andere (digitale) identiteit kunnen aannemen en een onlineprofiel niet echt hoeft te zijn"
+			},
+			{
+				"id": "comp-media-112",
+				"fase": 3,
+				"tekst": "Beseffen dat met deelname aan sociale platforms data wordt gegenereerd die voor verschillende doeleinden gebruikt kunnen worden (bijv. ter verbetering van dienstverlening, maar ook voor commerciële doeleinden)"
+			},
+			{
+				"id": "comp-media-113",
+				"fase": 3,
+				"tekst": "Realiseren dat mensen veel te weten kunnen komen van iemand door alle informatie die online over hem/haar te vinden is en daarmee een inschatting maken van persoonlijke voorkeuren"
+			}]
+		},
+		{
+			"naam": "Aanwezigheid en invloed van media in je eigen leven",
+			"competenties": [{
+				"id": "comp-media-114",
+				"fase": 1,
+				"tekst": "Samen verkennen van de rol van reclame in digitale media"
+			},
+			{
+				"id": "comp-media-115",
+				"fase": 2,
+				"tekst": "Reflecteren op eigen gebruik van digitale media en dat van anderen (bijv. welke media, hoe lang en hoe vaak)"
+			},
+			{
+				"id": "comp-media-116",
+				"fase": 2,
+				"tekst": "Ervaren van de rol van digitale media in het eigen leven (bijv. voor leren, communicatie en vermaak)"
+			},
+			{
+				"id": "comp-media-117",
+				"fase": 2,
+				"tekst": "Vormen van een eigen mening over commerciële, informerende, amuserende en meningsvormende online content"
+			},
+			{
+				"id": "comp-media-118",
+				"fase": 3,
+				"tekst": "Onderzoeken van het eigen patroon van mediagebruik"
+			},
+			{
+				"id": "comp-media-119",
+				"fase": 3,
+				"tekst": "Reflecteren hoe eigen mening en zelfbeeld worden beïnvloed door digitale media en content (bijv. reclame)"
+			},
+			{
+				"id": "comp-media-120",
+				"fase": 3,
+				"tekst": "Ontwikkelen van een weerbare houding ten aanzien van media-boodschappen in digitale media"
+			},
+			{
+				"id": "comp-media-121",
+				"fase": 3,
+				"tekst": "Bewust worden van de rol van digitale media en media-boodschappen op eigen levensstijl en eigen kijk op de wereld"
+			},
+			{
+				"id": "comp-media-122",
+				"fase": 3,
+				"tekst": "Beseffen dat veelvuldig gebruik van digitale media risico's van verslaving en ongewenst gedrag kan veroorzaken"
+			}]
+		},
+		{
+			"naam": "Aanwezigheid en invloed van media in de samenleving",
+			"competenties": [{
+				"id": "comp-media-123",
+				"fase": 1,
+				"tekst": "Ervaren dat de leefwereld doordrongen is van digitale media met digitale content"
+			},
+			{
+				"id": "comp-media-124",
+				"fase": 2,
+				"tekst": "Verkennen van de plek die digitale (sociale) media in onze samenleving innemen"
+			},
+			{
+				"id": "comp-media-125",
+				"fase": 2,
+				"tekst": "Bewust zijn van de invloed van online content op de mening van jezelf en anderen"
+			},
+			{
+				"id": "comp-media-126",
+				"fase": 2,
+				"tekst": "Bespreken van positieve en negatieve kant van digitale media met digitale content voor mens en samenleving"
+			},
+			{
+				"id": "comp-media-127",
+				"fase": 3,
+				"tekst": "Ontwikkelen van strategieën om optimaal met digitale media en games om te gaan (zelfregulering)"
+			},
+			{
+				"id": "comp-media-128",
+				"fase": 3,
+				"tekst": "Bewust worden van het belang van (persoonlijke) mediavaardigheid voor de toekomst"
+			},
+			{
+				"id": "comp-media-129",
+				"fase": 3,
+				"tekst": "Beseffen dat digitale media overal aanwezig zijn in de leefwereld van mensen en invloed hebben op het leven van mensen"
+			},
+			{
+				"id": "comp-media-130",
+				"fase": 3,
+				"tekst": "Bespreken van rol en functie van digitale media op allerlei terreinen in onze huidige samenleving"
+			},
+			{
+				"id": "comp-media-131",
+				"fase": 3,
+				"tekst": "Realiseren dat beschikbaarheid van en vaardigheid met digitale media van invloed is op kansengelijkheid in de samenleving"
+			}]
+		}]
+	}]
+},
+{
+	"id": "informatie",
+	"naam": "Digitale informatievaardigheden",
+	"subdomeinen": [{
+		"naam": "Informatie zoeken, vinden en selecteren",
+		"labels": [{
+			"naam": "Een informatievraag formuleren vanuit een informatiebehoefte",
+			"competenties": [{
+				"id": "comp-info-132",
+				"fase": 1,
+				"tekst": "Samen verkennen wat over een onderwerp bekend is en daarover vertellen"
+			},
+			{
+				"id": "comp-info-133",
+				"fase": 1,
+				"tekst": "Bedenken van vragen bij een onderwerp waarover je meer wilt weten"
+			},
+			{
+				"id": "comp-info-134",
+				"fase": 2,
+				"tekst": "Opstellen van een passende en bruikbare informatievraag waarbij het onderwerp wordt afgebakend en wordt nagegaan wat al bekend is"
+			},
+			{
+				"id": "comp-info-135",
+				"fase": 2,
+				"tekst": "Oriënteren op verschillende soorten vragen (bijv. open en gesloten)"
+			},
+			{
+				"id": "comp-info-136",
+				"fase": 3,
+				"tekst": "Formuleren van een informatievraag vanuit een informatie-behoefte"
+			},
+			{
+				"id": "comp-info-137",
+				"fase": 3,
+				"tekst": "Formuleren van deelvragen in relatie tot een informatievraag"
+			}]
+		},
+		{
+			"naam": "Zoektermen(en), een geschikte zoekstrategie en geschikte digitale bronnen bepalen voor het verkrijgen van relevante informatie",
+			"competenties": [{
+				"id": "comp-info-138",
+				"fase": 1,
+				"tekst": "Bedenken van vragen bij een onderwerp waarover je meer wilt weten"
+			},
+			{
+				"id": "comp-info-139",
+				"fase": 1,
+				"tekst": "Gebruiken van een passende digitale bron bij een bepaald type informatievraag"
+			},
+			{
+				"id": "comp-info-140",
+				"fase": 2,
+				"tekst": "Bepalen van bruikbare zoektermen voor een informatievraag"
+			},
+			{
+				"id": "comp-info-141",
+				"fase": 2,
+				"tekst": "Zoeken van digitale bronnen waar bruikbare informatie te vinden is en inschatten van de aard van die digitale informatiebronnen"
+			},
+			{
+				"id": "comp-info-142",
+				"fase": 3,
+				"tekst": "Omzetten van informatievraag in relevante zoektermen en combineren van zoektermen"
+			},
+			{
+				"id": "comp-info-143",
+				"fase": 3,
+				"tekst": "Bepalen van digitale bronnen waarin bruikbare informatie te vinden is bij een informatievraag"
+			}]
+		},
+		{
+			"naam": "Digitale informatie verzamelen en selecteren",
+			"competenties": [{
+				"id": "comp-info-144",
+				"fase": 1,
+				"tekst": "Verzamelen van informatie uit een digitale bron"
+			},
+			{
+				"id": "comp-info-145",
+				"fase": 1,
+				"tekst": "Samen een selectie maken uit de gevonden informatie"
+			},
+			{
+				"id": "comp-info-146",
+				"fase": 2,
+				"tekst": "Verzamelen van informatie uit een digitale bron en daaruit een relevante selectie maken"
+			},
+			{
+				"id": "comp-info-147",
+				"fase": 2,
+				"tekst": "Vergelijken van informatie uit enkele digitale bronnen"
+			},
+			{
+				"id": "comp-info-148",
+				"fase": 3,
+				"tekst": "Omgaan met niet-lineaire digitale teksten bij het zoeken naar informatie"
+			},
+			{
+				"id": "comp-info-149",
+				"fase": 3,
+				"tekst": "Verzamelen van informatie uit een digitale bron en daaruit een relevante selectie maken"
+			}]
+		}]
+	},
+	{
+		"naam": "Informatie verwerken, evalueren en presteren",
+		"labels": [{
+			"naam": "Digitale informatie verwerken en evalueren",
+			"competenties": [{
+				"id": "comp-info-150",
+				"fase": 1,
+				"tekst": "Bepalen of gevonden informatie voldoet als antwoord"
+			},
+			{
+				"id": "comp-info-151",
+				"fase": 1,
+				"tekst": "Vertellen over gebruikte digitale bronnen"
+			},
+			{
+				"id": "comp-info-152",
+				"fase": 1,
+				"tekst": "Verwoorden van een antwoord met behulp van de gevonden resultaten"
+			},
+			{
+				"id": "comp-info-153",
+				"fase": 1,
+				"tekst": "Vastleggen van gevonden informatie"
+			},
+			{
+				"id": "comp-info-154",
+				"fase": 1,
+				"tekst": "Samen terugblikken op het proces 'van vraag naar antwoord' en daarover vertellen"
+			},
+			{
+				"id": "comp-info-155",
+				"fase": 2,
+				"tekst": "Samen bespreken van de betrouwbaarheid van gevonden informatie"
+			},
+			{
+				"id": "comp-info-156",
+				"fase": 2,
+				"tekst": "Onderscheiden van feiten en meningen in digitale informatie"
+			},
+			{
+				"id": "comp-info-157",
+				"fase": 2,
+				"tekst": "Verbinden van de gevonden informatie met wat al over het onderwerp bekend is en beantwoorden van de informatievraag"
+			},
+			{
+				"id": "comp-info-158",
+				"fase": 2,
+				"tekst": "Beoordelen of de gevonden informatie bruikbaar en representatief is"
+			},
+			{
+				"id": "comp-info-159",
+				"fase": 2,
+				"tekst": "Bijhouden van een lijst met gebruikte digitale bronnen bij het vastleggen van gevonden informatiev"
+			},
+			{
+				"id": "comp-info-160",
+				"fase": 2,
+				"tekst": "Samen bespreken van de kwaliteit van het antwoord op de informatievraag"
+			},
+			{
+				"id": "comp-info-161",
+				"fase": 2,
+				"tekst": "Opslaan van gevonden informatie in een digitale omgeving"
+			},
+			{
+				"id": "comp-info-162",
+				"fase": 2,
+				"tekst": "Evalueren aan de hand van concrete vragen hoe het proces van informatieverwerving is doorlopen"
+			},
+			{
+				"id": "comp-info-163",
+				"fase": 3,
+				"tekst": "Beoordelen of de gevonden informatie bruikbaar, betrouwbaar en representatief is"
+			},
+			{
+				"id": "comp-info-164",
+				"fase": 3,
+				"tekst": "Vergelijken van informatie uit meerdere digitale informatiebronnen en bruikbare informatie samenvoegen"
+			},
+			{
+				"id": "comp-info-165",
+				"fase": 3,
+				"tekst": "Formuleren van een antwoord op de informatievraag op basis van gevonden informatie"
+			},
+			{
+				"id": "comp-info-166",
+				"fase": 3,
+				"tekst": "Vermelden van de gebruikte diegitale bron bij het vastleggen van gevonden informatie uit de betreffende bron"
+			},
+			{
+				"id": "comp-info-167",
+				"fase": 3,
+				"tekst": "Beoordelen in hoeverre de gevonden informatie een voldoende antwoord geeft op de vraag"
+			},
+			{
+				"id": "comp-info-168",
+				"fase": 3,
+				"tekst": "Opslaan van gevonden informatie in een digitale omgeving"
+			},
+			{
+				"id": "comp-info-169",
+				"fase": 3,
+				"tekst": "Evalueren van het proces van digitale informatieverwerving"
+			}]
+		},
+		{
+			"naam": "Digitale informatie presenteren",
+			"competenties": [{
+				"id": "comp-info-170",
+				"fase": 1,
+				"tekst": "Presenteren van de gevonden informatie (bijv. in een tekening)"
+			},
+			{
+				"id": "comp-info-171",
+				"fase": 2,
+				"tekst": "Presenteren van de gevonden informatie als antwoord op een informatievraag"
+			},
+			{
+				"id": "comp-info-172",
+				"fase": 2,
+				"tekst": "Aandacht hebben voor visuele en grafische vormgeving van de gevonden informatie"
+			},
+			{
+				"id": "comp-info-173",
+				"fase": 3,
+				"tekst": "Realiseren dat informatie van internet soms niet gedeeld mag worden en anders niet zonder bronvermelding"
+			},
+			{
+				"id": "comp-info-174",
+				"fase": 3,
+				"tekst": "Presenteren van de gevonden informatie in een passende presentatievorm en met een passende vormgeving"
+			}]
+		}]
+	}]
+},
+{
+	"id": "computational",
+	"naam": "Computational Thinking",
+	"subdomeinen": [{
+		"naam": "Data en dataverwerking",
+		"labels": [{
+			"naam": "Kenmerken van (digitale) data",
+			"competenties": [{
+				"id": "comp-comp-175",
+				"fase": 1,
+				"tekst": "Bespreken van eigenschappen van voorwerpen uit een verzameling als een concrete vorm van data (bijv. doos met lego, doos met strijkkralen, letterdoos, verzameling plaatjes van spaaractie)"
+			},
+			{
+				"id": "comp-comp-176",
+				"fase": 1,
+				"tekst": "Ontdekken dat verzamelingen ook op afbeeldingen kunnen staan (bijv. groepsfoto, plaat met diverse vervoersmiddelen, poster met pictogrammen/symbolen of een tekst met tekens)"
+			},
+			{
+				"id": "comp-comp-177",
+				"fase": 2,
+				"tekst": "Verkennen waar data aanwezig is in de eigen omgeving zowel in concreet materiaal als in het platte vlak (symbolen, tekens)"
+			},
+			{
+				"id": "comp-comp-178",
+				"fase": 2,
+				"tekst": "Onderzoeken van eigenschappen van elementen uit een verzameling in de vorm van symbolen, tekens, letters of cijfers"
+			},
+			{
+				"id": "comp-comp-179",
+				"fase": 2,
+				"tekst": "Ervaren van specifieke weergavevormen van data zoals in geheimschrift en morse"
+			},
+			{
+				"id": "comp-comp-180",
+				"fase": 2,
+				"tekst": "Bespreken dat een bit de kleinste eenheid van data in een computer is en twee waardes kent 0 of 1 (nee/ja, uit/aan, niet waar/waar)"
+			},
+			{
+				"id": "comp-comp-181",
+				"fase": 3,
+				"tekst": "Verkennen dat alle digitale media (tekst, afbeelding, audio, video) wordt opgeslagen in bytes)"
+			},
+			{
+				"id": "comp-comp-182",
+				"fase": 3,
+				"tekst": "Realiseren dat alle digitale technologie werkt met digitale data volgens het principe van invoer, verwerking, opslag en uitvoer van data"
+			},
+			{
+				"id": "comp-comp-183",
+				"fase": 3,
+				"tekst": "Bespreken dat digitale dataverzamelingen groter worden omdat digitale technologie deze steeds beter en sneller kan verwerken"
+			},
+			{
+				"id": "comp-comp-184",
+				"fase": 3,
+				"tekst": "Verkennen en bespreken van de mogelijkheden en risico’s van digitale dataverwerking (bijv. datalek t.a.v. privacygevoelige data)"
+			},
+			{
+				"id": "comp-comp-185",
+				"fase": 3,
+				"tekst": "Bespreken dat digitale data bestaat uit nullen en enen (bits) die worden opgeslagen in bytes"
+			}]
+		},
+		{
+			"naam": "Verzamelen, analyseren, en visualiseren van data",
+			"competenties": [{
+				"id": "comp-comp-186",
+				"fase": 1,
+				"tekst": "Ordenen van voorwerpen op één of meer zichtbare (of onzichtbare) eigenschappen"
+			},
+			{
+				"id": "comp-comp-187",
+				"fase": 1,
+				"tekst": "Weergeven van verzamelde data in een eenvoudige grafiek, diagram, lijst, visual, etc."
+			},
+			{
+				"id": "comp-comp-188",
+				"fase": 1,
+				"tekst": "Verzamelen van data"
+			},
+			{
+				"id": "comp-comp-189",
+				"fase": 2,
+				"tekst": "Verzamelen van beschikbare data uit verschillende bronnen"
+			},
+			{
+				"id": "comp-comp-190",
+				"fase": 2,
+				"tekst": "Onderzoeken, categoriseren en selecteren van bruikbare data uit een dataverzameling"
+			},
+			{
+				"id": "comp-comp-191",
+				"fase": 2,
+				"tekst": "Weergeven van verzamelde data in passende grafieken, lijsten, teksten en visuals"
+			},
+			{
+				"id": "comp-comp-192",
+				"fase": 3,
+				"tekst": "Genereren van een nieuwe dataverzameling"
+			},
+			{
+				"id": "comp-comp-193",
+				"fase": 3,
+				"tekst": "Selecteren van bruikbare data uit een dataverzameling"
+			},
+			{
+				"id": "comp-comp-194",
+				"fase": 3,
+				"tekst": "Analyseren van data uit een dataverzameling"
+			},
+			{
+				"id": "comp-comp-195",
+				"fase": 3,
+				"tekst": "Weergeven van verzamelde data in passende kaart, tabel, grafiek of visual zodat hieruit conclusies getrokken kunnen worden"
+			},
+			{
+				"id": "comp-comp-196",
+				"fase": 3,
+				"tekst": "Digitaliseren van verzamelde data door deze om te zetten in codes waarmee digitale technologie kan rekenen"
+			}]
+		}]
+	},
+	{
+		"naam": "Decompositie",
+		"labels": [{
+			"naam": "Probleem of taak opdelen in kleinere deelproblemen of -taken die het oplossen eenvoudiger maken",
+			"competenties": [{
+				"id": "comp-comp-197",
+				"fase": 1,
+				"tekst": "Benoemen van onderdelen van een voorwerp als delen van een groter geheel (bijv. bij een vliegtuig of plant)"
+			},
+			{
+				"id": "comp-comp-198",
+				"fase": 1,
+				"tekst": "Opdelen van een taak in deeltaken"
+			},
+			{
+				"id": "comp-comp-199",
+				"fase": 1,
+				"tekst": "Plaatsen van deeltaken in een logische volgorde"
+			},
+			{
+				"id": "comp-comp-200",
+				"fase": 2,
+				"tekst": "Opdelen van een taak in deeltaken"
+			},
+			{
+				"id": "comp-comp-201",
+				"fase": 2,
+				"tekst": "Opdelen van een gegeven probleem in deelproblemen"
+			},
+			{
+				"id": "comp-comp-202",
+				"fase": 2,
+				"tekst": "Opdelen van een proces in stappen en waar mogelijk weer in deelstappen"
+			},
+			{
+				"id": "comp-comp-203",
+				"fase": 2,
+				"tekst": "Plaatsen van deelproblemen/deeltaken in een logische volgorde"
+			},
+			{
+				"id": "comp-comp-204",
+				"fase": 3,
+				"tekst": "Opdelen van een complex probleem of taak in een aantal deelproblemen/deeltaken (bijv. bij een zaakvak, werkstuk, regie van film of lesstof)"
+			},
+			{
+				"id": "comp-comp-205",
+				"fase": 3,
+				"tekst": "Analyseren van een taak en hier een repeterende deeltaak of deeltaken uithalen waarbij een computer behulpzaam kan zijn"
+			},
+			{
+				"id": "comp-comp-206",
+				"fase": 3,
+				"tekst": "Weergeven van deelproblemen/deeltaken in een passende visuele weergave (bijv. stappenschema)"
+			}]
+		}]
+	},
+	{
+		"naam": "Patroonherkenning",
+		"labels": [{
+			"naam": "Herkennen van patronen in situaties, problemen en oplossingen",
+			"competenties": [{
+				"id": "comp-comp-207",
+				"fase": 1,
+				"tekst": "Herkennen van patronen in de dag zoals het ritme van opstaan, aankleden, naar school, spelen, eten, slapen"
+			},
+			{
+				"id": "comp-comp-208",
+				"fase": 1,
+				"tekst": "Bespreken van patronen in de leefomgeving (bijv. ritme van seizoenen, huizen in een straat)"
+			},
+			{
+				"id": "comp-comp-209",
+				"fase": 1,
+				"tekst": "Voortzetten van patronen met concrete voorwerpen, op papier en digitaal"
+			},
+			{
+				"id": "comp-comp-210",
+				"fase": 2,
+				"tekst": "Verkennen van patronen in verhalen en gedichten, liedjes, ritmes en dans"
+			},
+			{
+				"id": "comp-comp-211",
+				"fase": 2,
+				"tekst": "Onderzoeken van patronen in de leefomgeving (netnummers en postcodes, autokentekens)"
+			},
+			{
+				"id": "comp-comp-212",
+				"fase": 2,
+				"tekst": "Herkennen van patronen in grammatica en spelling en onderzoeken van regels hiervoor"
+			},
+			{
+				"id": "comp-comp-213",
+				"fase": 2,
+				"tekst": "Ontdekken van een patroon in een probleem (bijv. een terugkerende fout in een situatie of taak)"
+			},
+			{
+				"id": "comp-comp-214",
+				"fase": 3,
+				"tekst": "Onderzoeken, categoriseren en herkennen van patronen in concrete situaties en abstracte situaties zoals cijferreeksen"
+			},
+			{
+				"id": "comp-comp-215",
+				"fase": 3,
+				"tekst": "Zoeken naar vergelijkbare probleemsituaties om de daar gekozen oplossing te (her-)gebruiken bij de eigen probleemsituatie"
+			}]
+		},
+		{
+			"naam": "Automatiseren van eenvoudige patronen met digitale technologie",
+			"competenties": [{
+				"id": "comp-comp-216",
+				"fase": 1,
+				"tekst": "Herkennen van de herhaling van taken in verschillende situaties"
+			},
+			{
+				"id": "comp-comp-217",
+				"fase": 1,
+				"tekst": "Beseffen dat een computer een taak eindeloos kan herhalen (bijv. in oefeningen)"
+			},
+			{
+				"id": "comp-comp-218",
+				"fase": 2,
+				"tekst": "Herkennen van voorbeelden van terugkerende taken waarvoor een computer wordt ingezet"
+			},
+			{
+				"id": "comp-comp-219",
+				"fase": 2,
+				"tekst": "Vergelijken van resultaten van handelingen die handmatig of door apparaten zijn uitgevoerd"
+			},
+			{
+				"id": "comp-comp-220",
+				"fase": 2,
+				"tekst": "Bespreken van de rol van automatisering in het dagelijkse leven"
+			},
+			{
+				"id": "comp-comp-221",
+				"fase": 3,
+				"tekst": "Onderzoeken of en op welke manier digitale technologie kan worden ingezet bij een telkens terugkerende taak of handeling"
+			},
+			{
+				"id": "comp-comp-222",
+				"fase": 3,
+				"tekst": "Bespreken van voor- en nadelen van het geautomatiseerd uitvoeren van taken"
+			}]
+		}]
+	},
+	{
+		"naam": "Abstractie",
+		"labels": [{
+			"naam": "Richten op belangrijke informatie van een probleem en details buiten beschouwing laten",
+			"competenties": [{
+				"id": "comp-comp-223",
+				"fase": 1,
+				"tekst": "(na)vertellen van concrete situaties op hoofdlijnen"
+			},
+			{
+				"id": "comp-comp-224",
+				"fase": 1,
+				"tekst": "Aangeven van elementaire kenmerken van personen, planten, dieren en voorwerpen"
+			},
+			{
+				"id": "comp-comp-225",
+				"fase": 1,
+				"tekst": "Bespreken wat het belangrijkste is van een uit te voeren taak"
+			},
+			{
+				"id": "comp-comp-226",
+				"fase": 2,
+				"tekst": "Onderzoeken in welke vormen 'abstractie' in de omgeving voorkomt"
+			},
+			{
+				"id": "comp-comp-227",
+				"fase": 2,
+				"tekst": "Herkennen van belangrijke elementen in een proces, verhaal of foto"
+			},
+			{
+				"id": "comp-comp-228",
+				"fase": 2,
+				"tekst": "Herkennen, gebruiken en zelf maken van verschillende 'geabstraheerde verschijningsvormen' zoals plattegrond/kaart en schema"
+			},
+			{
+				"id": "comp-comp-229",
+				"fase": 3,
+				"tekst": "Aangeven van belangrijkste aspecten bij een probleem of vraagstuk"
+			},
+			{
+				"id": "comp-comp-230",
+				"fase": 3,
+				"tekst": "Weergeven van een proces of situatie in de werkelijkheid in een samenvatting op hoofdlijnen"
+			},
+			{
+				"id": "comp-comp-231",
+				"fase": 3,
+				"tekst": "Grafisch of schematisch weergeven van een proces of situatie in een model (modellering)"
+			},
+			{
+				"id": "comp-comp-232",
+				"fase": 3,
+				"tekst": "Onderzoeken of een conceptueel model een juiste weergave van een proces of situatie is"
+			},
+			{
+				"id": "comp-comp-233",
+				"fase": 3,
+				"tekst": "Onderzoeken en in kaart brengen van het model dat achter een eenvoudig computerspel ligt (modellering)"
+			}]
+		}]
+	},
+	{
+		"naam": "Algoritmes",
+		"labels": [{
+			"naam": "Verklaren van de werking en zelf ontwerpen van een serie geordende instructies of regels die stap voor stap worden uitgevoerd om een probleem op te lossen",
+			"competenties": [{
+				"id": "comp-comp-234",
+				"fase": 1,
+				"tekst": "Ontdekken dat bepaalde reeksen een logische ordening kennen"
+			},
+			{
+				"id": "comp-comp-235",
+				"fase": 1,
+				"tekst": "Plaatsen van instructies of regels in een logische volgorde"
+			},
+			{
+				"id": "comp-comp-236",
+				"fase": 1,
+				"tekst": "Op volgorde uitvoeren van een reeks instructies of regels die leidt tot een resultaat"
+			},
+			{
+				"id": "comp-comp-237",
+				"fase": 1,
+				"tekst": "Samen formuleren van een serie geordende instructies voor het uitvoeren van een bepaalde taak"
+			},
+			{
+				"id": "comp-comp-238",
+				"fase": 1,
+				"tekst": "Samen opzetten van 'als-dan' redeneringen en conclusies trekken uit deze redeneringen"
+			},
+			{
+				"id": "comp-comp-239",
+				"fase": 1,
+				"tekst": "Voorspellen wat er gebeurt in bepaalde situaties in een spelapp op een digitaal apparaat"
+			},
+			{
+				"id": "comp-comp-240",
+				"fase": 1,
+				"tekst": "Samen exploreren welke instructies nodig zijn voor programmeerbaar speelgoed om een probleem op te lossen"
+			},
+			{
+				"id": "comp-comp-241",
+				"fase": 1,
+				"tekst": "Ervaren dat door handelingen gelijktijdig uit te voeren een taak sneller uitgevoerd kan worden (parallellisatie)"
+			},
+			{
+				"id": "comp-comp-242",
+				"fase": 2,
+				"tekst": "Samen verkennen van voorbeelden van een 'algoritme'"
+			},
+			{
+				"id": "comp-comp-243",
+				"fase": 2,
+				"tekst": "Onderzoeken waar in de directe omgeving algoritmes worden gebruikt"
+			},
+			{
+				"id": "comp-comp-244",
+				"fase": 2,
+				"tekst": "Ontwikkelen van een reeks instructies om een probleem op te lossen"
+			},
+			{
+				"id": "comp-comp-245",
+				"fase": 2,
+				"tekst": "Onderzoeken van een gegeven reeks instructies of regels en oplossen van mogelijke fouten in deze reeks"
+			},
+			{
+				"id": "comp-comp-246",
+				"fase": 2,
+				"tekst": "Onderzoeken hoe een algoritme kan worden weergegeven door middel van symbolen"
+			},
+			{
+				"id": "comp-comp-247",
+				"fase": 2,
+				"tekst": "Verkennen van een beslisboom als voorbeeld van een algoritme (bijv. een determinatiekaart voor dieren, bomen of planten)"
+			},
+			{
+				"id": "comp-comp-248",
+				"fase": 2,
+				"tekst": "Onderzoeken wat de achterliggende regel is bij een instructie (bijv. een getallenreeks of een 'als-dan' redenering)"
+			},
+			{
+				"id": "comp-comp-249",
+				"fase": 2,
+				"tekst": "Uitschrijven van een reeks instructies in codetaal die door een ander opgevolgd kan worden als oplossing van een probleem"
+			},
+			{
+				"id": "comp-comp-250",
+				"fase": 2,
+				"tekst": "Kennismaken met eenvoudige programmeersoftware om vertrouwd te raken met beginselen van programmeren (bijv. door een script te maken met blokjes en commando's)"
+			},
+			{
+				"id": "comp-comp-251",
+				"fase": 2,
+				"tekst": "Identificeren van handelingen die binnen een uit te voeren taak gelijktijdig uitgevoerd kunnen worden (parallellisatie)"
+			},
+			{
+				"id": "comp-comp-252",
+				"fase": 3,
+				"tekst": "Onderzoeken van een gegeven algoritme op werking en bruikbaarheid in een bepaalde situatie"
+			},
+			{
+				"id": "comp-comp-253",
+				"fase": 3,
+				"tekst": "Formuleren van een set instructies of regels met sequentie en/of herhalingslussen voor het oplossen van een probleem"
+			},
+			{
+				"id": "comp-comp-254",
+				"fase": 3,
+				"tekst": "Zoeken en identificeren van procedures bij rekenen en taal als voorbeelden van algoritmes"
+			},
+			{
+				"id": "comp-comp-255",
+				"fase": 3,
+				"tekst": "Ontwerpen van een beslisboom bij de stappen in een proces"
+			},
+			{
+				"id": "comp-comp-256",
+				"fase": 3,
+				"tekst": "Onderzoeken van een gegeven algoritme op mogelijke fouten en deze verbeteren (debugging)"
+			},
+			{
+				"id": "comp-comp-257",
+				"fase": 3,
+				"tekst": "Bewust worden van het belang dat een algoritme nauwkeurig én eenduidig geformuleerd is"
+			},
+			{
+				"id": "comp-comp-258",
+				"fase": 3,
+				"tekst": "Verkennen of een probleem vertaald kan worden in instructies of regels"
+			},
+			{
+				"id": "comp-comp-259",
+				"fase": 3,
+				"tekst": "Een complexe taak welke handelingen gelijktijdig uitgevoerd kunnen worden (parallellisatie)"
+			},
+			{
+				"id": "comp-comp-260",
+				"fase": 3,
+				"tekst": "Exploreren van de programmeertaal in eenvoudige programmeer-software"
+			}]
+		}]
+	},
+	{
+		"naam": "Reflectie",
+		"labels": [{
+			"naam": "reflecteren op computational thinking",
+			"competenties": [{
+				"id": "comp-comp-261",
+				"fase": 1,
+				"tekst": "Praten met elkaar over hoe 'problemen' opgelost worden met digitale technologie"
+			},
+			{
+				"id": "comp-comp-262",
+				"fase": 1,
+				"tekst": "Praten over genomen beslissingen, gevonden oplossingen en de rol van de computer hierbij"
+			},
+			{
+				"id": "comp-comp-263",
+				"fase": 2,
+				"tekst": "Verkennen of een probleem vertaald kan worden in instructies of regels die de inzet van een computer mogelijk maakt"
+			},
+			{
+				"id": "comp-comp-264",
+				"fase": 2,
+				"tekst": "Reflecteren op de inzet van decompositie, patroonherkenning, abstractie en algoritmes bij het oplossen een probleem"
+			},
+			{
+				"id": "comp-comp-265",
+				"fase": 2,
+				"tekst": "Onderzoeken van de meerwaarde van de computer bij het oplossen van een probleem"
+			},
+			{
+				"id": "comp-comp-266",
+				"fase": 3,
+				"tekst": "Reflecteren op de inzet van decompositie, patroonherkenning, abstractie en algoritmes bij het oplossen een probleem"
+			},
+			{
+				"id": "comp-comp-267",
+				"fase": 3,
+				"tekst": "Onderzoeken of een gevonden oplossing voor een probleem in een andere situatie herbruikbaar is (generalisatie)"
+			},
+			{
+				"id": "comp-comp-268",
+				"fase": 3,
+				"tekst": "Bespreken van voor- en nadelen én de gevolgen bij het inzetten van een computer voor het oplossen van een probleem"
+			}]
+		}]
+	}]
+}]
