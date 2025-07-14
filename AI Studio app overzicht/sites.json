@@ -82,7 +82,7 @@
   },
   {
     "volgnummer": 11,
-    "url": "https://ictoblog.com/html/TPACK-spel/",
+    "url": "https://ictoblog.com/html/Weefgetouw/",
     "afbeeldingUrl": "images/app11.png",
     "titel": "Weefgetouw Digitale Geletterdheid",
     "omschrijving": "Een tool die al een tijdje in Miro beschikbaar is, maar dan moeilijker te delen is met partners. Deze versie gebruikt CSS en Javascript, met extern JSON-bestand voor de leerdoelen. De broncode is op github beschikbaar. Het laden van de JSON lijkt bij lokaal gebruik niet te werken, dus op een webserver draaien.",
