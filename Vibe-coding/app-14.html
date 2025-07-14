@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EngelsExpress - Woordenschatquiz</title>
+    <style>
+        /* CSS voor de vormgeving */
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f0f8ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: #333;
+        }
+
+        #quiz-container {
+            background-color: #ffffff;
+            padding: 2em;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            text-align: center;
+            width: 90%;
+            max-width: 500px;
+        }
+
+        h1 {
+            color: #0056b3;
+        }
+
+        #word-display {
+            font-size: 2em;
+            font-weight: bold;
+            margin: 1em 0;
+            color: #003366;
+        }
+
+        #options-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1em;
+            margin-top: 1.5em;
+        }
+
+        .option-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 1em;
+            font-size: 1.2em;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .option-btn:hover {
+            background-color: #0056b3;
+            transform: translateY(-3px);
+        }
+        
+        .option-btn:active {
+            transform: translateY(1px);
+        }
+
+        #feedback {
+            font-size: 1.5em;
+            margin-top: 1em;
+            min-height: 50px;
+            font-weight: bold;
+        }
+
+        .correct {
+            color: #28a745;
+        }
+
+        .incorrect {
+            color: #dc3545;
+        }
+
+        #score-container {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="quiz-container">
+        <h1>EngelsExpress</h1>
+        <div id="question-container">
+            <p>Vertaal het volgende woord naar het Engels:</p>
+            <div id="word-display"></div>
+            <div id="options-container">
+                <button class="option-btn"></button>
+                <button class="option-btn"></button>
+                <button class="option-btn"></button>
+                <button class="option-btn"></button>
+            </div>
+            <div id="feedback"></div>
+        </div>
+        <div id="score-container" style="display: none;"></div>
+    </div>
+
+    <script>
+        // JavaScript voor de functionaliteit
+        const wordPairs = [
+            { nl: 'huis', en: 'house' },
+            { nl: 'auto', en: 'car' },
+            { nl: 'hond', en: 'dog' },
+            { nl: 'school', en: 'school' },
+            { nl: 'boek', en: 'book' },
+            { nl: 'tafel', en: 'table' },
+            { nl: 'stoel', en: 'chair' },
+            { nl: 'fiets', en: 'bicycle' },
+            { nl: 'appel', en: 'apple' },
+            { nl: 'water', en: 'water' },
+            { nl: 'vriend', en: 'friend' },
+            { nl: 'kat', en: 'cat' },
+            { nl: 'boom', en: 'tree' },
+            { nl: 'zon', en: 'sun' },
+            { nl: 'maan', en: 'moon' },
+            { nl: 'melk', en: 'milk' },
+            { nl: 'brood', en: 'bread' },
+            { nl: 'kaas', en: 'cheese' },
+            { nl: 'lopen', en: 'walk' },
+            { nl: 'eten', en: 'eat' }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        const totalQuestions = 10;
+        let shuffledPairs = [...wordPairs].sort(() => 0.5 - Math.random());
+        let currentWordPair;
+
+        const wordDisplay = document.getElementById('word-display');
+        const optionButtons = document.querySelectorAll('.option-btn');
+        const feedbackDisplay = document.getElementById('feedback');
+        const questionContainer = document.getElementById('question-container');
+        const scoreContainer = document.getElementById('score-container');
+
+        function loadQuestion() {
+            if (currentQuestionIndex >= totalQuestions) {
+                showFinalScore();
+                return;
+            }
+
+            feedbackDisplay.innerHTML = '';
+            currentWordPair = shuffledPairs[currentQuestionIndex];
+            wordDisplay.textContent = currentWordPair.nl;
+
+            const correctAnswer = currentWordPair.en;
+            let options = [correctAnswer];
+
+            while (options.length < 4) {
+                const randomWord = wordPairs[Math.floor(Math.random() * wordPairs.length)].en;
+                if (!options.includes(randomWord)) {
+                    options.push(randomWord);
+                }
+            }
+
+            options.sort(() => 0.5 - Math.random()); // Willekeurige volgorde van opties
+
+            optionButtons.forEach((button, index) => {
+                button.textContent = options[index];
+                button.disabled = false;
+                button.onclick = () => checkAnswer(button.textContent);
+            });
+        }
+
+        function checkAnswer(selectedAnswer) {
+            optionButtons.forEach(button => button.disabled = true);
+            const correctAnswer = currentWordPair.en;
+
+            if (selectedAnswer === correctAnswer) {
+                feedbackDisplay.innerHTML = `✅ Juist! ${currentWordPair.nl} is ${correctAnswer}.`;
+                feedbackDisplay.className = 'correct';
+                score++;
+            } else {
+                feedbackDisplay.innerHTML = `❌ Niet goed. ${currentWordPair.nl} is ${correctAnswer}.`;
+                feedbackDisplay.className = 'incorrect';
+            }
+
+            currentQuestionIndex++;
+            setTimeout(loadQuestion, 2000); // Wacht 2 seconden voor de volgende vraag
+        }
+
+        function showFinalScore() {
+            questionContainer.style.display = 'none';
+            scoreContainer.style.display = 'block';
+            scoreContainer.textContent = `Je had ${score} van de ${totalQuestions} goed.`;
+        }
+
+        // Start de quiz
+        loadQuestion();
+    </script>
+
+</body>
+</html>

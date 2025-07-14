@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vibecoding Wegwerpapplicaties</title>
+    <style>
+        :root {
+            --primary-bg-color: #ffffff;
+            --secondary-bg-color: #f8f9fa;
+            --accent-color: #007bff;
+            --header-color: #343a40;
+            --text-color: #333;
+            --nav-width: 320px;
+            --border-color: #dee2e6;
+            --header-font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            --body-font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            --header-height: 60px;
+        }
+        body {
+            font-family: var(--body-font);
+            margin: 0;
+            background-color: var(--secondary-bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding-top: var(--header-height); /* Ruimte voor vaste header */
+        }
+        .app-header {
+            background-color: var(--primary-bg-color);
+            color: var(--header-color);
+            padding: 0 40px;
+            height: var(--header-height);
+            display: flex;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+            box-sizing: border-box;
+        }
+        .app-header h1 {
+            font-family: var(--header-font);
+            font-size: 1.8em;
+            margin: 0;
+        }
+        .container {
+            display: flex;
+        }
+        nav {
+            width: var(--nav-width);
+            background-color: var(--primary-bg-color);
+            border-right: 1px solid var(--border-color);
+            padding: 20px;
+            height: calc(100vh - var(--header-height));
+            overflow-y: auto;
+            position: fixed;
+            top: var(--header-height);
+            box-sizing: border-box;
+        }
+        nav h2 {
+            font-family: var(--header-font);
+            color: #d6336c; /* ICTOBLOG pink */
+            font-size: 1.5em;
+            margin-top: 0;
+            border-bottom: 2px solid #f1f3f5;
+            padding-bottom: 10px;
+        }
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        nav ul li a {
+            display: block;
+            padding: 10px 15px;
+            text-decoration: none;
+            color: #495057;
+            border-radius: 5px;
+            margin-bottom: 5px;
+            transition: background-color 0.3s;
+            font-weight: 500;
+        }
+        nav ul li a:hover, nav ul li a.active {
+            background-color: #e9ecef;
+            color: #d6336c;
+        }
+        main {
+            margin-left: var(--nav-width);
+            padding: 20px 40px;
+            width: calc(100% - var(--nav-width));
+            box-sizing: border-box;
+        }
+        .content-wrapper {
+             max-width: 900px;
+        }
+        .content-section {
+            background-color: var(--primary-bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+        #content-title {
+             font-family: var(--header-font);
+             color: #343a40;
+             border-bottom: 2px solid #d6336c;
+             padding-bottom: 10px;
+             font-size: 2.2em;
+             margin-top: 0;
+             margin-bottom: 25px;
+        }
+        .media-display {
+            margin-bottom: 25px;
+        }
+        .media-display img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            display: none; /* Hidden by default */
+        }
+        .media-display .demo-link {
+            display: none; /* Hidden by default */
+            margin-top: 15px;
+            font-weight: bold;
+            text-decoration: none;
+            color: var(--accent-color);
+        }
+         .media-display .demo-link:hover {
+            text-decoration: underline;
+        }
+        .content-section h3 {
+            font-family: var(--header-font);
+            color: #d6336c;
+            margin-top: 0;
+            font-size: 1.6em;
+            cursor: pointer;
+        }
+        .content-section h3:hover {
+            text-decoration: underline;
+        }
+        .prompt {
+            background-color: #f8f9fa;
+            border-left: 4px solid #d6336c;
+            padding: 15px;
+            margin-top: 15px;
+            white-space: pre-wrap;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.95em;
+            display: none; /* Hidden by default */
+            border-radius: 0 5px 5px 0;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+
+<header class="app-header">
+    <h1>Vibecoding Wegwerpapplicaties</h1>
+</header>
+
+<div class="container">
+    <nav>
+        <h2>Applicaties</h2>
+        <ul id="navList"></ul>
+    </nav>
+    <main>
+        <div class="content-wrapper">
+            <h1 id="content-title">Selecteer een voorbeeld</h1>
+            
+            <div id="media-container" class="media-display">
+                 <img id="content-image" src="" alt="">
+                 <a id="content-demo-link" href="#" target="_blank" rel="noopener noreferrer" class="demo-link">🌐 Probeer een voorbeeld van de app uit</a>
+            </div>
+
+            <div id="app-content">
+                <div class="content-section">
+                    <h3>Functionaliteit</h3>
+                    <p id="content-functionality"></p>
+                </div>
+                <div class="content-section">
+                    <h3>Opzet</h3>
+                    <p id="content-opzet"></p>
+                </div>
+                <div class="content-section">
+                    <h3 id="prompt-title">Prompt (voor AI Studio)</h3>
+                    <div id="content-prompt" class="prompt"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const navList = document.getElementById('navList');
+        const contentTitle = document.getElementById('content-title');
+        const appContentDiv = document.getElementById('app-content');
+        
+        // Media elements
+        const contentImage = document.getElementById('content-image');
+        const contentDemoLink = document.getElementById('content-demo-link');
+
+        // Content sections
+        const contentFunctionality = document.getElementById('content-functionality');
+        const contentOpzet = document.getElementById('content-opzet');
+        const promptTitle = document.getElementById('prompt-title');
+        const contentPrompt = document.getElementById('content-prompt');
+
+        let appData = [];
+
+        fetch('applications.json')
+            .then(response => {
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                return response.json();
+            })
+            .then(data => {
+                appData = data;
+                populateNav(appData);
+                if (appData.length > 0) displayContent(0);
+            })
+            .catch(error => {
+                console.error('Error fetching application data:', error);
+                contentTitle.textContent = 'Fout bij laden';
+                contentFunctionality.textContent = 'Kon de applicatiegegevens niet laden. Controleer of "applications.json" bestaat en correct is.';
+            });
+
+        function populateNav(data) {
+            navList.innerHTML = '';
+            data.forEach((app, index) => {
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+                a.href = '#';
+                a.textContent = app.title.split('–')[0].trim();
+                a.dataset.index = index;
+                li.appendChild(a);
+                navList.appendChild(li);
+            });
+        }
+
+        function displayContent(index) {
+            if (!appData[index]) return;
+
+            const app = appData[index];
+            contentTitle.textContent = app.title;
+
+            // Handle Image
+            if (app.image) {
+                contentImage.src = app.image;
+                contentImage.alt = `Afbeelding voor ${app.title}`;
+                contentImage.style.display = 'block';
+            } else {
+                contentImage.style.display = 'none';
+            }
+
+            // Handle Demo Link
+            if (app.demo) {
+                contentDemoLink.href = app.demo;
+                contentDemoLink.style.display = 'inline-block';
+            } else {
+                contentDemoLink.style.display = 'none';
+            }
+
+            // Handle Text Content
+            contentFunctionality.innerHTML = app.functionality.replace(/\n/g, '<br>');
+            contentOpzet.innerHTML = app.opzet.replace(/\n/g, '<br>');
+            contentPrompt.innerHTML = app.prompt.replace(/\n/g, '<br>');
+            
+            appContentDiv.style.display = 'block';
+            contentPrompt.style.display = 'none';
+
+            // Update active link
+            document.querySelectorAll('#navList a').forEach(link => link.classList.remove('active'));
+            const activeLink = document.querySelector(`#navList a[data-index='${index}']`);
+            if(activeLink) activeLink.classList.add('active');
+        }
+
+        navList.addEventListener('click', function(e) {
+            if (e.target.tagName === 'A') {
+                e.preventDefault();
+                displayContent(e.target.dataset.index);
+            }
+        });
+
+        promptTitle.addEventListener('click', function() {
+            const isHidden = contentPrompt.style.display === 'none';
+            contentPrompt.style.display = isHidden ? 'block' : 'none';
+        });
+
+        appContentDiv.style.display = 'none';
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dagplanner</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #f0f8ff;
+            color: #333;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1, h2 {
+            color: #4682b4;
+        }
+
+        #pictogrammen, #planner {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .pictogram {
+            width: 80px;
+            height: 80px;
+            background-color: #add8e6;
+            border: 2px solid #4682b4;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: grab;
+            transition: transform 0.2s;
+        }
+
+        .pictogram:active {
+            cursor: grabbing;
+            transform: scale(1.1);
+        }
+
+        .pictogram span {
+            font-size: 30px;
+        }
+
+        .dagdeel {
+            width: 200px;
+            min-height: 150px;
+            background-color: #fff;
+            border: 2px dashed #ccc;
+            border-radius: 10px;
+            padding: 15px;
+        }
+
+        .dagdeel.over {
+            border-style: solid;
+            border-color: #4682b4;
+            background-color: #e6f7ff;
+        }
+
+        .dagdeel h2 {
+            margin-top: 0;
+            font-size: 1.2em;
+        }
+
+        #overzicht {
+            background-color: #fff;
+            border: 2px solid #4682b4;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 680px;
+            display: none; /* Standaard verborgen */
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Mijn Dagplanner</h1>
+
+    <h2>Kies je activiteiten:</h2>
+    <div id="pictogrammen">
+        <div class="pictogram" draggable="true" id="ontbijt">
+            <span>🥐</span>
+            <div>Ontbijt</div>
+        </div>
+        <div class="pictogram" draggable="true" id="school">
+            <span>🏫</span>
+            <div>School</div>
+        </div>
+        <div class="pictogram" draggable="true" id="spelen">
+            <span>⚽</span>
+            <div>Spelen</div>
+        </div>
+        <div class="pictogram" draggable="true" id="eten">
+            <span>🍝</span>
+            <div>Eten</div>
+        </div>
+        <div class="pictogram" draggable="true" id="slapen">
+            <span>😴</span>
+            <div>Slapen</div>
+        </div>
+    </div>
+
+    <h2>Sleep ze naar het juiste vak:</h2>
+    <div id="planner">
+        <div class="dagdeel" id="ochtend">
+            <h2>Ochtend</h2>
+        </div>
+        <div class="dagdeel" id="middag">
+            <h2>Middag</h2>
+        </div>
+        <div class="dagdeel" id="avond">
+            <h2>Avond</h2>
+        </div>
+    </div>
+
+    <button onclick="toonOverzicht()">Klaar! Toon mijn dag</button>
+
+    <div id="overzicht">
+        <h2>Dit is jouw dag!</h2>
+        <div id="overzicht-inhoud"></div>
+    </div>
+
+    <script>
+        const pictogrammen = document.querySelectorAll('.pictogram');
+        const dagdelen = document.querySelectorAll('.dagdeel');
+        const overzichtDiv = document.getElementById('overzicht');
+        const overzichtInhoud = document.getElementById('overzicht-inhoud');
+        let draggedItem = null;
+
+        pictogrammen.forEach(pictogram => {
+            pictogram.addEventListener('dragstart', (e) => {
+                draggedItem = e.target.closest('.pictogram');
+                setTimeout(() => {
+                    e.target.closest('.pictogram').style.display = 'none';
+                }, 0);
+            });
+
+            pictogram.addEventListener('dragend', (e) => {
+                setTimeout(() => {
+                    if (draggedItem) {
+                       draggedItem.style.display = 'flex';
+                       draggedItem = null;
+                    }
+                }, 0);
+            });
+        });
+
+        dagdelen.forEach(dagdeel => {
+            dagdeel.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                e.currentTarget.classList.add('over');
+            });
+
+            dagdeel.addEventListener('dragleave', (e) => {
+                e.currentTarget.classList.remove('over');
+            });
+
+            dagdeel.addEventListener('drop', (e) => {
+                e.preventDefault();
+                e.currentTarget.classList.remove('over');
+                if (draggedItem) {
+                    // Voorkom dat hetzelfde pictogram meerdere keren wordt toegevoegd
+                    if (!e.currentTarget.contains(document.getElementById(draggedItem.id))) {
+                         e.currentTarget.appendChild(draggedItem);
+                         draggedItem.style.display = 'flex';
+                    }
+                    draggedItem = null;
+                }
+            });
+        });
+
+        function toonOverzicht() {
+            overzichtInhoud.innerHTML = ''; // Maak het overzicht leeg
+            let isPlanned = false;
+
+            dagdelen.forEach(dagdeel => {
+                const titel = dagdeel.querySelector('h2').innerText;
+                const pictogrammenInDagdeel = dagdeel.querySelectorAll('.pictogram');
+                
+                if (pictogrammenInDagdeel.length > 0) {
+                    isPlanned = true;
+                    const sectie = document.createElement('div');
+                    sectie.innerHTML = `<h3>${titel}</h3>`;
+                    const lijst = document.createElement('ul');
+                    pictogrammenInDagdeel.forEach(p => {
+                        const li = document.createElement('li');
+                        li.textContent = p.innerText;
+                        lijst.appendChild(li);
+                    });
+                    sectie.appendChild(lijst);
+                    overzichtInhoud.appendChild(sectie);
+                }
+            });
+
+            if(isPlanned) {
+                overzichtDiv.style.display = 'block';
+            } else {
+                alert('Sleep eerst de pictogrammen naar de dagdelen voordat je een overzicht maakt!');
+            }
+        }
+    </script>
+
+</body>
+</html>

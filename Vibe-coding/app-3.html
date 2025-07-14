@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zinnen Bouwer</title>
+    <style>
+        /* CSS is ongewijzigd */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 800px;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        #sentence-construction-area {
+            background-color: #e6f7ff;
+            border: 2px dashed #91d5ff;
+            border-radius: 10px;
+            min-height: 50px;
+            padding: 15px;
+            margin-bottom: 30px;
+            font-size: 1.5em;
+            color: #555;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #word-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .word-block {
+            background-color: #fffbe6;
+            border: 1px solid #ffe58f;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.2em;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .word-block:hover {
+            background-color: #fff1b8;
+            transform: scale(1.05);
+        }
+
+        .word-block.used {
+            background-color: #d9d9d9;
+            color: #8c8c8c;
+            cursor: not-allowed;
+            text-decoration: line-through;
+        }
+
+        #feedback {
+            font-size: 1.3em;
+            font-weight: bold;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        #feedback.correct {
+            background-color: #d4edda;
+            color: #155724;
+            display: block;
+        }
+
+        #feedback.incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
+            display: block;
+        }
+        
+        #retry-button {
+            display: none;
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Zinnen Bouwer</h1>
+        <p>Klik op de woorden in de juiste volgorde om de zin te maken.</p>
+        
+        <div id="sentence-construction-area">Bouw de zin hier:</div>
+
+        <div id="word-container"></div>
+
+        <div id="feedback"></div>
+        <button id="retry-button">Opnieuw proberen</button>
+    </div>
+
+    <script>
+        // --- CONFIGURATIE ---
+        // --> GEWIJZIGD: We gebruiken nu een array van objecten voor de zinnen.
+        // Je kunt hier eenvoudig nieuwe zinnen toevoegen!
+        const sentences = [
+            {
+                words: ["De", "kinderen", "spelen", "op", "het", "schoolplein."]
+            },
+            {
+                words: ["De", "kat", "slaapt", "in", "de", "zonnige", "vensterbank."]
+            },
+            {
+                words: ["Morgen", "gaan", "wij", "naar", "het", "strand."]
+            },
+            {
+                words: ["Ik", "eet", "graag", "een", "lekker", "ijsje."]
+            },
+            {
+                words: ["De", "vrolijke", "hond", "rent", "achter", "de", "bal", "aan."]
+            }
+        ];
+
+        // --- ELEMENTEN SELECTEREN ---
+        const wordContainer = document.getElementById('word-container');
+        const sentenceArea = document.getElementById('sentence-construction-area');
+        const feedbackElement = document.getElementById('feedback');
+        const retryButton = document.getElementById('retry-button');
+
+        // --- STATE ---
+        let builtSentence = [];
+        // --> NIEUW: We houden bij welke zin actief is.
+        let currentCorrectWords = [];
+
+        // --- FUNCTIES ---
+
+        function shuffleArray(array) {
+            let currentIndex = array.length, randomIndex;
+            while (currentIndex !== 0) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex--;
+                [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+            }
+            return array;
+        }
+
+        function startExercise() {
+            // Reset
+            builtSentence = [];
+            sentenceArea.textContent = 'Bouw de zin hier:';
+            feedbackElement.style.display = 'none';
+            retryButton.style.display = 'none';
+            wordContainer.innerHTML = '';
+
+            // --> NIEUW: Kies een willekeurige zin uit de lijst.
+            const randomIndex = Math.floor(Math.random() * sentences.length);
+            const currentSentenceObject = sentences[randomIndex];
+            currentCorrectWords = currentSentenceObject.words; // Update de actieve zin
+
+            // --> GEWIJZIGD: Hussel de woorden van de gekozen zin.
+            const shuffledWords = shuffleArray([...currentCorrectWords]);
+
+            shuffledWords.forEach(word => {
+                const wordBlock = document.createElement('button');
+                wordBlock.className = 'word-block';
+                wordBlock.textContent = word;
+                wordBlock.addEventListener('click', handleWordClick);
+                wordContainer.appendChild(wordBlock);
+            });
+        }
+
+        function handleWordClick(event) {
+            const clickedButton = event.target;
+            
+            if (clickedButton.classList.contains('used')) {
+                return;
+            }
+
+            const word = clickedButton.textContent;
+            builtSentence.push(word);
+
+            if (builtSentence.length === 1) {
+                sentenceArea.textContent = '';
+            }
+            sentenceArea.textContent += word + ' ';
+
+            clickedButton.classList.add('used');
+
+            // --> GEWIJZIGD: Controleer of de zin compleet is op basis van de HUIDIGE zin.
+            if (builtSentence.length === currentCorrectWords.length) {
+                checkSentence();
+            }
+        }
+
+        function checkSentence() {
+            // --> GEWIJZIGD: Vergelijk de gebouwde zin met de HUIDIGE correcte zin.
+            const isCorrect = JSON.stringify(builtSentence) === JSON.stringify(currentCorrectWords);
+
+            if (isCorrect) {
+                feedbackElement.textContent = '✅ Super, de zin is correct!';
+                feedbackElement.className = 'correct';
+                // Geef een knop voor de VOLGENDE oefening
+                retryButton.textContent = 'Volgende zin!';
+                retryButton.style.display = 'block';
+            } else {
+                feedbackElement.textContent = '❌ Dat klopt nog niet. Probeer het opnieuw.';
+                feedbackElement.className = 'incorrect';
+                retryButton.textContent = 'Opnieuw proberen';
+                retryButton.style.display = 'block';
+            }
+            feedbackElement.style.display = 'block';
+        }
+
+        // --- EVENT LISTENERS ---
+        retryButton.addEventListener('click', startExercise);
+
+        // --- INITIALISATIE ---
+        document.addEventListener('DOMContentLoaded', startExercise);
+    </script>
+
+</body>
+</html>

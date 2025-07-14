@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactieve Tijdlijn: Tweede Wereldoorlog</title>
+    <style>
+        /* Algemene styling */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        /* Container voor de hele tijdlijn component */
+        .timeline-container {
+            width: 100%;
+            max-width: 800px;
+            padding: 40px 30px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        p.instructions {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 60px; /* Meer ruimte voor de labels boven de lijn */
+        }
+
+        /* De horizontale lijn van de tijdlijn */
+        .timeline {
+            position: relative;
+            height: 4px;
+            background-color: #3498db;
+            border-radius: 2px;
+            margin: 50px 0;
+        }
+
+        /* Stijl voor elk gebeurtenispunt op de lijn */
+        .event {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+        
+        /* De cirkel die de gebeurtenis markeert */
+        .event-point {
+            width: 16px;
+            height: 16px;
+            background-color: #fff;
+            border: 3px solid #3498db;
+            border-radius: 50%;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        /* Visuele feedback bij hoveren */
+        .event:hover .event-point {
+            transform: scale(1.3);
+            border-color: #e74c3c;
+        }
+        
+        /* De standaard tekst (het jaar) ONDER het punt */
+        .event-year {
+            position: absolute;
+            top: 30px; /* Positie onder het punt */
+            left: 50%;
+            transform: translateX(-50%);
+            font-weight: bold;
+            color: #2c3e50;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        /* NIEUWE KLASSE: Stijl voor labels die BOVEN de lijn moeten staan */
+        .event-label-top {
+            top: auto; /* Reset de 'top' eigenschap */
+            bottom: 30px; /* Plaats het label boven het punt */
+        }
+
+        /* Container voor de detailinformatie */
+        #details-box {
+            padding: 20px;
+            margin-top: 20px;
+            background-color: #ecf0f1;
+            border-left: 5px solid #3498db;
+            border-radius: 5px;
+            min-height: 80px;
+            transition: all 0.3s ease;
+        }
+
+        #details-box.filled {
+             border-left-color: #e74c3c;
+        }
+
+        #details-box h3 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+
+        #details-box p {
+            margin-bottom: 0;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="timeline-container">
+        <h1>Tijdlijn van de Tweede Wereldoorlog</h1>
+        <p class="instructions">Beweeg over de punten op de lijn voor details over de gebeurtenissen.</p>
+
+        <!-- De Tijdlijn -->
+        <div class="timeline">
+            <!-- Evenement 1: Begin WOII (Label onder) -->
+            <div class="event" style="left: 0%;" data-date="1 september 1939" data-description="Duitsland valt Polen binnen. Dit markeert het begin van de Tweede Wereldoorlog in Europa.">
+                <div class="event-point"></div>
+                <div class="event-year">1939</div>
+            </div>
+
+            <!-- Evenement 2: Inval Nederland (Label boven) -->
+            <div class="event" style="left: 12.3%;" data-date="10 mei 1940" data-description="Duitsland valt Nederland, België en Luxemburg binnen. Voor Nederland is dit het begin van de bezetting.">
+                <div class="event-point"></div>
+                <div class="event-year event-label-top">1940</div>
+            </div>
+
+            <!-- Evenement 3: D-Day (Label onder) -->
+            <div class="event" style="left: 80.5%;" data-date="6 juni 1944" data-description="De geallieerden landen op de stranden van Normandië (Frankrijk) in de grootste amfibische invasie in de geschiedenis. Deze operatie, genaamd D-Day, luidt het begin van het einde in voor nazi-Duitsland.">
+                <div class="event-point"></div>
+                <div class="event-year">1944</div>
+            </div>
+
+            <!-- Evenement 4: Bevrijding Nederland (Label boven om overlap te voorkomen) -->
+            <div class="event" style="left: 95.8%;" data-date="5 mei 1945" data-description="De Duitse troepen in Nederland capituleren. Dit wordt jaarlijks gevierd als Bevrijdingsdag.">
+                <div class="event-point"></div>
+                <div class="event-year event-label-top">5 mei 1945</div>
+            </div>
+
+            <!-- Evenement 5: Einde WOII (Label onder) -->
+            <div class="event" style="left: 100%;" data-date="15 augustus 1945" data-description="Japan capituleert na de atoombommen op Hiroshima en Nagasaki. Dit betekent het officiële einde van de Tweede Wereldoorlog wereldwijd.">
+                <div class="event-point"></div>
+                <div class="event-year">15 aug 1945</div>
+            </div>
+        </div>
+
+        <!-- Box om de details van de gebeurtenis te tonen -->
+        <div id="details-box">
+            <p>Beweeg over een punt om de details hier te zien.</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const events = document.querySelectorAll('.event');
+            const detailsBox = document.getElementById('details-box');
+            const initialDetailsContent = detailsBox.innerHTML;
+            const timelineContainer = document.querySelector('.timeline-container');
+
+            events.forEach(event => {
+                event.addEventListener('mouseover', () => {
+                    const date = event.getAttribute('data-date');
+                    const description = event.getAttribute('data-description');
+                    
+                    detailsBox.innerHTML = `<h3>${date}</h3><p>${description}</p>`;
+                    detailsBox.classList.add('filled');
+                });
+            });
+
+            // Gebruik mouseleave op de container van de tijdlijn om te resetten
+            timelineContainer.addEventListener('mouseleave', () => {
+                detailsBox.innerHTML = initialDetailsContent;
+                detailsBox.classList.remove('filled');
+            });
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VerhaalSpin - Verhalengenerator</title>
+    <style>
+        /* CSS voor kindvriendelijke styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f8ff; /* Lichte, vrolijke achtergrondkleur */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            max-width: 600px;
+            width: 90%;
+        }
+
+        h1 {
+            color: #ff6347; /* Tomatenrood voor een speelse titel */
+            font-size: 2.5em;
+        }
+
+        /* Grote, uitnodigende knop */
+        #maakVerhaalKnop {
+            background-color: #4682b4; /* Staalblauw */
+            color: white;
+            border: none;
+            padding: 20px 40px;
+            font-size: 1.5em; /* Grotere letters */
+            border-radius: 15px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 20px;
+        }
+
+        #maakVerhaalKnop:hover {
+            background-color: #5a9bd4; /* Iets lichtere kleur bij hover */
+        }
+
+        /* Groot tekstvak voor het resultaat */
+        #verhaalResultaat {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #fffacd; /* Citroengele achtergrond voor het tekstvak */
+            border-radius: 15px;
+            min-height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #verhaalTekst {
+            font-size: 1.8em; /* Extra grote letters voor het verhaal */
+            color: #333;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>VerhaalSpin</h1>
+        <p>Klik op de knop om een grappig begin van een verhaal te maken!</p>
+        <button id="maakVerhaalKnop">Maak een verhaal</button>
+        <div id="verhaalResultaat">
+            <p id="verhaalTekst">Hier komt jouw verhaal...</p>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript voor de functionaliteit
+
+        // Stap 1: Definieer de lijsten met woorden
+        const personages = [
+            'Luna',
+            'Max',
+            'de dappere ridder',
+            'de slimme juf',
+            'de vrolijke koning',
+            'een geheimzinnige piraat',
+            'de kat van de buren'
+        ];
+
+        const plekken = [
+            'het betoverde bos',
+            'de school',
+            'de maan',
+            'een donkere kelder',
+            'de top van de hoogste berg',
+            'een kasteel in de wolken'
+        ];
+
+        const gebeurtenissenVoorwerpen = [
+            'een verloren schatkist',
+            'een vliegende hoed',
+            'een pratende hond',
+            'een magisch kompas',
+            'een sleutel die op alle deuren past',
+            'een pot met goud'
+        ];
+
+        // Stap 2: Zoek de HTML-elementen op
+        const maakVerhaalKnop = document.getElementById('maakVerhaalKnop');
+        const verhaalTekstElement = document.getElementById('verhaalTekst');
+
+        // Stap 3: Voeg een 'click' event listener toe aan de knop
+        maakVerhaalKnop.addEventListener('click', function() {
+            // Stap 4: Kies willekeurig een element uit elke lijst
+            const willekeurigPersonage = personages[Math.floor(Math.random() * personages.length)];
+            const willekeurigePlek = plekken[Math.floor(Math.random() * plekken.length)];
+            const willekeurigVoorwerp = gebeurtenissenVoorwerpen[Math.floor(Math.random() * gebeurtenissenVoorwerpen.length)];
+
+            // Stap 5: Stel de zin samen
+            const verhaal = `Op een dag ging ${willekeurigPersonage} naar ${willekeurigePlek} en vond daar ${willekeurigVoorwerp}.`;
+
+            // Stap 6: Toon de zin in het tekstvak
+            verhaalTekstElement.textContent = verhaal;
+        });
+    </script>
+
+</body>
+</html>

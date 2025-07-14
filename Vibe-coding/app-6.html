@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kleurenmenger</title>
+    <style>
+        /* CSS voor de opmaak */
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 40px;
+            background-color: #f0f0f0;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .selectie-container {
+            margin-bottom: 20px;
+        }
+
+        select {
+            font-size: 1.2em;
+            padding: 10px;
+            margin: 0 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        #resultaat-vlak {
+            width: 200px;
+            height: 200px;
+            border: 2px solid #000;
+            margin-top: 20px;
+            background-color: grey; /* Startkleur */
+            transition: background-color 0.5s ease; /* Vloeiende overgang */
+        }
+
+        #resultaat-tekst {
+            margin-top: 20px;
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #333;
+            min-height: 30px; /* Zorgt dat layout niet verspringt */
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Kies twee kleuren om te mengen:</h1>
+
+    <div class="selectie-container">
+        <select id="kleur1">
+            <option value="Rood">Rood</option>
+            <option value="Geel">Geel</option>
+            <option value="Blauw">Blauw</option>
+        </select>
+        <span>+</span>
+        <select id="kleur2">
+            <option value="Rood">Rood</option>
+            <option value="Geel">Geel</option>
+            <option value="Blauw">Blauw</option>
+        </select>
+    </div>
+
+    <div id="resultaat-vlak"></div>
+    <p id="resultaat-tekst"></p>
+
+    <script>
+        // JavaScript voor de menglogica
+
+        // DOM-elementen selecteren
+        const selectKleur1 = document.getElementById('kleur1');
+        const selectKleur2 = document.getElementById('kleur2');
+        const resultaatVlak = document.getElementById('resultaat-vlak');
+        const resultaatTekst = document.getElementById('resultaat-tekst');
+
+        // Kleurendefinities: Nederlandse naam -> CSS-kleur
+        const kleurenCss = {
+            'Rood': 'red',
+            'Geel': 'yellow',
+            'Blauw': 'blue',
+            'Oranje': 'orange',
+            'Paars': 'purple',
+            'Groen': 'green'
+        };
+
+        // Functie om de kleuren te mengen
+        function mengKleuren() {
+            const kleur1 = selectKleur1.value;
+            const kleur2 = selectKleur2.value;
+
+            let resultaatKleurNaam;
+
+            // Om de volgorde niet uit te laten maken, sorteren we de kleuren op alfabetische volgorde
+            // en voegen we ze samen tot een unieke sleutel.
+            const combinatie = [kleur1, kleur2].sort().join('+');
+
+            switch (combinatie) {
+                case 'Blauw+Rood':
+                    resultaatKleurNaam = 'Paars';
+                    break;
+                case 'Geel+Rood':
+                    resultaatKleurNaam = 'Oranje';
+                    break;
+                case 'Blauw+Geel':
+                    resultaatKleurNaam = 'Groen';
+                    break;
+                case 'Blauw+Blauw':
+                    resultaatKleurNaam = 'Blauw';
+                    break;
+                case 'Geel+Geel':
+                    resultaatKleurNaam = 'Geel';
+                    break;
+                case 'Rood+Rood':
+                    resultaatKleurNaam = 'Rood';
+                    break;
+                default:
+                    resultaatKleurNaam = 'Onbekend';
+            }
+
+            // Achtergrondkleur van het resultaatvlak aanpassen
+            resultaatVlak.style.backgroundColor = kleurenCss[resultaatKleurNaam];
+
+            // De tekst bijwerken om de som te laten zien
+            resultaatTekst.textContent = `${kleur1} + ${kleur2} = ${resultaatKleurNaam}`;
+        }
+
+        // Event listeners toevoegen aan beide selectievakjes
+        selectKleur1.addEventListener('change', mengKleuren);
+        selectKleur2.addEventListener('change', mengKleuren);
+
+        // De functie eenmaal uitvoeren bij het laden van de pagina voor de beginwaarden
+        document.addEventListener('DOMContentLoaded', mengKleuren);
+
+    </script>
+
+</body>
+</html>

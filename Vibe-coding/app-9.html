@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binaire Trainer</title>
+    <style>
+        /* Algemene styling */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* Container voor de trainer */
+        .trainer-container {
+            background-color: #ffffff;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 1.5em;
+            color: #1a237e;
+            margin-bottom: 25px;
+        }
+
+        /* Container voor de bits (checkboxes) */
+        .bits-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end; /* Lijn checkboxes en labels uit */
+            gap: 20px; /* Ruimte tussen de bits */
+            margin-bottom: 30px;
+        }
+        
+        .bit-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Labels voor de bitwaarden (128, 64, etc.) */
+        .bit-label {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 8px;
+        }
+
+        /* Checkboxes stylen voor betere zichtbaarheid */
+        .bit-checkbox {
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            accent-color: #3f51b5; /* Moderne kleur voor de vink */
+        }
+        
+        /* Resultaatgedeelte */
+        .result-container {
+            background-color: #e8eaf6;
+            border: 1px solid #c5cae9;
+            padding: 20px;
+            border-radius: 8px;
+            font-size: 1.2em;
+        }
+        
+        .result-container p {
+            margin: 10px 0;
+        }
+        
+        /* Waardes extra benadrukken */
+        .binary-value, .decimal-value {
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+            font-size: 1.5em; /* Maak het getal groter */
+            color: #d32f2f;
+            background-color: #fff;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="trainer-container">
+        <h1>Binaire Trainer</h1>
+        <p>Zet de bits aan of uit en zie het getal in decimalen:</p>
+        
+        <div class="bits-container" id="bitsContainer">
+            <!-- JavaScript vult dit dynamisch in -->
+        </div>
+        
+        <div class="result-container">
+            <p>Binaire waarde: <span class="binary-value" id="binaryValue">00000000</span></p>
+            <p>Decimale waarde: <span class="decimal-value" id="decimalValue">0</span></p>
+        </div>
+    </div>
+
+    <script>
+        // DOM-elementen selecteren
+        const bitsContainer = document.getElementById('bitsContainer');
+        const binaryValueSpan = document.getElementById('binaryValue');
+        const decimalValueSpan = document.getElementById('decimalValue');
+        
+        // De waardes van de bitposities
+        const bitValues = [128, 64, 32, 16, 8, 4, 2, 1];
+        const checkboxes = [];
+
+        // Functie om de checkboxes en labels te genereren
+        function createCheckboxes() {
+            bitValues.forEach((value, index) => {
+                // Wrapper voor label en checkbox
+                const wrapper = document.createElement('div');
+                wrapper.className = 'bit-wrapper';
+
+                // Label voor de bitwaarde
+                const label = document.createElement('span');
+                label.className = 'bit-label';
+                label.textContent = value;
+                
+                // Checkbox-element
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.className = 'bit-checkbox';
+                checkbox.dataset.value = value; // Sla de waarde op in een data-attribuut
+                
+                // Voeg een event listener toe aan elke checkbox
+                checkbox.addEventListener('change', updateValues);
+                
+                // Voeg label en checkbox toe aan de wrapper
+                wrapper.appendChild(label);
+                wrapper.appendChild(checkbox);
+                
+                // Voeg de wrapper toe aan de container
+                bitsContainer.appendChild(wrapper);
+                
+                // Sla de checkbox op in de array
+                checkboxes.push(checkbox);
+            });
+        }
+
+        // Functie om de binaire en decimale waardes te berekenen en bij te werken
+        function updateValues() {
+            let decimalValue = 0;
+            let binaryString = '';
+
+            // Loop door alle checkboxes
+            checkboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    // Tel de waarde van de aangevinkte checkbox op bij het totaal
+                    decimalValue += parseInt(checkbox.dataset.value);
+                    // Voeg '1' toe aan de binaire string
+                    binaryString += '1';
+                } else {
+                    // Voeg '0' toe aan de binaire string
+                    binaryString += '0';
+                }
+            });
+
+            // Werk de tekst op de pagina bij
+            binaryValueSpan.textContent = binaryString;
+            decimalValueSpan.textContent = decimalValue;
+        }
+
+        // Initialiseer de trainer wanneer de pagina laadt
+        document.addEventListener('DOMContentLoaded', () => {
+            createCheckboxes();
+            updateValues(); // Roep eenmaal aan om de beginwaarden (0) in te stellen
+        });
+    </script>
+
+</body>
+</html>

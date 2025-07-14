@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RekenRace Groep 5-6</title>
+    <style>
+        /* Interne CSS voor de styling */
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f8ff;
+            color: #333;
+        }
+
+        #spel-container {
+            border: 2px solid #0056b3;
+            border-radius: 15px;
+            padding: 20px;
+            width: 80%;
+            max-width: 800px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        #spel-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+        }
+
+        #som-weergave {
+            font-weight: bold;
+        }
+
+        #timer {
+            background-color: #ffc107;
+            padding: 5px 15px;
+            border-radius: 20px;
+        }
+
+        #racebaan {
+            position: relative;
+            width: 100%;
+            height: 150px;
+            background-color: #e0e0e0;
+            border: 2px solid #333;
+            border-radius: 10px;
+            margin-top: 20px;
+            overflow: hidden; /* Zorgt dat de auto's niet buiten de baan gaan */
+        }
+        
+        .auto {
+            position: absolute;
+            font-size: 40px;
+            bottom: 10px;
+            left: 10px;
+            transition: left 0.5s ease-in-out; /* Vloeiende beweging */
+        }
+
+        #speler-auto {
+            bottom: 80px; /* Hogere baan voor de speler */
+        }
+        
+        #computer-auto {
+            bottom: 20px; /* Lagere baan voor de computer */
+        }
+
+        #finishlijn {
+            position: absolute;
+            right: 20px;
+            top: 0;
+            bottom: 0;
+            width: 5px;
+            background-image: repeating-linear-gradient(white 0px, white 10px, black 10px, black 20px);
+        }
+
+        #antwoord-sectie {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        #antwoord-input {
+            padding: 10px;
+            font-size: 1.2em;
+            width: 80px;
+            text-align: center;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+        }
+
+        #resultaat-bericht {
+            margin-top: 20px;
+            font-size: 2em;
+            font-weight: bold;
+            color: #28a745;
+            text-align: center;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+    </style>
+</head>
+<body>
+
+    <h1>RekenRace!</h1>
+
+    <div id="spel-container">
+        <div id="spel-info">
+            <span id="som-weergave">Druk op Start om te beginnen!</span>
+            <span id="timer">Tijd: 60</span>
+        </div>
+        
+        <div id="racebaan">
+            <div id="speler-auto" class="auto">🚗</div>
+            <div id="computer-auto" class="auto">🚙</div>
+            <div id="finishlijn"></div>
+        </div>
+        
+        <div id="antwoord-sectie">
+            <form id="antwoord-formulier">
+                <label for="antwoord-input">Antwoord:</label>
+                <input type="number" id="antwoord-input" autocomplete="off" disabled>
+            </form>
+        </div>
+
+        <div id="resultaat-bericht"></div>
+        <div style="text-align:center;">
+             <button id="start-knop">Start Race!</button>
+        </div>
+    </div>
+
+    <script>
+        // Interne JavaScript voor de spellogica
+        const spel = {
+            spelerAuto: document.getElementById('speler-auto'),
+            computerAuto: document.getElementById('computer-auto'),
+            somWeergave: document.getElementById('som-weergave'),
+            antwoordInput: document.getElementById('antwoord-input'),
+            antwoordFormulier: document.getElementById('antwoord-formulier'),
+            timerWeergave: document.getElementById('timer'),
+            resultaatBericht: document.getElementById('resultaat-bericht'),
+            startKnop: document.getElementById('start-knop'),
+            
+            huidigAntwoord: 0,
+            spelerPositie: 10,
+            computerPositie: 10,
+            tijdOver: 60,
+            
+            timerInterval: null,
+            computerInterval: null,
+            
+            init: function() {
+                this.startKnop.addEventListener('click', () => this.startSpel());
+                this.antwoordFormulier.addEventListener('submit', (e) => {
+                    e.preventDefault(); // Voorkom dat de pagina herlaadt
+                    this.checkAntwoord();
+                });
+            },
+
+            startSpel: function() {
+                // Reset alles naar beginstaat
+                this.spelerPositie = 10;
+                this.computerPositie = 10;
+                this.spelerAuto.style.left = this.spelerPositie + 'px';
+                this.computerAuto.style.left = this.computerPositie + 'px';
+
+                this.tijdOver = 60;
+                this.timerWeergave.textContent = `Tijd: ${this.tijdOver}`;
+                this.resultaatBericht.textContent = '';
+                this.antwoordInput.disabled = false;
+                this.antwoordInput.focus();
+                this.startKnop.style.display = 'none';
+
+                this.genereerSom();
+                
+                // Start de timers
+                this.timerInterval = setInterval(() => this.updateTimer(), 1000);
+                this.computerInterval = setInterval(() => this.beweegComputer(), 3000);
+            },
+
+            genereerSom: function() {
+                const type = Math.floor(Math.random() * 3); // 0=plus, 1=min, 2=keer
+                let num1 = Math.ceil(Math.random() * 10);
+                let num2 = Math.ceil(Math.random() * 10);
+                let somTekst = '';
+
+                switch (type) {
+                    case 0: // Optellen
+                        this.huidigAntwoord = num1 + num2;
+                        somTekst = `${num1} + ${num2} = ?`;
+                        break;
+                    case 1: // Aftrekken (zonder negatieve antwoorden)
+                        if (num1 < num2) {
+                            [num1, num2] = [num2, num1]; // Wissel de getallen om
+                        }
+                        this.huidigAntwoord = num1 - num2;
+                        somTekst = `${num1} - ${num2} = ?`;
+                        break;
+                    case 2: // Vermenigvuldigen (tafels 1-10)
+                        this.huidigAntwoord = num1 * num2;
+                        somTekst = `${num1} × ${num2} = ?`;
+                        break;
+                }
+                this.somWeergave.textContent = `Los de som op: ${somTekst}`;
+            },
+
+            checkAntwoord: function() {
+                const gebruikersAntwoord = parseInt(this.antwoordInput.value);
+                if (gebruikersAntwoord === this.huidigAntwoord) {
+                    // Correct! Beweeg auto en maak nieuwe som
+                    this.spelerPositie += 40; // Verplaats de auto
+                    this.spelerAuto.style.left = this.spelerPositie + 'px';
+                    this.genereerSom();
+                } else {
+                    // Fout antwoord, geef visuele feedback
+                    this.antwoordInput.style.borderColor = 'red';
+                    setTimeout(() => {
+                        this.antwoordInput.style.borderColor = '#ccc';
+                    }, 500);
+                }
+                this.antwoordInput.value = ''; // Maak veld leeg
+            },
+
+            beweegComputer: function() {
+                this.computerPositie += 15 + Math.floor(Math.random() * 10); // Beweeg computer een willekeurig klein stukje
+                this.computerAuto.style.left = this.computerPositie + 'px';
+            },
+            
+            updateTimer: function() {
+                this.tijdOver--;
+                this.timerWeergave.textContent = `Tijd: ${this.tijdOver}`;
+                if (this.tijdOver <= 0) {
+                    this.eindeSpel();
+                }
+            },
+
+            eindeSpel: function() {
+                // Stop de intervals
+                clearInterval(this.timerInterval);
+                clearInterval(this.computerInterval);
+
+                // Schakel invoer uit
+                this.antwoordInput.disabled = true;
+                this.somWeergave.textContent = "De race is voorbij!";
+
+                // Bepaal de winnaar
+                if (this.spelerPositie >= this.computerPositie) {
+                    this.resultaatBericht.textContent = 'Gewonnen! 🎉';
+                    this.resultaatBericht.style.color = '#28a745';
+                } else {
+                    this.resultaatBericht.textContent = 'Verloren, probeer het nog eens!';
+                    this.resultaatBericht.style.color = '#dc3545';
+                }
+
+                // Toon de startknop opnieuw
+                this.startKnop.textContent = 'Speel opnieuw';
+                this.startKnop.style.display = 'block';
+            }
+        };
+
+        // Initialiseer het spel
+        spel.init();
+    </script>
+
+</body>
+</html>

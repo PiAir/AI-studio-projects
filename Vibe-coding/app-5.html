@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Topografie Quiz Nederland</title>
+    <style>
+        /* CSS Styling */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        #quiz-container {
+            background-color: #ffffff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        #question {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            color: #1a237e; /* Donkerblauw */
+        }
+
+        #options-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .option-btn {
+            background-color: #3f51b5; /* Indigo */
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 1rem;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            background-color: #303f9f; /* Donkerder indigo */
+            transform: translateY(-2px);
+        }
+        
+        .option-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.9;
+        }
+
+        .correct {
+            background-color: #4caf50; /* Groen */
+            color: white;
+        }
+        
+        .incorrect {
+            background-color: #f44336; /* Rood */
+            color: white;
+        }
+
+        #feedback {
+            font-size: 1.1rem;
+            font-style: italic;
+            min-height: 2em; /* Zorgt voor vaste hoogte, voorkomt verspringen */
+            margin-bottom: 1rem;
+        }
+
+        #score {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #555;
+        }
+
+        #results-container {
+            display: none; /* Standaard verborgen */
+            text-align: center;
+        }
+
+        #results-container h2 {
+            font-size: 2rem;
+            color: #1a237e;
+        }
+
+        #results-container p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        #restart-btn {
+            background-color: #ff9800; /* Oranje */
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        #restart-btn:hover {
+            background-color: #f57c00; /* Donkerder oranje */
+        }
+    </style>
+</head>
+<body>
+
+    <div id="quiz-container">
+        <h1>Topografie Quiz: Provincies van Nederland</h1>
+        <div id="question-view">
+            <p id="score">Vraag: 1/10 | Score: 0</p>
+            <p id="question">Wat is de hoofdstad van [provincie]?</p>
+            <div id="options-container">
+                <!-- Knoppen worden hier door JavaScript ingevoegd -->
+            </div>
+            <p id="feedback"></p>
+        </div>
+        <div id="results-container">
+            <h2>Quiz Voltooid!</h2>
+            <p id="final-score">Je hebt X van de 10 goed!</p>
+            <button id="restart-btn">Opnieuw Spelen</button>
+        </div>
+    </div>
+
+    <script>
+    // JavaScript Logic
+    document.addEventListener('DOMContentLoaded', () => {
+        const provincies = [
+            { naam: "Drenthe", hoofdstad: "Assen" },
+            { naam: "Flevoland", hoofdstad: "Lelystad" },
+            { naam: "Friesland", hoofdstad: "Leeuwarden" },
+            { naam: "Gelderland", hoofdstad: "Arnhem" },
+            { naam: "Groningen", hoofdstad: "Groningen" },
+            { naam: "Limburg", hoofdstad: "Maastricht" },
+            { naam: "Noord-Brabant", hoofdstad: "'s-Hertogenbosch" },
+            { naam: "Noord-Holland", hoofdstad: "Haarlem" },
+            { naam: "Overijssel", hoofdstad: "Zwolle" },
+            { naam: "Utrecht", hoofdstad: "Utrecht" },
+            { naam: "Zeeland", hoofdstad: "Middelburg" },
+            { naam: "Zuid-Holland", hoofdstad: "Den Haag" }
+        ];
+
+        const TOTAL_QUESTIONS = 10;
+        let score = 0;
+        let questionCounter = 0;
+        let currentQuestion = {};
+        let availableProvinces = [];
+
+        const questionElement = document.getElementById('question');
+        const optionsContainer = document.getElementById('options-container');
+        const feedbackElement = document.getElementById('feedback');
+        const scoreElement = document.getElementById('score');
+        const restartBtn = document.getElementById('restart-btn');
+        const questionView = document.getElementById('question-view');
+        const resultsContainer = document.getElementById('results-container');
+        const finalScoreElement = document.getElementById('final-score');
+
+        function startQuiz() {
+            score = 0;
+            questionCounter = 0;
+            // Kopieer de provincies array zodat we er items uit kunnen verwijderen
+            availableProvinces = [...provincies];
+            resultsContainer.style.display = 'none';
+            questionView.style.display = 'block';
+            nextQuestion();
+        }
+
+        function nextQuestion() {
+            if (questionCounter >= TOTAL_QUESTIONS) {
+                showResults();
+                return;
+            }
+
+            questionCounter++;
+            updateScoreText();
+            feedbackElement.textContent = '';
+            
+            // Haal een willekeurige provincie uit de overgebleven lijst
+            const questionIndex = Math.floor(Math.random() * availableProvinces.length);
+            currentQuestion = availableProvinces[questionIndex];
+            // Verwijder de provincie uit de lijst om herhaling te voorkomen
+            availableProvinces.splice(questionIndex, 1);
+
+            questionElement.textContent = `Wat is de hoofdstad van ${currentQuestion.naam}?`;
+
+            // Genereer antwoordopties
+            const correctAnswer = currentQuestion.hoofdstad;
+            const allCapitals = provincies.map(p => p.hoofdstad);
+            const wrongAnswers = [];
+            
+            while(wrongAnswers.length < 3) {
+                const randomCapital = allCapitals[Math.floor(Math.random() * allCapitals.length)];
+                // Zorg ervoor dat het foute antwoord niet het juiste antwoord is en nog niet in de lijst staat
+                if (randomCapital !== correctAnswer && !wrongAnswers.includes(randomCapital)) {
+                    wrongAnswers.push(randomCapital);
+                }
+            }
+
+            const options = [...wrongAnswers, correctAnswer];
+            // Schud de opties door elkaar
+            options.sort(() => Math.random() - 0.5);
+
+            optionsContainer.innerHTML = '';
+            options.forEach(option => {
+                const button = document.createElement('button');
+                button.textContent = option;
+                button.classList.add('option-btn');
+                button.addEventListener('click', () => checkAnswer(option, button));
+                optionsContainer.appendChild(button);
+            });
+        }
+        
+        function checkAnswer(selectedAnswer, button) {
+            const correctAnswer = currentQuestion.hoofdstad;
+            
+            // Disable alle knoppen na een keuze
+            Array.from(optionsContainer.children).forEach(btn => {
+                btn.disabled = true;
+                // Markeer de correcte knop voor het geval de gebruiker fout kiest
+                if (btn.textContent === correctAnswer) {
+                    btn.classList.add('correct');
+                }
+            });
+
+            if (selectedAnswer === correctAnswer) {
+                score++;
+                button.classList.add('correct');
+                feedbackElement.textContent = `✅ Correct! ${correctAnswer} is inderdaad de hoofdstad van ${currentQuestion.naam}.`;
+                feedbackElement.style.color = '#4caf50';
+            } else {
+                button.classList.add('incorrect');
+                feedbackElement.textContent = `❌ Helaas. De hoofdstad van ${currentQuestion.naam} is ${correctAnswer}.`;
+                feedbackElement.style.color = '#f44336';
+            }
+            
+            updateScoreText();
+
+            setTimeout(() => {
+                nextQuestion();
+            }, 2500); // Wacht 2.5 seconden voor de volgende vraag
+        }
+
+        function updateScoreText() {
+            scoreElement.textContent = `Vraag: ${questionCounter}/${TOTAL_QUESTIONS} | Score: ${score}`;
+        }
+        
+        function showResults() {
+            questionView.style.display = 'none';
+            resultsContainer.style.display = 'block';
+            finalScoreElement.textContent = `Je hebt ${score} van de ${TOTAL_QUESTIONS} goed!`;
+        }
+
+        restartBtn.addEventListener('click', startQuiz);
+
+        // Start de quiz als de pagina geladen is
+        startQuiz();
+    });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TijdslijnBouwer</title>
+    <style>
+        /* CSS voor de vormgeving */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        #invoer-container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .invoer-groep {
+            margin-bottom: 15px;
+        }
+
+        .invoer-groep label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .invoer-groep input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        #tijdlijn-wrapper {
+            max-width: 800px;
+            margin: 40px auto;
+        }
+
+        /* De visuele tijdlijn-as */
+        #tijdlijn {
+            position: relative;
+            padding: 20px 0;
+            border-left: 4px solid #3498db;
+        }
+
+        /* Stijlen voor elk gebeurtenisblok op de tijdlijn */
+        .gebeurtenis {
+            position: relative;
+            margin-left: 40px;
+            margin-bottom: 30px;
+            background-color: #ecf0f1;
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid #bdc3c7;
+        }
+
+        /* De stip op de tijdlijn-as */
+        .gebeurtenis::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: -48px; /* Positie van de stip */
+            width: 12px;
+            height: 12px;
+            background-color: #ffffff;
+            border: 3px solid #3498db;
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .gebeurtenis-jaar {
+            font-weight: bold;
+            font-size: 1.2em;
+            color: #2980b9;
+        }
+
+        .gebeurtenis-tekst {
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>TijdslijnBouwer</h1>
+
+    <div id="invoer-container">
+        <div class="invoer-groep">
+            <label for="jaartal-invoer">Jaartal:</label>
+            <input type="number" id="jaartal-invoer" placeholder="bijv. 1945">
+        </div>
+        <div class="invoer-groep">
+            <label for="gebeurtenis-invoer">Gebeurtenis:</label>
+            <input type="text" id="gebeurtenis-invoer" placeholder="bijv. Einde Tweede Wereldoorlog">
+        </div>
+        <button id="voeg-toe-knop">Voeg toe</button>
+    </div>
+
+    <div id="tijdlijn-wrapper">
+        <div id="tijdlijn">
+            <!-- Gebeurtenissen worden hier dynamisch toegevoegd -->
+        </div>
+    </div>
+
+    <script>
+        // JavaScript voor de functionaliteit
+        document.addEventListener('DOMContentLoaded', () => {
+            const jaartalInvoer = document.getElementById('jaartal-invoer');
+            const gebeurtenisInvoer = document.getElementById('gebeurtenis-invoer');
+            const voegToeKnop = document.getElementById('voeg-toe-knop');
+            const tijdlijnContainer = document.getElementById('tijdlijn');
+
+            let gebeurtenissen = [];
+
+            // Functie om de tijdlijn opnieuw te renderen
+            const renderTijdlijn = () => {
+                // Maak de container leeg
+                tijdlijnContainer.innerHTML = '';
+
+                // Sorteer de gebeurtenissen op jaartal
+                gebeurtenissen.sort((a, b) => a.jaar - b.jaar);
+
+                // Voeg elke gebeurtenis toe aan de DOM
+                gebeurtenissen.forEach(item => {
+                    const gebeurtenisDiv = document.createElement('div');
+                    gebeurtenisDiv.className = 'gebeurtenis';
+
+                    const jaarP = document.createElement('p');
+                    jaarP.className = 'gebeurtenis-jaar';
+                    jaarP.textContent = item.jaar;
+
+                    const tekstP = document.createElement('p');
+                    tekstP.className = 'gebeurtenis-tekst';
+                    tekstP.textContent = item.gebeurtenis;
+
+                    gebeurtenisDiv.appendChild(jaarP);
+                    gebeurtenisDiv.appendChild(tekstP);
+
+                    tijdlijnContainer.appendChild(gebeurtenisDiv);
+                });
+            };
+
+            // Functie om een nieuwe gebeurtenis toe te voegen
+            const voegGebeurtenisToe = () => {
+                const jaar = jaartalInvoer.value;
+                const gebeurtenis = gebeurtenisInvoer.value;
+
+                // Validatie: zorg ervoor dat de velden niet leeg zijn
+                if (!jaar || !gebeurtenis.trim()) {
+                    alert('Vul alstublieft zowel een jaartal als een gebeurtenis in.');
+                    return;
+                }
+
+                // Voeg de nieuwe gebeurtenis toe aan de array
+                gebeurtenissen.push({
+                    jaar: parseInt(jaar, 10),
+                    gebeurtenis: gebeurtenis
+                });
+
+                // Maak de invoervelden leeg
+                jaartalInvoer.value = '';
+                gebeurtenisInvoer.value = '';
+
+                // Werk de tijdlijn bij
+                renderTijdlijn();
+            };
+
+            // Event listener voor de knop
+            voegToeKnop.addEventListener('click', voegGebeurtenisToe);
+            
+            // Sta toe dat de gebruiker met 'Enter' toevoegt vanuit het gebeurtenisveld
+            gebeurtenisInvoer.addEventListener('keypress', (event) => {
+                if (event.key === 'Enter') {
+                    voegGebeurtenisToe();
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

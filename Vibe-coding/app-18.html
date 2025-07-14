@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-T">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpellingSleutel</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f8ff;
+            color: #333;
+            margin: 0;
+        }
+        #game-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            text-align: center;
+            width: 90%;
+            max-width: 500px;
+        }
+        h1 {
+            color: #4682b4;
+            margin-bottom: 20px;
+        }
+        #jumbled-word, #user-answer {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            min-height: 60px;
+            margin: 20px 0;
+            padding: 10px;
+            border-radius: 10px;
+        }
+        #jumbled-word {
+            border: 2px dashed #add8e6;
+        }
+        #user-answer {
+            border: 2px solid #4682b4;
+        }
+        .letter-box {
+            width: 45px;
+            height: 45px;
+            margin: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            background-color: #5f9ea0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .letter-box:hover {
+            background-color: #4682b4;
+            transform: scale(1.1);
+        }
+        #feedback {
+            font-size: 22px;
+            font-weight: bold;
+            margin-top: 20px;
+            min-height: 30px;
+        }
+        .correct {
+            color: #2e8b57;
+        }
+        .incorrect {
+            color: #dc143c;
+        }
+        #new-word-btn {
+            margin-top: 20px;
+            padding: 12px 25px;
+            font-size: 18px;
+            color: white;
+            background-color: #4682b4;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        #new-word-btn:hover {
+            background-color: #35729e;
+        }
+    </style>
+</head>
+<body>
+
+<div id="game-container">
+    <h1>SpellingSleutel</h1>
+    <p>Klik op de letters in de juiste volgorde om het woord te spellen.</p>
+    
+    <div id="jumbled-word-container">
+        <p>Verhusselde letters:</p>
+        <div id="jumbled-word"></div>
+    </div>
+
+    <div id="answer-container">
+        <p>Jouw antwoord:</p>
+        <div id="user-answer"></div>
+    </div>
+
+    <div id="feedback"></div>
+
+    <button id="new-word-btn">Nieuw Woord</button>
+</div>
+
+<script>
+    const words = ["appel", "tafel", "stoel", "fiets", "huis", "school", "boek", "brood", "water", "later", "woord", "spel", "kleur", "hond", "kat"];
+    let currentWord = "";
+    let jumbledLetters = [];
+
+    const jumbledWordContainer = document.getElementById('jumbled-word');
+    const userAnswerContainer = document.getElementById('user-answer');
+    const feedbackContainer = document.getElementById('feedback');
+    const newWordBtn = document.getElementById('new-word-btn');
+
+    function startGame() {
+        // Reset
+        jumbledWordContainer.innerHTML = '';
+        userAnswerContainer.innerHTML = '';
+        feedbackContainer.innerHTML = '';
+        
+        // Kies een willekeurig woord
+        currentWord = words[Math.floor(Math.random() * words.length)];
+        
+        // Hussel de letters door elkaar
+        jumbledLetters = currentWord.split('').sort(() => Math.random() - 0.5);
+        
+        // Zorg ervoor dat het gehusselde woord niet hetzelfde is als het origineel
+        while(jumbledLetters.join('') === currentWord) {
+            jumbledLetters = currentWord.split('').sort(() => Math.random() - 0.5);
+        }
+
+        // Toon de gehusselde letters
+        jumbledLetters.forEach(letter => {
+            const letterBox = document.createElement('div');
+            letterBox.className = 'letter-box';
+            letterBox.textContent = letter.toUpperCase();
+            letterBox.addEventListener('click', () => handleLetterClick(letterBox));
+            jumbledWordContainer.appendChild(letterBox);
+        });
+    }
+
+    function handleLetterClick(letterBox) {
+        userAnswerContainer.appendChild(letterBox);
+        // Verwijder de click event listener om dubbelklikken te voorkomen
+        letterBox.style.cursor = 'default';
+        letterBox.removeEventListener('click', () => handleLetterClick(letterBox));
+
+        // Controleer of alle letters zijn gekozen
+        if (userAnswerContainer.children.length === currentWord.length) {
+            checkAnswer();
+        }
+    }
+
+    function checkAnswer() {
+        const userAnswer = Array.from(userAnswerContainer.children)
+                                .map(box => box.textContent.toLowerCase())
+                                .join('');
+
+        if (userAnswer === currentWord) {
+            feedbackContainer.textContent = '✅ Goed gespeld!';
+            feedbackContainer.className = 'correct';
+        } else {
+            feedbackContainer.textContent = '❌ Probeer opnieuw.';
+            feedbackContainer.className = 'incorrect';
+            // Optioneel: Plaats de letters terug na een fout antwoord
+            setTimeout(() => {
+                 while (userAnswerContainer.firstChild) {
+                    const letterBox = userAnswerContainer.firstChild;
+                    jumbledWordContainer.appendChild(letterBox);
+                    // Herstel de klikfunctionaliteit
+                    letterBox.style.cursor = 'pointer';
+                    letterBox.addEventListener('click', () => handleLetterClick(letterBox));
+                }
+                feedbackContainer.innerHTML = '';
+            }, 1500);
+        }
+    }
+
+    newWordBtn.addEventListener('click', startGame);
+
+    // Start het spel bij het laden van de pagina
+    startGame();
+</script>
+
+</body>
+</html>

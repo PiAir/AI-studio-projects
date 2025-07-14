@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kleurenspel</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            background-color: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .dropdown-container {
+            display: flex;
+            gap: 20px;
+        }
+
+        select {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        .color-box {
+            width: 300px;
+            height: 300px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .color-info {
+            font-size: 20px;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Kleurenspel</h1>
+
+    <div class="container">
+        <div class="dropdown-container">
+            <select id="kleur1">
+                <option value="">Kies een kleur</option>
+                <option value="rood">Rood</option>
+                <option value="geel">Geel</option>
+                <option value="blauw">Blauw</option>
+            </select>
+
+            <select id="kleur2">
+                <option value="">Kies een kleur</option>
+                <option value="rood">Rood</option>
+                <option value="geel">Geel</option>
+                <option value="blauw">Blauw</option>
+            </select>
+        </div>
+
+        <div class="color-box" id="gemengdeKleur">
+            <div class="color-info" id="kleurInfo"></div>
+        </div>
+    </div>
+
+    <script>
+        const kleur1Select = document.getElementById('kleur1');
+        const kleur2Select = document.getElementById('kleur2');
+        const gemengdeKleurBox = document.getElementById('gemengdeKleur');
+        const kleurInfo = document.getElementById('kleurInfo');
+
+        const kleuren = {
+            rood: '#FF0000',
+            geel: '#FFFF00',
+            blauw: '#0000FF',
+            paars: '#800080',
+            oranje: '#FFA500',
+            groen: '#008000'
+        };
+
+        function mengKleuren() {
+            const kleur1 = kleur1Select.value;
+            const kleur2 = kleur2Select.value;
+            let gemengdeKleurNaam = '';
+            let gemengdeKleurHex = '#FFFFFF'; // Wit als standaard
+
+            if (kleur1 && kleur2) {
+                if ((kleur1 === 'rood' && kleur2 === 'blauw') || (kleur1 === 'blauw' && kleur2 === 'rood')) {
+                    gemengdeKleurNaam = 'Paars';
+                    gemengdeKleurHex = kleuren.paars;
+                } else if ((kleur1 === 'rood' && kleur2 === 'geel') || (kleur1 === 'geel' && kleur2 === 'rood')) {
+                    gemengdeKleurNaam = 'Oranje';
+                    gemengdeKleurHex = kleuren.oranje;
+                } else if ((kleur1 === 'blauw' && kleur2 === 'geel') || (kleur1 === 'geel' && kleur2 === 'blauw')) {
+                    gemengdeKleurNaam = 'Groen';
+                    gemengdeKleurHex = kleuren.groen;
+                } else if (kleur1 === kleur2) {
+                    gemengdeKleurNaam = kleur1.charAt(0).toUpperCase() + kleur1.slice(1);
+                    gemengdeKleurHex = kleuren[kleur1];
+                }
+            }
+
+            gemengdeKleurBox.style.backgroundColor = gemengdeKleurHex;
+            if (gemengdeKleurNaam) {
+                kleurInfo.textContent = `${gemengdeKleurNaam} - ${gemengdeKleurHex}`;
+            } else {
+                kleurInfo.textContent = '';
+            }
+        }
+
+        kleur1Select.addEventListener('change', mengKleuren);
+        kleur2Select.addEventListener('change', mengKleuren);
+    </script>
+
+</body>
+</html>

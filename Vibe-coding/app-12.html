@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dierenscanner</title>
+    <style>
+        /* CSS voor de vormgeving */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f8ff; /* Lichtblauwe achtergrond */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: #333;
+        }
+
+        #app-container {
+            width: 90%;
+            max-width: 600px;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            padding: 30px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #ff6347; /* Tomaat-rode kleur */
+        }
+
+        #dier-display {
+            font-size: 6rem; /* Grote emoji of tekst */
+            margin: 20px 0;
+            height: 100px;
+        }
+        
+        #knoppen-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .keuzeknop {
+            background-color: #4682b4; /* Staalblauw */
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 20px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.1s;
+        }
+
+        .keuzeknop:hover {
+            background-color: #5a9bd5; /* Lichter blauw bij hover */
+        }
+        
+        .keuzeknop:active {
+            transform: scale(0.98);
+        }
+
+        #feedback {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            height: 30px; /* Vaste hoogte om layout-verschuiving te voorkomen */
+        }
+
+        #score {
+            margin-top: 15px;
+            font-size: 1.1rem;
+        }
+
+        .correct {
+            color: #28a745; /* Groen */
+        }
+        
+        .fout {
+            color: #dc3545; /* Rood */
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="app-container">
+        <h1>Dierenscanner</h1>
+        <p>Welk soort dier is dit?</p>
+        
+        <div id="dier-display"></div>
+        
+        <div id="knoppen-container">
+            <button class="keuzeknop" data-categorie="zoogdier">Zoogdier</button>
+            <button class="keuzeknop" data-categorie="vogel">Vogel</button>
+            <button class="keuzeknop" data-categorie="insect">Insect</button>
+            <button class="keuzeknop" data-categorie="vis">Vis</button>
+        </div>
+        
+        <div id="feedback"></div>
+        
+        <div id="score">
+            Goed: <span id="score-goed">0</span> | Fout: <span id="score-fout">0</span>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript voor de applicatie logica
+
+        // Data: Lijst van dieren met hun categorie
+        const dierenLijst = [
+            { naam: 'Leeuw 🦁', categorie: 'zoogdier' },
+            { naam: 'Olifant 🐘', categorie: 'zoogdier' },
+            { naam: 'Aap 🐒', categorie: 'zoogdier' },
+            { naam: 'Adelaar 🦅', categorie: 'vogel' },
+            { naam: 'Pinguïn 🐧', categorie: 'vogel' },
+            { naam: 'Uil 🦉', categorie: 'vogel' },
+            { naam: 'Mier 🐜', categorie: 'insect' },
+            { naam: 'Vlinder 🦋', categorie: 'insect' },
+            { naam: 'Bij 🐝', categorie: 'insect' },
+            { naam: 'Goudvis 🐠', categorie: 'vis' },
+            { naam: 'Haai 🦈', categorie: 'vis' },
+            { naam: 'Walvis 🐋', categorie: 'zoogdier' } // Let op: een walvis is een zoogdier!
+        ];
+
+        // Variabelen om de staat van het spel bij te houden
+        let huidigDierIndex;
+        let scoreGoed = 0;
+        let scoreFout = 0;
+        let wachtOpVolgende = false; // Voorkomt dubbelklikken
+
+        // DOM-elementen ophalen
+        const dierDisplay = document.getElementById('dier-display');
+        const knoppenContainer = document.getElementById('knoppen-container');
+        const feedbackElement = document.getElementById('feedback');
+        const scoreGoedElement = document.getElementById('score-goed');
+        const scoreFoutElement = document.getElementById('score-fout');
+        
+        // Functie om een nieuw dier te tonen
+        function toonNieuwDier() {
+            wachtOpVolgende = false;
+            feedbackElement.innerHTML = ''; // Maak feedback leeg
+            
+            // Kies een willekeurig dier uit de lijst
+            huidigDierIndex = Math.floor(Math.random() * dierenLijst.length);
+            const dier = dierenLijst[huidigDierIndex];
+            dierDisplay.textContent = dier.naam;
+        }
+
+        // Functie om het antwoord te controleren
+        function controleerAntwoord(gekozenCategorie) {
+            if (wachtOpVolgende) return; // Doe niets als we wachten op het volgende dier
+            
+            wachtOpVolgende = true;
+            const correcteDier = dierenLijst[huidigDierIndex];
+            const isCorrect = gekozenCategorie === correcteDier.categorie;
+            
+            if (isCorrect) {
+                scoreGoed++;
+                scoreGoedElement.textContent = scoreGoed;
+                feedbackElement.innerHTML = `<span class="correct">✅ Goed! Een ${correcteDier.naam.split(' ')[0]} is een ${correcteDier.categorie}.</span>`;
+            } else {
+                scoreFout++;
+                scoreFoutElement.textContent = scoreFout;
+                feedbackElement.innerHTML = `<span class="fout">❌ Oeps, niet juist. Een ${correcteDier.naam.split(' ')[0]} is een ${correcteDier.categorie}.</span>`;
+            }
+
+            // Wacht 2 seconden en toon dan een nieuw dier
+            setTimeout(toonNieuwDier, 2000);
+        }
+
+        // Event listener toevoegen aan de knoppen
+        knoppenContainer.addEventListener('click', function(event) {
+            if (event.target.classList.contains('keuzeknop')) {
+                const gekozenCategorie = event.target.dataset.categorie;
+                controleerAntwoord(gekozenCategorie);
+            }
+        });
+
+        // Start het spel door het eerste dier te tonen
+        document.addEventListener('DOMContentLoaded', toonNieuwDier);
+
+    </script>
+
+</body>
+</html>

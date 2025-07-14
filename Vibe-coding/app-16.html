@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PlantenPilaar Simulatie</title>
+    <style>
+        /* CSS voor de visuele opmaak */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #eafaf1;
+            margin: 0;
+            color: #333;
+        }
+
+        .container {
+            text-align: center;
+            background: white;
+            padding: 30px 40px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            width: 350px;
+        }
+
+        h1 {
+            color: #2c5b42;
+            margin-bottom: 25px;
+        }
+
+        .controls {
+            margin: 20px 0;
+        }
+
+        .slider-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-size: 1.1em;
+        }
+
+        input[type="range"] {
+            width: 60%;
+            cursor: pointer;
+            -webkit-appearance: none;
+            appearance: none;
+            height: 8px;
+            background: #d3d3d3;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #4CAF50;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        
+        input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            background: #4CAF50;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .value {
+            font-weight: bold;
+            font-size: 1.1em;
+            background-color: #f0f0f0;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .plant-area {
+            width: 100%;
+            height: 300px;
+            background-color: #d4e7d9;
+            border-radius: 10px;
+            margin: 20px auto;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        #plant {
+            width: 60px;
+            /* Initiële hoogte en kleur worden door JavaScript ingesteld */
+            border-radius: 10px 10px 0 0;
+            transition: all 0.5s ease-in-out;
+        }
+
+        #status {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #555;
+            height: 40px; /* Vaste hoogte om layout-verschuivingen te voorkomen */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>PlantenPilaar</h1>
+    
+    <div class="controls">
+        <div class="slider-container">
+            <label for="sunlight">☀️ Zonlicht:</label>
+            <input type="range" id="sunlight" min="0" max="10" value="5">
+            <span id="sunlight-value" class="value">5</span>
+        </div>
+        <div class="slider-container">
+            <label for="water">💧 Water:</label>
+            <input type="range" id="water" min="0" max="10" value="5">
+            <span id="water-value" class="value">5</span>
+        </div>
+    </div>
+    
+    <div class="plant-area">
+        <div id="plant"></div>
+    </div>
+    
+    <p id="status"></p>
+</div>
+
+<script>
+    // JavaScript voor de functionaliteit
+    const sunlightSlider = document.getElementById('sunlight');
+    const waterSlider = document.getElementById('water');
+    const sunlightValueSpan = document.getElementById('sunlight-value');
+    const waterValueSpan = document.getElementById('water-value');
+    const plant = document.getElementById('plant');
+    const statusText = document.getElementById('status');
+
+    let plantHeight = 100; // Beginhoogte in pixels
+    const maxHeight = 280; // Maximale hoogte
+    const minHeight = 40;  // Minimale hoogte
+
+    // Functie om de status van de plant bij te werken
+    function updatePlantStatus() {
+        const sun = parseInt(sunlightSlider.value);
+        const water = parseInt(waterSlider.value);
+
+        // Waardes naast de schuifbalken bijwerken
+        sunlightValueSpan.textContent = sun;
+        waterValueSpan.textContent = water;
+
+        // Controleer de condities voor groei of verwelking
+        if (sun >= 4 && sun <= 7 && water >= 4 && water <= 7) {
+            // Groeiconditie
+            plant.style.backgroundColor = '#2ecc71'; // Levendig groen
+            statusText.textContent = 'De plant groeit goed!';
+            if (plantHeight < maxHeight) {
+                plantHeight += 5;
+            }
+        } else {
+            // Verwelkingsconditie
+            plant.style.backgroundColor = '#a0522d'; // Bruine kleur
+            if (plantHeight > minHeight) {
+                plantHeight -= 4;
+            }
+            
+            // Bepaal de juiste uitleg
+            if (sun < 4 && water < 4) {
+                statusText.textContent = 'Te weinig zonlicht en water.';
+            } else if (sun > 7 && water > 7) {
+                statusText.textContent = 'Teveel zonlicht en water!';
+            } else if (sun < 4) {
+                statusText.textContent = 'Te weinig zonlicht, de plant verwelkt.';
+            } else if (sun > 7) {
+                statusText.textContent = 'Teveel zonlicht, de plant verbrandt.';
+            } else if (water < 4) {
+                statusText.textContent = 'Te weinig water, de plant verdroogt.';
+            } else if (water > 7) {
+                statusText.textContent = 'Teveel water, de plant verdrinkt.';
+            }
+        }
+        
+        // Pas de hoogte van de plant aan
+        plant.style.height = plantHeight + 'px';
+    }
+
+    // Voeg 'event listeners' toe aan de schuifbalken
+    sunlightSlider.addEventListener('input', updatePlantStatus);
+    waterSlider.addEventListener('input', updatePlantStatus);
+
+    // Roep de functie eenmaal aan bij het laden van de pagina om de beginstatus in te stellen
+    window.onload = updatePlantStatus;
+</script>
+
+</body>
+</html>

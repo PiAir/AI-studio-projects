@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Groepjesmaker</title>
+    <style>
+        /* Algemene Stijlen */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        /* Container en Hoofdelementen */
+        .container {
+            max-width: 700px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Formulier Stijlen */
+        .form-fieldset {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-fieldset legend {
+            padding: 0 10px;
+            font-weight: bold;
+            color: #3498db;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        textarea, input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+            box-sizing: border-box; /* Zorgt dat padding binnen de breedte valt */
+        }
+        
+        textarea {
+            resize: vertical; /* Sta verticale resize toe */
+        }
+
+        .action-button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .action-button:hover {
+            background-color: #2980b9;
+        }
+
+        /* Output Stijlen */
+        #outputContainer h2 {
+            margin-top: 0;
+            color: #2c3e50;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+        
+        .groepen-wrapper {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .groep-kaart {
+            background-color: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            border-left: 5px solid #3498db;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .groep-kaart h3 {
+            margin-top: 0;
+            color: #2980b9;
+        }
+
+        .groep-kaart ul {
+            list-style-type: none;
+            padding-left: 0;
+            margin: 0;
+        }
+
+        .groep-kaart li {
+            padding: 5px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .groep-kaart li:last-child {
+            border-bottom: none;
+        }
+        
+        .error-message {
+            color: #e74c3c;
+            font-weight: bold;
+            text-align: center;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Groepjesmaker</h1>
+        </header>
+        
+        <main>
+            <fieldset class="form-fieldset">
+                <legend>Instellingen</legend>
+                <div class="form-group">
+                    <label for="namenInput">Namen (één per regel):</label>
+                    <textarea id="namenInput" rows="10" cols="30" placeholder="Alice&#10;Bob&#10;Charlie&#10;David&#10;Eva"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="aantalGroepenInput">Aantal groepjes:</label>
+                    <input type="number" id="aantalGroepenInput" value="3" min="1">
+                </div>
+                
+                <button id="maakGroepjesKnop" class="action-button">Maak groepjes</button>
+            </fieldset>
+
+            <div id="outputContainer">
+                <!-- De gegenereerde groepen komen hier -->
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const maakGroepjesKnop = document.getElementById('maakGroepjesKnop');
+            
+            maakGroepjesKnop.addEventListener('click', maakGroepjes);
+        });
+
+        function maakGroepjes() {
+            const outputContainer = document.getElementById('outputContainer');
+            outputContainer.innerHTML = ''; // Maak vorige output leeg
+
+            // 1. Lees de namen en filter lege regels
+            const namenInput = document.getElementById('namenInput').value;
+            const namen = namenInput.split('\n').map(naam => naam.trim()).filter(Boolean);
+
+            // 2. Lees het aantal groepen
+            const aantalGroepen = parseInt(document.getElementById('aantalGroepenInput').value, 10);
+
+            // Validatie
+            if (namen.length === 0) {
+                outputContainer.innerHTML = '<p class="error-message">Voer eerst namen in.</p>';
+                return;
+            }
+            if (isNaN(aantalGroepen) || aantalGroepen <= 0) {
+                outputContainer.innerHTML = '<p class="error-message">Voer een geldig aantal groepen in (minimaal 1).</p>';
+                return;
+            }
+            if (aantalGroepen > namen.length) {
+                outputContainer.innerHTML = `<p class="error-message">Het aantal groepen (${aantalGroepen}) kan niet groter zijn dan het aantal namen (${namen.length}).</p>`;
+                return;
+            }
+
+            // 3. Hussel de namenlijst willekeurig (Fisher-Yates shuffle)
+            for (let i = namen.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [namen[i], namen[j]] = [namen[j], namen[i]]; // Wissel elementen
+            }
+
+            // 4. Verdeel de gehusselde namen over de groepen
+            const groepen = Array.from({ length: aantalGroepen }, () => []);
+            namen.forEach((naam, index) => {
+                groepen[index % aantalGroepen].push(naam);
+            });
+
+            // 5. Toon de groepen op de pagina
+            toonGroepen(groepen, outputContainer);
+        }
+
+        function toonGroepen(groepen, container) {
+            const titel = document.createElement('h2');
+            titel.textContent = 'Groepsindeling';
+            container.appendChild(titel);
+
+            const wrapper = document.createElement('div');
+            wrapper.className = 'groepen-wrapper';
+            
+            groepen.forEach((groepLeden, index) => {
+                if (groepLeden.length > 0) {
+                    const groepKaart = document.createElement('div');
+                    groepKaart.className = 'groep-kaart';
+
+                    const groepTitel = document.createElement('h3');
+                    groepTitel.textContent = `Groep ${index + 1}`;
+                    groepKaart.appendChild(groepTitel);
+
+                    const ledenLijst = document.createElement('ul');
+                    groepLeden.forEach(lid => {
+                        const li = document.createElement('li');
+                        li.textContent = lid;
+                        ledenLijst.appendChild(li);
+                    });
+                    
+                    groepKaart.appendChild(ledenLijst);
+                    wrapper.appendChild(groepKaart);
+                }
+            });
+            container.appendChild(wrapper);
+        }
+    </script>
+
+</body>
+</html>

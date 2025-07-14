@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rekenspel Groep 5-6</title>
+    <style>
+        /* Interne CSS voor styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f8ff; /* Lichtblauwe achtergrond */
+            color: #333;
+            text-align: center;
+        }
+
+        #spel-container {
+            width: 90%;
+            max-width: 600px;
+            padding: 20px;
+            border-radius: 15px;
+            background-color: white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #0056b3;
+        }
+
+        #scorebord {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #555;
+        }
+
+        #som {
+            font-size: 3em; /* Grote som voor duidelijkheid */
+            font-weight: bold;
+            margin: 30px 0;
+            color: #333;
+        }
+
+        #antwoorden {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* Twee knoppen per rij */
+            gap: 15px; /* Ruimte tussen de knoppen */
+        }
+
+        .knop {
+            background-color: #007bff; /* Standaard blauwe knop */
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 20px;
+            font-size: 1.8em;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.1s;
+        }
+        
+        .knop:hover {
+            background-color: #0056b3; /* Donkerder bij hover */
+        }
+
+        .knop:active {
+            transform: scale(0.95); /* Klik-effect */
+        }
+
+        #feedback {
+            margin-top: 25px;
+            font-size: 1.5em;
+            font-weight: bold;
+            height: 40px; /* Vaste hoogte om layout stabiel te houden */
+        }
+
+        .goed {
+            color: #28a745; /* Groen voor correct */
+        }
+
+        .fout {
+            color: #dc3545; /* Rood voor incorrect */
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="spel-container">
+        <h1>Rekenspel</h1>
+        <div id="scorebord">Score: 0 goed, 0 fout</div>
+        <div id="som">12 + 5 = ?</div>
+        <div id="antwoorden">
+            <button class="knop"></button>
+            <button class="knop"></button>
+            <button class="knop"></button>
+            <button class="knop"></button>
+        </div>
+        <div id="feedback"></div>
+    </div>
+
+    <script>
+        // Intern JavaScript voor de spellogica
+        const somElement = document.getElementById('som');
+        const antwoordKnoppen = document.querySelectorAll('.knop');
+        const feedbackElement = document.getElementById('feedback');
+        const scorebordElement = document.getElementById('scorebord');
+
+        let scoreGoed = 0;
+        let scoreFout = 0;
+        let correctAntwoord;
+
+        function startNieuweRonde() {
+            // Reset feedback
+            feedbackElement.textContent = '';
+            feedbackElement.className = '';
+
+            const operatie = Math.floor(Math.random() * 3); // 0: optellen, 1: aftrekken, 2: vermenigvuldigen
+            let getal1, getal2;
+
+            if (operatie === 0) { // Optellen
+                getal1 = Math.floor(Math.random() * 50) + 1;
+                getal2 = Math.floor(Math.random() * 50) + 1;
+                correctAntwoord = getal1 + getal2;
+                somElement.textContent = `${getal1} + ${getal2} = ?`;
+            } else if (operatie === 1) { // Aftrekken
+                getal1 = Math.floor(Math.random() * 50) + 20; // Zorg dat getal1 groot genoeg is
+                getal2 = Math.floor(Math.random() * getal1); // Zorg dat antwoord niet negatief is
+                correctAntwoord = getal1 - getal2;
+                somElement.textContent = `${getal1} - ${getal2} = ?`;
+            } else { // Keersom (tafels 1-10)
+                getal1 = Math.floor(Math.random() * 10) + 1;
+                getal2 = Math.floor(Math.random() * 10) + 1;
+                correctAntwoord = getal1 * getal2;
+                somElement.textContent = `${getal1} × ${getal2} = ?`;
+            }
+
+            const antwoorden = genereerAntwoordOpties(correctAntwoord);
+            
+            // Wijs de antwoorden toe aan de knoppen
+            antwoordKnoppen.forEach((knop, index) => {
+                knop.textContent = antwoorden[index];
+                knop.onclick = () => controleerAntwoord(antwoorden[index]);
+            });
+        }
+
+        function genereerAntwoordOpties(correct) {
+            const opties = new Set([correct]);
+            while (opties.size < 4) {
+                const fouteOffset = Math.floor(Math.random() * 10) + 1;
+                const fouteOptie = Math.random() > 0.5 ? correct + fouteOffset : Math.max(0, correct - fouteOffset);
+                if (fouteOptie !== correct) {
+                    opties.add(fouteOptie);
+                }
+            }
+            // Zet de Set om naar een array en schud de volgorde
+            return Array.from(opties).sort(() => Math.random() - 0.5);
+        }
+
+        function controleerAntwoord(gekozenAntwoord) {
+            if (parseInt(gekozenAntwoord) === correctAntwoord) {
+                scoreGoed++;
+                feedbackElement.textContent = '✅ Goed gedaan!';
+                feedbackElement.className = 'goed';
+            } else {
+                scoreFout++;
+                feedbackElement.textContent = '❌ Dat klopt niet.';
+                feedbackElement.className = 'fout';
+            }
+            updateScorebord();
+            
+            // Wacht even en start dan de volgende ronde
+            setTimeout(startNieuweRonde, 1200); 
+        }
+
+        function updateScorebord() {
+            scorebordElement.textContent = `Score: ${scoreGoed} goed, ${scoreFout} fout`;
+        }
+
+        // Start het spel wanneer de pagina laadt
+        document.addEventListener('DOMContentLoaded', startNieuweRonde);
+
+    </script>
+
+</body>
+</html>

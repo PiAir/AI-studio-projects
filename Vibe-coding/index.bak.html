@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>20 Voorbeelden van Webgebaseerde Educatieve Applicaties</title>
+    <style>
+        :root {
+            --primary-bg-color: #ffffff;
+            --secondary-bg-color: #f8f9fa;
+            --accent-color: #007bff;
+            --text-color: #333;
+            --nav-width: 320px;
+            --border-color: #dee2e6;
+            --header-font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            --body-font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            font-family: var(--body-font);
+            margin: 0;
+            display: flex;
+            background-color: var(--secondary-bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        .container {
+            display: flex;
+            width: 100%;
+        }
+        nav {
+            width: var(--nav-width);
+            background-color: var(--primary-bg-color);
+            border-right: 1px solid var(--border-color);
+            padding: 20px;
+            height: 100vh;
+            overflow-y: auto;
+            position: fixed;
+            box-sizing: border-box;
+        }
+        nav h2 {
+            font-family: var(--header-font);
+            color: #d6336c; /* ICTOBLOG pink */
+            font-size: 1.5em;
+            margin-top: 0;
+            border-bottom: 2px solid #f1f3f5;
+            padding-bottom: 10px;
+        }
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        nav ul li a {
+            display: block;
+            padding: 10px 15px;
+            text-decoration: none;
+            color: #495057;
+            border-radius: 5px;
+            margin-bottom: 5px;
+            transition: background-color 0.3s;
+            font-weight: 500;
+        }
+        nav ul li a:hover, nav ul li a.active {
+            background-color: #e9ecef;
+            color: #d6336c;
+        }
+        main {
+            margin-left: var(--nav-width);
+            padding: 20px 40px;
+            width: calc(100% - var(--nav-width));
+            box-sizing: border-box;
+        }
+        .content-wrapper {
+             max-width: 900px;
+        }
+        .content-section {
+            background-color: var(--primary-bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+        #content-title {
+             font-family: var(--header-font);
+             color: #343a40;
+             border-bottom: 2px solid #d6336c;
+             padding-bottom: 10px;
+             font-size: 2.2em;
+             margin-top: 0;
+        }
+        .content-section h3 {
+            font-family: var(--header-font);
+            color: #d6336c;
+            margin-top: 0;
+            font-size: 1.6em;
+            cursor: pointer;
+        }
+        .content-section h3:hover {
+            text-decoration: underline;
+        }
+        .prompt {
+            background-color: #f8f9fa;
+            border-left: 4px solid #d6336c;
+            padding: 15px;
+            margin-top: 15px;
+            white-space: pre-wrap;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.95em;
+            display: none; /* Hidden by default */
+            border-radius: 0 5px 5px 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <nav>
+        <h2>Applicaties</h2>
+        <ul id="navList"></ul>
+    </nav>
+    <main>
+        <div class="content-wrapper">
+            <h1 id="content-title">Selecteer een voorbeeld</h1>
+            <div id="app-content">
+                <div class="content-section">
+                    <h3>Functionaliteit</h3>
+                    <p id="content-functionality"></p>
+                </div>
+                <div class="content-section">
+                    <h3>Opzet</h3>
+                    <p id="content-opzet"></p>
+                </div>
+                <div class="content-section">
+                    <h3 id="prompt-title">Prompt (voor AI Studio)</h3>
+                    <div id="content-prompt" class="prompt"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const navList = document.getElementById('navList');
+        const contentTitle = document.getElementById('content-title');
+        const contentFunctionality = document.getElementById('content-functionality');
+        const contentOpzet = document.getElementById('content-opzet');
+        const promptTitle = document.getElementById('prompt-title');
+        const contentPrompt = document.getElementById('content-prompt');
+        const appContentDiv = document.getElementById('app-content');
+        let appData = [];
+
+        // Fetch data from JSON file
+        fetch('applications.json')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                appData = data;
+                populateNav(appData);
+                // Display first item by default
+                if (appData.length > 0) {
+                    displayContent(0);
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching application data:', error);
+                contentTitle.textContent = 'Fout bij laden';
+                contentFunctionality.textContent = 'Kon de applicatiegegevens niet laden. Controleer of het bestand "applications.json" in dezelfde map staat en of de console (F12) fouten weergeeft.';
+            });
+
+        function populateNav(data) {
+            navList.innerHTML = ''; // Clear existing list
+            data.forEach((app, index) => {
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+                a.href = '#';
+                // Use a short version for the nav list
+                a.textContent = app.title.split('–')[0].trim();
+                a.dataset.index = index;
+                li.appendChild(a);
+                navList.appendChild(li);
+            });
+        }
+
+        function displayContent(index) {
+            if (!appData[index]) return;
+
+            const app = appData[index];
+            contentTitle.textContent = app.title;
+            contentFunctionality.innerHTML = app.functionality.replace(/\n/g, '<br>');
+            contentOpzet.innerHTML = app.opzet.replace(/\n/g, '<br>');
+            contentPrompt.innerHTML = app.prompt.replace(/\n/g, '<br>');
+            
+            // Ensure content is visible before manipulating it
+            appContentDiv.style.display = 'block';
+            contentPrompt.style.display = 'none'; // Hide prompt by default
+
+            // Update active link in navigation
+            document.querySelectorAll('#navList a').forEach(link => {
+                link.classList.remove('active');
+            });
+            const activeLink = document.querySelector(`#navList a[data-index='${index}']`);
+            if(activeLink) {
+                 activeLink.classList.add('active');
+            }
+        }
+
+        // Handle nav clicks
+        navList.addEventListener('click', function(e) {
+            if (e.target.tagName === 'A') {
+                e.preventDefault();
+                const index = e.target.dataset.index;
+                displayContent(index);
+            }
+        });
+
+        // Handle prompt title click to toggle visibility
+        promptTitle.addEventListener('click', function() {
+            const isHidden = contentPrompt.style.display === 'none';
+            contentPrompt.style.display = isHidden ? 'block' : 'none';
+        });
+
+        // Initially hide the content until data is loaded and rendered
+        appContentDiv.style.display = 'none';
+    });
+</script>
+
+</body>
+</html>

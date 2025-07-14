@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EmotieWijzer</title>
+    <style>
+        /* CSS voor de styling */
+        :root {
+            --primary-bg-color: #f0f8ff; /* AliceBlue */
+            --text-color: #333;
+            --button-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            --button-hover-shadow: 0 6px 12px rgba(0,0,0,0.2);
+            --feedback-bg-color: #ffffff;
+            --border-radius: 15px;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--primary-bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+
+        #app-container {
+            max-width: 600px;
+            width: 90%;
+            padding: 20px;
+            background-color: var(--feedback-bg-color);
+            border-radius: var(--border-radius);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #0056b3; /* Donkerblauw */
+        }
+
+        #emotion-buttons {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .emotion-btn {
+            background-color: #fff;
+            border: 2px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 4rem; /* Grote emoji */
+            padding: 20px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: var(--button-shadow);
+            flex-basis: calc(50% - 40px); /* Twee knoppen per rij met tussenruimte */
+        }
+
+        .emotion-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--button-hover-shadow);
+        }
+
+        .emotion-btn:active {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        #message-box {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #e7f3fe; /* Lichtblauw */
+            border-radius: var(--border-radius);
+            min-height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #0056b3;
+            border: 1px dashed #b1d7ff;
+            transition: background-color 0.3s;
+        }
+
+        /* Stijlen voor visuele feedback */
+        .emotion-btn.selected {
+            border-color: #007bff; /* Blauwe rand */
+            background-color: #e7f3fe;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="app-container">
+        <h1>EmotieWijzer</h1>
+        <p>Hoe voel je je op dit moment? Klik op een emoji.</p>
+        
+        <div id="emotion-buttons">
+            <button class="emotion-btn" id="blij" data-message="Wat fijn! Vertel iemand wat jou blij maakt.">😀</button>
+            <button class="emotion-btn" id="verdrietig" data-message="Het is oké om je zo te voelen. Praat erover met iemand die je vertrouwt.">😢</button>
+            <button class="emotion-btn" id="boos" data-message="Voel de boosheid, maar blijf kalm. Haal diep adem en tel langzaam tot tien.">😠</button>
+            <button class="emotion-btn" id="bang" data-message="Je bent niet alleen. Bespreek je angst met een volwassene die je kan helpen.">😨</button>
+        </div>
+
+        <div id="message-box">
+            <!-- Hier verschijnt de boodschap -->
+        </div>
+    </div>
+
+    <script>
+        // JavaScript voor de interactie
+        document.addEventListener('DOMContentLoaded', function() {
+            const buttons = document.querySelectorAll('.emotion-btn');
+            const messageBox = document.getElementById('message-box');
+            let currentSelected = null;
+
+            buttons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Verwijder 'selected' klasse van de vorige knop
+                    if (currentSelected) {
+                        currentSelected.classList.remove('selected');
+                    }
+                    
+                    // Voeg 'selected' klasse toe aan de geklikte knop voor visuele feedback
+                    this.classList.add('selected');
+                    currentSelected = this;
+                    
+                    // Haal de boodschap op uit het data-attribuut
+                    const message = this.getAttribute('data-message');
+                    
+                    // Toon de boodschap in de message-box
+                    messageBox.textContent = message;
+                    messageBox.style.backgroundColor = '#d1eaff'; // Iets donkerder voor nadruk
+                    
+                    // Reset de achtergrondkleur na een korte tijd
+                    setTimeout(() => {
+                        messageBox.style.backgroundColor = '#e7f3fe';
+                    }, 500);
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>

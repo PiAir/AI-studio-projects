@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emoties Quiz</title>
+    <style>
+        /* Algemene Styling */
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f8ff; /* Lichtblauwe achtergrond */
+            color: #333;
+            text-align: center;
+        }
+
+        /* Quiz Container */
+        #quiz-container {
+            background-color: white;
+            padding: 20px 40px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 500px;
+        }
+
+        h1 {
+            color: #4a4a4a;
+        }
+
+        /* Emoji Styling */
+        #emoji {
+            font-size: 6rem; /* Extra groot voor duidelijkheid */
+            line-height: 1.2;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        /* Knoppen Container */
+        #knoppen-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* Twee knoppen per rij */
+            gap: 15px; /* Ruimte tussen de knoppen */
+            margin-top: 20px;
+        }
+
+        /* Knoppen Styling */
+        .optie-knop {
+            padding: 15px;
+            font-size: 1.2rem;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .optie-knop:hover {
+            background-color: #e9e9e9;
+            transform: translateY(-2px);
+        }
+
+        .optie-knop:disabled {
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        /* Feedback Styling */
+        #feedback {
+            margin-top: 20px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            min-height: 30px; /* Zorgt dat layout niet verspringt */
+        }
+
+        .correct {
+            color: #28a745; /* Groen */
+        }
+
+        .incorrect {
+            color: #dc3545; /* Rood */
+        }
+        
+        /* Volgende Knop Styling */
+        #volgende-knop {
+            margin-top: 20px;
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        #volgende-knop:hover {
+            background-color: #0056b3;
+        }
+        
+        /* Verberg elementen standaard */
+        .verborgen {
+            display: none;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="quiz-container">
+        <h1>Kies de juiste emotie</h1>
+        <span id="emoji">😀</span>
+        
+        <div id="knoppen-container">
+            <!-- Knoppen worden hier door JavaScript ingevoegd -->
+        </div>
+
+        <div id="feedback"></div>
+        
+        <button id="volgende-knop" class="verborgen">Volgende</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- 1. Definieer de data ---
+            const emoties = [
+                { icoon: "😀", naam: "blij" },
+                { icoon: "😢", naam: "verdrietig" },
+                { icoon: "😠", naam: "boos" },
+                { icoon: "😮", naam: "verrast" } // Alternatief voor bang 😱
+            ];
+
+            let huidigeEmotie;
+
+            // --- 2. Selecteer de HTML-elementen ---
+            const emojiSpan = document.getElementById('emoji');
+            const knoppenContainer = document.getElementById('knoppen-container');
+            const feedbackDiv = document.getElementById('feedback');
+            const volgendeKnop = document.getElementById('volgende-knop');
+
+            // --- 3. Functies ---
+
+            /**
+             * Functie om de quiz te starten of de volgende vraag te laden.
+             */
+            function laadVolgendeVraag() {
+                // Reset de feedback
+                feedbackDiv.textContent = '';
+                feedbackDiv.className = '';
+                volgendeKnop.classList.add('verborgen');
+                knoppenContainer.innerHTML = ''; // Maak de container leeg
+
+                // Kies een willekeurige emotie
+                huidigeEmotie = emoties[Math.floor(Math.random() * emoties.length)];
+                
+                // Toon de emoji
+                emojiSpan.textContent = huidigeEmotie.icoon;
+
+                // Maak een lijst met antwoordopties
+                const opties = [huidigeEmotie.naam];
+                const fouteOpties = emoties
+                    .filter(e => e.naam !== huidigeEmotie.naam)
+                    .map(e => e.naam);
+
+                // Voeg 3 willekeurige foute opties toe
+                while (opties.length < 4) {
+                    const willekeurigeFouteOptie = fouteOpties.splice(Math.floor(Math.random() * fouteOpties.length), 1)[0];
+                    opties.push(willekeurigeFouteOptie);
+                }
+
+                // Schud de opties door elkaar
+                opties.sort(() => Math.random() - 0.5);
+
+                // Maak en toon de knoppen
+                opties.forEach(optieTekst => {
+                    const knop = document.createElement('button');
+                    knop.textContent = optieTekst;
+                    knop.classList.add('optie-knop');
+                    knop.addEventListener('click', () => controleerAntwoord(optieTekst, knop));
+                    knoppenContainer.appendChild(knop);
+                });
+            }
+
+            /**
+             * Functie om het gekozen antwoord te controleren.
+             * @param {string} gekozenNaam - De tekst van de geklikte knop.
+             * @param {HTMLElement} geklikteKnop - De knop waarop geklikt is.
+             */
+            function controleerAntwoord(gekozenNaam) {
+                // Blokkeer alle knoppen na een keuze
+                const alleKnoppen = document.querySelectorAll('.optie-knop');
+                alleKnoppen.forEach(knop => knop.disabled = true);
+
+                if (gekozenNaam === huidigeEmotie.naam) {
+                    // Juist antwoord
+                    feedbackDiv.innerHTML = `✅ Goed zo! Dit is <strong>${huidigeEmotie.naam}</strong>.`;
+                    feedbackDiv.className = 'correct';
+                    
+                    // Toon de "Volgende" knop na een kort moment
+                    setTimeout(() => {
+                        laadVolgendeVraag();
+                    }, 2000); // Wacht 2 seconden en ga automatisch verder
+                    
+                } else {
+                    // Fout antwoord
+                    feedbackDiv.textContent = '❌ Niet helemaal. Probeer het nog eens!';
+                    feedbackDiv.className = 'incorrect';
+
+                    // Geef de gebruiker de kans om het opnieuw te proberen
+                    setTimeout(() => {
+                        feedbackDiv.textContent = '';
+                        alleKnoppen.forEach(knop => knop.disabled = false); // Maak knoppen weer klikbaar
+                    }, 2000);
+                }
+            }
+
+            // --- 4. Start de quiz ---
+            volgendeKnop.addEventListener('click', laadVolgendeVraag); // Hoewel we nu auto-next gebruiken, laten we dit staan voor flexibiliteit.
+            laadVolgendeVraag();
+        });
+    </script>
+
+</body>
+</html>
