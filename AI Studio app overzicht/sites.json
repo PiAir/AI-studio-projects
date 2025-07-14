@@ -79,5 +79,13 @@
     "titel": "TPACK-spel",
     "omschrijving": "Een update van een klassieker uit 2014 (zie ook de link naar de blogpost hieronder) maar nu zonder externe CSS en Javascript, met JSON voor de onderdelen. Het idee is dat je de 3 componenten shuffelt en dan een werkvorm bedenkt. De broncode is op github beschikbaar, is gewoon lokaal te draaien.",
     "blogpost-url": "https://ictoblog.nl/2014/01/25/tpack-the-game"
-  }
+  },
+  {
+    "volgnummer": 11,
+    "url": "https://ictoblog.com/html/TPACK-spel/",
+    "afbeeldingUrl": "images/app11.png",
+    "titel": "Weefgetouw Digitale Geletterdheid",
+    "omschrijving": "Een tool die al een tijdje in Miro beschikbaar is, maar dan moeilijker te delen is met partners. Deze versie gebruikt CSS en Javascript, met extern JSON-bestand voor de leerdoelen. De broncode is op github beschikbaar. Het laden van de JSON lijkt bij lokaal gebruik niet te werken, dus op een webserver draaien.",
+    "blogpost-url": " https://ictoblog.nl/2025/07/14/weefgetouw-digitale-geletterdheidgeletterdheid"
+  }  
 ]
