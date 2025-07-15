@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Babydieren Spel</title>
+    <style>
+        /* CSS voor de kindvriendelijke vormgeving */
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
+
+        :root {
+            --primary-color: #4CAF50; /* Groen */
+            --secondary-color: #FFC107; /* Amber */
+            --background-color: #F0F4F8; /* Lichtblauw-grijs */
+            --text-color: #333;
+            --white: #FFFFFF;
+            --danger-color: #F44336; /* Rood */
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        #app-container {
+            width: 100%;
+            max-width: 600px;
+            background-color: var(--white);
+            border-radius: 20px;
+            padding: 20px 30px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        #score-board {
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        #question-area {
+            margin-bottom: 25px;
+        }
+
+        #animal-display {
+            font-size: 6rem;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+
+        #animal-name {
+            font-size: 1.5em;
+            font-weight: 700;
+        }
+
+        #options-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .option-btn {
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            border-radius: 12px;
+            padding: 20px;
+            font-size: 1.2em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .option-btn:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+        }
+        
+        .option-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        #feedback-area {
+            font-size: 1.3em;
+            font-weight: 700;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            display: none; /* Standaard verborgen */
+        }
+
+        #feedback-area.correct {
+            background-color: #E8F5E9; /* Lichtgroen */
+            color: #2E7D32;
+        }
+
+        #feedback-area.incorrect {
+            background-color: #FFEBEE; /* Lichtrood */
+            color: var(--danger-color);
+        }
+
+        #action-buttons {
+            display: none; /* Standaard verborgen */
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .action-btn {
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            border: none;
+            border-radius: 12px;
+            padding: 15px 20px;
+            font-size: 1.1em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .action-btn:hover {
+            background-color: #ffb300;
+        }
+
+        #video-container {
+            display: none; /* Standaard verborgen */
+            margin-top: 20px;
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 12px;
+        }
+
+        #video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="app-container">
+        <h1>Raad het Babydier!</h1>
+        <div id="score-board">Goed: <span id="correct-score">0</span> | Fout: <span id="incorrect-score">0</span></div>
+        
+        <div id="question-area">
+            <div id="animal-display"></div>
+            <p id="animal-name"></p>
+        </div>
+
+        <div id="options-container">
+            <!-- Knoppen worden hier door JavaScript ingevoegd -->
+        </div>
+
+        <div id="feedback-area"></div>
+
+        <div id="action-buttons">
+            <button id="video-btn" class="action-btn">Bekijk hier een stukje video met uitleg</button>
+            <button id="next-btn" class="action-btn">Volgende vraag</button>
+        </div>
+
+        <div id="video-container">
+            <iframe id="youtube-player" width="560" height="315" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript voor de applicatielogica
+        const animalData = [
+            { name: 'koe', young: 'kalf', emoji: '🐮', start: 26, end: 71 },
+            { name: 'paard', young: 'veulen', emoji: '🐴', start: 72, end: 121 },
+            { name: 'kangoeroe', young: 'joey', emoji: '🦘', start: 122, end: 167 },
+            { name: 'konijn', young: 'lamprei', emoji: '🐰', start: 168, end: 212 },
+            { name: 'leeuw', young: 'leeuwenwelpje', emoji: '🦁', start: 213, end: 256 },
+            { name: 'wolf', young: 'wolvenwelpje', emoji: '🐺', start: 257, end: 306 },
+            { name: 'tijger', young: 'tijgerwelpje', emoji: '🐯', start: 307, end: 349 },
+            { name: 'beer', young: 'berenwelpje', emoji: '🐻', start: 350, end: 387 },
+            { name: 'schaap', young: 'lam', emoji: '🐑', start: 388, end: 442 },
+            { name: 'varken', young: 'big', emoji: '🐷', start: 443, end: 487 },
+            { name: 'kikker', young: 'kikkervisje', emoji: '🐸', start: 488, end: 538 },
+            { name: 'kip', young: 'kuiken', emoji: '🐓', start: 539, end: 570 },
+            { name: 'eend', young: 'eendenkuiken', emoji: '🦆', start: 571, end: 592 },
+            { name: 'gans', young: 'ganzenkuiken', emoji: '🪿', start: 593, end: 619 },
+            { name: 'kat', young: 'kitten', emoji: '🐱', start: 620, end: 659 },
+            { name: 'hond', young: 'pup', emoji: '🐶', start: 660, end: 700 }
+        ];
+
+        const YOUTUBE_ID = 'QfzxZmqIoks';
+
+        // Elementen ophalen
+        const animalDisplay = document.getElementById('animal-display');
+        const animalName = document.getElementById('animal-name');
+        const optionsContainer = document.getElementById('options-container');
+        const feedbackArea = document.getElementById('feedback-area');
+        const actionButtons = document.getElementById('action-buttons');
+        const videoBtn = document.getElementById('video-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const videoContainer = document.getElementById('video-container');
+        const youtubePlayer = document.getElementById('youtube-player');
+        const correctScoreEl = document.getElementById('correct-score');
+        const incorrectScoreEl = document.getElementById('incorrect-score');
+
+        // Spelstatus
+        let shuffledAnimals = [];
+        let currentAnimalIndex = 0;
+        let score = { correct: 0, incorrect: 0 };
+
+        // Functie om een array te schudden (Fisher-Yates shuffle)
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        // Functie om het spel te starten
+        function startGame() {
+            currentAnimalIndex = 0;
+            score = { correct: 0, incorrect: 0 };
+            updateScoreDisplay();
+            shuffledAnimals = [...animalData];
+            shuffleArray(shuffledAnimals);
+            loadNextQuestion();
+        }
+
+        // Functie om de volgende vraag te laden
+        function loadNextQuestion() {
+            // Reset de interface voor de nieuwe vraag
+            feedbackArea.style.display = 'none';
+            actionButtons.style.display = 'none';
+            videoContainer.style.display = 'none';
+            youtubePlayer.src = ''; // Stop de video
+
+            if (currentAnimalIndex >= shuffledAnimals.length) {
+                // Einde van het spel
+                animalDisplay.innerText = '🎉';
+                animalName.innerText = 'Goed gedaan! Je hebt alle dieren gehad.';
+                optionsContainer.innerHTML = '';
+                actionButtons.style.display = 'flex';
+                videoBtn.style.display = 'none'; // Verberg videoknop
+                nextBtn.innerText = 'Speel opnieuw';
+                nextBtn.onclick = startGame;
+                return;
+            }
+
+            const currentAnimal = shuffledAnimals[currentAnimalIndex];
+            
+            // Toon het dier
+            animalDisplay.innerText = currentAnimal.emoji;
+            animalName.innerText = `Wat is het jong van een ${currentAnimal.name}?`;
+
+            // Genereer antwoordopties
+            const correctAnswer = currentAnimal.young;
+            const allYoungNames = animalData.map(animal => animal.young);
+            const wrongAnswers = allYoungNames.filter(name => name !== correctAnswer);
+            shuffleArray(wrongAnswers);
+
+            const options = [correctAnswer, ...wrongAnswers.slice(0, 3)];
+            shuffleArray(options);
+
+            // Maak de knoppen
+            optionsContainer.innerHTML = '';
+            options.forEach(option => {
+                const button = document.createElement('button');
+                button.innerText = option;
+                button.classList.add('option-btn');
+                button.onclick = () => checkAnswer(option === correctAnswer, currentAnimal);
+                optionsContainer.appendChild(button);
+            });
+        }
+        
+        // Functie om het antwoord te controleren
+        function checkAnswer(isCorrect, animal) {
+            // Schakel alle knoppen uit
+            document.querySelectorAll('.option-btn').forEach(btn => btn.disabled = true);
+            
+            if (isCorrect) {
+                score.correct++;
+                feedbackArea.innerText = `✅ Goed! Het jong van een ${animal.name} heet ${animal.young}.`;
+                feedbackArea.className = 'correct';
+            } else {
+                score.incorrect++;
+                feedbackArea.innerText = `❌ Oeps, dat is niet juist. Het jong van een ${animal.name} heet ${animal.young}.`;
+                feedbackArea.className = 'incorrect';
+            }
+
+            updateScoreDisplay();
+            feedbackArea.style.display = 'block';
+            actionButtons.style.display = 'flex';
+            videoBtn.style.display = 'block'; // Zorg dat videoknop zichtbaar is
+            nextBtn.innerText = 'Volgende vraag';
+        }
+
+        // Functie om de score bij te werken
+        function updateScoreDisplay() {
+            correctScoreEl.innerText = score.correct;
+            incorrectScoreEl.innerText = score.incorrect;
+        }
+
+        // Event listener voor de "volgende vraag" knop
+        nextBtn.addEventListener('click', () => {
+            currentAnimalIndex++;
+            loadNextQuestion();
+        });
+
+        // Event listener voor de "bekijk video" knop
+        videoBtn.addEventListener('click', () => {
+            const currentAnimal = shuffledAnimals[currentAnimalIndex];
+            const videoUrl = `https://www.youtube.com/embed/${YOUTUBE_ID}?start=${currentAnimal.start}&end=${currentAnimal.end}&autoplay=1`;
+            youtubePlayer.src = videoUrl;
+            videoContainer.style.display = 'block';
+        });
+
+        // Start het spel wanneer de pagina laadt
+        document.addEventListener('DOMContentLoaded', startGame);
+    </script>
+</body>
+</html>

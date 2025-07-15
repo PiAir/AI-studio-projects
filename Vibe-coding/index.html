@@ -23,7 +23,7 @@
             background-color: var(--secondary-bg-color);
             color: var(--text-color);
             line-height: 1.6;
-            padding-top: var(--header-height); /* Ruimte voor vaste header */
+            padding-top: var(--header-height);
         }
         .app-header {
             background-color: var(--primary-bg-color);
@@ -61,7 +61,7 @@
         }
         nav h2 {
             font-family: var(--header-font);
-            color: #d6336c; /* ICTOBLOG pink */
+            color: #d6336c;
             font-size: 1.5em;
             margin-top: 0;
             border-bottom: 2px solid #f1f3f5;
@@ -114,15 +114,29 @@
         .media-display {
             margin-bottom: 25px;
         }
+        .media-display .toggle-button {
+            display: none;
+            margin-bottom: 15px;
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+            background-color: #f1f3f5;
+            color: var(--header-color);
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        .media-display .toggle-button:hover {
+            background-color: #e9ecef;
+        }
         .media-display img {
             max-width: 100%;
             height: auto;
             border-radius: 8px;
             border: 1px solid var(--border-color);
-            display: none; /* Hidden by default */
+            display: none;
         }
         .media-display .demo-link {
-            display: none; /* Hidden by default */
+            display: none;
             margin-top: 15px;
             font-weight: bold;
             text-decoration: none;
@@ -149,7 +163,7 @@
             white-space: pre-wrap;
             font-family: 'Courier New', Courier, monospace;
             font-size: 0.95em;
-            display: none; /* Hidden by default */
+            display: none;
             border-radius: 0 5px 5px 0;
             overflow-x: auto;
         }
@@ -158,7 +172,7 @@
 <body>
 
 <header class="app-header">
-    <h1>Vibecoding Wegwerpapplicaties</h1>
+    <h1 id="page-title">Vibecoding Wegwerpapplicaties</h1>
 </header>
 
 <div class="container">
@@ -171,6 +185,7 @@
             <h1 id="content-title">Selecteer een voorbeeld</h1>
             
             <div id="media-container" class="media-display">
+                 <button id="toggle-image-btn" class="toggle-button">Toon schermafbeelding</button>
                  <img id="content-image" src="" alt="">
                  <a id="content-demo-link" href="#" target="_blank" rel="noopener noreferrer" class="demo-link">🌐 Probeer een voorbeeld van de app uit</a>
             </div>
@@ -195,15 +210,15 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        const pageTitle = document.getElementById('page-title');
         const navList = document.getElementById('navList');
         const contentTitle = document.getElementById('content-title');
         const appContentDiv = document.getElementById('app-content');
         
-        // Media elements
+        const toggleImageBtn = document.getElementById('toggle-image-btn');
         const contentImage = document.getElementById('content-image');
         const contentDemoLink = document.getElementById('content-demo-link');
 
-        // Content sections
         const contentFunctionality = document.getElementById('content-functionality');
         const contentOpzet = document.getElementById('content-opzet');
         const promptTitle = document.getElementById('prompt-title');
@@ -211,28 +226,41 @@
 
         let appData = [];
 
-        fetch('applications.json')
-            .then(response => {
+        async function initializeApp() {
+            try {
+                const response = await fetch('applications.json');
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-                return response.json();
-            })
-            .then(data => {
-                appData = data;
+                appData = await response.json();
+
+                pageTitle.textContent = `${appData.length} Vibecoding Wegwerpapplicaties`;
                 populateNav(appData);
-                if (appData.length > 0) displayContent(0);
-            })
-            .catch(error => {
-                console.error('Error fetching application data:', error);
+
+                const params = new URLSearchParams(window.location.search);
+                const urlId = params.get('id');
+                let initialIndex = 0;
+
+                if (urlId) {
+                    const requestedIndex = parseInt(urlId, 10) - 1;
+                    if (requestedIndex >= 0 && requestedIndex < appData.length) {
+                        initialIndex = requestedIndex;
+                    } else {
+                        console.warn(`ID ${urlId} is out of bounds. Defaulting to first item.`);
+                    }
+                }
+                displayContent(initialIndex);
+            } catch (error) {
+                console.error('Error initializing application:', error);
                 contentTitle.textContent = 'Fout bij laden';
-                contentFunctionality.textContent = 'Kon de applicatiegegevens niet laden. Controleer of "applications.json" bestaat en correct is.';
-            });
+                appContentDiv.innerHTML = '<p>Kon de applicatiegegevens niet laden. Controleer of het bestand "applications.json" in dezelfde map staat.</p>';
+            }
+        }
 
         function populateNav(data) {
             navList.innerHTML = '';
             data.forEach((app, index) => {
                 const li = document.createElement('li');
                 const a = document.createElement('a');
-                a.href = '#';
+                a.href = `?id=${index + 1}`;
                 a.textContent = app.title.split('–')[0].trim();
                 a.dataset.index = index;
                 li.appendChild(a);
@@ -242,27 +270,27 @@
 
         function displayContent(index) {
             if (!appData[index]) return;
-
             const app = appData[index];
+
             contentTitle.textContent = app.title;
 
-            // Handle Image
+            // Handle Image and Toggle Button
             if (app.image) {
+                toggleImageBtn.style.display = 'inline-block';
                 contentImage.src = app.image;
                 contentImage.alt = `Afbeelding voor ${app.title}`;
-                contentImage.style.display = 'block';
+                // Reset state on new content load
+                contentImage.style.display = 'none';
+                toggleImageBtn.textContent = 'Toon schermafbeelding';
             } else {
+                toggleImageBtn.style.display = 'none';
                 contentImage.style.display = 'none';
             }
 
             // Handle Demo Link
-            if (app.demo) {
-                contentDemoLink.href = app.demo;
-                contentDemoLink.style.display = 'inline-block';
-            } else {
-                contentDemoLink.style.display = 'none';
-            }
-
+            contentDemoLink.style.display = app.demo ? 'inline-block' : 'none';
+            if (app.demo) contentDemoLink.href = app.demo;
+            
             // Handle Text Content
             contentFunctionality.innerHTML = app.functionality.replace(/\n/g, '<br>');
             contentOpzet.innerHTML = app.opzet.replace(/\n/g, '<br>');
@@ -271,17 +299,25 @@
             appContentDiv.style.display = 'block';
             contentPrompt.style.display = 'none';
 
-            // Update active link
             document.querySelectorAll('#navList a').forEach(link => link.classList.remove('active'));
             const activeLink = document.querySelector(`#navList a[data-index='${index}']`);
-            if(activeLink) activeLink.classList.add('active');
+            if (activeLink) activeLink.classList.add('active');
+
+            const newUrl = `${window.location.pathname}?id=${parseInt(index) + 1}`;
+            history.pushState({path: newUrl}, '', newUrl);
         }
 
         navList.addEventListener('click', function(e) {
+            e.preventDefault();
             if (e.target.tagName === 'A') {
-                e.preventDefault();
                 displayContent(e.target.dataset.index);
             }
+        });
+        
+        toggleImageBtn.addEventListener('click', function() {
+            const isHidden = contentImage.style.display === 'none';
+            contentImage.style.display = isHidden ? 'block' : 'none';
+            toggleImageBtn.textContent = isHidden ? 'Verberg schermafbeelding' : 'Toon schermafbeelding';
         });
 
         promptTitle.addEventListener('click', function() {
@@ -289,7 +325,11 @@
             contentPrompt.style.display = isHidden ? 'block' : 'none';
         });
 
-        appContentDiv.style.display = 'none';
+        window.addEventListener('popstate', (event) => {
+            initializeApp();
+        });
+
+        initializeApp();
     });
 </script>
 
