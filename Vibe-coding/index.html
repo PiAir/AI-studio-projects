@@ -1,337 +1,154 @@
 <!DOCTYPE html>
-<html lang="nl">
+<html lang="nl" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vibecoding Wegwerpapplicaties</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        :root {
-            --primary-bg-color: #ffffff;
-            --secondary-bg-color: #f8f9fa;
-            --accent-color: #007bff;
-            --header-color: #343a40;
-            --text-color: #333;
-            --nav-width: 320px;
-            --border-color: #dee2e6;
-            --header-font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            --body-font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            --header-height: 60px;
-        }
-        body {
-            font-family: var(--body-font);
-            margin: 0;
-            background-color: var(--secondary-bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
-            padding-top: var(--header-height);
-        }
-        .app-header {
-            background-color: var(--primary-bg-color);
-            color: var(--header-color);
-            padding: 0 40px;
-            height: var(--header-height);
-            display: flex;
-            align-items: center;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1000;
-            border-bottom: 1px solid var(--border-color);
-            box-sizing: border-box;
-        }
-        .app-header h1 {
-            font-family: var(--header-font);
-            font-size: 1.8em;
-            margin: 0;
-        }
-        .container {
-            display: flex;
-        }
-        nav {
-            width: var(--nav-width);
-            background-color: var(--primary-bg-color);
-            border-right: 1px solid var(--border-color);
-            padding: 20px;
-            height: calc(100vh - var(--header-height));
-            overflow-y: auto;
-            position: fixed;
-            top: var(--header-height);
-            box-sizing: border-box;
-        }
-        nav h2 {
-            font-family: var(--header-font);
-            color: #d6336c;
-            font-size: 1.5em;
-            margin-top: 0;
-            border-bottom: 2px solid #f1f3f5;
-            padding-bottom: 10px;
-        }
-        nav ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
-        nav ul li a {
-            display: block;
-            padding: 10px 15px;
-            text-decoration: none;
-            color: #495057;
-            border-radius: 5px;
-            margin-bottom: 5px;
-            transition: background-color 0.3s;
-            font-weight: 500;
-        }
-        nav ul li a:hover, nav ul li a.active {
-            background-color: #e9ecef;
-            color: #d6336c;
-        }
-        main {
-            margin-left: var(--nav-width);
-            padding: 20px 40px;
-            width: calc(100% - var(--nav-width));
-            box-sizing: border-box;
-        }
-        .content-wrapper {
-             max-width: 900px;
-        }
-        .content-section {
-            background-color: var(--primary-bg-color);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 25px;
-            margin-bottom: 20px;
-        }
-        #content-title {
-             font-family: var(--header-font);
-             color: #343a40;
-             border-bottom: 2px solid #d6336c;
-             padding-bottom: 10px;
-             font-size: 2.2em;
-             margin-top: 0;
-             margin-bottom: 25px;
-        }
-        .media-display {
-            margin-bottom: 25px;
-        }
-        .media-display .toggle-button {
-            display: none;
-            margin-bottom: 15px;
-            padding: 8px 12px;
-            border: 1px solid var(--border-color);
-            background-color: #f1f3f5;
-            color: var(--header-color);
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: 500;
-        }
-        .media-display .toggle-button:hover {
-            background-color: #e9ecef;
-        }
-        .media-display img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-            display: none;
-        }
-        .media-display .demo-link {
-            display: none;
-            margin-top: 15px;
-            font-weight: bold;
-            text-decoration: none;
-            color: var(--accent-color);
-        }
-         .media-display .demo-link:hover {
-            text-decoration: underline;
-        }
-        .content-section h3 {
-            font-family: var(--header-font);
-            color: #d6336c;
-            margin-top: 0;
-            font-size: 1.6em;
-            cursor: pointer;
-        }
-        .content-section h3:hover {
-            text-decoration: underline;
-        }
-        .prompt {
-            background-color: #f8f9fa;
-            border-left: 4px solid #d6336c;
-            padding: 15px;
-            margin-top: 15px;
-            white-space: pre-wrap;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.95em;
-            display: none;
-            border-radius: 0 5px 5px 0;
-            overflow-x: auto;
+        /* A simple style for the active nav link to complement Tailwind */
+        .nav-link-active {
+            background-color: #f1f5f9; /* Tailwind's slate-100 */
+            color: #ec4899; /* Tailwind's pink-500 */
+            font-weight: 600;
         }
     </style>
 </head>
-<body>
+<body class="bg-slate-50 text-slate-800">
 
-<header class="app-header">
-    <h1 id="page-title">Vibecoding Wegwerpapplicaties</h1>
-</header>
+    <div id="app" class="relative min-h-screen md:flex" v-cloak>
+        <!-- Mobile Menu Backdrop -->
+        <div @click="navOpen = false" v-show="navOpen" class="fixed inset-0 z-20 bg-black/30 md:hidden"></div>
 
-<div class="container">
-    <nav>
-        <h2>Applicaties</h2>
-        <ul id="navList"></ul>
-    </nav>
-    <main>
-        <div class="content-wrapper">
-            <h1 id="content-title">Selecteer een voorbeeld</h1>
-            
-            <div id="media-container" class="media-display">
-                 <button id="toggle-image-btn" class="toggle-button">Toon schermafbeelding</button>
-                 <img id="content-image" src="" alt="">
-                 <a id="content-demo-link" href="#" target="_blank" rel="noopener noreferrer" class="demo-link">🌐 Probeer een voorbeeld van de app uit</a>
+        <!-- Header -->
+        <header class="fixed top-0 left-0 right-0 z-30 flex items-center justify-between h-16 px-4 bg-white border-b border-slate-200 md:hidden">
+            <h1 class="text-xl font-bold text-slate-700">Vibecoding Apps</h1>
+            <button @click="navOpen = !navOpen" class="p-2 rounded-md hover:bg-slate-100">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+            </button>
+        </header>
+
+        <!-- Navigation Sidebar -->
+        <nav class="fixed top-0 left-0 z-30 h-full w-72 bg-white border-r border-slate-200 transform transition-transform md:relative md:w-80 md:translate-x-0" :class="navOpen ? 'translate-x-0' : '-translate-x-full'">
+            <div class="flex flex-col h-full">
+                <div class="px-6 py-4 border-b border-slate-200">
+                    <h1 class="text-xl font-bold text-slate-800" v-text="pageTitle"></h1>
+                </div>
+                <ul class="flex-1 p-4 overflow-y-auto">
+                    <li v-for="(app, index) in applications" :key="index">
+                        <a :href="`?id=${index + 1}`" @click.prevent="selectApp(index)" 
+                           class="block px-4 py-2 text-sm rounded-md text-slate-600 hover:bg-slate-100"
+                           :class="{ 'nav-link-active': currentApp && currentApp.title === app.title }">
+                           {{ app.title.split('–')[0].trim() }}
+                        </a>
+                    </li>
+                </ul>
             </div>
+        </nav>
 
-            <div id="app-content">
-                <div class="content-section">
-                    <h3>Functionaliteit</h3>
-                    <p id="content-functionality"></p>
+        <!-- Main Content -->
+        <main class="w-full px-4 pt-20 pb-10 md:pt-6 md:px-8">
+            <div v-if="currentApp" class="max-w-4xl mx-auto">
+                <!-- App Title -->
+                <h2 class="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl" v-text="currentApp.title"></h2>
+
+                <!-- Media Buttons and Display -->
+                <div class="mt-8">
+                    <div class="flex flex-wrap gap-4 mb-4">
+                        <button v-if="currentApp.image" @click="imageVisible = !imageVisible" class="px-4 py-2 text-sm font-semibold bg-white border rounded-md shadow-sm text-slate-700 border-slate-300 hover:bg-slate-50">
+                            {{ imageVisible ? 'Verberg schermafbeelding' : 'Toon schermafbeelding' }}
+                        </button>
+                        <a v-if="currentApp.demo" :href="currentApp.demo" target="_blank" rel="noopener noreferrer" class="inline-block px-4 py-2 text-sm font-semibold bg-white border rounded-md shadow-sm text-slate-700 border-slate-300 hover:bg-slate-50">
+                            🌐 Probeer de demo
+                        </a>
+                    </div>
+                    <img v-if="currentApp.image" v-show="imageVisible" :src="currentApp.image" :alt="'Schermafbeelding voor ' + currentApp.title" class="w-full mt-4 border rounded-lg border-slate-200">
                 </div>
-                <div class="content-section">
-                    <h3>Opzet</h3>
-                    <p id="content-opzet"></p>
-                </div>
-                <div class="content-section">
-                    <h3 id="prompt-title">Prompt (voor AI Studio)</h3>
-                    <div id="content-prompt" class="prompt"></div>
+
+                <!-- Content Sections -->
+                <div class="mt-10 space-y-6">
+                    <div class="p-6 bg-white border rounded-lg border-slate-200">
+                        <h3 class="text-2xl font-semibold text-pink-600">Functionaliteit</h3>
+                        <p class="mt-4 text-slate-600" v-html="formatText(currentApp.functionality)"></p>
+                    </div>
+                    <div class="p-6 bg-white border rounded-lg border-slate-200">
+                        <h3 class="text-2xl font-semibold text-pink-600">Opzet</h3>
+                        <p class="mt-4 text-slate-600" v-html="formatText(currentApp.opzet)"></p>
+                    </div>
+                    <div class="p-6 bg-white border rounded-lg border-slate-200">
+                        <h3 @click="promptVisible = !promptVisible" class="text-2xl font-semibold text-pink-600 cursor-pointer">Prompt (voor AI Studio)</h3>
+                        <div v-show="promptVisible" class="p-4 mt-4 font-mono text-sm text-slate-700 bg-slate-100 rounded-md overflow-x-auto" v-html="formatText(currentApp.prompt)"></div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </main>
-</div>
+            <div v-else class="text-center text-slate-500">
+                <p>Applicatie data wordt geladen...</p>
+            </div>
+        </main>
+    </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const pageTitle = document.getElementById('page-title');
-        const navList = document.getElementById('navList');
-        const contentTitle = document.getElementById('content-title');
-        const appContentDiv = document.getElementById('app-content');
-        
-        const toggleImageBtn = document.getElementById('toggle-image-btn');
-        const contentImage = document.getElementById('content-image');
-        const contentDemoLink = document.getElementById('content-demo-link');
-
-        const contentFunctionality = document.getElementById('content-functionality');
-        const contentOpzet = document.getElementById('content-opzet');
-        const promptTitle = document.getElementById('prompt-title');
-        const contentPrompt = document.getElementById('content-prompt');
-
-        let appData = [];
-
-        async function initializeApp() {
-            try {
-                const response = await fetch('applications.json');
-                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-                appData = await response.json();
-
-                pageTitle.textContent = `${appData.length} Vibecoding Wegwerpapplicaties`;
-                populateNav(appData);
-
-                const params = new URLSearchParams(window.location.search);
-                const urlId = params.get('id');
-                let initialIndex = 0;
-
-                if (urlId) {
-                    const requestedIndex = parseInt(urlId, 10) - 1;
-                    if (requestedIndex >= 0 && requestedIndex < appData.length) {
-                        initialIndex = requestedIndex;
-                    } else {
-                        console.warn(`ID ${urlId} is out of bounds. Defaulting to first item.`);
-                    }
+    <!-- Vue.js CDN -->
+    <script src="https://unpkg.com/vue@3"></script>
+    <script>
+        Vue.createApp({
+            data() {
+                return {
+                    applications: [],
+                    currentApp: null,
+                    pageTitle: 'Vibecoding Apps',
+                    navOpen: false,
+                    imageVisible: false,
+                    promptVisible: false,
                 }
-                displayContent(initialIndex);
-            } catch (error) {
-                console.error('Error initializing application:', error);
-                contentTitle.textContent = 'Fout bij laden';
-                appContentDiv.innerHTML = '<p>Kon de applicatiegegevens niet laden. Controleer of het bestand "applications.json" in dezelfde map staat.</p>';
+            },
+            methods: {
+                async fetchApps() {
+                    try {
+                        const response = await fetch('applications.json');
+                        if (!response.ok) throw new Error('Netwerk response was niet ok.');
+                        this.applications = await response.json();
+                        this.pageTitle = `${this.applications.length} Vibecoding Wegwerpapplicaties`;
+                        this.parseUrlAndSelectApp();
+                    } catch (error) {
+                        console.error("Fout bij het ophalen van applicaties:", error);
+                        this.pageTitle = "Fout bij laden";
+                    }
+                },
+                selectApp(index) {
+                    if (index >= 0 && index < this.applications.length) {
+                        this.currentApp = this.applications[index];
+                        this.imageVisible = false; // Reset visibility on app change
+                        this.promptVisible = false;
+                        this.navOpen = false; // Close mobile nav on selection
+                        
+                        const newUrl = `${window.location.pathname}?id=${index + 1}`;
+                        history.pushState({ path: newUrl }, '', newUrl);
+                    }
+                },
+                parseUrlAndSelectApp() {
+                    const params = new URLSearchParams(window.location.search);
+                    const id = params.get('id');
+                    let initialIndex = 0;
+                    if (id) {
+                        const requestedIndex = parseInt(id, 10) - 1;
+                        if (requestedIndex >= 0 && requestedIndex < this.applications.length) {
+                            initialIndex = requestedIndex;
+                        }
+                    }
+                    this.selectApp(initialIndex);
+                },
+                formatText(text) {
+                    // Replace newlines with <br> for HTML rendering
+                    return text.replace(/\n/g, '<br>');
+                }
+            },
+            mounted() {
+                this.fetchApps();
+                // Handle browser back/forward navigation
+                window.addEventListener('popstate', this.parseUrlAndSelectApp);
             }
-        }
-
-        function populateNav(data) {
-            navList.innerHTML = '';
-            data.forEach((app, index) => {
-                const li = document.createElement('li');
-                const a = document.createElement('a');
-                a.href = `?id=${index + 1}`;
-                a.textContent = app.title.split('–')[0].trim();
-                a.dataset.index = index;
-                li.appendChild(a);
-                navList.appendChild(li);
-            });
-        }
-
-        function displayContent(index) {
-            if (!appData[index]) return;
-            const app = appData[index];
-
-            contentTitle.textContent = app.title;
-
-            // Handle Image and Toggle Button
-            if (app.image) {
-                toggleImageBtn.style.display = 'inline-block';
-                contentImage.src = app.image;
-                contentImage.alt = `Afbeelding voor ${app.title}`;
-                // Reset state on new content load
-                contentImage.style.display = 'none';
-                toggleImageBtn.textContent = 'Toon schermafbeelding';
-            } else {
-                toggleImageBtn.style.display = 'none';
-                contentImage.style.display = 'none';
-            }
-
-            // Handle Demo Link
-            contentDemoLink.style.display = app.demo ? 'inline-block' : 'none';
-            if (app.demo) contentDemoLink.href = app.demo;
-            
-            // Handle Text Content
-            contentFunctionality.innerHTML = app.functionality.replace(/\n/g, '<br>');
-            contentOpzet.innerHTML = app.opzet.replace(/\n/g, '<br>');
-            contentPrompt.innerHTML = app.prompt.replace(/\n/g, '<br>');
-            
-            appContentDiv.style.display = 'block';
-            contentPrompt.style.display = 'none';
-
-            document.querySelectorAll('#navList a').forEach(link => link.classList.remove('active'));
-            const activeLink = document.querySelector(`#navList a[data-index='${index}']`);
-            if (activeLink) activeLink.classList.add('active');
-
-            const newUrl = `${window.location.pathname}?id=${parseInt(index) + 1}`;
-            history.pushState({path: newUrl}, '', newUrl);
-        }
-
-        navList.addEventListener('click', function(e) {
-            e.preventDefault();
-            if (e.target.tagName === 'A') {
-                displayContent(e.target.dataset.index);
-            }
-        });
-        
-        toggleImageBtn.addEventListener('click', function() {
-            const isHidden = contentImage.style.display === 'none';
-            contentImage.style.display = isHidden ? 'block' : 'none';
-            toggleImageBtn.textContent = isHidden ? 'Verberg schermafbeelding' : 'Toon schermafbeelding';
-        });
-
-        promptTitle.addEventListener('click', function() {
-            const isHidden = contentPrompt.style.display === 'none';
-            contentPrompt.style.display = isHidden ? 'block' : 'none';
-        });
-
-        window.addEventListener('popstate', (event) => {
-            initializeApp();
-        });
-
-        initializeApp();
-    });
-</script>
-
+        }).mount('#app');
+    </script>
 </body>
 </html>
