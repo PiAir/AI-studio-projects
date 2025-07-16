@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="nl" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iXperium - Interactief Raamwerk Docentcompetenties Onderwijs met ict</title>
+    
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Vue.js 3 via CDN -->
+    <script src="https://unpkg.com/vue@3"></script>
+
+    <style>
+        /* Aangepaste transitie voor het soepel in- en uitschuiven van het detailpaneel */
+        .slide-fade-enter-active {
+            transition: all 0.3s ease-out;
+        }
+
+        .slide-fade-leave-active {
+            transition: all 0.3s cubic-bezier(1, 0.5, 0.8, 1);
+        }
+
+        .slide-fade-enter-from,
+        .slide-fade-leave-to {
+            transform: translateY(-10px);
+            opacity: 0;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+    <div id="app" class="min-h-screen">
+        
+        <header class="bg-white shadow-sm sticky top-0 z-20">
+            <div class="container mx-auto px-4 py-4 flex items-center space-x-3">
+                <svg class="h-8 w-8 text-[#00a1b0]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25"/>
+                </svg>
+                <h1 class="text-xl md:text-2xl font-bold text-gray-700">iXperium - Interactief Raamwerk Docentcompetenties Onderwijs met ict</h1>
+            </div>
+        </header>
+
+        <main class="container mx-auto px-4 py-8 md:py-12">
+            
+            <div class="text-center">
+                <h2 class="text-2xl md:text-3xl font-bold mb-2">Raamwerk Docentcompetenties Onderwijs met ict</h2>
+                <p class="text-gray-600 mb-8 max-w-2xl mx-auto">
+                    Klik op een hoofddimensie om de competenties te zien. Klik daarna op een competentie om de gedragsindicatoren uit te klappen.
+                </p>
+
+                <div class="relative max-w-2xl mx-auto">
+                    <img src="Raamwerk-docentcomepetenties.png" alt="Raamwerk van competenties" class="w-full h-auto">
+                    <!-- Hotspots -->
+                    <a @click.prevent="selecteerDimensie('ontwerpen')" href="#" class="absolute top-0 left-0 w-1/2 h-1/2 cursor-pointer rounded-tl-full transition-colors duration-200 hover:bg-green-500/10 active:bg-green-500/20"></a>
+                    <a @click.prevent="selecteerDimensie('toerusten')" href="#" class="absolute top-0 right-0 w-1/2 h-1/2 cursor-pointer rounded-tr-full transition-colors duration-200 hover:bg-blue-500/10 active:bg-blue-500/20"></a>
+                    <a @click.prevent="selecteerDimensie('geletterdheid')" href="#" class="absolute bottom-0 left-0 w-1/2 h-1/2 cursor-pointer rounded-bl-full transition-colors duration-200 hover:bg-teal-800/10 active:bg-teal-800/20"></a>
+                    <a @click.prevent="selecteerDimensie('handelen')" href="#" class="absolute bottom-0 right-0 w-1/2 h-1/2 cursor-pointer rounded-br-full transition-colors duration-200 hover:bg-indigo-800/10 active:bg-indigo-800/20"></a>
+                </div>
+            </div>
+
+            <!-- 
+                COMPETENTIELIJST MET INLINE DETAILS:
+                - Dit blok wordt getoond zodra een dimensie is geselecteerd.
+                - Wanneer op een competentie wordt geklikt, wordt een detailblok direct eronder getoond.
+            -->
+            <transition name="slide-fade">
+                <div v-if="geselecteerdeDimensieData" id="competentieLijst" class="mt-12">
+                    <div class="flex justify-between items-center mb-4 border-b pb-4">
+                        <h3 class="text-2xl font-bold" :class="geselecteerdeDimensieData.kleurTekst">{{ geselecteerdeDimensieData.titel }}</h3>
+                        <button @click="gaTerugNaarStart" class="text-gray-400 hover:text-gray-600" title="Selectie sluiten">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                        </button>
+                    </div>
+                    <p class="text-gray-600 mb-6">{{ geselecteerdeDimensieData.beschrijving }}</p>
+                    
+                    <div class="space-y-3">
+                        <!-- Loop door elke competentie en maak er een "accordeon-item" van -->
+                        <div v-for="competentie in geselecteerdeDimensieData.competenties" :key="competentie.id" :id="`competentie-${competentie.id}`" class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+                            
+                            <!-- De klikbare header van het accordeon-item -->
+                            <a @click.prevent="selecteerCompetentie(competentie.id)" href="#"
+                               :class="['group flex justify-between items-center w-full text-left p-4 transition-colors duration-200', geselecteerdeCompetentieId === competentie.id ? 'bg-blue-50' : 'hover:bg-gray-50']">
+                                <span class="text-lg font-medium text-gray-800">{{ competentie.titel }}</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" 
+                                     :class="['h-6 w-6 text-gray-400 group-hover:text-blue-500 transition-transform duration-300', geselecteerdeCompetentieId === competentie.id ? 'rotate-180' : '']" 
+                                     fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </a>
+
+                            <!-- Het uitklapbare detailpaneel. Wordt alleen getoond als deze competentie geselecteerd is. -->
+                            <transition name="slide-fade">
+                                <div v-if="geselecteerdeCompetentieId === competentie.id" class="px-4 pb-4 border-t border-gray-200">
+                                    <div class="border-b border-gray-200 my-4">
+                                        <nav class="-mb-px flex space-x-4" aria-label="Tabs">
+                                            <button v-for="niveau in niveaus" 
+                                                @click="selecteerNiveau(niveau)"
+                                                :class="[geselecteerdeNiveau === niveau ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300', 'whitespace-nowrap capitalize py-3 px-1 border-b-2 font-medium text-sm transition-colors']">
+                                                {{ niveau }}
+                                            </button>
+                                        </nav>
+                                    </div>
+                                    <ul v-if="competentie.indicatoren[geselecteerdeNiveau] && competentie.indicatoren[geselecteerdeNiveau].length > 0" class="space-y-3 pl-5 list-disc text-gray-700">
+                                        <li v-for="(indicator, index) in competentie.indicatoren[geselecteerdeNiveau]" :key="index">
+                                            {{ indicator }}
+                                        </li>
+                                    </ul>
+                                    <p v-else class="pl-5 text-gray-500 italic">Voor dit niveau zijn geen specifieke indicatoren gedefinieerd.</p>
+                                </div>
+                            </transition>
+                        </div>
+                    </div>
+                </div>
+            </transition>
+        </main>
+    </div>
+
+    <script type="module">
+        const { createApp, ref, computed, nextTick } = Vue
+
+        // De JSON data is hier ingeplakt. Dit blijft de bron van alle content.
+        const data = {
+            dimensies: [
+                {
+                    id: "ontwerpen",
+                    titel: "Onderwijs ontwerpen, uitvoeren en evalueren",
+                    beschrijving: "De eerste dimensie van het raamwerk heeft betrekking op de docentcompetenties die nodig zijn voor het ontwerpen, uitvoeren en evalueren van onderwijs met ict om het leren van studenten te faciliteren en te monitoren. Daarbij maken docenten gericht gebruik van de mogelijkheden van ict om het leren van studenten te verbeteren en te ondersteunen.",
+                    kleurTekst: 'text-green-600',
+                    competenties: [
+                        {
+                            id: "c1-1",
+                            titel: "1.1 Ontwerpen en uitvoeren van (innovatief) onderwijs met ict",
+                            indicatoren: {
+                                basis: [
+                                    "richt op basis van een eigen visie op leren of een persoonlijke praktijktheorie zijn onderwijs met ict in",
+                                    "heeft kennis van onderwijskundig ontwerpen van ict-rijke leerarrangementen",
+                                    "ontwerpt binnen de context van zijn instelling innovatieve ict-leerarrangementen, waarbij ict waarde toevoegt, samen met collega's en/of studenten",
+                                    "verantwoordt zijn ontwerp en de keuzes daarin vanuit de eigen visie, de leerdoelen van het ontwerp, de doelgroep, de context en de afstemming op het curriculum",
+                                    "kiest ict-middelen en zet deze in om tegemoet te komen aan verschillen tussen studenten",
+                                    "zorgt dat het onderwijsontwerp en de gebruikte (ict)-middelen voldoen aan de wettelijke kaders voor toegankelijk onderwijs",
+                                    "kiest ict-middelen en zet deze in, passend bij de leerdoelen, leerproces/didactiek, vakinhoud en toetsing (volgens TPACK)",
+                                    "ontwikkelt en combineert regelmatig digitale content, waaronder open leermaterialen"
+                                ],
+                                senior: [
+                                    "borgt de micro-meso-macroconsistentie van de ontworpen ict-rijke onderwijssituaties",
+                                    "ziet bij het ontwerpen, uitvoeren en evalueren de samenhang en volgordelijkheid in activiteiten over de leerjaren heen",
+                                    "hanteert verschillende ontwerpmethodieken, maakt een bewuste keuze en onderbouwt deze",
+                                    "ontwerpt ict-rijke leerarrangementen die inclusief zijn en kansenongelijkheid voorkomen of verkleinen",
+                                    "maakt een onderbouwd ontwerp van toekomstgericht onderwijs met ict",
+                                    "houdt rekening met leerbehoeften van studenten en geeft hen waar mogelijk zelfregie",
+                                    "integreert de ontwikkeling van digitale geletterdheid van studenten in het ontwerp",
+                                    "herontwerpt vernieuwende onderwijspraktijken met behulp van ict en kiest daarbij bewust de mate van onderwijstransformatie",
+                                    "begeleidt collega's bij het ontwerpen van ict-rijke leerarrangementen"
+                                ],
+                                master: [
+                                    "borgt de micro-meso-macroconsistentie van de ontworpen ict-rijke onderwijssituaties",
+                                    "ziet bij het ontwerpen, uitvoeren en evalueren de samenhang en volgordelijkheid in activiteiten over de leerjaren heen",
+                                    "hanteert verschillende ontwerpmethodieken, maakt een bewuste keuze en onderbouwt deze, onder andere met wetenschappelijke inzichten",
+                                    "ontwerpt ict-rijke leerarrangementen die inclusief zijn en kansenongelijkheid voorkomen of verkleinen",
+                                    "maakt een met onderzoek onderbouwd ontwerp van toekomstgericht onderwijs met ict",
+                                    "houdt rekening met leerbehoeften van studenten en geeft hen waar mogelijk zelfregie",
+                                    "integreert de ontwikkeling van digitale geletterdheid van studenten in het ontwerp",
+                                    "herontwerpt vernieuwende onderwijspraktijken met behulp van ict en kiest daarbij bewust de mate van onderwijstransformatie"
+                                ]
+                            }
+                        },
+                        {
+                            id: "c1-2",
+                            titel: "1.2 Faciliteren en monitoren van leren",
+                            indicatoren: {
+                                basis: [
+                                    "kiest ict-middelen en zet deze in om samenwerkend leren waaronder peer feedback te faciliteren",
+                                    "gebruikt data uit verschillende bronnen alsmede zelf verzamelde data om de studenten zelf meer regie over hun eigen leren te geven",
+                                    "heeft kennis van de mogelijkheden van het gebruik van algoritmen en kunstmatige intelligentie voor het monitoren",
+                                    "kiest ict-middelen en gebruikt data om de beginsituatie, leerprocessen, feedback en vervolgstappen te bepalen"
+                                ],
+                                senior: [
+                                    "heeft kennis over en inzicht in het proces van de monitoring van (leer)opbrengsten met betrekking tot de kwaliteit van informatie, analyses en consequenties",
+                                    "biedt studenten op een beredeneerde, data-gebaseerde manier keuzemogelijkheden op maat",
+                                    "ondersteunt studenten tijdens het gebruik van ict-middelen bij het reguleren van hun eigen leerprocessen",
+                                    "formuleert functionele eisen voor studentvolgsystemen en learning analytics",
+                                    "begeleidt collega's bij het faciliteren en monitoren van het leren van studenten met behulp van ict"
+                                ],
+                                master: [
+                                    "heeft kennis over en inzicht in het proces van de monitoring van (leer)opbrengsten met betrekking tot de kwaliteit van informatie, analyses en consequenties",
+                                    "biedt studenten op een beredeneerde, data-gebaseerde manier keuzemogelijkheden op maat",
+                                    "ondersteunt studenten tijdens het gebruik van ict-middelen bij het reguleren van hun eigen leerprocessen",
+                                    "formuleert functionele eisen voor studentvolgsystemen en learning analytics"
+                                ]
+                            }
+                        },
+                        {
+                            id: "c1-3",
+                            titel: "1.3 Evalueren en bijstellen van onderwijs",
+                            indicatoren: {
+                                basis: [
+                                    "neemt beslissingen over de inrichting van het onderwijs op basis van data over het leer- en ontwikkelingsproces van studenten",
+                                    "formuleert op basis van uitkomsten uit reflectie actiepunten om het handelen te verbeteren",
+                                    "is op de hoogte van wat er speelt in de maatschappij en het werkveld en vertaalt dit naar het eigen handelen"
+                                ],
+                                senior: [
+                                    "neemt beslissingen over de inrichting van het curriculum op basis van data, recent onderzoek en ethische vraagstukken",
+                                    "evalueert onderwijsleerprocessen op curriculumniveau en formuleert aanbevelingen",
+                                    "evalueert de kwaliteit van het onderwijs(ontwerp) op basis van professionele waarden en kaders",
+                                    "overziet de bijdrage van ict aan het geheel van samenhangende leeractiviteiten op curriculumniveau",
+                                    "begeleidt collega's bij het evalueren en bijstellen van onderwijs met behulp van ict"
+                                ],
+                                master: [
+                                    "neemt beslissingen over de inrichting van het curriculum op basis van data, recent onderzoek en ethische vraagstukken",
+                                    "evalueert onderwijsleerprocessen op curriculumniveau en formuleert aanbevelingen",
+                                    "evalueert de kwaliteit van het onderwijs(ontwerp) op basis van professionele waarden, kaders en onderzoeksresultaten",
+                                    "overziet de bijdrage van ict aan het geheel van samenhangende leeractiviteiten op curriculumniveau"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    id: "toerusten",
+                    titel: "Studenten toerusten voor de digitale samenleving",
+                    beschrijving: "De snel veranderende samenleving vraagt om (nieuwe) ict-competenties van studenten. Docenten spelen een rol bij de ontwikkeling van de digitale geletterdheid van studenten voor leven, leren en werken en hebben aandacht voor specifieke ict-competenties die nodig zijn binnen het beroep of vakgebied.",
+                    kleurTekst: 'text-blue-600',
+                    competenties: [
+                        {
+                            id: "c2-1",
+                            titel: "2.1 Digitale geletterdheid voor leven, leren en werken",
+                            indicatoren: {
+                                basis: [
+                                    "heeft zicht op de (verschillen in) digitale geletterdheid van studenten",
+                                    "fungeert als rolmodel op het gebied van digitale geletterdheid",
+                                    "ontwerpt leeractiviteiten om studenten te leren omgaan met nieuwe ict, informatiebronnen, mediavaardigheden en datageletterdheid",
+                                    "begeleidt studenten bij het veilig, legaal en ethisch verantwoord gebruiken van technologie",
+                                    "begeleidt studenten bij het monitoren en reguleren van hun eigen leren met behulp van ict"
+                                ],
+                                senior: [
+                                    "speelt bij leeractiviteiten in op verschillen in digitale geletterdheid van studenten",
+                                    "begeleidt studenten bij het nemen van zelfregie over de ontwikkeling van hun digitale geletterdheid",
+                                    "ontwerpt leeractiviteiten om studenten weerbaar te maken in een gemedialiseerde samenleving",
+                                    "leert studenten hoe om te gaan met ethische vraagstukken op het gebied van data, algoritmen en AI",
+                                    "coacht collega's bij het begeleiden van de ontwikkeling van digitale geletterdheid bij hun studenten"
+                                ],
+                                master: [
+                                    "speelt bij leeractiviteiten in op verschillen in digitale geletterdheid van studenten",
+                                    "begeleidt studenten bij het nemen van zelfregie over de ontwikkeling van hun digitale geletterdheid",
+                                    "ontwerpt onderzoeksmatig leeractiviteiten om studenten weerbaar te maken in een gemedialiseerde samenleving",
+                                    "leert studenten hoe om te gaan met ethische vraagstukken op het gebied van data, algoritmen en AI"
+                                ]
+                            }
+                        },
+                        {
+                            id: "c2-2",
+                            titel: "2.2 Digitale geletterdheid voor het beroepsdomein/vakgebied",
+                            indicatoren: {
+                                basis: [
+                                    "brengt studenten in aanraking met bestaande technologieën in het beroepsdomein/vakgebied",
+                                    "stimuleert studenten om (ict-)ontwikkelingen in het vakgebied te delen",
+                                    "stimuleert probleemoplossend vermogen van studenten ten aanzien van de inzet van ict",
+                                    "begeleidt studenten bij het ontwikkelen van hun digitale communicatievaardigheden"
+                                ],
+                                senior: [
+                                    "heeft zicht op welke digitale geletterdheid nodig is voor het beroepsdomein en kan hiervoor leeractiviteiten ontwerpen",
+                                    "begeleidt studenten bij het ontwikkelen van transformatievaardigheden (kritisch denken, complexe problemen oplossen, etc.)",
+                                    "coacht collega's bij het begeleiden van studenten om hun digitale geletterdheid voor het beroepsdomein te ontwikkelen"
+                                ],
+                                master: [
+                                    "heeft zicht op welke digitale geletterdheid nodig is voor het beroepsdomein en kan hiervoor leeractiviteiten onderzoeksmatig ontwerpen",
+                                    "begeleidt studenten bij het ontwikkelen van transformatievaardigheden (kritisch denken, complexe problemen oplossen, etc.)"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                 {
+                    id: "handelen",
+                    titel: "Professioneel handelen als docent",
+                    beschrijving: "Docenten dienen zich als lerende professional continu te blijven ontwikkelen. In de context van het onderwijs dienen ze te beschikken over competenties om te leren en innoveren met ict en is het van belang dat ze hierover met andere professionals kunnen communiceren en samenwerken.",
+                    kleurTekst: 'text-indigo-800',
+                    competenties: [
+                        {
+                            id: "c3-1",
+                            titel: "3.1 Lerende professional",
+                            indicatoren: {
+                                basis: [
+                                    "heeft zicht op de eigen ontwikkelbehoeften m.b.t. onderwijsinnovatie met ict",
+                                    "gebruikt ict voor zijn professionele ontwikkeling op het gebied van leren en lesgeven met ict",
+                                    "deelt met anderen binnen de organisatie zijn wijze van professionele ontwikkeling",
+                                    "spreekt regelmatig met collega's over actuele ontwikkelingen en onderzoeksresultaten"
+                                ],
+                                senior: [
+                                    "gebruikt (internationale) netwerken voor de eigen professionele ontwikkeling",
+                                    "inspireert collega's met betrekking tot de mogelijkheden van onderwijsinnovatie met ict",
+                                    "toont stuurkracht om onderwijsinnovaties met ict te realiseren",
+                                    "motiveert en coacht collega's bij hun professionele ontwikkeling op het gebied van onderwijsinnovatie met ict"
+                                ],
+                                master: [
+                                    "gebruikt (internationale) onderzoeksnetwerken voor de eigen professionele ontwikkeling",
+                                    "inspireert collega's met betrekking tot de mogelijkheden van onderwijsinnovatie met ict",
+                                    "toont stuurkracht om onderwijsinnovaties met ict te realiseren",
+                                    "zoekt regelmatig situaties op die aanleiding geven de eigen visie te herijken en stimuleert anderen"
+                                ]
+                            }
+                        },
+                        {
+                            id: "c3-2",
+                            titel: "3.2 Innoveren met ict",
+                            indicatoren: {
+                                basis: [
+                                    "is actief op zoek naar innovatieve ict-middelen",
+                                    "beoordeelt (innovatieve) onderwijspraktijken kritisch op wat het voor student en docent kan betekenen",
+                                    "experimenteert met verschillende, actuele en innovatieve ict-middelen",
+                                    "draagt door onderzoeksmatig te ontwerpen bij aan de onderwijsontwikkeling binnen de organisatie"
+                                ],
+                                senior: [
+                                    "is regelmatig op zoek naar actuele ontwikkelingen, recente onderzoeksresultaten en praktijkervaringen",
+                                    "experimenteert met innovatieve ict-middelen op basis van hun verwachte bijdrage en onderbouwt deze",
+                                    "doordenkt voorafgaand de consequenties van onderwijsinnovaties voor autonomie en menselijkheid",
+                                    "begeleidt collega's bij het experimenteren met (innovatieve) onderwijspraktijken met ict"
+                                ],
+                                master: [
+                                    "is regelmatig op zoek naar actuele ontwikkelingen, recente onderzoeksresultaten en praktijkervaringen",
+                                    "experimenteert met innovatieve ict-middelen en onderbouwt deze verwachtingen mede op basis van wetenschappelijke literatuur",
+                                    "gebruikt (internationale) wetenschappelijke literatuur ter onderbouwing van innovaties en experimenten",
+                                    "doordenkt voorafgaand de consequenties van onderwijsinnovaties voor autonomie en menselijkheid"
+                                ]
+                            }
+                        },
+                        {
+                            id: "c3-3",
+                            titel: "3.3 Communiceren en samenwerken",
+                            indicatoren: {
+                                basis: [
+                                    "werkt samen met collega's en/of studenten om op innovatieve wijze ict-leerarrangementen te ontwerpen",
+                                    "heeft een actieve houding t.a.v. het online delen en hergebruiken van leermaterialen",
+                                    "deelt zijn verworven inzichten over leren en lesgeven met ict met anderen",
+                                    "heeft een social media-profiel en gebruikt dit voor zijn 'personal branding'"
+                                ],
+                                senior: [
+                                    "participeert in (inter)nationale netwerken rondom onderwijsinnovatie met ict",
+                                    "zet collega's binnen en buiten de eigen organisatie actief aan het denken over onderwijsinnovatie",
+                                    "werkt over de grenzen van de eigen organisatie heen samen aan onderwijsinnovatie",
+                                    "begeleidt collega's bij het communiceren en samenwerken met ict"
+                                ],
+                                master: [
+                                    "participeert in (inter)nationale onderzoeksnetwerken rondom onderwijsinnovatie met ict",
+                                    "zet collega's binnen en buiten de eigen organisatie actief aan het denken over onderwijsinnovatie",
+                                    "werkt over de grenzen van de eigen organisatie heen samen aan onderwijsinnovatie"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    id: "geletterdheid",
+                    titel: "Digitale geletterdheid van de docent",
+                    beschrijving: "Om de digitale geletterdheid van studenten te kunnen ontwikkelen en toekomstgericht onderwijs te ontwerpen, dienen docenten op hun beurt ook digitaal geletterd te zijn. Binnen het raamwerk worden deze competenties opgedeeld in ict-basisbekwaamheid, informatie-, media- en datageletterdheid en computational thinking.",
+                    kleurTekst: 'text-teal-800',
+                    competenties: [
+                        {
+                            id: "c4-1",
+                            titel: "4.1 Ict-basisbekwaamheid",
+                            indicatoren: {
+                                basis: [
+                                    "oriënteert zich op diverse online, op onderwijs gerichte omgevingen en systemen",
+                                    "is op de hoogte van recente, relevante technologische ontwikkelingen",
+                                    "laat zien zich verschillende nieuwe ict-middelen snel eigen gemaakt te hebben",
+                                    "duidt voor- en nadelen van bestaande ict-faciliteiten voor het gebruik voor leren en lesgeven"
+                                ],
+                                senior: [
+                                    "onderbouwt, op basis van zijn visie op onderwijs, welke ict-omgeving nodig is",
+                                    "formuleert functionele wensen en eisen voor de ict-omgeving op basis van onderwijskundige scenario's",
+                                    "doorziet hoe nieuwe ict-middelen uit andere contexten in de eigen onderwijscontext kunnen worden gebruikt",
+                                    "begeleidt collega's bij het ontwikkelen van hun eigen ict-basisbekwaamheid"
+                                ],
+                                master: [
+                                    "onderbouwt, op basis van zijn visie op onderwijs, welke ict-omgeving nodig is",
+                                    "formuleert functionele wensen en eisen voor de ict-omgeving op basis van onderwijskundige scenario's",
+                                    "toetst bestaande ict-middelen aan opgestelde functionele wensen en eisen",
+                                    "doorziet hoe nieuwe ict-middelen uit andere contexten in de eigen onderwijscontext kunnen worden gebruikt"
+                                ]
+                            }
+                        },
+                        {
+                            id: "c4-2",
+                            titel: "4.2 Informatie-, data- en mediageletterdheid",
+                            indicatoren: {
+                                basis: [
+                                    "beoordeelt informatie en data op betrouwbaarheid en authenticiteit",
+                                    "is zich bewust van het gebruik van algoritmen en AI door zoekmachines en contentplatforms",
+                                    "toetst zijn ict-gebruik aan ethische uitgangspunten, instellingseigen richtlijnen, wet- en regelgeving",
+                                    "gaat verantwoord om met andermans producten en is op de hoogte van de regels daaromtrent (bronvermelding, auteursrecht, privacywetgeving)"
+                                ],
+                                senior: [
+                                    "weet welke zoekmachines, sociale media en databases voor welk doel geschikt zijn en maakt hierin een bewuste keuze (ook voor internationale literatuur)",
+                                    "weet dat gevonden informatie kan bestaan uit 'deepfakes'",
+                                    "geeft met collega's het mediagebruik in de eigen onderwijscontext vorm",
+                                    "vertaalt richtlijnen op instellingsniveau naar het eigen handelen en stimuleert studenten dit ook te doen",
+                                    "begeleidt collega's bij het ontwikkelen van de eigen informatie-, data- en mediageletterdheid"
+                                ],
+                                master: [
+                                    "weet welke zoekmachines, sociale media en databases voor welk doel geschikt zijn en maakt hierin een bewuste keuze (ook voor internationale en wetenschappelijke literatuur)",
+                                    "beoordeelt bronnen van verschillende niveaus en herkomst systematisch op betrouwbaarheid, authenticiteit en validiteit",
+                                    "weet dat gevonden informatie kan bestaan uit 'deepfakes'",
+                                    "geeft met collega's het mediagebruik in de eigen onderwijscontext vorm",
+                                    "vertaalt richtlijnen op instellingsniveau naar het eigen handelen en stimuleert studenten dit ook te doen"
+                                ]
+                            }
+                        },
+                        {
+                            id: "c4-3",
+                            titel: "4.3 Computational thinking",
+                            indicatoren: {
+                                basis: [
+                                    "kan problemen (her)formuleren in (voor computers) begrijpelijke bewoordingen",
+                                    "kan een probleem uitsplitsen in deelproblemen (decompositie)",
+                                    "kan oplossingen van problemen beschrijven in de vorm van stappenplannen (algoritmes)",
+                                    "kan gestructureerd fouten in algoritmes en procedures opsporen (debugging)"
+                                ],
+                                senior: [
+                                    "begrijpt hoe ict kan bijdragen aan het oplossen van maatschappelijke en complexe problemen",
+                                    "kan computational thinking toepassen bij het bedenken van oplossingsrichtingen voor maatschappelijke problemen",
+                                    "begrijpt de mogelijkheden, beperkingen, kansen en risico's van het gebruik van AI bij het oplossen van problemen",
+                                    "begeleidt collega's bij het ontwikkelen van de eigen computational thinking-vaardigheden"
+                                ],
+                                master: [
+                                    "begrijpt hoe ict kan bijdragen aan het oplossen van maatschappelijke en complexe problemen",
+                                    "kan computational thinking toepassen bij het bedenken van oplossingsrichtingen voor maatschappelijke problemen",
+                                    "begrijpt de mogelijkheden, beperkingen, kansen en risico's van het gebruik van AI bij het oplossen van problemen"
+                                ]
+                            }
+                        }
+                    ]
+                }
+            ]
+        };
+
+        createApp({
+            setup() {
+                // --- REACTIEVE STATE ---
+                const geselecteerdeDimensieId = ref(null);
+                const geselecteerdeCompetentieId = ref(null);
+                const geselecteerdeNiveau = ref('basis');
+                const niveaus = ['basis', 'senior', 'master'];
+
+                // --- COMPUTED PROPERTY ---
+                const geselecteerdeDimensieData = computed(() => {
+                    return data.dimensies.find(d => d.id === geselecteerdeDimensieId.value) || null;
+                });
+
+                // --- METHODES ---
+                const selecteerDimensie = async (id) => {
+                    geselecteerdeDimensieId.value = id;
+                    geselecteerdeCompetentieId.value = null; 
+
+                    await nextTick();
+                    document.getElementById('competentieLijst')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                };
+                
+                // Deze functie fungeert nu als een TOGGLE voor de accordeon
+                const selecteerCompetentie = async (id) => {
+                    if (geselecteerdeCompetentieId.value === id) {
+                        // Als de geklikte competentie al open is, sluit hem.
+                        geselecteerdeCompetentieId.value = null;
+                    } else {
+                        // Anders, open de nieuwe.
+                        geselecteerdeCompetentieId.value = id;
+                        geselecteerdeNiveau.value = 'basis'; // Reset niveau bij nieuwe selectie
+                        
+                        // Wacht tot de DOM is bijgewerkt en scroll dan het item in beeld.
+                        await nextTick();
+                        document.getElementById(`competentie-${id}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                };
+                
+                const gaTerugNaarStart = () => {
+                    geselecteerdeDimensieId.value = null;
+                    geselecteerdeCompetentieId.value = null;
+                }
+
+                const selecteerNiveau = (niveau) => {
+                    geselecteerdeNiveau.value = niveau;
+                };
+
+                return {
+                    geselecteerdeDimensieId,
+                    geselecteerdeCompetentieId,
+                    geselecteerdeNiveau,
+                    niveaus,
+                    geselecteerdeDimensieData,
+                    selecteerDimensie,
+                    selecteerCompetentie,
+                    gaTerugNaarStart,
+                    selecteerNiveau,
+                };
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>
