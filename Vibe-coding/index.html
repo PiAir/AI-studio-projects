@@ -29,19 +29,45 @@
             </button>
         </header>
 
-        <!-- Navigation Sidebar -->
+        <!-- Navigation Sidebar with Filters -->
         <nav class="fixed top-0 left-0 z-30 h-full w-72 bg-white border-r border-slate-200 transform transition-transform md:relative md:w-80 md:translate-x-0" :class="navOpen ? 'translate-x-0' : '-translate-x-full'">
             <div class="flex flex-col h-full">
                 <div class="px-6 py-4 border-b border-slate-200">
-                    <h1 class="text-xl font-bold text-slate-800" v-text="pageTitle"></h1>
+                    <h1 @click="goHome" class="text-xl font-bold text-slate-800 cursor-pointer hover:text-pink-600 transition-colors" v-text="pageTitle"></h1>
                 </div>
+                
+                <!-- Filter Section -->
+                <div class="p-4 space-y-4 border-b border-slate-200">
+                    <div>
+                        <label for="niveau-filter" class="block text-sm font-medium text-slate-700">Onderwijsniveau</label>
+                        <select id="niveau-filter" v-model="activeFilters.niveau" @change="applyFilters" class="block w-full p-2 mt-1 text-sm border-slate-300 rounded-md shadow-sm">
+                            <option value="">Alle niveaus</option>
+                            <option v-for="niveau in allNiveaus" :key="niveau" :value="niveau">{{ niveau }}</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="vak-filter" class="block text-sm font-medium text-slate-700">Vak / Onderwerp</label>
+                        <select id="vak-filter" v-model="activeFilters.vak" @change="applyFilters" class="block w-full p-2 mt-1 text-sm border-slate-300 rounded-md shadow-sm">
+                            <option value="">Alle vakken</option>
+                            <option v-for="vak in allVakken" :key="vak" :value="vak">{{ vak }}</option>
+                        </select>
+                    </div>
+                    <button v-if="activeFilters.niveau || activeFilters.vak" @click="clearFilters" class="w-full px-4 py-2 text-sm font-semibold text-white bg-pink-600 rounded-md shadow-sm hover:bg-pink-700">
+                        Reset Filters
+                    </button>
+                </div>
+                
+                <!-- Application List -->
                 <ul class="flex-1 p-4 overflow-y-auto">
-                    <li v-for="(app, index) in applications" :key="index">
-                        <a :href="`?id=${index + 1}`" @click.prevent="selectApp(index)" 
+                    <li v-for="app in filteredApps" :key="app.originalIndex">
+                        <a :href="`?id=${app.originalIndex + 1}`" @click.prevent="selectApp(app.originalIndex)" 
                            class="block px-4 py-2 text-sm rounded-md text-slate-600 hover:bg-slate-100"
                            :class="{ 'nav-link-active': currentApp && currentApp.title === app.title }">
                            {{ app.title.split('–')[0].trim() }}
                         </a>
+                    </li>
+                     <li v-if="filteredApps.length === 0" class="px-4 py-2 text-sm text-slate-500">
+                        Geen apps gevonden voor deze selectie.
                     </li>
                 </ul>
             </div>
@@ -49,11 +75,27 @@
 
         <!-- Main Content -->
         <main class="w-full px-4 pt-20 pb-10 md:pt-6 md:px-8">
-            <div v-if="currentApp" class="max-w-4xl mx-auto">
-                <!-- App Title -->
+            <!-- Landing Page View -->
+            <div v-if="!currentApp" class="max-w-4xl mx-auto">
+                 <div class="p-8 bg-white border rounded-lg border-slate-200">
+                    <h2 class="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">Welkom bij de Vibecoding Voorbeelden</h2>
+                    <div class="mt-6 space-y-4 text-slate-600">
+                        <p>Deze pagina toont een verzameling van eenvoudige, educatieve webapplicaties, ook wel <strong>"wegwerpapplicaties"</strong> genoemd. Het idee is dat een leraar of docent deze kleine tools snel kan (laten) maken, vaak met een enkele, duidelijke prompt in een AI-tool zoals AI Studio.</p>
+                        <p>Ze zijn bedoeld voor direct gebruik in de les, als oefening of als hulpmiddel, en kunnen na gebruik net zo makkelijk weer "weggegooid" of aangepast worden voor een nieuwe les. Dit maakt het een krachtige en laagdrempelige manier om technologie in het onderwijs in te zetten.</p>
+                        <p>De voorbeelden hier zijn divers en bestrijken verschillende <strong>onderwijssectoren, vakken en doelgroepen</strong>. Gebruik de filteropties in de menubalk hiernaast om een selectie te maken die relevant is voor u.</p>
+                        <p>Voor elke applicatie vindt u:</p>
+                        <ul class="list-disc list-inside space-y-2">
+                            <li>De <strong>functionaliteit</strong> en de <strong>opzet</strong> van de tool.</li>
+                            <li>Een <strong>schermafbeelding</strong> en een link naar een werkende <strong>demo</strong> (indien beschikbaar).</li>
+                            <li>De volledige <strong>prompt voor AI Studio</strong>. Deze is standaard verborgen om u uit te dagen eerst zelf na te denken over hoe u zo'n prompt zou formuleren. Klik op de titel om hem te onthullen.</li>
+                        </ul>
+                    </div>
+                 </div>
+            </div>
+            
+            <!-- App Detail View -->
+            <div v-else class="max-w-4xl mx-auto">
                 <h2 class="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl" v-text="currentApp.title"></h2>
-
-                <!-- Media Buttons and Display -->
                 <div class="mt-8">
                     <div class="flex flex-wrap gap-4 mb-4">
                         <button v-if="currentApp.image" @click="imageVisible = !imageVisible" class="px-4 py-2 text-sm font-semibold bg-white border rounded-md shadow-sm text-slate-700 border-slate-300 hover:bg-slate-50">
@@ -65,8 +107,6 @@
                     </div>
                     <img v-if="currentApp.image" v-show="imageVisible" :src="currentApp.image" :alt="'Schermafbeelding voor ' + currentApp.title" class="w-full mt-4 border rounded-lg border-slate-200">
                 </div>
-
-                <!-- Content Sections -->
                 <div class="mt-10 space-y-6">
                     <div class="p-6 bg-white border rounded-lg border-slate-200">
                         <h3 class="text-2xl font-semibold text-pink-600">Functionaliteit</h3>
@@ -81,9 +121,6 @@
                         <div v-show="promptVisible" class="p-4 mt-4 font-mono text-sm text-slate-700 bg-slate-100 rounded-md overflow-x-auto" v-html="formatText(currentApp.prompt)"></div>
                     </div>
                 </div>
-            </div>
-            <div v-else class="text-center text-slate-500">
-                <p>Applicatie data wordt geladen...</p>
             </div>
         </main>
     </div>
@@ -100,53 +137,115 @@
                     navOpen: false,
                     imageVisible: false,
                     promptVisible: false,
+                    allNiveaus: [],
+                    allVakken: [],
+                    activeFilters: {
+                        niveau: '',
+                        vak: ''
+                    }
+                }
+            },
+            computed: {
+                filteredApps() {
+                    let apps = this.applications.map((app, index) => ({...app, originalIndex: index}));
+                    if (this.activeFilters.niveau) {
+                        apps = apps.filter(app => app.onderwijsniveau.includes(this.activeFilters.niveau));
+                    }
+                    if (this.activeFilters.vak) {
+                        apps = apps.filter(app => app.vak.includes(this.activeFilters.vak));
+                    }
+                    return apps;
                 }
             },
             methods: {
-                async fetchApps() {
+                async initializeApp() {
                     try {
                         const response = await fetch('applications.json');
                         if (!response.ok) throw new Error('Netwerk response was niet ok.');
                         this.applications = await response.json();
                         this.pageTitle = `${this.applications.length} Vibecoding Wegwerpapplicaties`;
-                        this.parseUrlAndSelectApp();
+                        
+                        this.extractFilterOptions();
+                        this.parseUrl();
+
                     } catch (error) {
                         console.error("Fout bij het ophalen van applicaties:", error);
                         this.pageTitle = "Fout bij laden";
                     }
                 },
+                extractFilterOptions() {
+                    const niveaus = new Set();
+                    const vakken = new Set();
+                    this.applications.forEach(app => {
+                        app.onderwijsniveau.forEach(n => niveaus.add(n));
+                        app.vak.forEach(v => vakken.add(v));
+                    });
+                    this.allNiveaus = Array.from(niveaus).sort();
+                    this.allVakken = Array.from(vakken).sort();
+                },
                 selectApp(index) {
                     if (index >= 0 && index < this.applications.length) {
                         this.currentApp = this.applications[index];
-                        this.imageVisible = false; // Reset visibility on app change
+                        this.imageVisible = false;
                         this.promptVisible = false;
-                        this.navOpen = false; // Close mobile nav on selection
-                        
-                        const newUrl = `${window.location.pathname}?id=${index + 1}`;
-                        history.pushState({ path: newUrl }, '', newUrl);
+                        this.navOpen = false;
+                        this.updateUrl({ id: index + 1 });
                     }
                 },
-                parseUrlAndSelectApp() {
-                    const params = new URLSearchParams(window.location.search);
-                    const id = params.get('id');
-                    let initialIndex = 0;
-                    if (id) {
-                        const requestedIndex = parseInt(id, 10) - 1;
-                        if (requestedIndex >= 0 && requestedIndex < this.applications.length) {
-                            initialIndex = requestedIndex;
-                        }
+                applyFilters() {
+                    this.currentApp = null; // Reset to landing page
+                    this.updateUrl({});
+                },
+                clearFilters() {
+                    this.activeFilters.niveau = '';
+                    this.activeFilters.vak = '';
+                    this.currentApp = null; // Reset to landing page
+                    this.updateUrl({});
+                },
+                goHome() {
+                    this.clearFilters();
+                },
+                updateUrl(params) {
+                    const url = new URL(window.location);
+                    url.searchParams.delete('id');
+                    url.searchParams.delete('niveau');
+                    url.searchParams.delete('vak');
+
+                    if (params && params.id) {
+                         url.searchParams.set('id', params.id);
                     }
-                    this.selectApp(initialIndex);
+                    if (this.activeFilters.niveau) {
+                        url.searchParams.set('niveau', this.activeFilters.niveau);
+                    }
+                    if (this.activeFilters.vak) {
+                        url.searchParams.set('vak', this.activeFilters.vak);
+                    }
+                    history.pushState({}, '', url);
+                },
+                parseUrl() {
+                    const params = new URLSearchParams(window.location.search);
+                    this.activeFilters.niveau = params.get('niveau') || '';
+                    this.activeFilters.vak = params.get('vak') || '';
+
+                    const id = params.get('id');
+                    if (id) {
+                        const index = parseInt(id, 10) - 1;
+                        if (index >= 0 && index < this.applications.length) {
+                            this.currentApp = this.applications[index];
+                        } else {
+                            this.currentApp = null; // ID invalid, show landing
+                        }
+                    } else {
+                        this.currentApp = null; // No ID, show landing
+                    }
                 },
                 formatText(text) {
-                    // Replace newlines with <br> for HTML rendering
-                    return text.replace(/\n/g, '<br>');
+                    return text ? text.replace(/\n/g, '<br>') : '';
                 }
             },
             mounted() {
-                this.fetchApps();
-                // Handle browser back/forward navigation
-                window.addEventListener('popstate', this.parseUrlAndSelectApp);
+                this.initializeApp();
+                window.addEventListener('popstate', this.parseUrl);
             }
         }).mount('#app');
     </script>
