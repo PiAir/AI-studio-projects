@@ -12,25 +12,16 @@
     <script src="https://unpkg.com/vue@3"></script>
 
     <style>
-        /* Aangepaste transitie voor het soepel in- en uitschuiven van het detailpaneel */
-        .slide-fade-enter-active {
-            transition: all 0.3s ease-out;
-        }
-
-        .slide-fade-leave-active {
-            transition: all 0.3s cubic-bezier(1, 0.5, 0.8, 1);
-        }
-
-        .slide-fade-enter-from,
-        .slide-fade-leave-to {
-            transform: translateY(-10px);
-            opacity: 0;
-        }
+        .slide-fade-enter-active { transition: all 0.3s ease-out; }
+        .slide-fade-leave-active { transition: all 0.3s cubic-bezier(1, 0.5, 0.8, 1); }
+        .slide-fade-enter-from, .slide-fade-leave-to { transform: translateY(-10px); opacity: 0; }
+        .modal-fade-enter-active, .modal-fade-leave-active { transition: opacity 0.3s ease; }
+        .modal-fade-enter-from, .modal-fade-leave-to { opacity: 0; }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans">
 
-    <div id="app" class="min-h-screen">
+    <div id="app" class="flex flex-col min-h-screen">
         
         <header class="bg-white shadow-sm sticky top-0 z-20">
             <div class="container mx-auto px-4 py-4 flex items-center space-x-3">
@@ -41,7 +32,7 @@
             </div>
         </header>
 
-        <main class="container mx-auto px-4 py-8 md:py-12">
+        <main class="container mx-auto px-4 py-8 md:py-12 flex-grow">
             
             <div class="text-center">
                 <h2 class="text-2xl md:text-3xl font-bold mb-2">Raamwerk Docentcompetenties Onderwijs met ict</h2>
@@ -51,7 +42,6 @@
 
                 <div class="relative max-w-2xl mx-auto">
                     <img src="Raamwerk-docentcomepetenties.png" alt="Raamwerk van competenties" class="w-full h-auto">
-                    <!-- Hotspots -->
                     <a @click.prevent="selecteerDimensie('ontwerpen')" href="#" class="absolute top-0 left-0 w-1/2 h-1/2 cursor-pointer rounded-tl-full transition-colors duration-200 hover:bg-green-500/10 active:bg-green-500/20"></a>
                     <a @click.prevent="selecteerDimensie('toerusten')" href="#" class="absolute top-0 right-0 w-1/2 h-1/2 cursor-pointer rounded-tr-full transition-colors duration-200 hover:bg-blue-500/10 active:bg-blue-500/20"></a>
                     <a @click.prevent="selecteerDimensie('geletterdheid')" href="#" class="absolute bottom-0 left-0 w-1/2 h-1/2 cursor-pointer rounded-bl-full transition-colors duration-200 hover:bg-teal-800/10 active:bg-teal-800/20"></a>
@@ -59,11 +49,6 @@
                 </div>
             </div>
 
-            <!-- 
-                COMPETENTIELIJST MET INLINE DETAILS:
-                - Dit blok wordt getoond zodra een dimensie is geselecteerd.
-                - Wanneer op een competentie wordt geklikt, wordt een detailblok direct eronder getoond.
-            -->
             <transition name="slide-fade">
                 <div v-if="geselecteerdeDimensieData" id="competentieLijst" class="mt-12">
                     <div class="flex justify-between items-center mb-4 border-b pb-4">
@@ -75,36 +60,22 @@
                     <p class="text-gray-600 mb-6">{{ geselecteerdeDimensieData.beschrijving }}</p>
                     
                     <div class="space-y-3">
-                        <!-- Loop door elke competentie en maak er een "accordeon-item" van -->
                         <div v-for="competentie in geselecteerdeDimensieData.competenties" :key="competentie.id" :id="`competentie-${competentie.id}`" class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-                            
-                            <!-- De klikbare header van het accordeon-item -->
-                            <a @click.prevent="selecteerCompetentie(competentie.id)" href="#"
-                               :class="['group flex justify-between items-center w-full text-left p-4 transition-colors duration-200', geselecteerdeCompetentieId === competentie.id ? 'bg-blue-50' : 'hover:bg-gray-50']">
+                            <a @click.prevent="selecteerCompetentie(competentie.id)" href="#" :class="['group flex justify-between items-center w-full text-left p-4 transition-colors duration-200', geselecteerdeCompetentieId === competentie.id ? 'bg-blue-50' : 'hover:bg-gray-50']">
                                 <span class="text-lg font-medium text-gray-800">{{ competentie.titel }}</span>
-                                <svg xmlns="http://www.w3.org/2000/svg" 
-                                     :class="['h-6 w-6 text-gray-400 group-hover:text-blue-500 transition-transform duration-300', geselecteerdeCompetentieId === competentie.id ? 'rotate-180' : '']" 
-                                     fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <svg xmlns="http://www.w3.org/2000/svg" :class="['h-6 w-6 text-gray-400 group-hover:text-blue-500 transition-transform duration-300', geselecteerdeCompetentieId === competentie.id ? 'rotate-180' : '']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                                 </svg>
                             </a>
-
-                            <!-- Het uitklapbare detailpaneel. Wordt alleen getoond als deze competentie geselecteerd is. -->
                             <transition name="slide-fade">
                                 <div v-if="geselecteerdeCompetentieId === competentie.id" class="px-4 pb-4 border-t border-gray-200">
                                     <div class="border-b border-gray-200 my-4">
                                         <nav class="-mb-px flex space-x-4" aria-label="Tabs">
-                                            <button v-for="niveau in niveaus" 
-                                                @click="selecteerNiveau(niveau)"
-                                                :class="[geselecteerdeNiveau === niveau ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300', 'whitespace-nowrap capitalize py-3 px-1 border-b-2 font-medium text-sm transition-colors']">
-                                                {{ niveau }}
-                                            </button>
+                                            <button v-for="niveau in niveaus" @click="selecteerNiveau(niveau)" :class="[geselecteerdeNiveau === niveau ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300', 'whitespace-nowrap capitalize py-3 px-1 border-b-2 font-medium text-sm transition-colors']">{{ niveau }}</button>
                                         </nav>
                                     </div>
                                     <ul v-if="competentie.indicatoren[geselecteerdeNiveau] && competentie.indicatoren[geselecteerdeNiveau].length > 0" class="space-y-3 pl-5 list-disc text-gray-700">
-                                        <li v-for="(indicator, index) in competentie.indicatoren[geselecteerdeNiveau]" :key="index">
-                                            {{ indicator }}
-                                        </li>
+                                        <li v-for="(indicator, index) in competentie.indicatoren[geselecteerdeNiveau]" :key="index">{{ indicator }}</li>
                                     </ul>
                                     <p v-else class="pl-5 text-gray-500 italic">Voor dit niveau zijn geen specifieke indicatoren gedefinieerd.</p>
                                 </div>
@@ -114,12 +85,70 @@
                 </div>
             </transition>
         </main>
+        
+        <!-- FOOTER -->
+        <footer class="bg-white border-t mt-12 py-6">
+            <div class="container mx-auto px-4 text-center text-sm text-gray-500">
+                <button @click="openModal('colofon')" class="hover:underline hover:text-blue-600 transition-colors">Colofon</button>
+                <span class="mx-2">&middot;</span>
+                <button @click="openModal('referenties')" class="hover:underline hover:text-blue-600 transition-colors">Referenties</button>
+            </div>
+        </footer>
+
+        <!-- MODAL -->
+        <transition name="modal-fade">
+            <div v-if="actieveModal" class="fixed inset-0 z-30">
+                <!-- Overlay -->
+                <div @click="actieveModal = null" class="absolute inset-0 bg-black bg-opacity-60"></div>
+                
+                <!-- Modal Content -->
+                <div class="flex items-center justify-center min-h-full p-4">
+                    <div @click.stop class="relative bg-white rounded-lg shadow-xl max-w-3xl w-full max-h-[90vh] flex flex-col">
+                        <!-- Header -->
+                        <div class="flex justify-between items-center p-4 border-b">
+                            <h3 class="text-xl font-bold capitalize">{{ actieveModal }}</h3>
+                            <button @click="actieveModal = null" class="text-gray-400 hover:text-gray-700">&times;</button>
+                        </div>
+                        
+                        <!-- Body (scrollable) -->
+                        <div class="p-6 overflow-y-auto">
+                            <!-- Colofon Content -->
+                            <div v-if="actieveModal === 'colofon'">
+                                <p class="font-semibold">iXperium Centre of Expertise Leren met ict, 2023</p>
+                                <p>Academie Educatie, Hogeschool van Arnhem en Nijmegen</p>
+                                <a href="http://www.ixperium.nl" target="_blank" class="text-blue-600 hover:underline">www.ixperium.nl</a>
+                                
+                                <h4 class="font-bold mt-6 mb-2">Auteurs:</h4>
+                                <ul class="list-disc pl-5">
+                                    <li>Manon van Zanten</li>
+                                    <li>Dana Uerz</li>
+                                    <li>Pierre Gorissen</li>
+                                    <li>Pieter van Rooij</li>
+                                    <li>Marijke Kral</li>
+                                </ul>
+
+                                <img src="cc-licentie.png" alt="Creative Commons BY-NC 4.0" class="mt-8">
+                            </div>
+                            
+                            <!-- Referenties Content -->
+                            <div v-if="actieveModal === 'referenties'" class="space-y-4 text-sm">
+                               <p v-for="(ref, index) in referentiesData" :key="index">
+                                   {{ ref.text }}
+                                   <a v-if="ref.url" :href="ref.url" target="_blank" class="text-blue-600 hover:underline break-all">[link]</a>
+                               </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </transition>
+
     </div>
 
     <script type="module">
         const { createApp, ref, computed, nextTick } = Vue
 
-        // De JSON data is hier ingeplakt. Dit blijft de bron van alle content.
+        // Main data for competencies (shortened for brevity in this view, copy from previous if needed)
         const data = {
             dimensies: [
                 {
@@ -434,39 +463,49 @@
             ]
         };
 
+        // Data for the modal content
+        const referentiesData = [
+            { text: "Coetsier, N., De Jong, J., Rutten, D., Meertens, P., Thuss, F., Kral, M., & van Loon, A.-M. (2016). Gedragsindicatoren Leren en Lesgeven met ict. iXperium Centre of Expertise Leren met ict.", url: "https://www.ixperium.nl/onderzoeken-en-ontwikkelen/publicaties/gedragsindicatoren-leren-en-lesgeven-met-ict/" },
+            { text: "European Commission (2008). The European qualifications framework for lifelong learning (EQF). Office for Official Publications of the European Communities." },
+            { text: "Gorissen, P., Uerz, D., Kral, M., & van Rooij, P. (2019). Gedragsindicatoren Leren en lesgeven met ict voor leraren op masterniveau. iXperium Centre of Expertise Leren met ict.", url: "https://www.ixperium.nl/onderzoeken-en-ontwikkelen/publicaties/gedragsindicatoren-leren-en-lesgeven-met-ict-voor-leraren-op-masterniveau/" },
+            { text: "Joint Quality Initiative (2004). Shared “Dublin” Descriptors for Short Cycle, First Cycle, Second Cycle and Third Cycle Awards. Joint Quality Initiative." },
+            { text: "Kooi, R., de Korte, K., Kurver, B., Kral, M., Bakker, M., & van Rens, C. (2021). Leren en lesgeven met ict bij de HAN: Meting 2020. iXperium Centre of Expertise Leren met ict.", url: "https://www.ixperium.nl/onderzoeken-en-ontwikkelen/publicaties/leren-en-lesgeven-met-ict-bij-de-han/" },
+            { text: "Tondeur, J., Howard, S., van Zanten, M., Gorissen, P., van der Neut, I., Uerz, D., & Kral, M. (2023). The HeDiCom framework: Higher Education teachers’ digital competencies for the future. Educational Technology Research and Development, 71, 33-53.", url: "https://doi.org/10.1007/s11423-023-10193-5" },
+            { text: "Uerz, D., van Zanten, M., van der Neut, I., Tondeur, J., Kral, M., Gorissen, P., & Howard, S. (2021). Raamwerk docentcompetenties voor onderwijs met ICT in het hoger onderwijs. Versnellingsplan Onderwijsinnovatie met ICT.", url: "https://www.ixperium.nl/onderzoeken-en-ontwikkelen/publicaties/raamwerk-docentcompetenties-onderwijs-met-ict/" },
+            { text: "van Zanten, M., Uerz, D., Gorissen, P., van Rooij, P., Cuppen, H., & Kral, M. (2023). Competenties en gedragsindicatoren onderwijs met ict voor docenten. iXperium Centre of Expertise Leren met ict.", url: "https://www.ixperium.nl/onderzoeken-en-ontwikkelen/publicaties/competenties-en-gedragsindicatoren-onderwijs-met-ict-voor-docenten/" },
+        ];
+
+
         createApp({
             setup() {
-                // --- REACTIEVE STATE ---
+                // Main state
                 const geselecteerdeDimensieId = ref(null);
                 const geselecteerdeCompetentieId = ref(null);
                 const geselecteerdeNiveau = ref('basis');
                 const niveaus = ['basis', 'senior', 'master'];
+                
+                // Modal state
+                const actieveModal = ref(null);
 
-                // --- COMPUTED PROPERTY ---
                 const geselecteerdeDimensieData = computed(() => {
                     return data.dimensies.find(d => d.id === geselecteerdeDimensieId.value) || null;
                 });
+                
+                const openModal = (modalName) => {
+                    actieveModal.value = modalName;
+                };
 
-                // --- METHODES ---
                 const selecteerDimensie = async (id) => {
                     geselecteerdeDimensieId.value = id;
                     geselecteerdeCompetentieId.value = null; 
-
                     await nextTick();
                     document.getElementById('competentieLijst')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 };
                 
-                // Deze functie fungeert nu als een TOGGLE voor de accordeon
                 const selecteerCompetentie = async (id) => {
-                    if (geselecteerdeCompetentieId.value === id) {
-                        // Als de geklikte competentie al open is, sluit hem.
-                        geselecteerdeCompetentieId.value = null;
-                    } else {
-                        // Anders, open de nieuwe.
-                        geselecteerdeCompetentieId.value = id;
-                        geselecteerdeNiveau.value = 'basis'; // Reset niveau bij nieuwe selectie
-                        
-                        // Wacht tot de DOM is bijgewerkt en scroll dan het item in beeld.
+                    geselecteerdeCompetentieId.value = (geselecteerdeCompetentieId.value === id) ? null : id;
+                    if (geselecteerdeCompetentieId.value) {
+                         geselecteerdeNiveau.value = 'basis';
                         await nextTick();
                         document.getElementById(`competentie-${id}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     }
@@ -482,6 +521,7 @@
                 };
 
                 return {
+                    // Main app
                     geselecteerdeDimensieId,
                     geselecteerdeCompetentieId,
                     geselecteerdeNiveau,
@@ -491,6 +531,10 @@
                     selecteerCompetentie,
                     gaTerugNaarStart,
                     selecteerNiveau,
+                    // Modal
+                    actieveModal,
+                    openModal,
+                    referentiesData
                 };
             }
         }).mount('#app');
