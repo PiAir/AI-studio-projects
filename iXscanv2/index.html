@@ -1,0 +1,1364 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iXscan voor onderwijstechnologie</title>
+    <!-- Corrected docx.js library link -->
+    <script src="https://cdn.jsdelivr.net/npm/docx@9.5.1/dist/index.iife.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Calibri:wght@400;700&display=swap');
+
+        /* --- General & Desktop Styles --- */
+        :root {
+            --primary-purple: #4b0082;
+            --primary-yellow: #ffd900;
+        }
+
+        html {
+            box-sizing: border-box;
+        }
+        *, *:before, *:after {
+            box-sizing: inherit;
+        }
+
+        body {
+            font-family: 'Calibri', sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 2rem 1rem;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 900px; /* Changed from fixed width to max-width */
+            background-color: #fff;
+            border: 1px solid #ccc;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+
+        header {
+            background-color: var(--primary-yellow);
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 5px solid var(--primary-purple);
+        }
+
+        .logo-container h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: #333;
+        }
+
+        .logo-container p {
+            margin: 0;
+            font-size: 1.1em;
+        }
+
+        .header-logo {
+            height: 60px;
+        }
+
+        main {
+            padding: 30px;
+        }
+
+        .form-page {
+            display: none;
+        }
+
+        .form-page.active-page {
+            display: block;
+        }
+
+        .intro-box, .end-box {
+            background-color: var(--primary-purple);
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .end-box .report-meta-form {
+            background-color: #fff;
+            color: #333;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 5px;
+            text-align: left;
+        }
+        
+        .end-box .report-meta-form .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .end-box .report-meta-form label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .end-box .report-meta-form input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+
+        .page-title-box {
+            background-color: var(--primary-yellow);
+            padding: 10px 20px;
+            margin-bottom: 20px;
+        }
+
+        .page-title-box h2 {
+            margin: 0;
+            color: #333;
+        }
+
+        .question-title {
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 12px;
+            cursor: pointer;
+            line-height: 1.5;
+        }
+
+        .form-group input[type="checkbox"],
+        .form-group input[type="radio"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+            vertical-align: middle;
+        }
+
+        .other-option {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .text-input {
+            flex-grow: 1;
+            margin-left: 10px;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .content-with-image {
+            display: flex;
+            gap: 20px;
+        }
+        .content-with-image .form-group {
+            flex: 2;
+        }
+        .content-with-image .image-link {
+            flex: 1;
+            max-width: 250px;
+            align-self: flex-start;
+        }
+        .side-image.clickable-image {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+            cursor: pointer;
+            transition: opacity 0.2s ease;
+        }
+        .side-image.clickable-image:hover {
+            opacity: 0.8;
+        }
+
+        .primary-conditional {
+            font-weight: bold;
+            background-color: #f7f7f7;
+            padding: 10px;
+            border-left: 4px solid var(--primary-purple);
+        }
+
+        .conditional-content {
+            display: none;
+            margin-top: 15px;
+            margin-left: 20px;
+            border-left: 2px solid #ddd;
+            padding-left: 20px;
+        }
+        
+        .image-gallery {
+            text-align: center;
+            margin: 15px 0;
+        }
+        .image-gallery img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #eee;
+            cursor: pointer;
+            transition: opacity 0.2s ease;
+        }
+         .image-gallery img:hover {
+            opacity: 0.8;
+        }
+
+        .diff-grid-container {
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            padding: 10px;
+        }
+
+        .diff-grid-headers, .diff-grid-row {
+            display: grid;
+            grid-template-columns: 3fr 1fr 2fr;
+            gap: 15px;
+            align-items: center;
+            padding: 8px 0;
+        }
+
+        .diff-grid-headers {
+            font-weight: bold;
+            border-bottom: 2px solid #ccc;
+            padding-bottom: 10px;
+            margin-bottom: 5px;
+        }
+        
+        .diff-grid-headers .header-niveau small {
+            font-weight: normal;
+            font-size: 0.85em;
+        }
+
+        .diff-grid-row {
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .diff-grid-row:last-child {
+            border-bottom: none;
+        }
+        
+        .diff-grid-row label {
+            margin: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .diff-grid-row input[type="number"] {
+            width: 60px;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .diff-grid-row input[type="number"]:disabled,
+        .diff-grid-row input[type="checkbox"]:disabled {
+            background-color: #f5f5f5;
+            cursor: not-allowed;
+            color: #999;
+        }
+        .diff-grid-row label.disabled {
+            color: #999;
+            cursor: not-allowed;
+        }
+
+
+        .regie-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .regie-table th, .regie-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        .regie-table th {
+            background-color: #f2f2f2;
+        }
+        .regie-table td:not(:first-child) {
+            text-align: center;
+        }
+        /* Added for accessibility and responsiveness */
+        .regie-table-label {
+            margin-left: 8px;
+        }
+
+        .feature-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 8px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .feature-item:last-child {
+            border-bottom: none;
+        }
+        .feature-name {
+            flex: 1 1 35%;
+            font-weight: bold;
+            padding-right: 15px;
+            display: flex;
+            align-items: center;
+        }
+        .feature-description {
+            flex: 1 1 65%;
+            color: #555;
+            font-size: 0.95em;
+            line-height: 1.4;
+        }
+        .feature-name input[type="checkbox"] {
+            margin-right: 10px;
+        }
+
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px 30px;
+            border-top: 1px solid #eee;
+        }
+
+        .navigation-buttons button {
+            padding: 10px 25px;
+            border: none;
+            background-color: var(--primary-purple);
+            color: white;
+            font-size: 1em;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .navigation-buttons button:hover:not(:disabled) {
+            background-color: #6a0dad;
+        }
+
+        .navigation-buttons button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .report-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        #report-meta-display {
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        #report-content h3 {
+            background-color: var(--primary-yellow);
+            padding: 8px 12px;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            color: #333;
+            border-radius: 4px;
+        }
+
+        #report-content ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        #report-content li {
+            padding: 5px 0 5px 15px;
+            border-left: 3px solid #eee;
+            margin-bottom: 5px;
+        }
+
+        #download-report {
+            padding: 10px 20px;
+            border: none;
+            background-color: #28a745;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        #download-report:hover {
+            background-color: #218838;
+        }
+
+        /* --- Image Shadowbox/Modal Styles --- */
+        #image-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            justify-content: center;
+            align-items: center;
+        }
+        #image-modal .modal-content {
+            max-width: 90%;
+            max-height: 85%;
+            object-fit: contain;
+        }
+        #image-modal .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 35px;
+            color: #fff;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        #image-modal .modal-close:hover {
+            color: #bbb;
+        }
+        
+        
+        /* --- Responsive Styles --- */
+        @media (max-width: 900px) {
+            body {
+                padding: 0;
+                align-items: flex-start;
+            }
+
+            .app-container {
+                border: none;
+                box-shadow: none;
+                min-height: 100vh;
+            }
+            
+            header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+                padding: 15px;
+            }
+            
+            .logo-container h1 {
+                font-size: 2em;
+            }
+            
+            main {
+                padding: 20px;
+            }
+            
+            .content-with-image {
+                flex-direction: column;
+            }
+            /* Change order of image to be below question title */
+            .content-with-image .image-link {
+                order: -1;
+            }
+            
+            .image-link {
+                align-self: center;
+                max-width: 250px;
+                margin-top: 0;
+                margin-bottom: 20px;
+            }
+            
+            .conditional-content {
+                margin-left: 0;
+                padding-left: 15px;
+            }
+
+            /* Responsive Differentiation Grid */
+            .diff-grid-headers {
+                display: none;
+            }
+            
+            .diff-grid-row {
+                grid-template-columns: 1fr; /* Stack elements */
+                gap: 10px;
+                border-bottom: 1px solid #ccc;
+                padding: 15px 0;
+            }
+            
+            .diff-grid-row .nee-label::before {
+                content: "Is dit voor alle studenten hetzelfde?";
+                display: block;
+                font-weight: bold;
+                font-size: 0.9em;
+                color: #555;
+                margin-bottom: 5px;
+            }
+
+            .diff-grid-row input[type="number"] {
+                width: 100%;
+            }
+
+            /* Responsive Regie Table */
+            .regie-table, .regie-table thead, .regie-table tbody, .regie-table th, .regie-table td, .regie-table tr { 
+                display: block; 
+            }
+
+            .regie-table thead {
+                display: none; /* Hide table headers */
+            }
+
+            .regie-table tr {
+                padding: 15px 0;
+                border-bottom: 2px solid #eee;
+            }
+            .regie-table tr:last-child {
+                border-bottom: none;
+            }
+
+            .regie-table td {
+                border: none;
+                text-align: left !important;
+                display: block; /* Force each radio button onto its own line */
+                margin-right: 0;
+                padding: 5px 0;
+            }
+            
+            .regie-table td:first-child {
+                display: block; /* Make the question a full-width block */
+                font-weight: bold;
+                margin-bottom: 10px;
+                padding: 0;
+            }
+            
+            /* Responsive Feature List */
+            .feature-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+            .feature-name {
+                padding-right: 0;
+                width: 100%;
+            }
+            .other-option.feature-name {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .other-option.feature-name + .feature-description {
+                width: 100%;
+            }
+            .other-option.feature-name + .feature-description > .text-input {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .navigation-buttons {
+                padding: 15px 20px;
+            }
+            
+            .report-header {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <div class="logo-container">
+                <h1>iXscan</h1>
+                <p>voor onderwijstechnologie</p>
+            </div>
+            <img src="images/header-logo.png" alt="iXscan Logo" class="header-logo">
+        </header>
+
+        <main>
+            <form id="ixscan-form">
+                <!-- All form pages from page 1 to 13 go here, unchanged from the previous version -->
+                <!-- Page 1: Intro -->
+                <section class="form-page active-page" id="page-1">
+                    <div class="intro-box">
+                        <p><strong>Doel:</strong> Een theoretisch onderbouwd kader om de inzet van ict in onderwijssettings te beschrijven. Hiermee moeten we de inzet van ict kunnen vergelijken over designteams, projecten of samenwerkingen heen. Waar we hier praten over studenten kan ook leerlingen gelezen worden.</p>
+                    </div>
+                </section>
+
+                <!-- Page 2: Rationales -->
+                <section class="form-page" id="page-2">
+                    <div class="page-title-box"><h2>Rationales</h2></div>
+                    <p class="question-title">Wat is de reden voor het inzetten van ict in het onderwijs? Er kunnen meerdere redenen zijn.</p>
+                    <div class="form-group">
+                        <label><input type="checkbox" name="rationales" value="Versterken van de digitale geletterdheid."> Versterken van de digitale geletterdheid.</label>
+                        <label><input type="checkbox" name="rationales" value="Ondersteunen van het primaire proces."> Ondersteunen van het primaire proces.</label>
+                        <label><input type="checkbox" name="rationales" value="Versterken van de motivatie van de studenten."> Versterken van de motivatie van de studenten.</label>
+                        <label><input type="checkbox" name="rationales" value="Versterken van onderwijsinnovatie, het zorgen van beweging in vernieuwing de onderwijsorganisatie met technologie als katalysator."> Versterken van onderwijsinnovatie, het zorgen van beweging in vernieuwing de onderwijsorganisatie met technologie als katalysator.</label>
+                        <label><input type="checkbox" name="rationales" value="Verbeteren van de toegankelijkheid van onderwijs voor studenten."> Verbeteren van de toegankelijkheid van onderwijs voor studenten.</label>
+                        <label><input type="checkbox" name="rationales" value="Beter zicht op het onderwijsproces van studenten."> Beter zicht op het onderwijsproces van studenten.</label>
+                        <label class="other-option">
+                            <input type="checkbox" name="rationales_anders_check"> Anders, namelijk:
+                            <input type="text" name="rationales_anders_text" class="text-input" placeholder="Vul hier in...">
+                        </label>
+                    </div>
+                </section>
+
+                <!-- Page 3: SAMR -->
+                <section class="form-page" id="page-3">
+                    <div class="page-title-box"><h2>SAMR</h2></div>
+                    <p class="question-title">Met het SAMR-model kun je beschrijven hoe ict je onderwijs heeft veranderd. Vink aan welke het meest van toepassing is:</p>
+                     <div class="content-with-image">
+                        <a href="images/samr-model.png" class="image-link">
+                            <img src="images/samr-model.png" alt="SAMR Model" class="side-image clickable-image">
+                        </a>
+                        <div class="form-group">
+                            <label><input type="radio" name="samr" value="Substitution: Wordt ict gebruikt als directe vervanging voor traditionele tools of processen? Een voorbeeld: in plaats van pen en papier schrijven studenten nu met een tekstverwerker op de computer."> Substitution: Wordt ict gebruikt als directe vervanging voor traditionele tools of processen? Een voorbeeld: in plaats van pen en papier schrijven studenten nu met een tekstverwerker op de computer.</label>
+                            <label><input type="radio" name="samr" value="Augmentation: Voegt ict extra functionaliteit toe aan taken die verder hetzelfde blijven? Een voorbeeld: het gebruik van spelling- en grammaticacontrole in een tekstverwerker."> Augmentation: Voegt ict extra functionaliteit toe aan taken die verder hetzelfde blijven? Een voorbeeld: het gebruik van spelling- en grammaticacontrole in een tekstverwerker.</label>
+                            <label><input type="radio" name="samr" value="Modification: Zijn er door ict taken of activiteiten ontstaan die eerst niet mogelijk waren? Een voorbeeld: in realtime samenwerken aan een document via de cloud."> Modification: Zijn er door ict taken of activiteiten ontstaan die eerst niet mogelijk waren? Een voorbeeld: in realtime samenwerken aan een document via de cloud.</label>
+                            <label><input type="radio" name="samr" value="Redefinition: Zijn er door ict hele nieuwe leerervaringen mogelijk die eerst niet mogelijk waren? Een voorbeeld: een online platform waardoor studenten kunnen samenwerken met leeftijdsgenoten over de hele wereld."> Redefinition: Zijn er door ict hele nieuwe leerervaringen mogelijk die eerst niet mogelijk waren? Een voorbeeld: een online platform waardoor studenten kunnen samenwerken met leeftijdsgenoten over de hele wereld.</label>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Page 4: Karakterisering ict-inzet -->
+                <section class="form-page" id="page-4">
+                    <div class="page-title-box"><h2>Karakterisering ict-inzet</h2></div>
+                    <p class="question-title">Hoe zou je de inzet van ict willen kenmerken?</p>
+                    <div class="form-group">
+                        <label><input type="checkbox" name="karakterisering" value="Blended leren."> Blended leren.</label>
+                        <label><input type="checkbox" name="karakterisering" value="Gamification."> Gamification.</label>
+                        <label><input type="checkbox" name="karakterisering" value="Gepersonaliseerd leren."> Gepersonaliseerd leren.</label>
+                        <label><input type="checkbox" name="karakterisering" value="Ervaringsgericht leren."> Ervaringsgericht leren.</label>
+                        <label><input type="checkbox" name="karakterisering" value="Samenwerkend leren."> Samenwerkend leren.</label>
+                        <label><input type="checkbox" name="karakterisering" value="Probleemgestuurd leren."> Probleemgestuurd leren.</label>
+                        <label><input type="checkbox" name="karakterisering" value="Challenge-based leren."> Challenge-based leren.</label>
+                        <label><input type="checkbox" name="karakterisering" value="Maakonderwijs."> Maakonderwijs.</label>
+                        <label class="other-option">
+                            <input type="checkbox" name="karakterisering_anders_check"> Anders, namelijk:
+                            <input type="text" name="karakterisering_anders_text" class="text-input" placeholder="Vul hier in...">
+                        </label>
+                    </div>
+                </section>
+                
+                <!-- Page 5: Cyclus van differentiëren -->
+                <section class="form-page" id="page-5">
+                    <div class="page-title-box"><h2>Cyclus van differentiëren</h2></div>
+                    <div class="form-group">
+                        <label class="primary-conditional">
+                            <input type="checkbox" id="toggle-differentiatie" name="toggle-differentiatie"> Ict wordt ingezet om recht te doen aan verschillen tussen studenten; om te differentiëren.
+                        </label>
+                        <div id="differentiatie-options" class="conditional-content">
+                            <div class="image-gallery">
+                                <a href="images/differentiatie-grafieken.png">
+                                 <img src="images/differentiatie-grafieken.png" alt="Grafieken die differentiatie per student, per groep, en gemengd tonen." class="clickable-image">
+                                </a>
+                            </div>
+                            <div class="diff-grid-container">
+                                <div class="diff-grid-headers">
+                                    <div class="header-main">Hoe wordt ict ingezet om te differentiëren?</div>
+                                    <div class="header-nee">Is dit voor alle studenten hetzelfde? Vink aan zo niet.</div>
+                                    <div class="header-niveau">Nee? Op welk niveau wordt er gedifferentieerd? <br><small>Typ 1 - 4 op basis van de plaatjes hierboven:</small></div>
+                                </div>
+                                <div class="diff-grid">
+                                    <!-- Rows will be populated by JS -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Page 6: Interactie -->
+                 <section class="form-page" id="page-6">
+                    <div class="page-title-box"><h2>Interactie tussen student, docent en ict</h2></div>
+                    <p class="question-title">Hoe zou je de interactie tussen de student, docent en ict in het onderwijs omschrijven? Kies er één.</p>
+                    <div class="content-with-image">
+                        <a href="images/interactie-diagram.png" class="image-link">
+                            <img src="images/interactie-diagram.png" alt="Interactie Diagram" class="side-image clickable-image">
+                        </a>
+                        <div class="form-group">
+                            <label><input type="radio" name="interactie" value="A. De interacties tussen docent en student zijn inhoudelijk gericht op de inzet van ict (bijv. hoe drones in te zetten om te leren)."> A. De interacties tussen docent en student zijn inhoudelijk gericht op de inzet van ict (bijv. hoe drones in te zetten om te leren).</label>
+                            <label><input type="radio" name="interactie" value="B. De interacties zijn tussen student en ict (bijv. onderwijs met VR)."> B. De interacties zijn tussen student en ict (bijv. onderwijs met VR).</label>
+                            <label><input type="radio" name="interactie" value="C. De interacties zijn tussen docent en ict (bijv. het bekijken van studievoortgang in een online platform)."> C. De interacties zijn tussen docent en ict (bijv. het bekijken van studievoortgang in een online platform).</label>
+                            <label><input type="radio" name="interactie" value="D. De interacties lopen vooral van de docent naar de student (bijv. het delen van content)."> D. De interacties lopen vooral van de docent naar de student (bijv. het delen van content).</label>
+                            <label><input type="radio" name="interactie" value="E. De interacties lopen van de student via ict naar de docent (bijv. vragen insturen voor een hoorcollege)."> E. De interacties lopen van de student via ict naar de docent (bijv. vragen insturen voor een hoorcollege).</label>
+                            <label><input type="radio" name="interactie" value="F. De interacties zijn tussen studenten via ict (bijv. afstandsonderwijs)."> F. De interacties zijn tussen studenten via ict (bijv. afstandsonderwijs).</label>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Page 7: Mate van regie -->
+                <section class="form-page" id="page-7">
+                    <div class="page-title-box"><h2>Mate van regie</h2></div>
+                    <p class="question-title">Wie of wat heeft invloed op het leren bij deze inzet van ict? Dus wie bepaalt het meest:</p>
+                    <table class="regie-table">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>ict</th>
+                                <th>student</th>
+                                <th>docent</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Wat er geleerd wordt</td>
+                                <td><label><input type="radio" name="regie_wat" value="ict"><span class="regie-table-label">ict</span></label></td>
+                                <td><label><input type="radio" name="regie_wat" value="student"><span class="regie-table-label">student</span></label></td>
+                                <td><label><input type="radio" name="regie_wat" value="docent"><span class="regie-table-label">docent</span></label></td>
+                            </tr>
+                            <tr>
+                                <td>Wanneer er geleerd wordt</td>
+                                <td><label><input type="radio" name="regie_wanneer" value="ict"><span class="regie-table-label">ict</span></label></td>
+                                <td><label><input type="radio" name="regie_wanneer" value="student"><span class="regie-table-label">student</span></label></td>
+                                <td><label><input type="radio" name="regie_wanneer" value="docent"><span class="regie-table-label">docent</span></label></td>
+                            </tr>
+                            <tr>
+                                <td>Waar er geleerd wordt</td>
+                                <td><label><input type="radio" name="regie_waar" value="ict"><span class="regie-table-label">ict</span></label></td>
+                                <td><label><input type="radio" name="regie_waar" value="student"><span class="regie-table-label">student</span></label></td>
+                                <td><label><input type="radio" name="regie_waar" value="docent"><span class="regie-table-label">docent</span></label></td>
+                            </tr>
+                            <tr>
+                                <td>Hoe er geleerd wordt</td>
+                                <td><label><input type="radio" name="regie_hoe" value="ict"><span class="regie-table-label">ict</span></label></td>
+                                <td><label><input type="radio" name="regie_hoe" value="student"><span class="regie-table-label">student</span></label></td>
+                                <td><label><input type="radio" name="regie_hoe" value="docent"><span class="regie-table-label">docent</span></label></td>
+                            </tr>
+                            <tr>
+                                <td>Met wie er geleerd wordt</td>
+                                <td><label><input type="radio" name="regie_met_wie" value="ict"><span class="regie-table-label">ict</span></label></td>
+                                <td><label><input type="radio" name="regie_met_wie" value="student"><span class="regie-table-label">student</span></label></td>
+                                <td><label><input type="radio" name="regie_met_wie" value="docent"><span class="regie-table-label">docent</span></label></td>
+                            </tr>
+                             <tr>
+                                <td>In welk tempo er geleerd wordt</td>
+                                <td><label><input type="radio" name="regie_tempo" value="ict"><span class="regie-table-label">ict</span></label></td>
+                                <td><label><input type="radio" name="regie_tempo" value="student"><span class="regie-table-label">student</span></label></td>
+                                <td><label><input type="radio" name="regie_tempo" value="docent"><span class="regie-table-label">docent</span></label></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+                
+                <!-- Page 8: Zelfregulerende vaardigheden -->
+                <section class="form-page" id="page-8">
+                    <div class="page-title-box"><h2>Zelfregulerende vaardigheden</h2></div>
+                     <div class="form-group">
+                        <label class="primary-conditional">
+                            <input type="checkbox" id="toggle-zelfregulering" name="toggle-zelfregulering"> Ict wordt ingezet om zelfregulerende vaardigheden van studenten te bevorderen.
+                        </label>
+                        <div id="zelfregulering-options" class="conditional-content">
+                             <p class="question-title">In welke fase wordt ict ingezet voor zelfregulerende vaardigheden?</p>
+                             <label><input type="checkbox" name="zelfregulering" value="Voorbereidingsfase: doelen stellen, plannen, jezelf motiveren voor de taak."> Voorbereidingsfase: doelen stellen, plannen, jezelf motiveren voor de taak.</label>
+                             <label><input type="checkbox" name="zelfregulering" value="Uitvoeringsfase: concentreren op de taak, toepassen van leerstrategieën, eigen voortgang monitoren."> Uitvoeringsfase: concentreren op de taak, toepassen van leerstrategieën, eigen voortgang monitoren.</label>
+                             <label><input type="checkbox" name="zelfregulering" value="Reflectiefase: zelfbeoordeling en bepalen van vervolgstappen, op basis van de resultaten."> Reflectiefase: zelfbeoordeling en bepalen van vervolgstappen, op basis van de resultaten.</label>
+                             <label class="other-option">
+                                <input type="checkbox" name="zelfregulering_anders_check"> Anders, namelijk:
+                                <input type="text" name="zelfregulering_anders_text" class="text-input" placeholder="Vul hier in...">
+                            </label>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Page 9: Assessment -->
+                <section class="form-page" id="page-9">
+                     <div class="page-title-box"><h2>Assessment</h2></div>
+                     <div class="form-group">
+                        <label class="primary-conditional">
+                            <input type="checkbox" id="toggle-assessment" name="toggle-assessment"> Ict wordt ingezet om het leren te evalueren / beoordelen / toetsen.
+                        </label>
+                        <div id="assessment-options" class="conditional-content">
+                             <p class="question-title">Hoe wordt ict ingezet voor assessment?</p>
+                             <label><input type="checkbox" name="assessment" value="Studenten beoordelen hun eigen leren (bijv. voor monitoren, evalueren, opstellen van leerplannen)."> Studenten beoordelen hun eigen leren (bijv. voor monitoren, evalueren, opstellen van leerplannen).</label>
+                             <label><input type="checkbox" name="assessment" value="Studenten beoordelen elkaar."> Studenten beoordelen elkaar.</label>
+                             <label><input type="checkbox" name="assessment" value="De ict-tool beoordeelt automatisch (bijv. cijfers berekenen, feedback geven)."> De ict-tool beoordeelt automatisch (bijv. cijfers berekenen, feedback geven).</label>
+                             <label class="other-option">
+                                <input type="checkbox" name="assessment_anders_check"> Anders, namelijk:
+                                <input type="text" name="assessment_anders_text" class="text-input" placeholder="Vul hier in...">
+                            </label>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Page 10: Opkomende technologieën -->
+                <section class="form-page" id="page-10">
+                    <div class="page-title-box"><h2>Opkomende technologieën</h2></div>
+                    <p class="question-title">In de literatuur worden opkomende technologieën beschreven die impact kunnen hebben op onderwijs. Vink hieronder aan (indien van toepassing).</p>
+                    <div class="feature-list">
+                        <div class="feature-item">
+                            <label class="feature-name"><input type="checkbox" name="tech" value="Artificiële intelligentie"> Artificiële intelligentie</label>
+                            <div class="feature-description">Artificial intelligence (AI) is het vermogen van computers om taken uit te voeren waarvoor mensen hun intelligentie inzetten. Denk aan interacteren met de omgeving, analyseren, redeneren, problemen oplossen en voorspellen.</div>
+                        </div>
+                        <div class="feature-item">
+                            <label class="feature-name"><input type="checkbox" name="tech" value="XR: Virtual en/of augmented reality"> XR: Virtual en/of augmented reality</label>
+                            <div class="feature-description">Immersive reality of XR (eXtended Reality) is een term die alle immersieve technologieën omvat die onze perceptie van de werkelijkheid uitbreiden, zoals Virtual Reality (VR), Augmented Reality (AR) en Mixed Reality (MR).</div>
+                        </div>
+                        <div class="feature-item">
+                            <label class="feature-name"><input type="checkbox" name="tech" value="Internet of Things"> Internet of Things</label>
+                            <div class="feature-description">Het Internet of Things (IoT) is het netwerk van apparaten met sensoren, software en netwerkverbinding.</div>
+                        </div>
+                        <div class="feature-item">
+                            <label class="feature-name"><input type="checkbox" name="tech" value="3D printen"> 3D printen</label>
+                            <div class="feature-description">Driedimensionale objecten laag voor laag printen.</div>
+                        </div>
+                        <div class="feature-item">
+                            <label class="feature-name"><input type="checkbox" name="tech" value="Robots"> Robots</label>
+                            <div class="feature-description">Machines die verschillende taken kunnen uitvoeren.</div>
+                        </div>
+                        <div class="feature-item">
+                            <label class="feature-name"><input type="checkbox" name="tech" value="Drones"> Drones</label>
+                            <div class="feature-description">Onbemande vliegtuigjes.</div>
+                        </div>
+                        <div class="feature-item">
+                            <label class="feature-name"><input type="checkbox" name="tech" value="Draagbare technologie"> Draagbare technologie</label>
+                            <div class="feature-description">Compacte technologie die op het lichaam gedragen wordt, zoals fitnessbanden, smartwatches.</div>
+                        </div>
+                        <div class="feature-item">
+                            <label class="feature-name"><input type="checkbox" name="tech" value="Virtuele labs"> Virtuele labs</label>
+                            <div class="feature-description">Simulaties op een computer van echte laboratoriumexperimenten.</div>
+                        </div>
+                        <div class="feature-item">
+                            <label class="feature-name"><input type="checkbox" name="tech" value="Big data analytics, databases"> Big data analytics, databases</label>
+                            <div class="feature-description">Het verwerken en analyseren van grote hoeveelheden data.</div>
+                        </div>
+                        <div class="feature-item">
+                            <label class="feature-name"><input type="checkbox" name="tech" value="Cloud computing"> Cloud computing</label>
+                            <div class="feature-description">Opslag, rekenkracht en software via het internet.</div>
+                        </div>
+                        <div class="feature-item">
+                            <label class="feature-name"><input type="checkbox" name="tech" value="Hologrammen"> Hologrammen</label>
+                            <div class="feature-description">Het weergeven van 3D-beelden via hologrammen.</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Page 11: Kerneigenschappen ict -->
+                 <section class="form-page" id="page-11">
+                    <div class="page-title-box"><h2>Kerneigenschappen ict</h2></div>
+                    <p class="question-title">Los van de inzet van ict, kan de ict-tool zelf verschillende eigenschappen hebben. Vink hieronder de eigenschappen aan die van toepassing zijn op jouw ict-tool.</p>
+                     <div class="feature-list">
+                        <div class="feature-item">
+                            <label class="feature-name"><input type="checkbox" name="kerneigenschappen" value="Adaptieve software"> Adaptieve software</label>
+                            <div class="feature-description">Software die materiaal aanbiedt op basis van de input en prestatie van de student.</div>
+                        </div>
+                         <div class="feature-item">
+                            <label class="feature-name"><input type="checkbox" name="kerneigenschappen" value="Ontwerpsoftware voor onderwijs"> Ontwerpsoftware voor onderwijs</label>
+                            <div class="feature-description">Software om onderwijs te maken.</div>
+                        </div>
+                        <div class="feature-item">
+                            <label class="feature-name"><input type="checkbox" name="kerneigenschappen" value="Software voor games in het onderwijs"> Software voor games in het onderwijs</label>
+                            <div class="feature-description">Software voor games in het onderwijs.</div>
+                        </div>
+                        <div class="feature-item">
+                            <label class="feature-name"><input type="checkbox" name="kerneigenschappen" value="Software om programmeren aan te leren"> Software om programmeren aan te leren</label>
+                            <div class="feature-description">Software om programmeren aan te leren.</div>
+                        </div>
+                        <div class="feature-item">
+                            <label class="feature-name"><input type="checkbox" name="kerneigenschappen" value="Klassenmanagement"> Klassenmanagement</label>
+                            <div class="feature-description">Software om klassenmanagement te ondersteunen.</div>
+                        </div>
+                        <div class="feature-item">
+                            <label class="feature-name"><input type="checkbox" name="kerneigenschappen" value="Intelligente tutoring"> Intelligente tutoring</label>
+                            <div class="feature-description">Software die directe en aangepaste instructie en feedback geeft, bedoeld om menselijke begeleiding te simuleren.</div>
+                        </div>
+                        <div class="feature-item">
+                            <label class="feature-name"><input type="checkbox" name="kerneigenschappen" value="Elektronische leeromgeving (ELO)"> Elektronische leeromgeving (ELO)</label>
+                            <div class="feature-description">Software voor de administratie, documentatie, volgen, rapporteren en geven van onderwijs.</div>
+                        </div>
+                        <div class="feature-item">
+                            <label class="feature-name"><input type="checkbox" name="kerneigenschappen" value="Publiceren, informeren en verspreiden"> Publiceren, informeren en verspreiden</label>
+                            <div class="feature-description">Het online toegankelijk maken van kennis en materialen.</div>
+                        </div>
+                        <div class="feature-item">
+                            <label class="feature-name"><input type="checkbox" name="kerneigenschappen" value="Communicatie"> Communicatie</label>
+                            <div class="feature-description">Het uitwisselen van informatie tussen mensen en systemen.</div>
+                        </div>
+                        <div class="feature-item">
+                            <label class="feature-name"><input type="checkbox" name="kerneigenschappen" value="Samenwerken"> Samenwerken</label>
+                            <div class="feature-description">Het samenwerken aan projecten of taken.</div>
+                        </div>
+                        <div class="feature-item">
+                            <label class="feature-name"><input type="checkbox" name="kerneigenschappen" value="Informatie- en bronbeheer"> Informatie- en bronbeheer</label>
+                            <div class="feature-description">Het organiseren en beheren van informatiebronnen, zoals een database.</div>
+                        </div>
+                        <div class="feature-item">
+                            <label class="feature-name"><input type="checkbox" name="kerneigenschappen" value="Microsoft Office"> Microsoft Office</label>
+                            <div class="feature-description">Eén of meerdere applicaties van Microsoft Office.</div>
+                        </div>
+                         <div class="feature-item">
+                            <label class="feature-name"><input type="checkbox" name="kerneigenschappen" value="Adobe"> Adobe</label>
+                            <div class="feature-description">Eén of meerdere applicaties van Adobe.</div>
+                        </div>
+                         <div class="feature-item">
+                            <label class="feature-name"><input type="checkbox" name="kerneigenschappen" value="Google"> Google</label>
+                            <div class="feature-description">Eén of meerdere applicaties van Google.</div>
+                        </div>
+                         <div class="feature-item">
+                            <label class="feature-name"><input type="checkbox" name="kerneigenschappen" value="Website(s)"> Website(s)</label>
+                            <div class="feature-description">Een specifieke website.</div>
+                        </div>
+                         <div class="feature-item">
+                            <label class="feature-name"><input type="checkbox" name="kerneigenschappen" value="Vragenlijst"> Vragenlijst</label>
+                            <div class="feature-description">Een digitale poll of vragenlijst.</div>
+                        </div>
+                         <div class="feature-item">
+                            <label class="feature-name"><input type="checkbox" name="kerneigenschappen" value="Quizziz"> Quizziz</label>
+                            <div class="feature-description">Quizziz.</div>
+                        </div>
+                         <div class="feature-item">
+                            <label class="feature-name"><input type="checkbox" name="kerneigenschappen" value="Video of foto"> Video of foto</label>
+                            <div class="feature-description">Video of fotomateriaal.</div>
+                        </div>
+                         <div class="feature-item">
+                            <label class="other-option feature-name">
+                                <input type="checkbox" name="kerneigenschappen_anders_check"> Anders, namelijk:
+                            </label>
+                            <div class="feature-description">
+                                 <input type="text" name="kerneigenschappen_anders_text" class="text-input" placeholder="Vul hier in...">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                 <!-- Page 12: Einde -->
+                <section class="form-page" id="page-12">
+                    <div class="end-box">
+                        <h3>Einde van de iXscan!</h3>
+                        <p>Vul de onderstaande gegevens in en ga naar het tabblad 'Uitslag' om jouw resultaten in te zien!</p>
+                        <div class="report-meta-form">
+                            <div class="form-group">
+                                <label for="report-title">Titel:</label>
+                                <input type="text" id="report-title" name="report-title" placeholder="bv. Rapport voor Project X">
+                            </div>
+                             <div class="form-group">
+                                <label for="report-author">Ingevuld door:</label>
+                                <input type="text" id="report-author" name="report-author" placeholder="Uw naam">
+                            </div>
+                             <div class="form-group">
+                                <label for="report-date">Datum:</label>
+                                <input type="text" id="report-date" name="report-date">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Final Page: Report -->
+                <section class="form-page" id="page-13">
+                    <div class="report-header">
+                        <h2>Uitslag van jouw iXscan:</h2>
+                        <button type="button" id="download-report">Download Rapport (.docx)</button>
+                    </div>
+                    <div id="report-meta-display"></div>
+                    <div id="report-content">
+                        <!-- Report will be generated here by JavaScript -->
+                    </div>
+                </section>
+
+            </form>
+            
+            <div class="navigation-buttons">
+                <button type="button" id="prev-btn" disabled>Vorige</button>
+                <button type="button" id="next-btn">Volgende</button>
+            </div>
+        </main>
+    </div>
+
+    <!-- Image Shadowbox/Modal HTML -->
+    <div id="image-modal">
+        <span class="modal-close">&times;</span>
+        <img class="modal-content" id="modal-image-content">
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const formPages = document.querySelectorAll('.form-page');
+            const nextBtn = document.getElementById('next-btn');
+            const prevBtn = document.getElementById('prev-btn');
+            const form = document.getElementById('ixscan-form');
+            
+            let currentPageIndex = 0;
+
+            const showPage = (pageIndex) => {
+                formPages.forEach((page, index) => {
+                    page.classList.toggle('active-page', index === pageIndex);
+                });
+                window.scrollTo(0, 0); // Scroll to top on page change
+
+                prevBtn.disabled = pageIndex === 0;
+                
+                if (pageIndex === formPages.length - 1) { // Report page
+                    nextBtn.style.display = 'none';
+                    prevBtn.disabled = false;
+                    generateReport();
+                } else if (pageIndex === formPages.length - 2) { // End page
+                    nextBtn.textContent = 'Uitslag';
+                    nextBtn.style.display = 'inline-block';
+                } else {
+                    nextBtn.textContent = 'Volgende';
+                    nextBtn.style.display = 'inline-block';
+                }
+            };
+
+            nextBtn.addEventListener('click', () => {
+                if (currentPageIndex < formPages.length - 1) {
+                    currentPageIndex++;
+                    showPage(currentPageIndex);
+                }
+            });
+
+            prevBtn.addEventListener('click', () => {
+                if (currentPageIndex > 0) {
+                    currentPageIndex--;
+                    showPage(currentPageIndex);
+                }
+            });
+            
+            const today = new Date();
+            const day = String(today.getDate()).padStart(2, '0');
+            const month = String(today.getMonth() + 1).padStart(2, '0');
+            const year = today.getFullYear();
+            document.getElementById('report-date').value = `${day}-${month}-${year}`;
+
+            const setupConditionalDisplay = (checkboxId, contentId) => {
+                const checkbox = document.getElementById(checkboxId);
+                const content = document.getElementById(contentId);
+                if (checkbox && content) {
+                    checkbox.addEventListener('change', () => {
+                        content.style.display = checkbox.checked ? 'block' : 'none';
+                    });
+                }
+            };
+
+            setupConditionalDisplay('toggle-differentiatie', 'differentiatie-options');
+            setupConditionalDisplay('toggle-zelfregulering', 'zelfregulering-options');
+            setupConditionalDisplay('toggle-assessment', 'assessment-options');
+
+            // --- Image Modal Logic ---
+            const modal = document.getElementById('image-modal');
+            const modalImg = document.getElementById('modal-image-content');
+            const closeBtn = document.querySelector('.modal-close');
+
+            document.querySelectorAll('.clickable-image').forEach(img => {
+                const link = img.closest('a'); // Use closest('a') to handle nested elements if any
+                if (link) {
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        modal.style.display = "flex";
+                        modalImg.src = this.href;
+                    });
+                }
+            });
+
+            const closeModal = () => {
+                modal.style.display = "none";
+            };
+            closeBtn.onclick = closeModal;
+            modal.onclick = (e) => { // Close when clicking on the background
+                 if (e.target === modal) {
+                    closeModal();
+                }
+            }
+
+
+            const differentiationData = [
+                { name: 'moeite', text: 'Door vast te stellen waar studenten moeite mee hebben' },
+                { name: 'beginsituatie', text: 'Door de beginsituatie van studenten vast te stellen' },
+                { name: 'lesstof', text: 'Door te differentiëren in lesstof' },
+                { name: 'instructie', text: 'Door te differentiëren in de instructie' },
+                { name: 'werkwijze', text: 'Door te differentiëren in de wijze waarop de studenten de leerstof verwerken' },
+                { name: 'toetsing', text: 'Door te differentiëren in toetsing' },
+                { name: 'leerdoelen', text: 'Door te differentiëren in leerdoelen voor de studenten' },
+                { name: 'evalueren', text: 'Door te evalueren of het leerdoel bereikt is' },
+                { name: 'hulp', text: 'Door gerichte hulp te bieden bij een probleem van de student' },
+            ];
+
+            const diffGrid = document.querySelector('.diff-grid');
+            if (diffGrid) {
+                differentiationData.forEach((item, index) => {
+                    const row = document.createElement('div');
+                    row.className = 'diff-grid-row';
+                    row.innerHTML = `
+                        <label>
+                            <input type="checkbox" name="diff_main_${index}" data-text="${item.text}">
+                            ${item.text}
+                        </label>
+                        <label class="nee-label">
+                            <input type="checkbox" name="diff_nee_${index}" disabled> Nee
+                        </label>
+                        <input type="number" name="diff_niveau_${index}" min="1" max="4" placeholder="Niveau (1-4)" disabled>
+                    `;
+                    diffGrid.appendChild(row);
+                });
+                
+                const andersRow = document.createElement('div');
+                andersRow.className = 'diff-grid-row';
+                andersRow.innerHTML = `
+                    <label class="other-option">
+                        <input type="checkbox" name="differentiatie_anders_check"> Anders, namelijk:
+                    </label>
+                    <span/> 
+                    <input type="text" name="differentiatie_anders_text" class="text-input" placeholder="Vul hier in...">
+                `;
+                diffGrid.appendChild(andersRow);
+
+                diffGrid.addEventListener('change', (e) => {
+                    const target = e.target;
+                    const index = target.name.split('_').pop();
+                    const row = target.closest('.diff-grid-row');
+                    if (!row) return;
+
+                    const neeCheckbox = row.querySelector(`input[name="diff_nee_${index}"]`);
+                    const niveauInput = row.querySelector(`input[name="diff_niveau_${index}"]`);
+
+                    if (target.matches('input[name^="diff_main_"]')) {
+                        neeCheckbox.disabled = !target.checked;
+                        neeCheckbox.parentElement.classList.toggle('disabled', !target.checked);
+                        if (!target.checked) {
+                            neeCheckbox.checked = false;
+                            niveauInput.value = '';
+                            niveauInput.disabled = true;
+                        }
+                    }
+
+                    if (target.matches('input[name^="diff_nee_"]')) {
+                        niveauInput.disabled = !target.checked;
+                        if (!target.checked) {
+                            niveauInput.value = '';
+                        }
+                    }
+                });
+            }
+
+
+            const generateReport = () => {
+                const reportContent = document.getElementById('report-content');
+                const reportMetaDisplay = document.getElementById('report-meta-display');
+                const data = new FormData(form);
+                let html = '';
+                
+                const reportTitle = data.get('report-title');
+                const reportAuthor = data.get('report-author');
+                const reportDate = data.get('report-date');
+
+                let metaHtml = '';
+                if(reportTitle) metaHtml += `<h2>${reportTitle}</h2>`;
+                if(reportAuthor) metaHtml += `<p><strong>Ingevuld door:</strong> ${reportAuthor}</p>`;
+                if(reportDate) metaHtml += `<p><strong>Datum:</strong> ${reportDate}</p>`;
+                reportMetaDisplay.innerHTML = metaHtml;
+
+                const processCheckboxGroup = (title, name) => {
+                    const values = data.getAll(name);
+                    const otherTextValue = data.get(`${name}_anders_text`);
+                    const otherChecked = data.get(`${name}_anders_check`);
+
+                    if (values.length > 0 || (otherChecked && otherTextValue)) {
+                        html += `<h3>${title}</h3><ul>`;
+                        values.forEach(value => {
+                            html += `<li>${value}</li>`;
+                        });
+                        if (otherChecked && otherTextValue) {
+                            html += `<li>Anders: ${otherTextValue}</li>`;
+                        }
+                        html += `</ul>`;
+                    }
+                };
+                
+                processCheckboxGroup('Rationales', 'rationales');
+                const samrValue = data.get('samr');
+                if (samrValue) {
+                    html += `<h3>SAMR</h3><ul><li>${samrValue}</li></ul>`;
+                }
+                processCheckboxGroup('Karakterisering ict-inzet', 'karakterisering');
+
+                if (data.get('toggle-differentiatie')) {
+                    let diffHtml = '';
+                    differentiationData.forEach((item, index) => {
+                         const mainCheckbox = data.get(`diff_main_${index}`);
+                         if (mainCheckbox) {
+                             const text = item.text;
+                             const neeChecked = data.get(`diff_nee_${index}`);
+                             let detail = '';
+                             if (neeChecked) {
+                                 const niveau = data.get(`diff_niveau_${index}`);
+                                 detail = ` (Niet voor alle studenten${niveau ? `, niveau: ${niveau}` : ''})`;
+                             }
+                             diffHtml += `<li>${text}${detail}</li>`;
+                         }
+                    });
+                    const andersChecked = data.get('differentiatie_anders_check');
+                    const andersText = data.get('differentiatie_anders_text');
+                    if (andersChecked && andersText) {
+                        diffHtml += `<li>Anders: ${andersText}</li>`;
+                    }
+                    if (diffHtml) {
+                        html += `<h3>Cyclus van differentiëren</h3><ul>${diffHtml}</ul>`;
+                    }
+                }
+                
+                const interactieValue = data.get('interactie');
+                if (interactieValue) {
+                    html += `<h3>Interactie tussen student, docent en ict</h3><ul><li>${interactieValue}</li></ul>`;
+                }
+
+                const regieData = [
+                    { key: 'regie_wat', label: 'Wat er geleerd wordt' }, { key: 'regie_wanneer', label: 'Wanneer er geleerd wordt' },
+                    { key: 'regie_waar', label: 'Waar er geleerd wordt' }, { key: 'regie_hoe', label: 'Hoe er geleerd wordt' },
+                    { key: 'regie_met_wie', label: 'Met wie er geleerd wordt' }, { key: 'regie_tempo', label: 'In welk tempo er geleerd wordt' }
+                ];
+                let regieHtml = '';
+                regieData.forEach(item => {
+                    const val = data.get(item.key);
+                    if (val) {
+                        regieHtml += `<li>${item.label}: <strong>${val}</strong></li>`;
+                    }
+                });
+                if (regieHtml) {
+                    html += `<h3>Mate van regie</h3><ul>${regieHtml}</ul>`;
+                }
+                
+                if (data.get('toggle-zelfregulering')) {
+                     processCheckboxGroup('Zelfregulerende vaardigheden', 'zelfregulering');
+                }
+                if (data.get('toggle-assessment')) {
+                    processCheckboxGroup('Assessment', 'assessment');
+                }
+                
+                processCheckboxGroup('Opkomende technologieën', 'tech');
+                processCheckboxGroup('Kerneigenschappen ict', 'kerneigenschappen');
+
+                reportContent.innerHTML = html || '<p>Geen opties geselecteerd.</p>';
+            };
+
+            document.getElementById('download-report').addEventListener('click', async () => {
+
+                if (typeof window.docx === 'undefined' || !window.docx.Document || !window.docx.Packer) {
+                    alert("Error: De document-bibliotheek (docx.js) is niet correct geladen. Controleer uw internetverbinding of de scriptlink.");
+                    return;
+                }
+
+                const { Document, Packer, Paragraph, TextRun, ImageRun, AlignmentType, PageNumber, Header, Footer } = window.docx;
+                
+                // Geen logo meer toevoegen
+
+                const reportContainer = document.getElementById('report-content');
+                const data = new FormData(form);
+                const docChildren = [];
+
+                const reportTitle = data.get('report-title');
+                const reportAuthor = data.get('report-author');
+                const reportDate = data.get('report-date');
+
+                // Geen logo toevoegen aan het document
+                if (reportTitle) {
+                    docChildren.push(new Paragraph({ 
+                        children: [new TextRun({ text: reportTitle, size: 48, bold: true, font: "Calibri" })],
+                        spacing: { after: 200 }
+                    }));
+                }
+                if (reportAuthor) {
+                    docChildren.push(new Paragraph({ children: [new TextRun({ text: "Ingevuld door: ", bold: true, font: "Calibri" }), new TextRun({ text: reportAuthor, font: "Calibri" })]}));
+                }
+                if (reportDate) {
+                    docChildren.push(new Paragraph({ children: [new TextRun({ text: "Datum: ", bold: true, font: "Calibri" }), new TextRun({ text: reportDate, font: "Calibri" })], spacing: { after: 600 }}));
+                }
+
+                reportContainer.querySelectorAll('h3').forEach(header => {
+                    if (header.textContent && header.textContent.trim()) {
+                        docChildren.push(new Paragraph({
+                            text: header.textContent.trim(),
+                            style: "customHeading2",
+                        }));
+                    }
+                    let list = header.nextElementSibling;
+                    if (list && list.tagName === 'UL') {
+                        list.querySelectorAll('li').forEach(item => {
+                            const runs = [];
+                            const nodes = Array.from(item.childNodes);
+                            nodes.forEach(node => {
+                                if (node.nodeType === Node.TEXT_NODE && node.textContent.trim()) {
+                                    runs.push(new TextRun(node.textContent.trim()));
+                                } else if (node.tagName === 'STRONG' && node.textContent.trim()) {
+                                    runs.push(new TextRun({ text: node.textContent.trim(), bold: true }));
+                                }
+                            });
+                            if (runs.length > 0) {
+                                docChildren.push(new Paragraph({
+                                    children: runs,
+                                    bullet: { level: 0 }
+                                }));
+                            }
+                        });
+                    }
+                });
+
+                // Fallback: als er geen inhoud is, voeg een standaard paragraaf toe
+                if (docChildren.length === 0) {
+                    docChildren.push(new Paragraph({
+                        children: [new TextRun({ text: "Geen resultaten om te rapporteren.", font: "Calibri" })]
+                    }));
+                }
+
+                const doc = new Document({
+                    styles: {
+                        default: {
+                            document: {
+                                run: { font: "Calibri", size: 22 }, // 11pt default
+                            },
+                        },
+                        paragraphStyles: [
+                            {
+                                id: "customHeading2",
+                                name: "Custom Heading 2",
+                                basedOn: "Normal",
+                                next: "Normal",
+                                run: {
+                                    font: "Calibri",
+                                    size: 24, // 12pt
+                                    bold: true,
+                                    color: "0070C0",
+                                },
+                                paragraph: {
+                                    spacing: { before: 240, after: 120 },
+                                },
+                            },
+                        ],
+                    },
+                    sections: [{
+                        // Geen headers (geen logo in header)
+                        footers: {
+                            default: new Footer({
+                                children: [
+                                    new Paragraph({
+                                        alignment: AlignmentType.RIGHT,
+                                        children: [
+                                            new TextRun({
+                                                font: "Calibri",
+                                                children: [PageNumber.CURRENT],
+                                            }),
+                                        ],
+                                    }),
+                                ],
+                            }),
+                        },
+                        children: docChildren,
+                    }],
+                });
+                
+                Packer.toBlob(doc).then(blob => {
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    const safeTitle = reportTitle ? reportTitle.replace(/[^a-z0-9]/gi, '_').toLowerCase() : 'ixscan_rapport';
+                    a.download = `${safeTitle}.docx`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                });
+            });
+            showPage(0);
+        });
+    </script>
+</body>
+</html>

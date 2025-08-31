@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <title>Embed Video</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root { --bg:#0b0b0b; --panel:#ffffff; --ink:#111; --muted:#666; --brand:#0073e6; --ok:#28a745; }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    /* Player view */
+    #playerView { width: 100%; height: 100%; display: none; background:#000; }
+    #playerView video { width: 100%; height: 100%; background:#000; }
+    /* Builder view */
+    #builderView {
+      display: none;
+      max-width: 860px;
+      width: 100%;
+      margin: 24px;
+      background: var(--panel);
+      border-radius: 14px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.2);
+      padding: 20px;
+    }
+    h1 { margin: 0 0 8px; font-size: 1.25rem; }
+    p.help { margin: 0 0 18px; color: var(--muted); }
+    label { display:block; margin-top: 12px; font-weight: 600; }
+    input[type="text"], input[type="number"] {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+      margin-top: 6px;
+    }
+    .row { display: flex; gap: 12px; align-items: end; flex-wrap: wrap; }
+    .row .col { flex: 1 1 160px; }
+    button {
+      background: var(--brand); color: #fff; border: none; border-radius: 8px;
+      padding: 10px 14px; font-size: 1rem; cursor: pointer;
+    }
+    button:hover { filter: brightness(.95); }
+    #resultBox {
+      margin-top: 16px; background: #fafafa; border:1px solid #eee; border-radius: 8px; padding: 12px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      white-space: pre-wrap; word-break: break-word;
+    }
+    #copyBtn { background: var(--ok); margin-top: 8px; }
+    #preview { margin-top: 20px; }
+    #preview iframe { width: 100%; height: 360px; border: 1px solid #ddd; border-radius: 8px; }
+    .hint { color: var(--muted); font-size: .9rem; margin-top: 6px; }
+    .divider { height:1px; background:#eee; margin:18px 0; }
+  </style>
+</head>
+<body>
+  <!-- Player mode -->
+  <div id="playerView" aria-hidden="true">
+    <video id="player" controls preload="metadata" playsinline></video>
+  </div>
+
+  <!-- Builder mode -->
+  <main id="builderView" aria-hidden="true">
+    <h1>Maak een iframe-embed</h1>
+    <p class="help">Plak je video-URL, kies afmetingen en klik <strong>Maak embed</strong>. Je krijgt de kant-en-klare <code>&lt;iframe&gt;</code> + live preview.</p>
+
+    <form id="embedForm">
+      <label for="videoUrl">Video URL</label>
+      <input id="videoUrl" type="text" placeholder="https://..." required />
+
+      <div class="row">
+        <div class="col">
+          <label for="width">Breedte</label>
+          <input id="width" type="number" value="640" min="1" required />
+        </div>
+        <div class="col">
+          <label for="height">Hoogte</label>
+          <input id="height" type="number" value="360" min="1" required />
+        </div>
+        <div class="col" style="flex:0 0 auto;">
+          <button type="submit">Maak embed</button>
+        </div>
+      </div>
+      <div class="hint">De embed verwijst naar deze pagina: <code>/embedvideo/index.html?video_url=&lt;gecodeerde-url&gt;</code></div>
+    </form>
+
+    <div class="divider"></div>
+
+    <section id="output" style="display:none;">
+      <h2 style="margin:0 0 8px;font-size:1.05rem;">Embed code</h2>
+      <div id="resultBox"></div>
+      <button id="copyBtn" type="button">Kopieer naar klembord</button>
+
+      <div id="preview">
+        <h2 style="margin:16px 0 8px;font-size:1.05rem;">Voorbeeld</h2>
+        <iframe id="previewFrame" allow="autoplay; fullscreen" allowfullscreen referrerpolicy="no-referrer"></iframe>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const qs = new URLSearchParams(location.search);
+    const videoUrlParam = qs.get('video_url');
+
+    const playerView = document.getElementById('playerView');
+    const player = document.getElementById('player');
+    const builderView = document.getElementById('builderView');
+
+    // Elements in builder
+    const form = document.getElementById('embedForm');
+    const urlInput = document.getElementById('videoUrl');
+    const widthInput = document.getElementById('width');
+    const heightInput = document.getElementById('height');
+    const output = document.getElementById('output');
+    const resultBox = document.getElementById('resultBox');
+    const copyBtn = document.getElementById('copyBtn');
+    const previewFrame = document.getElementById('previewFrame');
+
+    // Decide mode: player or builder
+    if (videoUrlParam) {
+      // --- Player mode ---
+      const source = document.createElement('source');
+      source.src = videoUrlParam;
+      source.type = 'video/mp4';
+      player.appendChild(source);
+      playerView.style.display = 'block';
+      playerView.setAttribute('aria-hidden', 'false');
+      builderView.setAttribute('aria-hidden', 'true');
+    } else {
+      // --- Builder mode ---
+      builderView.style.display = 'block';
+      builderView.setAttribute('aria-hidden', 'false');
+      playerView.setAttribute('aria-hidden', 'true');
+
+      // Optional: prefill for quick testing
+      // urlInput.value = 'https://jellyfin.gosoftonline.com/Items/64f1ceb58cbd4189885b09535a822603/Download?api_key=48c7bdcfd76d41f5a2bdd09023555554';
+
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const rawUrl = urlInput.value.trim();
+        if (!rawUrl) return;
+
+        const w = (parseInt(widthInput.value, 10) || 640);
+        const h = (parseInt(heightInput.value, 10) || 360);
+
+        const encoded = encodeURIComponent(rawUrl);
+        const iframeSrc = `${location.origin}${location.pathname}?video_url=${encoded}`;
+
+        const iframeCode =
+`<iframe
+  src="${iframeSrc}"
+  width="${w}"
+  height="${h}"
+  frameborder="0"
+  allow="autoplay; fullscreen"
+  allowfullscreen>
+</iframe>`;
+
+        resultBox.textContent = iframeCode;
+        previewFrame.src = iframeSrc;
+        previewFrame.width = String(w);
+        previewFrame.height = String(h);
+        output.style.display = 'block';
+      });
+
+      copyBtn.addEventListener('click', async () => {
+        const code = resultBox.textContent;
+        try {
+          await navigator.clipboard.writeText(code);
+          const old = copyBtn.textContent;
+          copyBtn.textContent = 'Gekopieerd!';
+          setTimeout(() => copyBtn.textContent = old, 1800);
+        } catch {
+          alert('Kon niet kopiëren. Selecteer en kopieer de code handmatig.');
+        }
+      });
+    }
+  </script>
+</body>
+</html>
