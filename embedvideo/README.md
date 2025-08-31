@@ -1,5 +1,5 @@
 # Video embed creator
-Technically not created using AI Studio but Gemina.
+Technically not created using AI Studio but Gemini.
 Creates embed code for video and if provided with url encoded video url, shows player with said video.
 I use it to embed videos of recipies hosted on jellyfin in my mealie installation.
 
