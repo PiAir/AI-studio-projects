@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI in Education Reform - Symposium Highlights</title>
+  <style>
+    :root {
+      --primary-color: #8b0000; /* Deep Red inspired by the news graphics */
+      --secondary-color: #2c3e50;
+      --accent-color: #e74c3c;
+      --bg-light: #f8f9fa;
+      --text-color: #333;
+      --sidebar-width: 300px;
+    }
+
+    body { 
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+      margin: 0; 
+      display: flex; 
+      height: 100vh; 
+      overflow: hidden; 
+      background-color: #fff; 
+      color: var(--text-color);
+    }
+
+    /* --- Layout & Sidebar --- */
+    #navigation {
+      width: var(--sidebar-width);
+      min-width: 250px;
+      padding: 20px;
+      background-color: var(--secondary-color); 
+      color: #ffffff;
+      height: 100vh;
+      overflow-y: auto;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #navigation h3 {
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-size: 1.2rem;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      padding-bottom: 10px;
+    }
+
+    .lang-selector-container {
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .lang-selector-container label {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 0.9rem;
+      color: #bdc3c7;
+    }
+
+    select {
+      width: 100%;
+      padding: 8px;
+      border-radius: 4px;
+      border: none;
+      background-color: #ecf0f1;
+      color: #2c3e50;
+      font-weight: bold;
+    }
+
+    .tab-container { display: flex; flex-direction: column; gap: 5px; }
+    
+    .tab-container button {
+      background-color: transparent;
+      color: #bdc3c7;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      padding: 12px 15px;
+      transition: all 0.3s;
+      font-size: 0.95rem;
+      text-align: left;
+      width: 100%;
+      border-radius: 4px;
+    }
+
+    .tab-container button:hover { 
+      background-color: rgba(255,255,255,0.1); 
+      color: #ffffff; 
+      transform: translateX(5px);
+    }
+    
+    .tab-container button.active {
+      background-color: var(--primary-color); 
+      color: #ffffff;
+      font-weight: bold;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    /* --- Main Content --- */
+    #main-content-area {
+      flex-grow: 1;
+      padding: 30px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      background-color: var(--bg-light);
+    }
+
+    h2 {
+      font-size: 2rem;
+      color: var(--secondary-color);
+      margin-top: 0;
+      margin-bottom: 20px;
+    }
+
+    /* --- Video Player --- */
+    #player-wrapper {
+      position: relative;
+      width: 100%;
+      /* Aangepast: Iets smaller (was 900px) zodat de hoogte ook afneemt */
+      max-width: 720px; 
+      /* Aangepast: Moderne CSS voor beeldverhouding i.p.v. padding hack */
+      aspect-ratio: 16 / 9;
+      background-color: #000;
+      margin-bottom: 25px;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+      /* Zorg dat de oude padding/height instellingen zeker weg zijn: */
+      padding-bottom: 0; 
+      height: auto;
+    }
+
+    #player {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    #subtitles {
+      width: 90%; 
+      text-align: center;
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: clamp(16px, 2.5vw, 22px);
+      color: #fff;
+      background-color: rgba(0, 0, 0, 0.75);
+      padding: 8px 15px;
+      text-shadow: 0px 0px 4px #000;
+      pointer-events: none;
+      z-index: 10;
+      border-radius: 6px;
+      line-height: 1.4;
+      transition: opacity 0.2s;
+    }
+
+    /* --- Content Tabs --- */
+    .tab-content {
+      display: none;
+      padding: 25px;
+      border: 1px solid #e0e0e0;
+      border-top: 4px solid var(--primary-color);
+      border-radius: 5px;
+      background-color: #fff;
+      animation: fadeIn 0.4s;
+      max-width: 900px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    @keyframes fadeIn { from {opacity: 0; transform: translateY(10px);} to {opacity: 1; transform: translateY(0);} }
+
+    .tab-content h4 { 
+      margin-top: 0;
+      color: var(--primary-color); 
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .tab-content p.description {
+        margin-bottom: 20px;
+        font-size: 1.05rem;
+        line-height: 1.7;
+        color: #555;
+    }
+
+    .qa-list { list-style-type: none; padding-left: 0; }
+    .qa-item { margin-bottom: 20px; padding: 15px; background-color: #f9f9f9; border-radius: 6px; border-left: 3px solid var(--secondary-color); }
+    
+    .qa-question {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--secondary-color);
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+    
+    .qa-answer { color: #444; display: block; }
+
+    .timestamp-link {
+      display: inline-block;
+      margin-left: 8px;
+      color: var(--primary-color);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      padding: 2px 6px;
+      border: 1px solid var(--primary-color);
+      border-radius: 4px;
+      transition: all 0.2s;
+    }
+
+    .timestamp-link:hover {
+      background-color: var(--primary-color);
+      color: white;
+    }
+
+    /* --- Mobile Responsiveness --- */
+    @media (max-width: 850px) {
+      body { flex-direction: column; overflow-y: auto; height: auto; }
+      
+      #navigation {
+        width: 100%;
+        height: auto;
+        padding: 15px;
+      }
+
+      #navigation h3 { margin-bottom: 10px; }
+      
+      .lang-selector-container { 
+        display: flex; 
+        align-items: center; 
+        gap: 10px; 
+        border-bottom: none;
+        margin-bottom: 10px;
+        padding-bottom: 0;
+      }
+      
+      .tab-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+      
+      #main-content-area { padding: 15px; }
+      h2 { font-size: 1.5rem; }
+      
+      #player-wrapper {
+        padding-bottom: 56.25%; /* Maintain aspect ratio */
+        max-width: 100%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .tab-container { grid-template-columns: 1fr; }
+      #subtitles { font-size: 14px; width: 95%; bottom: 10px; }
+    }
+
+  </style>
+</head>
+<body>
+
+  <div id="navigation">
+    <div class="lang-selector-container">
+      <label for="pageLanguage" data-translate-key="lang_label">Page Language:</label>
+      <select id="pageLanguage" onchange="changeLanguage(this.value)">
+        <option value="en">English</option>
+        <option value="nl">Nederlands</option>
+      </select>
+    </div>
+
+    <h3 data-translate-key="menu_header">Topic Navigation</h3>
+    <div class="tab-container">
+      <button class="tab-link" onclick="openTopic(event, 'Summary')" id="defaultOpen" data-translate-key="tab_summary">Video Summary</button>
+      <button class="tab-link" onclick="openTopic(event, 'Intro')" data-seek="0" data-translate-key="tab_intro">News Intro & Context</button>
+      <button class="tab-link" onclick="openTopic(event, 'International')" data-seek="25" data-translate-key="tab_international">International Perspective</button>
+      <button class="tab-link" onclick="openTopic(event, 'AITutor')" data-seek="60" data-translate-key="tab_tutor">AI as Personal Tutor</button>
+      <button class="tab-link" onclick="openTopic(event, 'Vision')" data-seek="74" data-translate-key="tab_vision">Strategic Vision</button>
+    </div>
+  </div>
+
+  <div id="main-content-area">
+    <h2 data-translate-key="page_title">AI Education Reform: Taiwan & Global Trends</h2>
+    
+    <div id="player-wrapper">
+      <div id="player"></div>
+      <div id="subtitles"></div>
+    </div>
+
+    <!-- Tab 1: Summary -->
+    <div id="Summary" class="tab-content">
+      <h4 data-translate-key="tab_summary">Video Summary</h4>
+      <p class="description" data-translate-key="summary_desc">
+        This news segment covers the "2024 Educational Research Symposium" organized by the Huang Kun-hui Education Foundation. It highlights the rapid development of AI and its inevitable impact on K-12 education. The symposium features international collaboration, specifically with Prof. Inge Molenaar from Radboud University (Netherlands), who discusses how AI transforms educational systems. The report emphasizes the potential of AI to act as a "personal tutor" for students, allowing for immediate feedback and personalized learning, while Foundation Chairman Huang Kun-hui advocates for using AI to optimize curriculum, teaching methods, and assessment.
+      </p>
+    </div>
+
+    <!-- Tab 2: Intro -->
+    <div id="Intro" class="tab-content">
+      <h4 data-translate-key="tab_intro">News Intro & Context</h4>
+      <p class="description" data-translate-key="intro_desc">
+        The news anchor introduces the pressing need for education to adapt to rapid technological changes.
+      </p>
+      <ul class="qa-list">
+        <li class="qa-item">
+          <span class="qa-question" data-translate-key="q1_intro">What is the main challenge mentioned?</span>
+          <span class="qa-answer">
+            <span data-translate-key="a1_intro">AI is developing rapidly, and the teaching field, like all industries, faces challenges. Teachers' roles and learning models must change.</span>
+            <a href="#" class="timestamp-link" onclick="seekTo(0); return false;">(00:00)</a>
+          </span>
+        </li>
+        <li class="qa-item">
+          <span class="qa-question" data-translate-key="q2_intro">Who organized the event?</span>
+          <span class="qa-answer">
+            <span data-translate-key="a2_intro">The Huang Kun-hui Education Foundation organized the symposium to invite scholars to explore these topics.</span>
+            <a href="#" class="timestamp-link" onclick="seekTo(18); return false;">(00:18)</a>
+          </span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Tab 3: International Perspective -->
+    <div id="International" class="tab-content">
+      <h4 data-translate-key="tab_international">International Perspective</h4>
+      <p class="description" data-translate-key="intl_desc">
+        Prof. Inge Molenaar from the Netherlands shares her expertise on AI in education.
+      </p>
+      <ul class="qa-list">
+        <li class="qa-item">
+          <span class="qa-question" data-translate-key="q1_intl">Who is the guest speaker?</span>
+          <span class="qa-answer">
+            <span data-translate-key="a1_intl">Prof. Inge Molenaar, Director of the National Education AI Lab at Radboud University, Netherlands.</span>
+            <a href="#" class="timestamp-link" onclick="seekTo(29); return false;">(00:29)</a>
+          </span>
+        </li>
+        <li class="qa-item">
+          <span class="qa-question" data-translate-key="q2_intl">What trend does she identify?</span>
+          <span class="qa-answer">
+            <span data-translate-key="a2_intl">She notes that system transformations are leading to an intensification of educational activities within K-12 schools.</span>
+            <a href="#" class="timestamp-link" onclick="seekTo(40); return false;">(00:40)</a>
+          </span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Tab 4: AI as Tutor -->
+    <div id="AITutor" class="tab-content">
+      <h4 data-translate-key="tab_tutor">AI as Personal Tutor</h4>
+      <p class="description" data-translate-key="tutor_desc">
+        The concept of "AI Empowerment" involves using technology to support individual student needs.
+      </p>
+      <ul class="qa-list">
+        <li class="qa-item">
+          <span class="qa-question" data-translate-key="q1_tutor">How is AI described in relation to students?</span>
+          <span class="qa-answer">
+            <span data-translate-key="a1_tutor">AI empowerment is described as a "personal tutor" for students.</span>
+            <a href="#" class="timestamp-link" onclick="seekTo(64); return false;">(01:04)</a>
+          </span>
+        </li>
+        <li class="qa-item">
+          <span class="qa-question" data-translate-key="q2_tutor">What is the specific benefit mentioned?</span>
+          <span class="qa-answer">
+            <span data-translate-key="a2_tutor">When students face difficulties, they can get immediate answers and solutions, optimizing the learning process.</span>
+            <a href="#" class="timestamp-link" onclick="seekTo(66); return false;">(01:06)</a>
+          </span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Tab 5: Strategic Vision -->
+    <div id="Vision" class="tab-content">
+      <h4 data-translate-key="tab_vision">Strategic Vision</h4>
+      <p class="description" data-translate-key="vision_desc">
+        Chairman Huang Kun-hui outlines the goals for the future of Taiwanese education.
+      </p>
+      <ul class="qa-list">
+        <li class="qa-item">
+          <span class="qa-question" data-translate-key="q1_vision">What three areas need improvement using AI?</span>
+          <span class="qa-answer">
+            <span data-translate-key="a1_vision">Curriculum, Teaching Methods, and Teaching Assessment (Evaluation).</span>
+            <a href="#" class="timestamp-link" onclick="seekTo(115); return false;">(01:15)</a>
+          </span>
+        </li>
+        <li class="qa-item">
+          <span class="qa-question" data-translate-key="q2_vision">What is the ultimate goal?</span>
+          <span class="qa-answer">
+            <span data-translate-key="a2_vision">To create "Smart Schools" and make AI education a point of pride for Taiwan, similar to its semiconductor industry.</span>
+            <a href="#" class="timestamp-link" onclick="seekTo(127); return false;">(01:27)</a>
+          </span>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <script>
+    /* --- Translation Data --- */
+    const langData = {
+      en: {
+        lang_label: "Page Language:",
+        menu_header: "Topic Navigation",
+        page_title: "AI Education Reform: Taiwan & Global Trends",
+        tab_summary: "Video Summary",
+        tab_intro: "News Intro & Context",
+        tab_international: "International Perspective",
+        tab_tutor: "AI as Personal Tutor",
+        tab_vision: "Strategic Vision",
+        summary_desc: "This news segment covers the '2024 Educational Research Symposium' organized by the Huang Kun-hui Education Foundation. It highlights the rapid development of AI and its inevitable impact on K-12 education. The symposium features international collaboration, specifically with Prof. Inge Molenaar from Radboud University (Netherlands), who discusses how AI transforms educational systems. The report emphasizes the potential of AI to act as a 'personal tutor' for students, allowing for immediate feedback and personalized learning, while Foundation Chairman Huang Kun-hui advocates for using AI to optimize curriculum, teaching methods, and assessment.",
+        intro_desc: "The news anchor introduces the pressing need for education to adapt to rapid technological changes.",
+        q1_intro: "What is the main challenge mentioned?",
+        a1_intro: "AI is developing rapidly, and the teaching field, like all industries, faces challenges. Teachers' roles and learning models must change.",
+        q2_intro: "Who organized the event?",
+        a2_intro: "The Huang Kun-hui Education Foundation organized the symposium to invite scholars to explore these topics.",
+        intl_desc: "Prof. Inge Molenaar from the Netherlands shares her expertise on AI in education.",
+        q1_intl: "Who is the guest speaker?",
+        a1_intl: "Prof. Inge Molenaar, Director of the National Education AI Lab at Radboud University, Netherlands.",
+        q2_intl: "What trend does she identify?",
+        a2_intl: "She notes that system transformations are leading to an intensification of educational activities within K-12 schools.",
+        tutor_desc: "The concept of 'AI Empowerment' involves using technology to support individual student needs.",
+        q1_tutor: "How is AI described in relation to students?",
+        a1_tutor: "AI empowerment is described as a 'personal tutor' for students.",
+        q2_tutor: "What is the specific benefit mentioned?",
+        a2_tutor: "When students face difficulties, they can get immediate answers and solutions, optimizing the learning process.",
+        vision_desc: "Chairman Huang Kun-hui outlines the goals for the future of Taiwanese education.",
+        q1_vision: "What three areas need improvement using AI?",
+        a1_vision: "Curriculum, Teaching Methods, and Teaching Assessment (Evaluation).",
+        q2_vision: "What is the ultimate goal?",
+        a2_vision: "To create 'Smart Schools' and make AI education a point of pride for Taiwan, similar to its semiconductor industry."
+      },
+      nl: {
+        lang_label: "Pagina Taal:",
+        menu_header: "Onderwerp Navigatie",
+        page_title: "AI Onderwijshervorming: Taiwan & Wereldwijde Trends",
+        tab_summary: "Video Samenvatting",
+        tab_intro: "Nieuws Intro & Context",
+        tab_international: "Internationaal Perspectief",
+        tab_tutor: "AI als Privéleraar",
+        tab_vision: "Strategische Visie",
+        summary_desc: "Dit nieuwssegment behandelt het '2024 Educational Research Symposium', georganiseerd door de Huang Kun-hui Education Foundation. Het belicht de snelle ontwikkeling van AI en de onvermijdelijke impact op het K-12 onderwijs. Het symposium kent internationale samenwerking, specifiek met Prof. Inge Molenaar van de Radboud Universiteit (Nederland), die bespreekt hoe AI onderwijssystemen transformeert. Het rapport benadrukt het potentieel van AI om als 'privéleraar' voor studenten te fungeren, wat directe feedback en gepersonaliseerd leren mogelijk maakt. Voorzitter Huang Kun-hui pleit voor het gebruik van AI om curriculum, lesmethoden en toetsing te optimaliseren.",
+        intro_desc: "De nieuwslezer introduceert de dringende noodzaak voor het onderwijs om zich aan te passen aan snelle technologische veranderingen.",
+        q1_intro: "Wat is de genoemde hoofduitdaging?",
+        a1_intro: "AI ontwikkelt zich snel en het onderwijsveld staat, net als alle industrieën, voor uitdagingen. De rol van leraren en leermodellen moet veranderen.",
+        q2_intro: "Wie organiseerde het evenement?",
+        a2_intro: "De Huang Kun-hui Education Foundation organiseerde het symposium om wetenschappers uit te nodigen deze onderwerpen te verkennen.",
+        intl_desc: "Prof. Inge Molenaar uit Nederland deelt haar expertise over AI in het onderwijs.",
+        q1_intl: "Wie is de gastspreker?",
+        a1_intl: "Prof. Inge Molenaar, directeur van het National Education AI Lab aan de Radboud Universiteit, Nederland.",
+        q2_intl: "Welke trend identificeert zij?",
+        a2_intl: "Ze merkt op dat systeemtransformaties leiden tot een intensivering van onderwijsactiviteiten binnen K-12 scholen.",
+        tutor_desc: "Het concept van 'AI Empowerment' houdt in dat technologie wordt gebruikt om individuele leerlingbehoeften te ondersteunen.",
+        q1_tutor: "Hoe wordt AI beschreven in relatie tot studenten?",
+        a1_tutor: "AI-empowerment wordt beschreven als een 'privéleraar' voor studenten.",
+        q2_tutor: "Wat is het specifieke voordeel dat wordt genoemd?",
+        a2_tutor: "Wanneer studenten moeilijkheden ondervinden, kunnen ze direct antwoorden en oplossingen krijgen, wat het leerproces optimaliseert.",
+        vision_desc: "Voorzitter Huang Kun-hui schetst de doelen voor de toekomst van het Taiwanese onderwijs.",
+        q1_vision: "Welke drie gebieden moeten worden verbeterd met AI?",
+        a1_vision: "Curriculum, lesmethoden en onderwijsevaluatie (toetsing).",
+        q2_vision: "Wat is het uiteindelijke doel?",
+        a2_vision: "Om 'Slimme Scholen' te creëren en AI-onderwijs een punt van trots voor Taiwan te maken, vergelijkbaar met de halfgeleiderindustrie."
+      }
+    };
+
+    /* --- YouTube & Subtitle Logic --- */
+    let player;
+    let subtitles = [];
+    let animationFrameId = null;
+    let currentLang = 'en';
+
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('player', {
+        videoId: 'lUVy2XIrNqw',
+        playerVars: {
+            'playsinline': 1,
+            'cc_load_policy': 0,
+            'iv_load_policy': 3,
+            'controls': 1,
+            'modestbranding': 1,
+            'rel': 0
+        },
+        events: {
+          onReady: onPlayerReady,
+          onStateChange: onPlayerStateChange
+        }
+      });
+    }
+
+    function changeLanguage(lang) {
+      currentLang = lang;
+      
+      // 1. Update Page Text
+      const elements = document.querySelectorAll('[data-translate-key]');
+      elements.forEach(el => {
+        const key = el.getAttribute('data-translate-key');
+        if (langData[lang] && langData[lang][key]) {
+          el.textContent = langData[lang][key];
+        }
+      });
+
+      // 2. Update Subtitles
+      const vttFilename = lang === 'nl' ? 'subtitles_nl.vtt' : 'subtitles_en.vtt';
+      loadSubtitles(vttFilename);
+    }
+
+    async function loadSubtitles(file) {
+      try {
+        // In a real server environment, ensure MIME types are correct. 
+        // For local testing, some browsers block fetch on file:// protocol.
+        const res = await fetch(file);
+        if (!res.ok) throw new Error("Failed to load VTT");
+        const text = await res.text();
+        parseVTT(text);
+      } catch (error) {
+        console.error('Error fetching subtitles:', error);
+        document.getElementById('subtitles').innerText = ''; // Clear if error
+      }
+    }
+
+    function parseVTT(data) {
+      subtitles = [];
+      const lines = data.split(/\r?\n/);
+      let cue = null;
+      let textBuffer = '';
+
+      for (let i = 0; i < lines.length; i++) {
+        let line = lines[i].trim();
+        if (line === 'WEBVTT' || line === '') {
+           if (line === '' && cue && textBuffer) { textBuffer += '\n'; }
+           continue;
+        }
+
+        if (line.includes('-->')) {
+            if (cue && textBuffer) {
+                cue.text = textBuffer.trim();
+                subtitles.push(cue);
+            }
+            textBuffer = ''; 
+            const [startStr, endStr] = line.split('-->');
+            try {
+                cue = { start: parseTime(startStr.trim()), end: parseTime(endStr.trim()), text: '' };
+            } catch (e) { cue = null; }
+        } else if (cue) {
+            if (textBuffer) textBuffer += '\n';
+            textBuffer += line;
+        }
+      }
+      if (cue && textBuffer) {
+          cue.text = textBuffer.trim();
+          subtitles.push(cue);
+      }
+    }
+
+    function parseTime(timeString) {
+      const parts = timeString.split(':');
+      let seconds = 0;
+      if (parts.length === 3) {
+          seconds = (parseInt(parts[0], 10) * 3600) + (parseInt(parts[1], 10) * 60) + parseFloat(parts[2]);
+      } else if (parts.length === 2) {
+          seconds = (parseInt(parts[0], 10) * 60) + parseFloat(parts[1]);
+      }
+      return seconds;
+    }
+
+    function renderSubtitles() {
+      if (!player || typeof player.getCurrentTime !== 'function') return;
+      
+      const currentTime = player.getCurrentTime();
+      const currentSubtitle = subtitles.find(cue => currentTime >= cue.start && currentTime <= cue.end);
+      const subContainer = document.getElementById('subtitles');
+      
+      if (currentSubtitle) {
+        subContainer.innerText = currentSubtitle.text;
+        subContainer.style.opacity = 1;
+      } else {
+        subContainer.innerText = "";
+        subContainer.style.opacity = 0;
+      }
+
+      if (player.getPlayerState() === YT.PlayerState.PLAYING) {
+          animationFrameId = requestAnimationFrame(renderSubtitles);
+      }
+    }
+
+    function onPlayerReady(event) {
+      // Load default language subtitles
+      changeLanguage('en');
+    }
+
+    function onPlayerStateChange(event) {
+      if (event.data === YT.PlayerState.PLAYING) {
+        if (!animationFrameId) animationFrameId = requestAnimationFrame(renderSubtitles);
+      } else {
+        if (animationFrameId) {
+          cancelAnimationFrame(animationFrameId);
+          animationFrameId = null;
+        }
+        // Render one last time to ensure subtitle stays if paused
+        renderSubtitles();
+      }
+    }
+
+    /* --- Tab & Seek Logic --- */
+    function openTopic(evt, topicName) {
+      if (evt && evt.currentTarget && evt.currentTarget.dataset.seek) {
+        seekTo(parseFloat(evt.currentTarget.dataset.seek));
+      }
+
+      const tabcontent = document.getElementsByClassName("tab-content");
+      for (let i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+      }
+      
+      const tablinks = document.getElementsByClassName("tab-link");
+      for (let i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+      }
+      
+      document.getElementById(topicName).style.display = "block";
+      if (evt && evt.currentTarget) {
+        evt.currentTarget.className += " active";
+      }
+    }
+
+    function seekTo(seconds) {
+      if (player && typeof player.seekTo === 'function') {
+        player.seekTo(seconds, true);
+        player.playVideo();
+      }
+    }
+
+    // Initial Setup
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('defaultOpen').click();
+    });
+  </script>
+</body>
+</html>
