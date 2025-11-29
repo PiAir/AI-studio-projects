@@ -13,3 +13,5 @@ Create the needed HTML file according to the multilingual static website project
 Also make it so that it works on different screen sizes, I want to be able to view it on mobile devices (smartphones) and bigger screens.
 The YouTube ID for the video to use in is: lUVy2XIrNqw so link to https://www.youtube.com/watch?v=lUVy2XIrNqw
 ```
+
+Deze prompt werkte bijna perfect. Het YT-venster was nog wat groot, na het uploaden van een screenshot hiervan kreeg ik een stukje bijgewerkte CSS en complete HTML die wel goed was.
