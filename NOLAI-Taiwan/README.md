@@ -1,8 +1,45 @@
-# YouTube ondertiteling en navigatie
-Maakt een video op YouTube toegankelijk. 
+# NOLAI Taiwan - Onderwijsinnovatie
 
+Video-presentatie over onderwijsinnovatie in Taiwan met meertalige ondertiteling.
 
-Prompt:
+## 📋 Beschrijving
+
+Een interactieve webapplicatie die een video-presentatie toegankelijk maakt over onderwijsinnovatie en het gebruik van technologie in het Taiwanese onderwijs. De applicatie biedt meertalige ondertiteling (Nederlands en Engels) voor een breed publiek.
+
+## 🎯 Doel
+
+De presentatie biedt inzicht in:
+- Onderwijsinnovatie in Taiwan
+- Het gebruik van technologie in het onderwijs
+- Internationale perspectieven op digitale geletterdheid
+- Best practices uit het Aziatische onderwijs
+
+## ✨ Features
+
+- **Meertalige ondertiteling**: Nederlands en Engels
+- **Video embedding**: Geïntegreerde video player
+- **Responsive design**: Werkt op mobiele apparaten en desktop
+- **WebVTT ondertitels**: Gesynchroniseerde ondertiteling
+
+## 🚀 Gebruik
+
+Het bestand `index.html` kan direct in een browser worden geopend. Selecteer de gewenste taal voor de ondertiteling.
+
+## 🛠️ Technische Details
+
+- **Type**: Single-page HTML applicatie
+- **Technologie**: HTML, CSS, JavaScript, VTT (WebVTT ondertiteling)
+- **Dependencies**: Geen externe libraries
+- **Hosting**: Kan lokaal draaien of op elke webserver
+
+## 📁 Bestanden
+
+- `index.html` - Hoofdapplicatie
+- `subtitles_nl.vtt` - Nederlandse ondertitels
+- `subtitles_en.vtt` - Engelse ondertitels
+
+## 📝 Oorspronkelijke Prompt
+
 ```
 Create a multilingual static website in English and Dutch using the included HTML file as an example for the layout and the JavaScript used to overlay the subtitels.
 It contains a selection box for subtitle language, change that to a selection box for the language of the full page.
@@ -15,3 +52,7 @@ The YouTube ID for the video to use in is: lUVy2XIrNqw so link to https://www.yo
 ```
 
 Deze prompt werkte bijna perfect. Het YT-venster was nog wat groot, na het uploaden van een screenshot hiervan kreeg ik een stukje bijgewerkte CSS en complete HTML die wel goed was.
+
+## 🎓 Gegenereerd met
+
+AI Studio (Google) - Inclusief de VTT-ondertitelbestanden
