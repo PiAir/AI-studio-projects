@@ -69,7 +69,7 @@ Docker-gebaseerde tool voor het bekijken en analyseren van C2PA metadata in AI-g
 
 ### Content Beheer
 
-#### [Handreiking onderwijsinnovatie](Handreiking onderwijsinnovatie/)
+#### [Handreiking onderwijsinnovatie](Handreiking%20onderwijsinnovatie/)
 Handreiking voor onderwijsinnovatie met ICT, gebaseerd op SCORM-content.
 
 ### Developer Tools
@@ -104,7 +104,7 @@ De meeste HTML-bestanden kunnen direct in een browser worden geopend of op een w
 ## 📖 Meer Informatie
 
 Voor achtergrond en context over deze projecten, zie:
-- [ICTOBlog.nl](https://ictoblog.nl) voor blogposts over individuele projecten
+- [ICT en Onderwijs BLOG](https://ictoblog.nl) voor blogposts over individuele projecten
 - [Live demos](https://ictoblog.com/html/) van de meeste applicaties
 
 ## 📄 Licentie
