@@ -1,0 +1,892 @@
+{
+  "info": {
+    "paragrafen": [
+      "De werkgroep Digitale Geletterdheid van iXperium Nijmegen heeft een weefgetouw ontwikkeld als hulpmiddel voor scholen om de inzet van onderwijs op digitaal geletterdheid concreet te maken.",
+      "Deelnemers waren de ict-coördinatoren van verschillende scholen uit de regio Nijmegen, waaronder Stichting Primair Onderwijs Groesbeek (SPOG), Optimus, Kans en Kleur, Stichting St. Josephscholen, evenals de HAN Pabo, het iXperiumlab en onderzoekers van iXperium.",
+      "Het weefgetouw biedt de mogelijkheid om vast te leggen op welke manier en in hoeverre de school momenteel aan de doelen van digitale geletterdheid werkt.",
+      "Vragen over de bijbehorende werkvorm? ✉ carolien.vanrens@han.nl | nieske.coetsier@han.nl"
+    ],
+    "licentie": "Naamsvermelding-NietCommercieel 4.0 Internationaal (CC BY-NC 4.0) - iXperium Centre of Expertise Leren met ict"
+  },
+  "config": {
+    "leerjaren": [
+      "Leerjaar 1",
+      "Leerjaar 2",
+      "Leerjaar 3",
+      "Leerjaar 4",
+      "Leerjaar 5",
+      "Leerjaar 6",
+      "Leerjaar 7",
+      "Leerjaar 8"
+    ],
+    "vakken": [
+      "Taal - beschouwing",
+      "Taal - woordenschat",
+      "Taal - spelling",
+      "Begrijpend lezen",
+      "Schrijven",
+      "Rekenen",
+      "Wereldoriëntatie",
+      "SEO",
+      "Creatieve vakken",
+      "Digitale geletterdheid",
+      "Project"
+    ]
+  },
+  "inhoudslijnen": [
+    {
+      "id": "praktischekennisenvaardigheden",
+      "naam": "Praktische kennis en vaardigheden",
+      "subdomeinen": [
+        {
+          "naam": "De leerling zet digitale technologie en digitale media in.",
+          "labels": [
+            {
+              "naam": "De leerling zet digitale systemen functioneel in.",
+              "competenties": [
+                {
+                  "id": "KD0001",
+                  "fase": 1,
+                  "tekst": "Beschrijven van de onderdelen en de werking van digitale systemen in termen van invoer-verwerking-uitvoer."
+                },
+                {
+                  "id": "KD0002",
+                  "fase": 1,
+                  "tekst": "Gebruiken van de basale mogelijkheden van software voor communicatie, samenwerken, tekenen, rekenen, tekstverwerken, presenteren en beeld-, geluid- en videobewerken."
+                },
+                {
+                  "id": "KD0003",
+                  "fase": 1,
+                  "tekst": "Beheren van bestanden in digitale omgevingen: gestructureerd ordenen, opslaan en opvragen."
+                },
+                {
+                  "id": "KD0004",
+                  "fase": 1,
+                  "tekst": "Herkennen van digitale systemen in de eigen omgeving."
+                },
+                {
+                  "id": "KD0005",
+                  "fase": 1,
+                  "tekst": "Onderhouden en aanpassen van digitale systemen en het oplossen van problemen daarmee."
+                },
+                {
+                  "id": "KD0044",
+                  "fase": 2,
+                  "tekst": "Beschrijven van de onderdelen en de werking van digitale systemen in termen van invoer-verwerking-uitvoer."
+                },
+                {
+                  "id": "KD0045",
+                  "fase": 2,
+                  "tekst": "Gebruiken van de basale mogelijkheden van software voor communicatie, samenwerken, tekenen, rekenen, tekstverwerken, presenteren en beeld-, geluid- en videobewerken."
+                },
+                {
+                  "id": "KD0046",
+                  "fase": 2,
+                  "tekst": "Beheren van bestanden in digitale omgevingen: gestructureerd ordenen, opslaan en opvragen."
+                },
+                {
+                  "id": "KD0047",
+                  "fase": 2,
+                  "tekst": "Herkennen van digitale systemen in de eigen omgeving."
+                },
+                {
+                  "id": "KD0048",
+                  "fase": 2,
+                  "tekst": "Onderhouden en aanpassen van digitale systemen en het oplossen van problemen daarmee."
+                },
+                {
+                  "id": "KD0087",
+                  "fase": 3,
+                  "tekst": "Beschrijven van de onderdelen en de werking van digitale systemen in termen van invoer-verwerking-uitvoer."
+                },
+                {
+                  "id": "KD0088",
+                  "fase": 3,
+                  "tekst": "Gebruiken van de basale mogelijkheden van software voor communicatie, samenwerken, tekenen, rekenen, tekstverwerken, presenteren en beeld-, geluid- en videobewerken."
+                },
+                {
+                  "id": "KD0089",
+                  "fase": 3,
+                  "tekst": "Beheren van bestanden in digitale omgevingen: gestructureerd ordenen, opslaan en opvragen."
+                },
+                {
+                  "id": "KD0090",
+                  "fase": 3,
+                  "tekst": "Herkennen van digitale systemen in de eigen omgeving."
+                },
+                {
+                  "id": "KD0091",
+                  "fase": 3,
+                  "tekst": "Onderhouden en aanpassen van digitale systemen en het oplossen van problemen daarmee."
+                }
+              ]
+            },
+            {
+              "naam": "De leerling navigeert doelgericht in het digitale media- en informatielandschap voor het verwerven en verwerken van informatie.",
+              "competenties": [
+                {
+                  "id": "KD0006",
+                  "fase": 1,
+                  "tekst": "In kaart brengen van diverse media en bronnen, hun betrouwbaarheid en bruikbaarheid."
+                },
+                {
+                  "id": "KD0007",
+                  "fase": 1,
+                  "tekst": "Hanteren van een geschikte zoekstrategie, zoekhulpmiddel en zoekopdracht."
+                },
+                {
+                  "id": "KD0008",
+                  "fase": 1,
+                  "tekst": "Beoordelen van aangeboden en gevonden informatie op betrouwbaarheid en bruikbaarheid."
+                },
+                {
+                  "id": "KD0009",
+                  "fase": 1,
+                  "tekst": "Beschrijven hoe makers van digitale media de aandacht van gebruikers trekken, vasthouden en beïnvloeden met kleurende en sturende technieken."
+                },
+                {
+                  "id": "KD0010",
+                  "fase": 1,
+                  "tekst": "Benoemen van factoren die het aanbod en de zichtbaarheid van zoekresultaten beïnvloeden."
+                },
+                {
+                  "id": "KD0049",
+                  "fase": 2,
+                  "tekst": "In kaart brengen van diverse media en bronnen, hun betrouwbaarheid en bruikbaarheid."
+                },
+                {
+                  "id": "KD0050",
+                  "fase": 2,
+                  "tekst": "Hanteren van een geschikte zoekstrategie, zoekhulpmiddel en zoekopdracht."
+                },
+                {
+                  "id": "KD0051",
+                  "fase": 2,
+                  "tekst": "Beoordelen van aangeboden en gevonden informatie op betrouwbaarheid en bruikbaarheid."
+                },
+                {
+                  "id": "KD0052",
+                  "fase": 2,
+                  "tekst": "Beschrijven hoe makers van digitale media de aandacht van gebruikers trekken, vasthouden en beïnvloeden met kleurende en sturende technieken."
+                },
+                {
+                  "id": "KD0053",
+                  "fase": 2,
+                  "tekst": "Benoemen van factoren die het aanbod en de zichtbaarheid van zoekresultaten beïnvloeden."
+                },
+                {
+                  "id": "KD0092",
+                  "fase": 3,
+                  "tekst": "In kaart brengen van diverse media en bronnen, hun betrouwbaarheid en bruikbaarheid."
+                },
+                {
+                  "id": "KD0093",
+                  "fase": 3,
+                  "tekst": "Hanteren van een geschikte zoekstrategie, zoekhulpmiddel en zoekopdracht."
+                },
+                {
+                  "id": "KD0094",
+                  "fase": 3,
+                  "tekst": "Beoordelen van aangeboden en gevonden informatie op betrouwbaarheid en bruikbaarheid."
+                },
+                {
+                  "id": "KD0095",
+                  "fase": 3,
+                  "tekst": "Beschrijven hoe makers van digitale media de aandacht van gebruikers trekken, vasthouden en beïnvloeden met kleurende en sturende technieken."
+                },
+                {
+                  "id": "KD0096",
+                  "fase": 3,
+                  "tekst": "Benoemen van factoren die het aanbod en de zichtbaarheid van zoekresultaten beïnvloeden."
+                }
+              ]
+            },
+            {
+              "naam": "De leerling verkent het gebruik van data en dataverwerking.",
+              "competenties": [
+                {
+                  "id": "KD0011",
+                  "fase": 1,
+                  "tekst": "Beschrijven hoe uit data informatie gehaald wordt door doelgericht verzamelen, structuren en verwerken van data."
+                },
+                {
+                  "id": "KD0012",
+                  "fase": 1,
+                  "tekst": "Begrip tonen hoe de resultaten van dataverwerking afhankelijk zijn van de herkomst, juistheid en volledigheid van de gebruikte dataset."
+                },
+                {
+                  "id": "KD0013",
+                  "fase": 1,
+                  "tekst": "Beantwoorden van een vraag met behulp van een dataset."
+                },
+                {
+                  "id": "KD0014",
+                  "fase": 1,
+                  "tekst": "Beschrijven van het gebruik van data in de eigen omgeving."
+                },
+                {
+                  "id": "KD0015",
+                  "fase": 1,
+                  "tekst": "Reflecteren op het feit dat de gebruiker van digitale technologie bewust en onbewust data achterlaat en dat die door anderen gebruikt kunnen worden."
+                },
+                {
+                  "id": "KD0054",
+                  "fase": 2,
+                  "tekst": "Beschrijven hoe uit data informatie gehaald wordt door doelgericht verzamelen, structuren en verwerken van data."
+                },
+                {
+                  "id": "KD0055",
+                  "fase": 2,
+                  "tekst": "Begrip tonen hoe de resultaten van dataverwerking afhankelijk zijn van de herkomst, juistheid en volledigheid van de gebruikte dataset."
+                },
+                {
+                  "id": "KD0056",
+                  "fase": 2,
+                  "tekst": "Beantwoorden van een vraag met behulp van een dataset."
+                },
+                {
+                  "id": "KD0057",
+                  "fase": 2,
+                  "tekst": "Beschrijven van het gebruik van data in de eigen omgeving."
+                },
+                {
+                  "id": "KD0058",
+                  "fase": 2,
+                  "tekst": "Reflecteren op het feit dat de gebruiker van digitale technologie bewust en onbewust data achterlaat en dat die door anderen gebruikt kunnen worden."
+                },
+                {
+                  "id": "KD0097",
+                  "fase": 3,
+                  "tekst": "Beschrijven hoe uit data informatie gehaald wordt door doelgericht verzamelen, structuren en verwerken van data."
+                },
+                {
+                  "id": "KD0098",
+                  "fase": 3,
+                  "tekst": "Begrip tonen hoe de resultaten van dataverwerking afhankelijk zijn van de herkomst, juistheid en volledigheid van de gebruikte dataset."
+                },
+                {
+                  "id": "KD0099",
+                  "fase": 3,
+                  "tekst": "Beantwoorden van een vraag met behulp van een dataset."
+                },
+                {
+                  "id": "KD0100",
+                  "fase": 3,
+                  "tekst": "Beschrijven van het gebruik van data in de eigen omgeving."
+                },
+                {
+                  "id": "KD0101",
+                  "fase": 3,
+                  "tekst": "Reflecteren op het feit dat de gebruiker van digitale technologie bewust en onbewust data achterlaat en dat die door anderen gebruikt kunnen worden."
+                }
+              ]
+            },
+            {
+              "naam": "De leerling verkent AI.",
+              "competenties": [
+                {
+                  "id": "KD0016",
+                  "fase": 1,
+                  "tekst": "Beschrijven van elementen van een AI-systeem."
+                },
+                {
+                  "id": "KD0017",
+                  "fase": 1,
+                  "tekst": "Beschrijven hoe het gedrag van AI-systemen lijkt op menselijk gedrag."
+                },
+                {
+                  "id": "KD0018",
+                  "fase": 1,
+                  "tekst": "Herkennen van veelvoorkomende AI-systemen en hun toepassingen in de eigen omgeving."
+                },
+                {
+                  "id": "KD0019",
+                  "fase": 1,
+                  "tekst": "Verantwoord interacteren met een AI-systeem."
+                },
+                {
+                  "id": "KD0059",
+                  "fase": 2,
+                  "tekst": "Beschrijven van elementen van een AI-systeem."
+                },
+                {
+                  "id": "KD0060",
+                  "fase": 2,
+                  "tekst": "Beschrijven hoe het gedrag van AI-systemen lijkt op menselijk gedrag."
+                },
+                {
+                  "id": "KD0061",
+                  "fase": 2,
+                  "tekst": "Herkennen van veelvoorkomende AI-systemen en hun toepassingen in de eigen omgeving."
+                },
+                {
+                  "id": "KD0062",
+                  "fase": 2,
+                  "tekst": "Verantwoord interacteren met een AI-systeem."
+                },
+                {
+                  "id": "KD0102",
+                  "fase": 3,
+                  "tekst": "Beschrijven van elementen van een AI-systeem."
+                },
+                {
+                  "id": "KD0103",
+                  "fase": 3,
+                  "tekst": "Beschrijven hoe het gedrag van AI-systemen lijkt op menselijk gedrag."
+                },
+                {
+                  "id": "KD0104",
+                  "fase": 3,
+                  "tekst": "Herkennen van veelvoorkomende AI-systemen en hun toepassingen in de eigen omgeving."
+                },
+                {
+                  "id": "KD0105",
+                  "fase": 3,
+                  "tekst": "Verantwoord interacteren met een AI-systeem."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ontwerpenenmaken",
+      "naam": "Ontwerpen en maken",
+      "subdomeinen": [
+        {
+          "naam": "De leerling creëert digitale producten.",
+          "labels": [
+            {
+              "naam": "De leerling gebruikt passende werkwijzen bij het creëren en gebruiken van verschillende typen digitale producten.",
+              "competenties": [
+                {
+                  "id": "KD0020",
+                  "fase": 1,
+                  "tekst": "Experimenteren met digitale middelen om gedachten, ideeën of gevoelens uit te drukken."
+                },
+                {
+                  "id": "KD0021",
+                  "fase": 1,
+                  "tekst": "Delen van informatie en overbrengen van een boodschap."
+                },
+                {
+                  "id": "KD0022",
+                  "fase": 1,
+                  "tekst": "Gebruiken van computationele denkstrategieën bij het ontwerpen van een digitaal product."
+                },
+                {
+                  "id": "KD0023",
+                  "fase": 1,
+                  "tekst": "Ontwerpen van een digitaal product aan de hand van ontwerpeisen in een iteratief proces."
+                },
+                {
+                  "id": "KD0024",
+                  "fase": 1,
+                  "tekst": "Rekening houden met auteursrechten, licenties en bron- en naamsvermelding bij het creëren van digitale producten."
+                },
+                {
+                  "id": "KD0063",
+                  "fase": 2,
+                  "tekst": "Experimenteren met digitale middelen om gedachten, ideeën of gevoelens uit te drukken."
+                },
+                {
+                  "id": "KD0064",
+                  "fase": 2,
+                  "tekst": "Delen van informatie en overbrengen van een boodschap."
+                },
+                {
+                  "id": "KD0065",
+                  "fase": 2,
+                  "tekst": "Gebruiken van computationele denkstrategieën bij het ontwerpen van een digitaal product."
+                },
+                {
+                  "id": "KD0066",
+                  "fase": 2,
+                  "tekst": "Ontwerpen van een digitaal product aan de hand van ontwerpeisen in een iteratief proces."
+                },
+                {
+                  "id": "KD0067",
+                  "fase": 2,
+                  "tekst": "Rekening houden met auteursrechten, licenties en bron- en naamsvermelding bij het creëren van digitale producten."
+                },
+                {
+                  "id": "KD0106",
+                  "fase": 3,
+                  "tekst": "Experimenteren met digitale middelen om gedachten, ideeën of gevoelens uit te drukken."
+                },
+                {
+                  "id": "KD0107",
+                  "fase": 3,
+                  "tekst": "Delen van informatie en overbrengen van een boodschap."
+                },
+                {
+                  "id": "KD0108",
+                  "fase": 3,
+                  "tekst": "Gebruiken van computationele denkstrategieën bij het ontwerpen van een digitaal product."
+                },
+                {
+                  "id": "KD0109",
+                  "fase": 3,
+                  "tekst": "Ontwerpen van een digitaal product aan de hand van ontwerpeisen in een iteratief proces."
+                },
+                {
+                  "id": "KD0110",
+                  "fase": 3,
+                  "tekst": "Rekening houden met auteursrechten, licenties en bron- en naamsvermelding bij het creëren van digitale producten."
+                }
+              ]
+            },
+            {
+              "naam": "De leerling programmeert een computerprogramma met behulp van computationele denkstrategieën.",
+              "competenties": [
+                {
+                  "id": "KD0025",
+                  "fase": 1,
+                  "tekst": "Experimenteren met code."
+                },
+                {
+                  "id": "KD0026",
+                  "fase": 1,
+                  "tekst": "Beschrijven van de taak en het doel van een computerprogramma."
+                },
+                {
+                  "id": "KD0027",
+                  "fase": 1,
+                  "tekst": "Ontwerpen en schematisch weergeven van het algoritme behorende bij een taak."
+                },
+                {
+                  "id": "KD0028",
+                  "fase": 1,
+                  "tekst": "Gebruikmaken van programmeerconcepten: invoer en uitvoer, variabelen, operatoren, herhaling en controlestructuren."
+                },
+                {
+                  "id": "KD0029",
+                  "fase": 1,
+                  "tekst": "Testen en bijstellen van een eigen computerprogramma of een computerprogramma van anderen."
+                },
+                {
+                  "id": "KD0068",
+                  "fase": 2,
+                  "tekst": "Experimenteren met code."
+                },
+                {
+                  "id": "KD0069",
+                  "fase": 2,
+                  "tekst": "Beschrijven van de taak en het doel van een computerprogramma."
+                },
+                {
+                  "id": "KD0070",
+                  "fase": 2,
+                  "tekst": "Ontwerpen en schematisch weergeven van het algoritme behorende bij een taak."
+                },
+                {
+                  "id": "KD0071",
+                  "fase": 2,
+                  "tekst": "Gebruikmaken van programmeerconcepten: invoer en uitvoer, variabelen, operatoren, herhaling en controlestructuren."
+                },
+                {
+                  "id": "KD0072",
+                  "fase": 2,
+                  "tekst": "Testen en bijstellen van een eigen computerprogramma of een computerprogramma van anderen."
+                },
+                {
+                  "id": "KD0111",
+                  "fase": 3,
+                  "tekst": "Experimenteren met code."
+                },
+                {
+                  "id": "KD0112",
+                  "fase": 3,
+                  "tekst": "Beschrijven van de taak en het doel van een computerprogramma."
+                },
+                {
+                  "id": "KD0113",
+                  "fase": 3,
+                  "tekst": "Ontwerpen en schematisch weergeven van het algoritme behorende bij een taak."
+                },
+                {
+                  "id": "KD0114",
+                  "fase": 3,
+                  "tekst": "Gebruikmaken van programmeerconcepten: invoer en uitvoer, variabelen, operatoren, herhaling en controlestructuren."
+                },
+                {
+                  "id": "KD0115",
+                  "fase": 3,
+                  "tekst": "Testen en bijstellen van een eigen computerprogramma of een computerprogramma van anderen."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "degedigitaliseerdewereld",
+      "naam": "De gedigitaliseerde wereld",
+      "subdomeinen": [
+        {
+          "naam": "De leerling participeert in de gedigitaliseerde wereld.",
+          "labels": [
+            {
+              "naam": "De leerling gaat veilig om met digitale systemen, data en de privacy van zichzelf en anderen.",
+              "competenties": [
+                {
+                  "id": "KD0030",
+                  "fase": 1,
+                  "tekst": "Herkennen van veiligheidsrisico’s bij het gebruik van digitale systemen en data."
+                },
+                {
+                  "id": "KD0031",
+                  "fase": 1,
+                  "tekst": "Veilig gebruiken van digitale systemen, data en informatie."
+                },
+                {
+                  "id": "KD0032",
+                  "fase": 1,
+                  "tekst": "Nemen van passende technische maatregelen om digitale systemen, data en informatie te beschermen."
+                },
+                {
+                  "id": "KD0033",
+                  "fase": 1,
+                  "tekst": "Wegen van dilemma’s bij het delen van zowel eigen persoonsgegevens, data, informatie en digitale content als die van anderen."
+                },
+                {
+                  "id": "KD0034",
+                  "fase": 1,
+                  "tekst": "Adequaat omgaan met ongepaste content, ongepast gedrag en veiligheidsrisico’s in digitale omgevingen."
+                },
+                {
+                  "id": "KD0073",
+                  "fase": 2,
+                  "tekst": "Herkennen van veiligheidsrisico’s bij het gebruik van digitale systemen en data."
+                },
+                {
+                  "id": "KD0074",
+                  "fase": 2,
+                  "tekst": "Veilig gebruiken van digitale systemen, data en informatie."
+                },
+                {
+                  "id": "KD0075",
+                  "fase": 2,
+                  "tekst": "Nemen van passende technische maatregelen om digitale systemen, data en informatie te beschermen."
+                },
+                {
+                  "id": "KD0076",
+                  "fase": 2,
+                  "tekst": "Wegen van dilemma’s bij het delen van zowel eigen persoonsgegevens, data, informatie en digitale content als die van anderen."
+                },
+                {
+                  "id": "KD0077",
+                  "fase": 2,
+                  "tekst": "Adequaat omgaan met ongepaste content, ongepast gedrag en veiligheidsrisico’s in digitale omgevingen."
+                },
+                {
+                  "id": "KD0116",
+                  "fase": 3,
+                  "tekst": "Herkennen van veiligheidsrisico’s bij het gebruik van digitale systemen en data."
+                },
+                {
+                  "id": "KD0117",
+                  "fase": 3,
+                  "tekst": "Veilig gebruiken van digitale systemen, data en informatie."
+                },
+                {
+                  "id": "KD0118",
+                  "fase": 3,
+                  "tekst": "Nemen van passende technische maatregelen om digitale systemen, data en informatie te beschermen."
+                },
+                {
+                  "id": "KD0119",
+                  "fase": 3,
+                  "tekst": "Wegen van dilemma’s bij het delen van zowel eigen persoonsgegevens, data, informatie en digitale content als die van anderen."
+                },
+                {
+                  "id": "KD0120",
+                  "fase": 3,
+                  "tekst": "Adequaat omgaan met ongepaste content, ongepast gedrag en veiligheidsrisico’s in digitale omgevingen."
+                }
+              ]
+            },
+            {
+              "naam": "De leerling maakt weloverwogen keuzes in het gebruik van digitale technologie en digitale media.",
+              "competenties": [
+                {
+                  "id": "KD0035",
+                  "fase": 1,
+                  "tekst": "Online communiceren en handelen op respectvolle en verantwoorde wijze."
+                },
+                {
+                  "id": "KD0036",
+                  "fase": 1,
+                  "tekst": "Reflecteren op de invloed van digitale technologie en digitale media op eigen denken, eigen gedrag en de interactie met anderen."
+                },
+                {
+                  "id": "KD0037",
+                  "fase": 1,
+                  "tekst": "Rekening houden met eigen fysieke en mentale gezondheid in relatie tot het gebruik van digitale technologie en digitale media."
+                },
+                {
+                  "id": "KD0038",
+                  "fase": 1,
+                  "tekst": "Reflecteren op de eigen online identiteit en hoe die tot stand komt."
+                },
+                {
+                  "id": "KD0039",
+                  "fase": 1,
+                  "tekst": "Verkennen van de eigen interesse in de ontwikkeling van digitale technologie en digitale media."
+                },
+                {
+                  "id": "KD0078",
+                  "fase": 2,
+                  "tekst": "Online communiceren en handelen op respectvolle en verantwoorde wijze."
+                },
+                {
+                  "id": "KD0079",
+                  "fase": 2,
+                  "tekst": "Reflecteren op de invloed van digitale technologie en digitale media op eigen denken, eigen gedrag en de interactie met anderen."
+                },
+                {
+                  "id": "KD0080",
+                  "fase": 2,
+                  "tekst": "Rekening houden met eigen fysieke en mentale gezondheid in relatie tot het gebruik van digitale technologie en digitale media."
+                },
+                {
+                  "id": "KD0081",
+                  "fase": 2,
+                  "tekst": "Reflecteren op de eigen online identiteit en hoe die tot stand komt."
+                },
+                {
+                  "id": "KD0082",
+                  "fase": 2,
+                  "tekst": "Verkennen van de eigen interesse in de ontwikkeling van digitale technologie en digitale media."
+                },
+                {
+                  "id": "KD0121",
+                  "fase": 3,
+                  "tekst": "Online communiceren en handelen op respectvolle en verantwoorde wijze."
+                },
+                {
+                  "id": "KD0122",
+                  "fase": 3,
+                  "tekst": "Reflecteren op de invloed van digitale technologie en digitale media op eigen denken, eigen gedrag en de interactie met anderen."
+                },
+                {
+                  "id": "KD0123",
+                  "fase": 3,
+                  "tekst": "Rekening houden met eigen fysieke en mentale gezondheid in relatie tot het gebruik van digitale technologie en digitale media."
+                },
+                {
+                  "id": "KD0124",
+                  "fase": 3,
+                  "tekst": "Reflecteren op de eigen online identiteit en hoe die tot stand komt."
+                },
+                {
+                  "id": "KD0125",
+                  "fase": 3,
+                  "tekst": "Verkennen van de eigen interesse in de ontwikkeling van digitale technologie en digitale media."
+                }
+              ]
+            },
+            {
+              "naam": "De leerling verkent hoe digitale technologie, digitale media en de samenleving elkaar wederzijds beïnvloeden.",
+              "competenties": [
+                {
+                  "id": "KD0040",
+                  "fase": 1,
+                  "tekst": "Verkennen van de invloed van de mens op de ontwikkeling van digitale technologie en digitale media en andersom."
+                },
+                {
+                  "id": "KD0041",
+                  "fase": 1,
+                  "tekst": "Verkennen hoe digitale technologie en digitale media sociaal welzijn en sociale inclusie beïnvloeden."
+                },
+                {
+                  "id": "KD0042",
+                  "fase": 1,
+                  "tekst": "Redeneren over de kansen en risico’s van het gebruik van digitale technologie in de nabije omgeving."
+                },
+                {
+                  "id": "KD0043",
+                  "fase": 1,
+                  "tekst": "Verkennen wat effecten zijn van digitale technologie op de ecologie."
+                },
+                {
+                  "id": "KD0083",
+                  "fase": 2,
+                  "tekst": "Verkennen van de invloed van de mens op de ontwikkeling van digitale technologie en digitale media en andersom."
+                },
+                {
+                  "id": "KD0084",
+                  "fase": 2,
+                  "tekst": "Verkennen hoe digitale technologie en digitale media sociaal welzijn en sociale inclusie beïnvloeden."
+                },
+                {
+                  "id": "KD0085",
+                  "fase": 2,
+                  "tekst": "Redeneren over de kansen en risico’s van het gebruik van digitale technologie in de nabije omgeving."
+                },
+                {
+                  "id": "KD0086",
+                  "fase": 2,
+                  "tekst": "Verkennen wat effecten zijn van digitale technologie op de ecologie."
+                },
+                {
+                  "id": "KD0126",
+                  "fase": 3,
+                  "tekst": "Verkennen van de invloed van de mens op de ontwikkeling van digitale technologie en digitale media en andersom."
+                },
+                {
+                  "id": "KD0127",
+                  "fase": 3,
+                  "tekst": "Verkennen hoe digitale technologie en digitale media sociaal welzijn en sociale inclusie beïnvloeden."
+                },
+                {
+                  "id": "KD0128",
+                  "fase": 3,
+                  "tekst": "Redeneren over de kansen en risico’s van het gebruik van digitale technologie in de nabije omgeving."
+                },
+                {
+                  "id": "KD0129",
+                  "fase": 3,
+                  "tekst": "Verkennen wat effecten zijn van digitale technologie op de ecologie."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "plaatsingen": {
+    "KD0001": "fase-kolom-praktischekennisenvaardigheden-Deleerlingzetdigitaletechnologieendigitalemediain.-Deleerlingzetdigitalesystemenfunctioneelin.-1",
+    "KD0002": "fase-kolom-praktischekennisenvaardigheden-Deleerlingzetdigitaletechnologieendigitalemediain.-Deleerlingzetdigitalesystemenfunctioneelin.-1",
+    "KD0003": "fase-kolom-praktischekennisenvaardigheden-Deleerlingzetdigitaletechnologieendigitalemediain.-Deleerlingzetdigitalesystemenfunctioneelin.-1",
+    "KD0004": "fase-kolom-praktischekennisenvaardigheden-Deleerlingzetdigitaletechnologieendigitalemediain.-Deleerlingzetdigitalesystemenfunctioneelin.-1",
+    "KD0005": "fase-kolom-praktischekennisenvaardigheden-Deleerlingzetdigitaletechnologieendigitalemediain.-Deleerlingzetdigitalesystemenfunctioneelin.-1",
+    "KD0044": "fase-kolom-praktischekennisenvaardigheden-Deleerlingzetdigitaletechnologieendigitalemediain.-Deleerlingzetdigitalesystemenfunctioneelin.-2",
+    "KD0045": "fase-kolom-praktischekennisenvaardigheden-Deleerlingzetdigitaletechnologieendigitalemediain.-Deleerlingzetdigitalesystemenfunctioneelin.-2",
+    "KD0046": "fase-kolom-praktischekennisenvaardigheden-Deleerlingzetdigitaletechnologieendigitalemediain.-Deleerlingzetdigitalesystemenfunctioneelin.-2",
+    "KD0047": "fase-kolom-praktischekennisenvaardigheden-Deleerlingzetdigitaletechnologieendigitalemediain.-Deleerlingzetdigitalesystemenfunctioneelin.-2",
+    "KD0048": "fase-kolom-praktischekennisenvaardigheden-Deleerlingzetdigitaletechnologieendigitalemediain.-Deleerlingzetdigitalesystemenfunctioneelin.-2",
+    "KD0087": "fase-kolom-praktischekennisenvaardigheden-Deleerlingzetdigitaletechnologieendigitalemediain.-Deleerlingzetdigitalesystemenfunctioneelin.-3",
+    "KD0088": "fase-kolom-praktischekennisenvaardigheden-Deleerlingzetdigitaletechnologieendigitalemediain.-Deleerlingzetdigitalesystemenfunctioneelin.-3",
+    "KD0089": "fase-kolom-praktischekennisenvaardigheden-Deleerlingzetdigitaletechnologieendigitalemediain.-Deleerlingzetdigitalesystemenfunctioneelin.-3",
+    "KD0090": "fase-kolom-praktischekennisenvaardigheden-Deleerlingzetdigitaletechnologieendigitalemediain.-Deleerlingzetdigitalesystemenfunctioneelin.-3",
+    "KD0091": "fase-kolom-praktischekennisenvaardigheden-Deleerlingzetdigitaletechnologieendigitalemediain.-Deleerlingzetdigitalesystemenfunctioneelin.-3",
+    "KD0006": "fase-kolom-praktischekennisenvaardigheden-Deleerlingzetdigitaletechnologieendigitalemediain.-Deleerlingnavigeertdoelgerichtinhetdigitalemedia-eninformatielandschapvoorhetverwervenenverwerkenvaninformatie.-1",
+    "KD0007": "fase-kolom-praktischekennisenvaardigheden-Deleerlingzetdigitaletechnologieendigitalemediain.-Deleerlingnavigeertdoelgerichtinhetdigitalemedia-eninformatielandschapvoorhetverwervenenverwerkenvaninformatie.-1",
+    "KD0008": "fase-kolom-praktischekennisenvaardigheden-Deleerlingzetdigitaletechnologieendigitalemediain.-Deleerlingnavigeertdoelgerichtinhetdigitalemedia-eninformatielandschapvoorhetverwervenenverwerkenvaninformatie.-1",
+    "KD0009": "fase-kolom-praktischekennisenvaardigheden-Deleerlingzetdigitaletechnologieendigitalemediain.-Deleerlingnavigeertdoelgerichtinhetdigitalemedia-eninformatielandschapvoorhetverwervenenverwerkenvaninformatie.-1",
+    "KD0010": "fase-kolom-praktischekennisenvaardigheden-Deleerlingzetdigitaletechnologieendigitalemediain.-Deleerlingnavigeertdoelgerichtinhetdigitalemedia-eninformatielandschapvoorhetverwervenenverwerkenvaninformatie.-1",
+    "KD0049": "fase-kolom-praktischekennisenvaardigheden-Deleerlingzetdigitaletechnologieendigitalemediain.-Deleerlingnavigeertdoelgerichtinhetdigitalemedia-eninformatielandschapvoorhetverwervenenverwerkenvaninformatie.-2",
+    "KD0050": "fase-kolom-praktischekennisenvaardigheden-Deleerlingzetdigitaletechnologieendigitalemediain.-Deleerlingnavigeertdoelgerichtinhetdigitalemedia-eninformatielandschapvoorhetverwervenenverwerkenvaninformatie.-2",
+    "KD0051": "fase-kolom-praktischekennisenvaardigheden-Deleerlingzetdigitaletechnologieendigitalemediain.-Deleerlingnavigeertdoelgerichtinhetdigitalemedia-eninformatielandschapvoorhetverwervenenverwerkenvaninformatie.-2",
+    "KD0052": "fase-kolom-praktischekennisenvaardigheden-Deleerlingzetdigitaletechnologieendigitalemediain.-Deleerlingnavigeertdoelgerichtinhetdigitalemedia-eninformatielandschapvoorhetverwervenenverwerkenvaninformatie.-2",
+    "KD0053": "fase-kolom-praktischekennisenvaardigheden-Deleerlingzetdigitaletechnologieendigitalemediain.-Deleerlingnavigeertdoelgerichtinhetdigitalemedia-eninformatielandschapvoorhetverwervenenverwerkenvaninformatie.-2",
+    "KD0092": "fase-kolom-praktischekennisenvaardigheden-Deleerlingzetdigitaletechnologieendigitalemediain.-Deleerlingnavigeertdoelgerichtinhetdigitalemedia-eninformatielandschapvoorhetverwervenenverwerkenvaninformatie.-3",
+    "KD0093": "fase-kolom-praktischekennisenvaardigheden-Deleerlingzetdigitaletechnologieendigitalemediain.-Deleerlingnavigeertdoelgerichtinhetdigitalemedia-eninformatielandschapvoorhetverwervenenverwerkenvaninformatie.-3",
+    "KD0094": "fase-kolom-praktischekennisenvaardigheden-Deleerlingzetdigitaletechnologieendigitalemediain.-Deleerlingnavigeertdoelgerichtinhetdigitalemedia-eninformatielandschapvoorhetverwervenenverwerkenvaninformatie.-3",
+    "KD0095": "fase-kolom-praktischekennisenvaardigheden-Deleerlingzetdigitaletechnologieendigitalemediain.-Deleerlingnavigeertdoelgerichtinhetdigitalemedia-eninformatielandschapvoorhetverwervenenverwerkenvaninformatie.-3",
+    "KD0096": "fase-kolom-praktischekennisenvaardigheden-Deleerlingzetdigitaletechnologieendigitalemediain.-Deleerlingnavigeertdoelgerichtinhetdigitalemedia-eninformatielandschapvoorhetverwervenenverwerkenvaninformatie.-3",
+    "KD0011": "fase-kolom-praktischekennisenvaardigheden-Deleerlingzetdigitaletechnologieendigitalemediain.-Deleerlingverkenthetgebruikvandataendataverwerking.-1",
+    "KD0012": "fase-kolom-praktischekennisenvaardigheden-Deleerlingzetdigitaletechnologieendigitalemediain.-Deleerlingverkenthetgebruikvandataendataverwerking.-1",
+    "KD0013": "fase-kolom-praktischekennisenvaardigheden-Deleerlingzetdigitaletechnologieendigitalemediain.-Deleerlingverkenthetgebruikvandataendataverwerking.-1",
+    "KD0014": "fase-kolom-praktischekennisenvaardigheden-Deleerlingzetdigitaletechnologieendigitalemediain.-Deleerlingverkenthetgebruikvandataendataverwerking.-1",
+    "KD0015": "fase-kolom-praktischekennisenvaardigheden-Deleerlingzetdigitaletechnologieendigitalemediain.-Deleerlingverkenthetgebruikvandataendataverwerking.-1",
+    "KD0054": "fase-kolom-praktischekennisenvaardigheden-Deleerlingzetdigitaletechnologieendigitalemediain.-Deleerlingverkenthetgebruikvandataendataverwerking.-2",
+    "KD0055": "fase-kolom-praktischekennisenvaardigheden-Deleerlingzetdigitaletechnologieendigitalemediain.-Deleerlingverkenthetgebruikvandataendataverwerking.-2",
+    "KD0056": "fase-kolom-praktischekennisenvaardigheden-Deleerlingzetdigitaletechnologieendigitalemediain.-Deleerlingverkenthetgebruikvandataendataverwerking.-2",
+    "KD0057": "fase-kolom-praktischekennisenvaardigheden-Deleerlingzetdigitaletechnologieendigitalemediain.-Deleerlingverkenthetgebruikvandataendataverwerking.-2",
+    "KD0058": "fase-kolom-praktischekennisenvaardigheden-Deleerlingzetdigitaletechnologieendigitalemediain.-Deleerlingverkenthetgebruikvandataendataverwerking.-2",
+    "KD0097": "fase-kolom-praktischekennisenvaardigheden-Deleerlingzetdigitaletechnologieendigitalemediain.-Deleerlingverkenthetgebruikvandataendataverwerking.-3",
+    "KD0098": "fase-kolom-praktischekennisenvaardigheden-Deleerlingzetdigitaletechnologieendigitalemediain.-Deleerlingverkenthetgebruikvandataendataverwerking.-3",
+    "KD0099": "fase-kolom-praktischekennisenvaardigheden-Deleerlingzetdigitaletechnologieendigitalemediain.-Deleerlingverkenthetgebruikvandataendataverwerking.-3",
+    "KD0100": "fase-kolom-praktischekennisenvaardigheden-Deleerlingzetdigitaletechnologieendigitalemediain.-Deleerlingverkenthetgebruikvandataendataverwerking.-3",
+    "KD0101": "fase-kolom-praktischekennisenvaardigheden-Deleerlingzetdigitaletechnologieendigitalemediain.-Deleerlingverkenthetgebruikvandataendataverwerking.-3",
+    "KD0016": "fase-kolom-praktischekennisenvaardigheden-Deleerlingzetdigitaletechnologieendigitalemediain.-DeleerlingverkentAI.-1",
+    "KD0017": "fase-kolom-praktischekennisenvaardigheden-Deleerlingzetdigitaletechnologieendigitalemediain.-DeleerlingverkentAI.-1",
+    "KD0018": "fase-kolom-praktischekennisenvaardigheden-Deleerlingzetdigitaletechnologieendigitalemediain.-DeleerlingverkentAI.-1",
+    "KD0019": "fase-kolom-praktischekennisenvaardigheden-Deleerlingzetdigitaletechnologieendigitalemediain.-DeleerlingverkentAI.-1",
+    "KD0059": "fase-kolom-praktischekennisenvaardigheden-Deleerlingzetdigitaletechnologieendigitalemediain.-DeleerlingverkentAI.-2",
+    "KD0060": "fase-kolom-praktischekennisenvaardigheden-Deleerlingzetdigitaletechnologieendigitalemediain.-DeleerlingverkentAI.-2",
+    "KD0061": "fase-kolom-praktischekennisenvaardigheden-Deleerlingzetdigitaletechnologieendigitalemediain.-DeleerlingverkentAI.-2",
+    "KD0062": "fase-kolom-praktischekennisenvaardigheden-Deleerlingzetdigitaletechnologieendigitalemediain.-DeleerlingverkentAI.-2",
+    "KD0102": "fase-kolom-praktischekennisenvaardigheden-Deleerlingzetdigitaletechnologieendigitalemediain.-DeleerlingverkentAI.-3",
+    "KD0103": "fase-kolom-praktischekennisenvaardigheden-Deleerlingzetdigitaletechnologieendigitalemediain.-DeleerlingverkentAI.-3",
+    "KD0104": "fase-kolom-praktischekennisenvaardigheden-Deleerlingzetdigitaletechnologieendigitalemediain.-DeleerlingverkentAI.-3",
+    "KD0105": "fase-kolom-praktischekennisenvaardigheden-Deleerlingzetdigitaletechnologieendigitalemediain.-DeleerlingverkentAI.-3",
+    "KD0020": "fase-kolom-ontwerpenenmaken-Deleerlingcreëertdigitaleproducten.-Deleerlinggebruiktpassendewerkwijzenbijhetcreërenengebruikenvanverschillendetypendigitaleproducten.-1",
+    "KD0021": "fase-kolom-ontwerpenenmaken-Deleerlingcreëertdigitaleproducten.-Deleerlinggebruiktpassendewerkwijzenbijhetcreërenengebruikenvanverschillendetypendigitaleproducten.-1",
+    "KD0022": "fase-kolom-ontwerpenenmaken-Deleerlingcreëertdigitaleproducten.-Deleerlinggebruiktpassendewerkwijzenbijhetcreërenengebruikenvanverschillendetypendigitaleproducten.-1",
+    "KD0023": "fase-kolom-ontwerpenenmaken-Deleerlingcreëertdigitaleproducten.-Deleerlinggebruiktpassendewerkwijzenbijhetcreërenengebruikenvanverschillendetypendigitaleproducten.-1",
+    "KD0024": "fase-kolom-ontwerpenenmaken-Deleerlingcreëertdigitaleproducten.-Deleerlinggebruiktpassendewerkwijzenbijhetcreërenengebruikenvanverschillendetypendigitaleproducten.-1",
+    "KD0063": "fase-kolom-ontwerpenenmaken-Deleerlingcreëertdigitaleproducten.-Deleerlinggebruiktpassendewerkwijzenbijhetcreërenengebruikenvanverschillendetypendigitaleproducten.-2",
+    "KD0064": "fase-kolom-ontwerpenenmaken-Deleerlingcreëertdigitaleproducten.-Deleerlinggebruiktpassendewerkwijzenbijhetcreërenengebruikenvanverschillendetypendigitaleproducten.-2",
+    "KD0065": "fase-kolom-ontwerpenenmaken-Deleerlingcreëertdigitaleproducten.-Deleerlinggebruiktpassendewerkwijzenbijhetcreërenengebruikenvanverschillendetypendigitaleproducten.-2",
+    "KD0066": "fase-kolom-ontwerpenenmaken-Deleerlingcreëertdigitaleproducten.-Deleerlinggebruiktpassendewerkwijzenbijhetcreërenengebruikenvanverschillendetypendigitaleproducten.-2",
+    "KD0067": "fase-kolom-ontwerpenenmaken-Deleerlingcreëertdigitaleproducten.-Deleerlinggebruiktpassendewerkwijzenbijhetcreërenengebruikenvanverschillendetypendigitaleproducten.-2",
+    "KD0106": "fase-kolom-ontwerpenenmaken-Deleerlingcreëertdigitaleproducten.-Deleerlinggebruiktpassendewerkwijzenbijhetcreërenengebruikenvanverschillendetypendigitaleproducten.-3",
+    "KD0107": "fase-kolom-ontwerpenenmaken-Deleerlingcreëertdigitaleproducten.-Deleerlinggebruiktpassendewerkwijzenbijhetcreërenengebruikenvanverschillendetypendigitaleproducten.-3",
+    "KD0108": "fase-kolom-ontwerpenenmaken-Deleerlingcreëertdigitaleproducten.-Deleerlinggebruiktpassendewerkwijzenbijhetcreërenengebruikenvanverschillendetypendigitaleproducten.-3",
+    "KD0109": "fase-kolom-ontwerpenenmaken-Deleerlingcreëertdigitaleproducten.-Deleerlinggebruiktpassendewerkwijzenbijhetcreërenengebruikenvanverschillendetypendigitaleproducten.-3",
+    "KD0110": "fase-kolom-ontwerpenenmaken-Deleerlingcreëertdigitaleproducten.-Deleerlinggebruiktpassendewerkwijzenbijhetcreërenengebruikenvanverschillendetypendigitaleproducten.-3",
+    "KD0025": "fase-kolom-ontwerpenenmaken-Deleerlingcreëertdigitaleproducten.-Deleerlingprogrammeerteencomputerprogrammametbehulpvancomputationeledenkstrategieën.-1",
+    "KD0026": "fase-kolom-ontwerpenenmaken-Deleerlingcreëertdigitaleproducten.-Deleerlingprogrammeerteencomputerprogrammametbehulpvancomputationeledenkstrategieën.-1",
+    "KD0027": "fase-kolom-ontwerpenenmaken-Deleerlingcreëertdigitaleproducten.-Deleerlingprogrammeerteencomputerprogrammametbehulpvancomputationeledenkstrategieën.-1",
+    "KD0028": "fase-kolom-ontwerpenenmaken-Deleerlingcreëertdigitaleproducten.-Deleerlingprogrammeerteencomputerprogrammametbehulpvancomputationeledenkstrategieën.-1",
+    "KD0029": "fase-kolom-ontwerpenenmaken-Deleerlingcreëertdigitaleproducten.-Deleerlingprogrammeerteencomputerprogrammametbehulpvancomputationeledenkstrategieën.-1",
+    "KD0068": "fase-kolom-ontwerpenenmaken-Deleerlingcreëertdigitaleproducten.-Deleerlingprogrammeerteencomputerprogrammametbehulpvancomputationeledenkstrategieën.-2",
+    "KD0069": "fase-kolom-ontwerpenenmaken-Deleerlingcreëertdigitaleproducten.-Deleerlingprogrammeerteencomputerprogrammametbehulpvancomputationeledenkstrategieën.-2",
+    "KD0070": "fase-kolom-ontwerpenenmaken-Deleerlingcreëertdigitaleproducten.-Deleerlingprogrammeerteencomputerprogrammametbehulpvancomputationeledenkstrategieën.-2",
+    "KD0071": "fase-kolom-ontwerpenenmaken-Deleerlingcreëertdigitaleproducten.-Deleerlingprogrammeerteencomputerprogrammametbehulpvancomputationeledenkstrategieën.-2",
+    "KD0072": "fase-kolom-ontwerpenenmaken-Deleerlingcreëertdigitaleproducten.-Deleerlingprogrammeerteencomputerprogrammametbehulpvancomputationeledenkstrategieën.-2",
+    "KD0111": "fase-kolom-ontwerpenenmaken-Deleerlingcreëertdigitaleproducten.-Deleerlingprogrammeerteencomputerprogrammametbehulpvancomputationeledenkstrategieën.-3",
+    "KD0112": "fase-kolom-ontwerpenenmaken-Deleerlingcreëertdigitaleproducten.-Deleerlingprogrammeerteencomputerprogrammametbehulpvancomputationeledenkstrategieën.-3",
+    "KD0113": "fase-kolom-ontwerpenenmaken-Deleerlingcreëertdigitaleproducten.-Deleerlingprogrammeerteencomputerprogrammametbehulpvancomputationeledenkstrategieën.-3",
+    "KD0114": "fase-kolom-ontwerpenenmaken-Deleerlingcreëertdigitaleproducten.-Deleerlingprogrammeerteencomputerprogrammametbehulpvancomputationeledenkstrategieën.-3",
+    "KD0115": "fase-kolom-ontwerpenenmaken-Deleerlingcreëertdigitaleproducten.-Deleerlingprogrammeerteencomputerprogrammametbehulpvancomputationeledenkstrategieën.-3",
+    "KD0030": "fase-kolom-degedigitaliseerdewereld-Deleerlingparticipeertindegedigitaliseerdewereld.-Deleerlinggaatveiligommetdigitalesystemen,dataendeprivacyvanzichzelfenanderen.-1",
+    "KD0031": "fase-kolom-degedigitaliseerdewereld-Deleerlingparticipeertindegedigitaliseerdewereld.-Deleerlinggaatveiligommetdigitalesystemen,dataendeprivacyvanzichzelfenanderen.-1",
+    "KD0032": "fase-kolom-degedigitaliseerdewereld-Deleerlingparticipeertindegedigitaliseerdewereld.-Deleerlinggaatveiligommetdigitalesystemen,dataendeprivacyvanzichzelfenanderen.-1",
+    "KD0033": "fase-kolom-degedigitaliseerdewereld-Deleerlingparticipeertindegedigitaliseerdewereld.-Deleerlinggaatveiligommetdigitalesystemen,dataendeprivacyvanzichzelfenanderen.-1",
+    "KD0034": "fase-kolom-degedigitaliseerdewereld-Deleerlingparticipeertindegedigitaliseerdewereld.-Deleerlinggaatveiligommetdigitalesystemen,dataendeprivacyvanzichzelfenanderen.-1",
+    "KD0073": "fase-kolom-degedigitaliseerdewereld-Deleerlingparticipeertindegedigitaliseerdewereld.-Deleerlinggaatveiligommetdigitalesystemen,dataendeprivacyvanzichzelfenanderen.-2",
+    "KD0074": "fase-kolom-degedigitaliseerdewereld-Deleerlingparticipeertindegedigitaliseerdewereld.-Deleerlinggaatveiligommetdigitalesystemen,dataendeprivacyvanzichzelfenanderen.-2",
+    "KD0075": "fase-kolom-degedigitaliseerdewereld-Deleerlingparticipeertindegedigitaliseerdewereld.-Deleerlinggaatveiligommetdigitalesystemen,dataendeprivacyvanzichzelfenanderen.-2",
+    "KD0076": "fase-kolom-degedigitaliseerdewereld-Deleerlingparticipeertindegedigitaliseerdewereld.-Deleerlinggaatveiligommetdigitalesystemen,dataendeprivacyvanzichzelfenanderen.-2",
+    "KD0077": "fase-kolom-degedigitaliseerdewereld-Deleerlingparticipeertindegedigitaliseerdewereld.-Deleerlinggaatveiligommetdigitalesystemen,dataendeprivacyvanzichzelfenanderen.-2",
+    "KD0116": "fase-kolom-degedigitaliseerdewereld-Deleerlingparticipeertindegedigitaliseerdewereld.-Deleerlinggaatveiligommetdigitalesystemen,dataendeprivacyvanzichzelfenanderen.-3",
+    "KD0117": "fase-kolom-degedigitaliseerdewereld-Deleerlingparticipeertindegedigitaliseerdewereld.-Deleerlinggaatveiligommetdigitalesystemen,dataendeprivacyvanzichzelfenanderen.-3",
+    "KD0118": "fase-kolom-degedigitaliseerdewereld-Deleerlingparticipeertindegedigitaliseerdewereld.-Deleerlinggaatveiligommetdigitalesystemen,dataendeprivacyvanzichzelfenanderen.-3",
+    "KD0119": "fase-kolom-degedigitaliseerdewereld-Deleerlingparticipeertindegedigitaliseerdewereld.-Deleerlinggaatveiligommetdigitalesystemen,dataendeprivacyvanzichzelfenanderen.-3",
+    "KD0120": "fase-kolom-degedigitaliseerdewereld-Deleerlingparticipeertindegedigitaliseerdewereld.-Deleerlinggaatveiligommetdigitalesystemen,dataendeprivacyvanzichzelfenanderen.-3",
+    "KD0035": "fase-kolom-degedigitaliseerdewereld-Deleerlingparticipeertindegedigitaliseerdewereld.-Deleerlingmaaktweloverwogenkeuzesinhetgebruikvandigitaletechnologieendigitalemedia.-1",
+    "KD0036": "fase-kolom-degedigitaliseerdewereld-Deleerlingparticipeertindegedigitaliseerdewereld.-Deleerlingmaaktweloverwogenkeuzesinhetgebruikvandigitaletechnologieendigitalemedia.-1",
+    "KD0037": "fase-kolom-degedigitaliseerdewereld-Deleerlingparticipeertindegedigitaliseerdewereld.-Deleerlingmaaktweloverwogenkeuzesinhetgebruikvandigitaletechnologieendigitalemedia.-1",
+    "KD0038": "fase-kolom-degedigitaliseerdewereld-Deleerlingparticipeertindegedigitaliseerdewereld.-Deleerlingmaaktweloverwogenkeuzesinhetgebruikvandigitaletechnologieendigitalemedia.-1",
+    "KD0039": "fase-kolom-degedigitaliseerdewereld-Deleerlingparticipeertindegedigitaliseerdewereld.-Deleerlingmaaktweloverwogenkeuzesinhetgebruikvandigitaletechnologieendigitalemedia.-1",
+    "KD0078": "fase-kolom-degedigitaliseerdewereld-Deleerlingparticipeertindegedigitaliseerdewereld.-Deleerlingmaaktweloverwogenkeuzesinhetgebruikvandigitaletechnologieendigitalemedia.-2",
+    "KD0079": "fase-kolom-degedigitaliseerdewereld-Deleerlingparticipeertindegedigitaliseerdewereld.-Deleerlingmaaktweloverwogenkeuzesinhetgebruikvandigitaletechnologieendigitalemedia.-2",
+    "KD0080": "fase-kolom-degedigitaliseerdewereld-Deleerlingparticipeertindegedigitaliseerdewereld.-Deleerlingmaaktweloverwogenkeuzesinhetgebruikvandigitaletechnologieendigitalemedia.-2",
+    "KD0081": "fase-kolom-degedigitaliseerdewereld-Deleerlingparticipeertindegedigitaliseerdewereld.-Deleerlingmaaktweloverwogenkeuzesinhetgebruikvandigitaletechnologieendigitalemedia.-2",
+    "KD0082": "fase-kolom-degedigitaliseerdewereld-Deleerlingparticipeertindegedigitaliseerdewereld.-Deleerlingmaaktweloverwogenkeuzesinhetgebruikvandigitaletechnologieendigitalemedia.-2",
+    "KD0121": "fase-kolom-degedigitaliseerdewereld-Deleerlingparticipeertindegedigitaliseerdewereld.-Deleerlingmaaktweloverwogenkeuzesinhetgebruikvandigitaletechnologieendigitalemedia.-3",
+    "KD0122": "fase-kolom-degedigitaliseerdewereld-Deleerlingparticipeertindegedigitaliseerdewereld.-Deleerlingmaaktweloverwogenkeuzesinhetgebruikvandigitaletechnologieendigitalemedia.-3",
+    "KD0123": "fase-kolom-degedigitaliseerdewereld-Deleerlingparticipeertindegedigitaliseerdewereld.-Deleerlingmaaktweloverwogenkeuzesinhetgebruikvandigitaletechnologieendigitalemedia.-3",
+    "KD0124": "fase-kolom-degedigitaliseerdewereld-Deleerlingparticipeertindegedigitaliseerdewereld.-Deleerlingmaaktweloverwogenkeuzesinhetgebruikvandigitaletechnologieendigitalemedia.-3",
+    "KD0125": "fase-kolom-degedigitaliseerdewereld-Deleerlingparticipeertindegedigitaliseerdewereld.-Deleerlingmaaktweloverwogenkeuzesinhetgebruikvandigitaletechnologieendigitalemedia.-3",
+    "KD0040": "fase-kolom-degedigitaliseerdewereld-Deleerlingparticipeertindegedigitaliseerdewereld.-Deleerlingverkenthoedigitaletechnologie,digitalemediaendesamenlevingelkaarwederzijdsbeïnvloeden.-1",
+    "KD0041": "fase-kolom-degedigitaliseerdewereld-Deleerlingparticipeertindegedigitaliseerdewereld.-Deleerlingverkenthoedigitaletechnologie,digitalemediaendesamenlevingelkaarwederzijdsbeïnvloeden.-1",
+    "KD0042": "fase-kolom-degedigitaliseerdewereld-Deleerlingparticipeertindegedigitaliseerdewereld.-Deleerlingverkenthoedigitaletechnologie,digitalemediaendesamenlevingelkaarwederzijdsbeïnvloeden.-1",
+    "KD0043": "fase-kolom-degedigitaliseerdewereld-Deleerlingparticipeertindegedigitaliseerdewereld.-Deleerlingverkenthoedigitaletechnologie,digitalemediaendesamenlevingelkaarwederzijdsbeïnvloeden.-1",
+    "KD0083": "fase-kolom-degedigitaliseerdewereld-Deleerlingparticipeertindegedigitaliseerdewereld.-Deleerlingverkenthoedigitaletechnologie,digitalemediaendesamenlevingelkaarwederzijdsbeïnvloeden.-2",
+    "KD0084": "fase-kolom-degedigitaliseerdewereld-Deleerlingparticipeertindegedigitaliseerdewereld.-Deleerlingverkenthoedigitaletechnologie,digitalemediaendesamenlevingelkaarwederzijdsbeïnvloeden.-2",
+    "KD0085": "fase-kolom-degedigitaliseerdewereld-Deleerlingparticipeertindegedigitaliseerdewereld.-Deleerlingverkenthoedigitaletechnologie,digitalemediaendesamenlevingelkaarwederzijdsbeïnvloeden.-2",
+    "KD0086": "fase-kolom-degedigitaliseerdewereld-Deleerlingparticipeertindegedigitaliseerdewereld.-Deleerlingverkenthoedigitaletechnologie,digitalemediaendesamenlevingelkaarwederzijdsbeïnvloeden.-2",
+    "KD0126": "fase-kolom-degedigitaliseerdewereld-Deleerlingparticipeertindegedigitaliseerdewereld.-Deleerlingverkenthoedigitaletechnologie,digitalemediaendesamenlevingelkaarwederzijdsbeïnvloeden.-3",
+    "KD0127": "fase-kolom-degedigitaliseerdewereld-Deleerlingparticipeertindegedigitaliseerdewereld.-Deleerlingverkenthoedigitaletechnologie,digitalemediaendesamenlevingelkaarwederzijdsbeïnvloeden.-3",
+    "KD0128": "fase-kolom-degedigitaliseerdewereld-Deleerlingparticipeertindegedigitaliseerdewereld.-Deleerlingverkenthoedigitaletechnologie,digitalemediaendesamenlevingelkaarwederzijdsbeïnvloeden.-3",
+    "KD0129": "fase-kolom-degedigitaliseerdewereld-Deleerlingparticipeertindegedigitaliseerdewereld.-Deleerlingverkenthoedigitaletechnologie,digitalemediaendesamenlevingelkaarwederzijdsbeïnvloeden.-3"
+  }
+}

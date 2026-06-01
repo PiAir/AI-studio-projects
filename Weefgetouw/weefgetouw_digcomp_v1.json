@@ -1,0 +1,2020 @@
+﻿{
+  "info": {
+    "paragrafen": [
+      "DigComp 3.0 is het Europese referentiekader voor digitale competentie van burgers, ontwikkeld door het Joint Research Centre (JRC) van de Europese Commissie.",
+      "Het kader bestaat uit 5 competentiegebieden met 21 competenties en beschrijft digitale vaardigheden op 4 beheersingsniveaus: Basis, Gemiddeld, Gevorderd en Zeer gevorderd.",
+      "De competentiebeschrijvingen zijn vertaald naar het Nederlands. In het weefgetouw worden de 4 niveaus weergegeven als Fase 1 t/m Fase 4.",
+      "Meer informatie: https://joint-research-centre.ec.europa.eu/digcomp_nl"
+    ],
+    "licentie": "DigComp 3.0 - Europese Commissie / Joint Research Centre (CC BY 4.0)"
+  },
+  "config": {
+    "leerjaren": [
+      "Leerjaar 1",
+      "Leerjaar 2",
+      "Leerjaar 3",
+      "Leerjaar 4",
+      "Leerjaar 5",
+      "Leerjaar 6",
+      "Leerjaar 7",
+      "Leerjaar 8"
+    ],
+    "vakken": [
+      "Taal - beschouwing",
+      "Taal - woordenschat",
+      "Taal - spelling",
+      "Begrijpend lezen",
+      "Schrijven",
+      "Rekenen",
+      "Wereldoriëntatie",
+      "SEO",
+      "Creatieve vakken",
+      "Digitale geletterdheid",
+      "Project"
+    ],
+    "fases": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "fasesNamen": [
+      "Basis",
+      "Gemiddeld",
+      "Gevorderd",
+      "Zeer gevorderd"
+    ]
+  },
+  "inhoudslijnen": [
+    {
+      "id": "digcomp1",
+      "naam": "Informatie zoeken, evalueren en beheren",
+      "subdomeinen": [
+        {
+          "naam": "Informatie zoeken, evalueren en beheren",
+          "labels": [
+            {
+              "naam": "Browsen, zoeken en filteren van informatie",
+              "competenties": [
+                {
+                  "id": "CS1.1.01",
+                  "fase": 1,
+                  "tekst": "De voordelen inzien van het gebruik van verschillende digitale zoekmachines en -methoden, afhankelijk van het doel."
+                },
+                {
+                  "id": "CS1.1.02",
+                  "fase": 1,
+                  "tekst": "De belangrijkste functies van veelgebruikte AI-gestuurde en traditionele zoekmachines herkennen."
+                },
+                {
+                  "id": "CS1.1.03",
+                  "fase": 1,
+                  "tekst": "Erkennen dat digitale zoekresultaten informatie kunnen bevatten die mogelijk niet relevant is, en dat deze afhankelijk zijn van de gebruikte digitale zoekmachine en de wijze waarop de zoekopdracht is gespecificeerd."
+                },
+                {
+                  "id": "CS1.1.04",
+                  "fase": 1,
+                  "tekst": "Digitale zoekmachines gebruiken om eenvoudige informatiezoekopdrachten uit te voeren, te verfijnen en bij te werken."
+                },
+                {
+                  "id": "CS1.1.05",
+                  "fase": 2,
+                  "tekst": "Doelgericht nieuwe digitale zoekmachines en -strategieën verkennen."
+                },
+                {
+                  "id": "CS1.1.06",
+                  "fase": 2,
+                  "tekst": "Geschikte digitale zoekmachines op basis van informatiebehoeften selecteren."
+                },
+                {
+                  "id": "CS1.1.07",
+                  "fase": 2,
+                  "tekst": "Onderscheid maken tussen meer en minder relevante digitale zoekresultaten."
+                },
+                {
+                  "id": "CS1.1.08",
+                  "fase": 2,
+                  "tekst": "Informatiebehoeften vertalen naar effectieve digitale zoekopdrachten, commando's of prompts, en passende strategieën toepassen om resultaten te verfijnen of te filteren."
+                },
+                {
+                  "id": "CS1.1.09",
+                  "fase": 3,
+                  "tekst": "Voortdurend functies en kenmerken van bekende en nieuwe digitale zoekmachines verkennen om competenties te versterken."
+                },
+                {
+                  "id": "CS1.1.10",
+                  "fase": 3,
+                  "tekst": "Een verscheidenheid aan digitale zoekmachines en -strategieën combineren om aan complexe informatiebehoeften te voldoen."
+                },
+                {
+                  "id": "CS1.1.11",
+                  "fase": 3,
+                  "tekst": "Anderen helpen bij het ontwikkelen van hun digitale zoekcompetenties."
+                },
+                {
+                  "id": "CS1.1.12",
+                  "fase": 4,
+                  "tekst": "Op de hoogte blijven van ontwikkelingen in digitale zoektechnologie."
+                },
+                {
+                  "id": "CS1.1.13",
+                  "fase": 4,
+                  "tekst": "Een verscheidenheid aan digitale zoekmachines en -strategieën combineren om aan zeer complexe of gespecialiseerde informatiebehoeften te voldoen."
+                },
+                {
+                  "id": "CS1.1.14",
+                  "fase": 4,
+                  "tekst": "Anderen helpen bij het uitvoeren en verfijnen van complexe of gespecialiseerde zoekopdrachten in digitale omgevingen."
+                },
+                {
+                  "id": "CS1.1.15",
+                  "fase": 4,
+                  "tekst": "Bijdragen aan verbeteringen in of nieuwe oplossingen voor complexe of gespecialiseerde zoekopdrachten in digitale omgevingen."
+                }
+              ]
+            },
+            {
+              "naam": "Evalueren van informatie",
+              "competenties": [
+                {
+                  "id": "CS1.2.01",
+                  "fase": 1,
+                  "tekst": "De voordelen inzien van een voorzichtige aanpak bij het interpreteren van informatie en content in digitale omgevingen."
+                },
+                {
+                  "id": "CS1.2.02",
+                  "fase": 1,
+                  "tekst": "Erkennen dat sommige digitale informatiebronnen en -systemen mogelijk niet betrouwbaar zijn."
+                },
+                {
+                  "id": "CS1.2.03",
+                  "fase": 1,
+                  "tekst": "Erkennen dat het moeilijk kan zijn om onderscheid te maken tussen informatie en content gegenereerd door mensen en door AI-systemen."
+                },
+                {
+                  "id": "CS1.2.04",
+                  "fase": 1,
+                  "tekst": "Voorbeelden herkennen van misinformatie, desinformatie en bronnen van vooroordelen."
+                },
+                {
+                  "id": "CS1.2.05",
+                  "fase": 1,
+                  "tekst": "Voorbeelden herkennen van beïnvloeding via sociale media en filterbubbels."
+                },
+                {
+                  "id": "CS1.2.06",
+                  "fase": 1,
+                  "tekst": "Een basale inschatting maken van de betrouwbaarheid en geloofwaardigheid van digitale informatiebronnen en content."
+                },
+                {
+                  "id": "CS1.2.07",
+                  "fase": 2,
+                  "tekst": "De bron van online informatie en de doelen van factcheck-diensten om pre-bunking- en debunkingcompetenties te ontwikkelen herkennen."
+                },
+                {
+                  "id": "CS1.2.08",
+                  "fase": 2,
+                  "tekst": "Erkennen dat de data die gebruikt worden bij het trainen van AI-systemen en de manier waarop ze getraind worden van invloed zijn op de betrouwbaarheid van de informatie die zij leveren."
+                },
+                {
+                  "id": "CS1.2.09",
+                  "fase": 2,
+                  "tekst": "Erkennen dat sommige digitale technologieën, zoals AI-systemen, kunnen werken als een 'black box', waardoor het moeilijk is om uit te leggen waarom of hoe een resultaat is geproduceerd."
+                },
+                {
+                  "id": "CS1.2.10",
+                  "fase": 2,
+                  "tekst": "Erkennen dat AI-systemen resultaten kunnen produceren die onnauwkeurig zijn, zelfs als deze aannemelijk lijken, en dat de persoon die het AI-systeem gebruikt verantwoordelijk is voor het controleren van de kwaliteit en validiteit van de gegenereerde informatie."
+                },
+                {
+                  "id": "CS1.2.11",
+                  "fase": 2,
+                  "tekst": "Erkennen dat individuele (cognitieve en affectieve) vooroordelen en AI-systeemvooroordelen een rol spelen bij het genereren en interpreteren van informatie."
+                },
+                {
+                  "id": "CS1.2.12",
+                  "fase": 2,
+                  "tekst": "Strategieën in digitale omgevingen die gebruikers kunnen sturen, zoals clickbait, nudging en gamificatie, herkennen en er effectief op reageren."
+                },
+                {
+                  "id": "CS1.2.13",
+                  "fase": 2,
+                  "tekst": "De betrouwbaarheid van bronnen, informatie en content in digitale omgevingen kritisch beoordelen, rekening houdend met de rol van AI-systemen, personalisatie-effecten en commerciële of andere belangen."
+                },
+                {
+                  "id": "CS1.2.14",
+                  "fase": 3,
+                  "tekst": "Voortdurend onderzoeken hoe AI-systemen, vooroordelen en verschillende belangen het genereren, de presentatie en interpretatie van informatie in digitale omgevingen vormgeven."
+                },
+                {
+                  "id": "CS1.2.15",
+                  "fase": 3,
+                  "tekst": "Kenmerken van betrouwbare digitale technologie, zoals AI-systemen, beschrijven."
+                },
+                {
+                  "id": "CS1.2.16",
+                  "fase": 3,
+                  "tekst": "Persoonlijke, sociale en politieke gevolgen van misinformatie, desinformatie, bronnen van vooroordelen en beïnvloeding via sociale media en filterbubbels beschrijven."
+                },
+                {
+                  "id": "CS1.2.17",
+                  "fase": 3,
+                  "tekst": "De betrouwbaarheid en nauwkeurigheid van een diversiteit aan digitale bronnen, informatie en content grondig beoordelen, rekening houdend met verschillende potentiële beïnvloedende factoren."
+                },
+                {
+                  "id": "CS1.2.18",
+                  "fase": 3,
+                  "tekst": "Anderen ondersteunen bij het ontwikkelen van competenties om de geloofwaardigheid en betrouwbaarheid van digitale bronnen, informatie en content te beoordelen."
+                },
+                {
+                  "id": "CS1.2.19",
+                  "fase": 4,
+                  "tekst": "Digitale bronnen, informatie en content systematisch beoordelen en evalueren ter ondersteuning van complexe besluitvorming."
+                },
+                {
+                  "id": "CS1.2.20",
+                  "fase": 4,
+                  "tekst": "Anderen helpen bij het ontwikkelen van competenties om informatie en content kritisch te beoordelen, en bij het opbouwen van veerkracht tegen misinformatie en desinformatie in digitale omgevingen."
+                },
+                {
+                  "id": "CS1.2.21",
+                  "fase": 4,
+                  "tekst": "Initiatieven die een nauwkeurige interpretatie van informatie in digitale omgevingen ondersteunen, leiden of hieraan bijdragen."
+                }
+              ]
+            },
+            {
+              "naam": "Beheren van informatie",
+              "competenties": [
+                {
+                  "id": "CS1.3.01",
+                  "fase": 1,
+                  "tekst": "De voordelen inzien van het beheren en ordenen van informatie in digitale omgevingen."
+                },
+                {
+                  "id": "CS1.3.02",
+                  "fase": 1,
+                  "tekst": "Functies van dataverwijdering, -herstel en -back-up herkennen, evenals belangrijke eigenschappen van digitale bestanden en mappen."
+                },
+                {
+                  "id": "CS1.3.03",
+                  "fase": 1,
+                  "tekst": "Digitale bestanden downloaden, opslaan, opvragen, verplaatsen en verwijderen."
+                },
+                {
+                  "id": "CS1.3.04",
+                  "fase": 1,
+                  "tekst": "Eenvoudige data in een gestructureerde digitale omgeving ordenen en formatteren, zoals in spreadsheets."
+                },
+                {
+                  "id": "CS1.3.05",
+                  "fase": 1,
+                  "tekst": "Contacten bijwerken, zoals op de telefoon, in e-mail of op sociale media."
+                },
+                {
+                  "id": "CS1.3.06",
+                  "fase": 2,
+                  "tekst": "Het belang inzien van zorgvuldig en ethisch beheer van data en informatie in digitale omgevingen."
+                },
+                {
+                  "id": "CS1.3.07",
+                  "fase": 2,
+                  "tekst": "Naamgevingsconventies toepassen op digitale bestanden en hiërarchieën toepassen op digitale mappen."
+                },
+                {
+                  "id": "CS1.3.08",
+                  "fase": 2,
+                  "tekst": "Mappen ordenen en bestanden beheren, opslaan en verwijderen op digitale apparaten, externe opslag en clouddiensten."
+                },
+                {
+                  "id": "CS1.3.09",
+                  "fase": 2,
+                  "tekst": "Veelvoorkomende soorten data en hun formats herkennen en tools voor dataverzameling voor eenvoudige dataverwerking gebruiken."
+                },
+                {
+                  "id": "CS1.3.10",
+                  "fase": 2,
+                  "tekst": "Informatie in eigen digitale accounts beheren, zoals e-mail."
+                },
+                {
+                  "id": "CS1.3.11",
+                  "fase": 2,
+                  "tekst": "Data ordenen en formatteren en eenvoudige formules in een gestructureerde digitale omgeving toepassen, zoals in spreadsheets."
+                },
+                {
+                  "id": "CS1.3.12",
+                  "fase": 3,
+                  "tekst": "Prioriteit geven aan ethisch en transparant beheer en verwerking van data en informatie in digitale omgevingen."
+                },
+                {
+                  "id": "CS1.3.13",
+                  "fase": 3,
+                  "tekst": "Verschillende functies toepassen om data en informatie in digitale omgevingen over te dragen en te beheren."
+                },
+                {
+                  "id": "CS1.3.14",
+                  "fase": 3,
+                  "tekst": "Voorbeelden, toepassingen en beperkingen van open data en big data beschrijven."
+                },
+                {
+                  "id": "CS1.3.15",
+                  "fase": 3,
+                  "tekst": "Verschillende digitale tools en methoden gebruiken om een verscheidenheid aan data en informatie te verzamelen en verwerken."
+                },
+                {
+                  "id": "CS1.3.16",
+                  "fase": 3,
+                  "tekst": "Geschikte analyses toepassen op informatie en data in digitale omgevingen om bij te dragen aan complexe besluitvorming."
+                },
+                {
+                  "id": "CS1.3.17",
+                  "fase": 3,
+                  "tekst": "Anderen helpen met het beheer, de verwerking en de analyse van data en informatie in digitale omgevingen."
+                },
+                {
+                  "id": "CS1.3.18",
+                  "fase": 4,
+                  "tekst": "Het belang inzien van het structureren en documenteren van data en informatie in digitale omgevingen ten behoeve van anderen."
+                },
+                {
+                  "id": "CS1.3.19",
+                  "fase": 4,
+                  "tekst": "Strategieën ontwikkelen en implementeren voor complex of gespecialiseerd beheer, verwerking en analyse van data en informatie in digitale omgevingen."
+                },
+                {
+                  "id": "CS1.3.20",
+                  "fase": 4,
+                  "tekst": "Een verscheidenheid aan digitale tools en methoden gebruiken om complexe data of grote hoeveelheden informatie te verwerken, beheren of analyseren."
+                },
+                {
+                  "id": "CS1.3.21",
+                  "fase": 4,
+                  "tekst": "Initiatieven die anderen ondersteunen bij geavanceerd informatie- en databeheer, -verwerking en -analyse in digitale omgevingen leiden of hieraan bijdragen."
+                },
+                {
+                  "id": "CS1.3.22",
+                  "fase": 4,
+                  "tekst": "Bijdragen aan verbeteringen in of nieuwe oplossingen voor databeheer, -verwerking of -analyse in digitale omgevingen."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "digcomp2",
+      "naam": "Communicatie en samenwerking",
+      "subdomeinen": [
+        {
+          "naam": "Communicatie en samenwerking",
+          "labels": [
+            {
+              "naam": "Interactie via en met digitale technologie",
+              "competenties": [
+                {
+                  "id": "CS2.1.01",
+                  "fase": 1,
+                  "tekst": "Basale functies van digitale communicatietools voor de interactie met individuen en groepen herkennen en gebruiken."
+                },
+                {
+                  "id": "CS2.1.02",
+                  "fase": 1,
+                  "tekst": "Het belang inzien van het rekening houden met de voorkeuren van anderen in digitale communicatie."
+                },
+                {
+                  "id": "CS2.1.03",
+                  "fase": 1,
+                  "tekst": "Verschillen herkennen tussen digitale en niet-digitale interacties, en tussen fysieke en virtuele realiteiten."
+                },
+                {
+                  "id": "CS2.1.04",
+                  "fase": 1,
+                  "tekst": "Basale functies van virtuele assistenten (chatbots) en belangrijke verschillen tussen mens-machine-interacties en mens-tot-mens-interacties herkennen."
+                },
+                {
+                  "id": "CS2.1.05",
+                  "fase": 1,
+                  "tekst": "In grote lijnen herkennen wat een robot is, de niet-menselijke aard ervan, en erkennen dat mensen interacteren met robots om taken uit te voeren."
+                },
+                {
+                  "id": "CS2.1.06",
+                  "fase": 2,
+                  "tekst": "Het belang inzien van het afstemmen van de eigen digitale communicatie op specifieke contexten."
+                },
+                {
+                  "id": "CS2.1.07",
+                  "fase": 2,
+                  "tekst": "Erkennen dat er in digitale omgevingen een continuüm bestaat tussen realiteit en virtualiteit."
+                },
+                {
+                  "id": "CS2.1.08",
+                  "fase": 2,
+                  "tekst": "Een geschikt communicatiemiddel voor een bepaalde context of bepaald doel aanwijzen."
+                },
+                {
+                  "id": "CS2.1.09",
+                  "fase": 2,
+                  "tekst": "De diverse functies van verschillende digitale communicatiemiddelen gebruiken om te communiceren met en leiding te geven aan individuen, groepen en kanalen."
+                },
+                {
+                  "id": "CS2.1.10",
+                  "fase": 2,
+                  "tekst": "Vragen, commando's of prompts voor virtuele assistenten (chatbots) en AI-systemen ontwikkelen en verfijnen om niet-complexe interacties af te handelen."
+                },
+                {
+                  "id": "CS2.1.11",
+                  "fase": 2,
+                  "tekst": "Beschrijven hoe mensen kunnen interacteren met robots, hun belangrijkste functies herkennen (zoals sensoren, software, bewegingsregelaars en menselijke interface), en herkennen dat ze kunnen werken met variërende mate van autonomie."
+                },
+                {
+                  "id": "CS2.1.12",
+                  "fase": 3,
+                  "tekst": "Communicatie in digitale omgevingen voortdurend aanpassen als reactie op een verscheidenheid aan contexten."
+                },
+                {
+                  "id": "CS2.1.13",
+                  "fase": 3,
+                  "tekst": "Digitale communicatietools en -methoden voor complexe communicatie- en interactietaken combineren."
+                },
+                {
+                  "id": "CS2.1.14",
+                  "fase": 3,
+                  "tekst": "Vragen, commando's of prompts voor AI-systemen systematisch ontwikkelen en deze geleidelijk verfijnen om complexe interacties af te handelen."
+                },
+                {
+                  "id": "CS2.1.15",
+                  "fase": 3,
+                  "tekst": "Anderen helpen bij het beoordelen en selecteren van geschikte digitale communicatietools voor een bepaald doel."
+                },
+                {
+                  "id": "CS2.1.16",
+                  "fase": 3,
+                  "tekst": "Complexe digitale evenementen organiseren en/of modereren."
+                },
+                {
+                  "id": "CS2.1.17",
+                  "fase": 3,
+                  "tekst": "Voor- en nadelen van robottoepassingen in een specifieke context beoordelen."
+                },
+                {
+                  "id": "CS2.1.18",
+                  "fase": 4,
+                  "tekst": "Op de hoogte blijven van ontwikkelingen in tools en methoden voor digitale communicatie en interactie."
+                },
+                {
+                  "id": "CS2.1.19",
+                  "fase": 4,
+                  "tekst": "Digitale communicatie- en interactietools beoordelen en combineren voor zeer complexe of nieuwe taken."
+                },
+                {
+                  "id": "CS2.1.20",
+                  "fase": 4,
+                  "tekst": "Begeleiding, ondersteuning of leiderschap bieden bij het gevorderde gebruik van communicatie- en interactietools."
+                },
+                {
+                  "id": "CS2.1.21",
+                  "fase": 4,
+                  "tekst": "Verbeteringen in of nieuwe oplossingen voor digitale communicatie of mens-machine-interactie leiden of hieraan bijdragen."
+                }
+              ]
+            },
+            {
+              "naam": "Delen via digitale technologie",
+              "competenties": [
+                {
+                  "id": "CS2.2.01",
+                  "fase": 1,
+                  "tekst": "Het belang inzien van het ethisch en verantwoord delen van informatie en content."
+                },
+                {
+                  "id": "CS2.2.02",
+                  "fase": 1,
+                  "tekst": "Functies en toepassingen van sociale media herkennen, evenals voorbeelden van veelvoorkomende sociale mediaplatforms."
+                },
+                {
+                  "id": "CS2.2.03",
+                  "fase": 1,
+                  "tekst": "Voordelen en risico's van het delen van informatie en content in digitale omgevingen herkennen, en erkennen dat individuen zelf kunnen kiezen hoe en wat ze delen."
+                },
+                {
+                  "id": "CS2.2.04",
+                  "fase": 1,
+                  "tekst": "Erkennen dat content op verschillende manieren kan worden gedeeld door zowel AI-systemen als mensen."
+                },
+                {
+                  "id": "CS2.2.05",
+                  "fase": 1,
+                  "tekst": "Doel en doelgroep van informatie en content herkennen die gedeeld gaat worden in digitale omgevingen."
+                },
+                {
+                  "id": "CS2.2.06",
+                  "fase": 1,
+                  "tekst": "Eenvoudige processen inzetten om informatie en content op een adequate manier en doelgericht te delen in digitale omgevingen."
+                },
+                {
+                  "id": "CS2.2.07",
+                  "fase": 2,
+                  "tekst": "Het belang inzien van het beoordelen van de waarde en nauwkeurigheid van informatie en content voordat deze in digitale omgevingen worden gedeeld."
+                },
+                {
+                  "id": "CS2.2.08",
+                  "fase": 2,
+                  "tekst": "Verantwoordelijkheden beschrijven die horen bij het delen van informatie en content in digitale omgevingen."
+                },
+                {
+                  "id": "CS2.2.09",
+                  "fase": 2,
+                  "tekst": "Effectieve en ethische manieren beschrijven en implementeren om informatie en content te delen in verschillende digitale omgevingen."
+                },
+                {
+                  "id": "CS2.2.10",
+                  "fase": 2,
+                  "tekst": "Misinformatie en desinformatie die gedeeld is in digitale omgevingen rapporteren of markeren."
+                },
+                {
+                  "id": "CS2.2.11",
+                  "fase": 3,
+                  "tekst": "De waarde inzien van het delen van informatie en content in digitale omgevingen om anderen te helpen."
+                },
+                {
+                  "id": "CS2.2.12",
+                  "fase": 3,
+                  "tekst": "Informatie en content in digitale omgevingen delen om persoonlijke, leer- of professionele doelen van zichzelf en anderen te faciliteren."
+                },
+                {
+                  "id": "CS2.2.13",
+                  "fase": 3,
+                  "tekst": "Anderen adviseren over effectieve en ethische manieren om informatie en content te delen in digitale omgevingen."
+                },
+                {
+                  "id": "CS2.2.14",
+                  "fase": 4,
+                  "tekst": "Complexe uitwisseling van informatie tussen verschillende digitale technologieën faciliteren, en daarbij waar nodig nieuwe en alternatieve manieren verkennen."
+                },
+                {
+                  "id": "CS2.2.15",
+                  "fase": 4,
+                  "tekst": "Bijdragen aan complexe of gespecialiseerde initiatieven voor het delen van informatie en content in digitale omgevingen."
+                },
+                {
+                  "id": "CS2.2.16",
+                  "fase": 4,
+                  "tekst": "Verbeteringen in of nieuwe oplossingen voor het delen van informatie en content in digitale omgevingen leiden of hieraan bijdragen."
+                }
+              ]
+            },
+            {
+              "naam": "Actief burgerschap met behulp van digitale technologie",
+              "competenties": [
+                {
+                  "id": "CS2.3.01",
+                  "fase": 1,
+                  "tekst": "Belangrijke doelen en functies van digitale platforms en diensten herkennen en waar nodig met hulp gebruiken."
+                },
+                {
+                  "id": "CS2.3.02",
+                  "fase": 1,
+                  "tekst": "De potentie van digitale technologie voor participatie en empowerment – en uitsluiting – van zichzelf en specifieke groepen en gemeenschappen herkennen."
+                },
+                {
+                  "id": "CS2.3.03",
+                  "fase": 1,
+                  "tekst": "Erkennen dat er wetten en regels zijn om de rechten van gebruikers van digitale platforms en diensten te beschermen."
+                },
+                {
+                  "id": "CS2.3.04",
+                  "fase": 1,
+                  "tekst": "Digitale tools gebruiken om gemeenschappen te zoeken en te vinden voor burgerparticipatie rond onderwerpen van interesse."
+                },
+                {
+                  "id": "CS2.3.05",
+                  "fase": 2,
+                  "tekst": "Deelnemen aan discussies over onderwerpen die te maken hebben met digitaal burgerschap."
+                },
+                {
+                  "id": "CS2.3.06",
+                  "fase": 2,
+                  "tekst": "Prioriteit geven aan het verkennen van manieren waarop digitale technologie de eigen maatschappelijke participatie kunnen versterken."
+                },
+                {
+                  "id": "CS2.3.07",
+                  "fase": 2,
+                  "tekst": "De potentiële voordelen van veelvoorkomende vormen van digitale participatie beschrijven, en daarbij erkennen dat burgerparticipatie plaatsvindt op een continuüm."
+                },
+                {
+                  "id": "CS2.3.08",
+                  "fase": 2,
+                  "tekst": "Belangrijke rechten die voortvloeien uit relevante digitale wetten en regels herkennen en bepalen hoe deze uit te oefenen."
+                },
+                {
+                  "id": "CS2.3.09",
+                  "fase": 2,
+                  "tekst": "Beschrijven hoe digitale technologie zoals sociale mediaplatforms bepaalde aspecten van de democratie kunnen beïnvloeden (bijvoorbeeld door beïnvloeding van het verkiezingsproces)."
+                },
+                {
+                  "id": "CS2.3.10",
+                  "fase": 2,
+                  "tekst": "Het concept van de platformeconomie beschrijven, waaronder kansen, risico's en sociale en ethische implicaties."
+                },
+                {
+                  "id": "CS2.3.11",
+                  "fase": 2,
+                  "tekst": "Het concept en de functies van maatschappelijke monitoring en e-overheid beschrijven."
+                },
+                {
+                  "id": "CS2.3.12",
+                  "fase": 2,
+                  "tekst": "Zelfstandig en effectief interacteren met digitale platforms en diensten."
+                },
+                {
+                  "id": "CS2.3.13",
+                  "fase": 3,
+                  "tekst": "Deelnemen aan discussies over de ethische, politieke en sociale implicaties van digitale technologie en prioriteit geven aan het voortdurend verkennen van manieren waarop digitale technologie empowerment en burgerparticipatie kan versterken."
+                },
+                {
+                  "id": "CS2.3.14",
+                  "fase": 3,
+                  "tekst": "De potentie van digitale technologie voor inclusie, uitsluiting en maatschappelijke interventie beoordelen."
+                },
+                {
+                  "id": "CS2.3.15",
+                  "fase": 3,
+                  "tekst": "Verschillende implicaties van digitale technologie beoordelen, zoals sociale mediaplatforms in democratische processen."
+                },
+                {
+                  "id": "CS2.3.16",
+                  "fase": 3,
+                  "tekst": "Onderscheid maken tussen risicovol en verboden AI-systemen (volgens wetgeving) en hun potentiële maatschappelijke, politieke of economische effecten."
+                },
+                {
+                  "id": "CS2.3.17",
+                  "fase": 3,
+                  "tekst": "Anderen helpen bij het herkennen van kansen en bij het participeren in digitale omgevingen voor empowerment en burgerparticipatie (van zichzelf of de gemeenschap)."
+                },
+                {
+                  "id": "CS2.3.18",
+                  "fase": 3,
+                  "tekst": "Anderen ondersteunen bij het zich informeren over en het uitoefenen van hun rechten die voortvloeien uit digitale wetgeving."
+                },
+                {
+                  "id": "CS2.3.19",
+                  "fase": 4,
+                  "tekst": "Actuele kennis van digitale technologie en wetsontwikkelingen gebruiken om de effecten van digitale technologie op de samenleving, politieke processen of de economie vanuit verschillende perspectieven te beoordelen."
+                },
+                {
+                  "id": "CS2.3.20",
+                  "fase": 4,
+                  "tekst": "Anderen helpen de belangrijkste bepalingen van digitale wetgeving in een specifieke context te begrijpen."
+                },
+                {
+                  "id": "CS2.3.21",
+                  "fase": 4,
+                  "tekst": "Digitale burgerschapsinitiatieven leiden of ontwerpen, bijvoorbeeld om burgerparticipatie, inclusie of empowerment te bevorderen."
+                }
+              ]
+            },
+            {
+              "naam": "Samenwerken met behulp van digitale technologie",
+              "competenties": [
+                {
+                  "id": "CS2.4.01",
+                  "fase": 1,
+                  "tekst": "Deelnemen aan samenwerkingsgroepen via digitale samenwerkingstools en daarbij bewust zijn van hun voordelen en beperkingen."
+                },
+                {
+                  "id": "CS2.4.02",
+                  "fase": 1,
+                  "tekst": "De aanwezigheid van AI-systemen in digitale samenwerkingstools herkennen."
+                },
+                {
+                  "id": "CS2.4.03",
+                  "fase": 1,
+                  "tekst": "Het belang inzien van effectieve communicatievaardigheden voor succesvolle samenwerking in digitale omgevingen."
+                },
+                {
+                  "id": "CS2.4.04",
+                  "fase": 2,
+                  "tekst": "Eenvoudige samenwerkingstaken in digitale omgevingen creëren, beheren en er effectief aan bijdragen."
+                },
+                {
+                  "id": "CS2.4.05",
+                  "fase": 2,
+                  "tekst": "Belangrijke kenmerken en functies van verschillende samenwerkingstools herkennen en deze selecteren om samenwerkingsdoelen te bereiken."
+                },
+                {
+                  "id": "CS2.4.06",
+                  "fase": 2,
+                  "tekst": "Voorbeelden herkennen van ethische, verantwoorde en effectieve samenwerking tussen mens en AI."
+                },
+                {
+                  "id": "CS2.4.07",
+                  "fase": 2,
+                  "tekst": "Rekening houden met verschillende perspectieven om een gemeenschappelijk doel in digitale omgevingen te helpen bereiken."
+                },
+                {
+                  "id": "CS2.4.08",
+                  "fase": 3,
+                  "tekst": "Verschillende digitale samenwerkingstools gebruiken en combineren en daarbij zorgen voor proportioneel en ethisch gebruik van digitale technologie en mens-AI-samenwerkingsprocessen die voorzien in de behoeften van projecten, taken en groepen."
+                },
+                {
+                  "id": "CS2.4.09",
+                  "fase": 3,
+                  "tekst": "Samenwerking in digitale omgevingen leiden."
+                },
+                {
+                  "id": "CS2.4.10",
+                  "fase": 3,
+                  "tekst": "Anderen helpen bij het ontwikkelen van hun competenties om samen te werken in digitale omgevingen."
+                },
+                {
+                  "id": "CS2.4.11",
+                  "fase": 4,
+                  "tekst": "Proportioneel, ethisch en effectief gebruik van digitale technologie in samenwerkingen, waaronder AI-systemen, bevorderen en ondersteunen."
+                },
+                {
+                  "id": "CS2.4.12",
+                  "fase": 4,
+                  "tekst": "Complexe of gespecialiseerde samenwerkingsstrategieën of -systemen voor digitale omgevingen ontwerpen."
+                },
+                {
+                  "id": "CS2.4.13",
+                  "fase": 4,
+                  "tekst": "Anderen helpen bij het ontwikkelen van competenties om leiding te geven aan samenwerking in digitale omgevingen."
+                },
+                {
+                  "id": "CS2.4.14",
+                  "fase": 4,
+                  "tekst": "Verbeteringen in of nieuwe oplossingen voor samenwerking tussen mens en AI leiden of hieraan bijdragen."
+                }
+              ]
+            },
+            {
+              "naam": "Digitaal gedrag",
+              "competenties": [
+                {
+                  "id": "CS2.5.01",
+                  "fase": 1,
+                  "tekst": "Verschillen herkennen in verbaal en non-verbaal gedrag in digitale en niet-digitale omgevingen, en erkennen dat er culturele en contextuele verschillen zijn in verbale en non-verbale digitale communicatie."
+                },
+                {
+                  "id": "CS2.5.02",
+                  "fase": 1,
+                  "tekst": "Het belang inzien van het geven van ruimte aan de meningen van anderen in digitale omgevingen."
+                },
+                {
+                  "id": "CS2.5.03",
+                  "fase": 1,
+                  "tekst": "Erkennen dat bepaald gedrag in digitale omgevingen mogelijk niet acceptabel is voor anderen en/of juridische gevolgen kan hebben."
+                },
+                {
+                  "id": "CS2.5.04",
+                  "fase": 1,
+                  "tekst": "Een passende toon en visuele expressie zoals emoji's gebruiken in formele en informele digitale omgevingen."
+                },
+                {
+                  "id": "CS2.5.05",
+                  "fase": 2,
+                  "tekst": "De relatie tussen digitaal gedrag en digitale reputatie beschrijven."
+                },
+                {
+                  "id": "CS2.5.06",
+                  "fase": 2,
+                  "tekst": "Prioriteit geven aan gedrag dat inclusie en een positieve digitale reputatie van zichzelf en anderen bevordert."
+                },
+                {
+                  "id": "CS2.5.07",
+                  "fase": 2,
+                  "tekst": "Belangrijke rechten en verantwoordelijkheden van kinderen en volwassenen met betrekking tot digitaal gedrag herkennen."
+                },
+                {
+                  "id": "CS2.5.08",
+                  "fase": 3,
+                  "tekst": "Met effectieve en respectvolle communicatie en gedrag reageren op moeilijke of complexe situaties in digitale omgevingen."
+                },
+                {
+                  "id": "CS2.5.09",
+                  "fase": 3,
+                  "tekst": "Onderscheid maken tussen ethisch, legaal en illegaal gedrag in digitale omgevingen en daarbij erkennen dat deze onderscheiden complex kunnen zijn."
+                },
+                {
+                  "id": "CS2.5.10",
+                  "fase": 3,
+                  "tekst": "Patronen van misbruik van specifieke groepen in digitale omgevingen en hun potentiële effecten analyseren en manieren beschrijven waarop deze kunnen worden gemeld en aangepakt."
+                },
+                {
+                  "id": "CS2.5.11",
+                  "fase": 3,
+                  "tekst": "Inclusief en respectvol gedrag in digitale omgevingen bevorderen en ondersteunen."
+                },
+                {
+                  "id": "CS2.5.12",
+                  "fase": 3,
+                  "tekst": "Anderen ondersteunen bij het ontwikkelen van hun vaardigheden voor inclusief en respectvol gedrag in digitale omgevingen."
+                },
+                {
+                  "id": "CS2.5.13",
+                  "fase": 4,
+                  "tekst": "Op de hoogte blijven van ontwikkelingen in beleid en wetgeving met betrekking tot gedrag in digitale omgevingen."
+                },
+                {
+                  "id": "CS2.5.14",
+                  "fase": 4,
+                  "tekst": "Anderen helpen belangrijke rechten en verantwoordelijkheden die voortvloeien uit beleid of wetgeving met betrekking tot digitaal gedrag in een bepaalde context te begrijpen."
+                },
+                {
+                  "id": "CS2.5.15",
+                  "fase": 4,
+                  "tekst": "Beleid of initiatieven op het gebied van digitaal gedrag leiden of hieraan bijdragen."
+                }
+              ]
+            },
+            {
+              "naam": "Beheren van de eigen digitale identiteit",
+              "competenties": [
+                {
+                  "id": "CS2.6.01",
+                  "fase": 1,
+                  "tekst": "De voordelen inzien van het implementeren van maatregelen om de eigen digitale identiteit te helpen beheren."
+                },
+                {
+                  "id": "CS2.6.02",
+                  "fase": 1,
+                  "tekst": "Kenmerken van fysieke en digitale identiteiten herkennen, en aspecten van fysieke identiteit herkennen die gekoppeld kunnen worden aan digitale identiteit."
+                },
+                {
+                  "id": "CS2.6.03",
+                  "fase": 1,
+                  "tekst": "Digitale identiteit herkennen als zowel een middel om een individu te authenticeren (valideren) als de data gegenereerd door de online activiteiten van een individu, en veelvoorkomende vormen en toepassingen van digitale identiteit herkennen."
+                },
+                {
+                  "id": "CS2.6.04",
+                  "fase": 1,
+                  "tekst": "Het concept en de componenten van een digitale voetafdruk herkennen."
+                },
+                {
+                  "id": "CS2.6.05",
+                  "fase": 1,
+                  "tekst": "Erkennen dat wetten voor de bescherming van digitale identiteit de data en privacy van individuen beschermen."
+                },
+                {
+                  "id": "CS2.6.06",
+                  "fase": 1,
+                  "tekst": "Eenvoudige maatregelen herkennen en implementeren, zoals het beperken van tracking en het verwijderen van de browsegeschiedenis, om de digitale identiteit te beheren."
+                },
+                {
+                  "id": "CS2.6.07",
+                  "fase": 2,
+                  "tekst": "Het belang inzien van de eigen rol en rechten bij het beheer van de digitale identiteit."
+                },
+                {
+                  "id": "CS2.6.08",
+                  "fase": 2,
+                  "tekst": "Voorbeelden herkennen van actief en passief gegenereerde informatie met betrekking tot digitale identiteit."
+                },
+                {
+                  "id": "CS2.6.09",
+                  "fase": 2,
+                  "tekst": "De reikwijdte van de eigen digitale identiteit analyseren om beschermingsmaatregelen te implementeren."
+                },
+                {
+                  "id": "CS2.6.10",
+                  "fase": 2,
+                  "tekst": "Instellingen aanpassen op apparaten en apps, online accounts en activiteitstracking om de eigen digitale identiteit te helpen beheren."
+                },
+                {
+                  "id": "CS2.6.11",
+                  "fase": 2,
+                  "tekst": "Een of meer digitale identiteiten cureren en beheren met behulp van verschillende kenmerken en functionaliteiten van digitale platforms of diensten."
+                },
+                {
+                  "id": "CS2.6.12",
+                  "fase": 3,
+                  "tekst": "Manieren beschrijven om wettelijke rechten uit te oefenen bij kwesties met betrekking tot digitale identiteit."
+                },
+                {
+                  "id": "CS2.6.13",
+                  "fase": 3,
+                  "tekst": "De eigen digitale identiteit voortdurend beoordelen, en verschillende processen gebruiken om de digitale identiteit te beheren."
+                },
+                {
+                  "id": "CS2.6.14",
+                  "fase": 3,
+                  "tekst": "Voordelen, sociale en ethische implicaties van het gebruik van AI-systemen bij het beheer van digitale identiteit beoordelen."
+                },
+                {
+                  "id": "CS2.6.15",
+                  "fase": 3,
+                  "tekst": "Digitale identiteiten voor persoonlijke, professionele en/of organisatorische doeleinden in verschillende platforms en diensten cureren en beheren."
+                },
+                {
+                  "id": "CS2.6.16",
+                  "fase": 3,
+                  "tekst": "Anderen helpen bij het basale beheer van hun digitale identiteit."
+                },
+                {
+                  "id": "CS2.6.17",
+                  "fase": 4,
+                  "tekst": "Op de hoogte blijven van ontwikkelingen in digitale technologie met betrekking tot het beheer en de bescherming van de digitale identiteit."
+                },
+                {
+                  "id": "CS2.6.18",
+                  "fase": 4,
+                  "tekst": "Anderen ondersteunen bij het versterken van hun competenties in het beheer en de curatie van digitale identiteiten."
+                },
+                {
+                  "id": "CS2.6.19",
+                  "fase": 4,
+                  "tekst": "Anderen adviseren over complexe aspecten van het beheer van digitale identiteit en bijbehorende rechten."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "digcomp3",
+      "naam": "Contentcreatie",
+      "subdomeinen": [
+        {
+          "naam": "Contentcreatie",
+          "labels": [
+            {
+              "naam": "Ontwikkelen van digitale content",
+              "competenties": [
+                {
+                  "id": "CS3.1.01",
+                  "fase": 1,
+                  "tekst": "De voordelen inzien van het verkennen van verschillende tools voor het creëren van digitale content om contentcreatiedoelen te faciliteren."
+                },
+                {
+                  "id": "CS3.1.02",
+                  "fase": 1,
+                  "tekst": "Het belang inzien van toegankelijke en inclusieve digitale content."
+                },
+                {
+                  "id": "CS3.1.03",
+                  "fase": 1,
+                  "tekst": "Veelvoorkomende soorten digitale content en bestandsformaten herkennen, evenals veelvoorkomende operationele functies binnen tools voor het creëren van digitale content."
+                },
+                {
+                  "id": "CS3.1.04",
+                  "fase": 1,
+                  "tekst": "Erkennen dat AI-systemen weliswaar content kunnen genereren, maar dat mensen essentieel zijn om te waarborgen dat resultaten ethisch, verantwoord en passend in de context zijn."
+                },
+                {
+                  "id": "CS3.1.05",
+                  "fase": 1,
+                  "tekst": "Erkennen dat generatieve AI een specifiek type AI is en een van de verschillende digitale technologieën die gebruikt kunnen worden om contentcreatie te ondersteunen."
+                },
+                {
+                  "id": "CS3.1.06",
+                  "fase": 1,
+                  "tekst": "Basale functies van tools voor contentcreatie gebruiken om digitale content te creëren en te bewerken."
+                },
+                {
+                  "id": "CS3.1.07",
+                  "fase": 2,
+                  "tekst": "Doelgericht kenmerken en functies van tools voor het creëren van digitale content verkennen om competenties te versterken."
+                },
+                {
+                  "id": "CS3.1.08",
+                  "fase": 2,
+                  "tekst": "Voordelen en beperkingen bij het gebruik van digitale technologie zoals AI-systemen voor contentcreatie beschrijven en deze selectief en ethisch gebruiken."
+                },
+                {
+                  "id": "CS3.1.09",
+                  "fase": 2,
+                  "tekst": "Verschillende tools voor contentcreatie gebruiken om digitale content te creëren en te bewerken."
+                },
+                {
+                  "id": "CS3.1.10",
+                  "fase": 2,
+                  "tekst": "Strategieën toepassen die efficiënte creatie van digitale content mogelijk maken."
+                },
+                {
+                  "id": "CS3.1.11",
+                  "fase": 2,
+                  "tekst": "De toegankelijkheids- en inclusiviteitsbehoeften van het publiek beoordelen en digitale content dienovereenkomstig creëren en bewerken."
+                },
+                {
+                  "id": "CS3.1.12",
+                  "fase": 3,
+                  "tekst": "Het belang inzien van het beoordelen van mogelijkheden, beperkingen en ethische aspecten van tools voor digitale contentcreatie."
+                },
+                {
+                  "id": "CS3.1.13",
+                  "fase": 3,
+                  "tekst": "Tools en methoden voor het creëren van digitale content selecteren en combineren om te voldoen aan complexe contentcreatietaken en publiekseisen."
+                },
+                {
+                  "id": "CS3.1.14",
+                  "fase": 3,
+                  "tekst": "Complexe of gespecialiseerde digitale content creëren en bewerken, afgestemd op de doelen en het publiek."
+                },
+                {
+                  "id": "CS3.1.15",
+                  "fase": 3,
+                  "tekst": "Anderen ondersteunen bij het ontwikkelen van hun competenties in digitale contentcreatie door middel van ethische en verantwoorde benaderingen."
+                },
+                {
+                  "id": "CS3.1.16",
+                  "fase": 4,
+                  "tekst": "Toegankelijkheid en inclusiviteit bij digitale contentcreatie bevorderen en ondersteunen, evenals het selectieve en ethische gebruik van AI-systemen hierbij."
+                },
+                {
+                  "id": "CS3.1.17",
+                  "fase": 4,
+                  "tekst": "Anderen helpen geavanceerde competenties in digitale contentcreatie te ontwikkelen."
+                },
+                {
+                  "id": "CS3.1.18",
+                  "fase": 4,
+                  "tekst": "Complexe of gespecialiseerde initiatieven voor digitale contentcreatie leiden of hieraan bijdragen."
+                },
+                {
+                  "id": "CS3.1.19",
+                  "fase": 4,
+                  "tekst": "Verbeteringen in of nieuwe oplossingen voor complexe of gespecialiseerde digitale content leiden of hieraan bijdragen."
+                }
+              ]
+            },
+            {
+              "naam": "Digitale content integreren en opnieuw vormgeven",
+              "competenties": [
+                {
+                  "id": "CS3.2.01",
+                  "fase": 1,
+                  "tekst": "Het belang inzien van ethische en transparante werkwijzen bij het hergebruiken of uitbreiden van bestaande digitale content."
+                },
+                {
+                  "id": "CS3.2.02",
+                  "fase": 1,
+                  "tekst": "De voordelen inzien van het verkennen van tools en technieken voor de integratie en uitbreiding van digitale content."
+                },
+                {
+                  "id": "CS3.2.03",
+                  "fase": 1,
+                  "tekst": "Onderscheid maken tussen bewerkbare en niet-bewerkbare digitale content."
+                },
+                {
+                  "id": "CS3.2.04",
+                  "fase": 1,
+                  "tekst": "Wijzigingen aanbrengen in digitale content met behulp van basale bewerkings-, formatterings- en integratiefuncties."
+                },
+                {
+                  "id": "CS3.2.05",
+                  "fase": 2,
+                  "tekst": "Doelgericht verschillende manieren om digitale content te integreren en opnieuw vorm te geven verkennen."
+                },
+                {
+                  "id": "CS3.2.06",
+                  "fase": 2,
+                  "tekst": "Digitale content aanpassen of integreren zodat deze voldoet aan formaat-, structuur- en publiekseisen."
+                },
+                {
+                  "id": "CS3.2.07",
+                  "fase": 2,
+                  "tekst": "Digitale tekstuele, numerieke of visuele representaties wijzigen of transformeren om de betekenis van data en informatie effectief en nauwkeurig over te brengen."
+                },
+                {
+                  "id": "CS3.2.08",
+                  "fase": 2,
+                  "tekst": "Digitale technologie op een selectieve, ethische, transparante en verantwoorde manier gebruiken om verbeteringen of integraties aan te brengen in bestaande digitale content."
+                },
+                {
+                  "id": "CS3.2.09",
+                  "fase": 3,
+                  "tekst": "Een verscheidenheid aan digitale content aanpassen of integreren zodat deze voldoet aan complexe formaat-, structuur- en publiekseisen."
+                },
+                {
+                  "id": "CS3.2.10",
+                  "fase": 3,
+                  "tekst": "Digitale technologie op een selectieve, ethische en transparante manier inzetten om verbeteringen of integraties aan te brengen in complexe digitale content."
+                },
+                {
+                  "id": "CS3.2.11",
+                  "fase": 3,
+                  "tekst": "Anderen ondersteunen bij het ontwikkelen van hun competenties in het verbeteren van digitale content."
+                },
+                {
+                  "id": "CS3.2.12",
+                  "fase": 4,
+                  "tekst": "Ethische en transparante werkwijzen bij het integreren en opnieuw vormgeven van digitale content bevorderen en ondersteunen die aansluiten bij actuele technologische ontwikkelingen."
+                },
+                {
+                  "id": "CS3.2.13",
+                  "fase": 4,
+                  "tekst": "Geavanceerde ontwerp- en datavisualisatietechnieken beoordelen en toepassen op complexe of gespecialiseerde integratie en uitwerking van digitale content."
+                },
+                {
+                  "id": "CS3.2.14",
+                  "fase": 4,
+                  "tekst": "Anderen helpen bij complexe taken voor het integreren en opnieuw vormgeven van digitale content."
+                },
+                {
+                  "id": "CS3.2.15",
+                  "fase": 4,
+                  "tekst": "Complexe initiatieven voor het integreren of opnieuw vormgeven van digitale content leiden of hieraan bijdragen, of aan verbeteringen in of nieuwe oplossingen daarvoor."
+                }
+              ]
+            },
+            {
+              "naam": "Auteursrecht en licenties",
+              "competenties": [
+                {
+                  "id": "CS3.3.01",
+                  "fase": 1,
+                  "tekst": "De algemene concepten van auteursrecht en licenties in digitale contexten herkennen, en erkennen dat op de originele digitale content van een individu automatisch auteursrecht rust."
+                },
+                {
+                  "id": "CS3.3.02",
+                  "fase": 1,
+                  "tekst": "Erkennen dat auteursrecht en licenties van toepassing kunnen zijn op digitale content, waaronder door AI gegenereerde content, en dat deze bepalen hoe content kan worden gebruikt en gedeeld."
+                },
+                {
+                  "id": "CS3.3.03",
+                  "fase": 1,
+                  "tekst": "Erkennen dat door AI gegenereerde content als zodanig moet worden gelabeld om anderen te helpen de oorsprong en mogelijkheden voor gebruik te begrijpen."
+                },
+                {
+                  "id": "CS3.3.04",
+                  "fase": 1,
+                  "tekst": "Digitale content gebruiken en delen in overeenstemming met basale juridische en ethische richtlijnen, en digitale content herkennen die gratis kan worden gebruikt."
+                },
+                {
+                  "id": "CS3.3.05",
+                  "fase": 2,
+                  "tekst": "De complexiteit van auteursrecht en licenties in digitale contexten inzien en daarbij prioriteit geven aan een voorzichtige aanpak."
+                },
+                {
+                  "id": "CS3.3.06",
+                  "fase": 2,
+                  "tekst": "Het concept van intellectueel eigendom beschrijven en onderscheid maken tussen auteursrecht, handelsmerk, modelrecht en octrooi."
+                },
+                {
+                  "id": "CS3.3.07",
+                  "fase": 2,
+                  "tekst": "Veelvoorkomende soorten en doelen van licenties in digitale contexten herkennen, waaronder Creative Commons."
+                },
+                {
+                  "id": "CS3.3.08",
+                  "fase": 2,
+                  "tekst": "Ethische, juridische en commerciële implicaties van inbreuken op het auteursrecht in digitale contexten beschrijven."
+                },
+                {
+                  "id": "CS3.3.09",
+                  "fase": 2,
+                  "tekst": "Voorbeelden herkennen van juridische en ethische uitdagingen met betrekking tot auteursrecht bij het trainen van AI-modellen."
+                },
+                {
+                  "id": "CS3.3.10",
+                  "fase": 2,
+                  "tekst": "Juridische en ethische richtlijnen op een adequate manier toepassen bij het gebruiken en delen van digitale content."
+                },
+                {
+                  "id": "CS3.3.11",
+                  "fase": 3,
+                  "tekst": "Belangrijke kenmerken van de huidige wetgeving met betrekking tot digitaal auteursrecht en licenties beschrijven."
+                },
+                {
+                  "id": "CS3.3.12",
+                  "fase": 3,
+                  "tekst": "Voorbeelden beschrijven van waar auteursrecht wel en niet van toepassing is in digitale contexten en daarbij onderscheid maken tussen trainingsdata voor AI-systemen en door AI gegenereerde content."
+                },
+                {
+                  "id": "CS3.3.13",
+                  "fase": 3,
+                  "tekst": "Juridische en ethische richtlijnen voor het gebruiken en delen van digitale content in complexe contexten beoordelen en correct toepassen (bijvoorbeeld met betrekking tot AI-systemen)."
+                },
+                {
+                  "id": "CS3.3.14",
+                  "fase": 3,
+                  "tekst": "Anderen helpen bij het gebruiken en delen van digitale content in overeenstemming met juridische en ethische richtlijnen."
+                },
+                {
+                  "id": "CS3.3.15",
+                  "fase": 4,
+                  "tekst": "Bewustzijn en begrip van juridische en ethische auteursrecht- en licentiepraktijken in digitale contexten bevorderen en ondersteunen."
+                },
+                {
+                  "id": "CS3.3.16",
+                  "fase": 4,
+                  "tekst": "Geavanceerde kennis van intellectuele eigendomsrechten, auteursrecht en licentieconcepten in digitale contexten toepassen ter ondersteuning van besluitvorming."
+                },
+                {
+                  "id": "CS3.3.17",
+                  "fase": 4,
+                  "tekst": "Beleid of richtlijnen over auteursrecht en licenties in digitale contexten leiden of hieraan bijdragen."
+                }
+              ]
+            },
+            {
+              "naam": "Computational thinking en programmeren",
+              "competenties": [
+                {
+                  "id": "CS3.4.01",
+                  "fase": 1,
+                  "tekst": "De rol van programmeren in de samenleving en gangbaar gebruik van computerprogramma's en applicaties herkennen."
+                },
+                {
+                  "id": "CS3.4.02",
+                  "fase": 1,
+                  "tekst": "Computational thinking herkennen als een menselijke activiteit die betrekking heeft op het aanwijzen van stappen die door een computer kunnen worden uitgevoerd om een probleem of taak op te lossen."
+                },
+                {
+                  "id": "CS3.4.03",
+                  "fase": 1,
+                  "tekst": "In grote lijnen herkennen wat AI is en daarbij een basaal onderscheid maken tussen wat wel en niet een AI-systeem is."
+                },
+                {
+                  "id": "CS3.4.04",
+                  "fase": 1,
+                  "tekst": "Eenvoudige reeksen symbolisch weergeven, eenvoudige symbolische reeksen interpreteren en basale instructies aan een computer geven voor het uitvoeren van eenvoudige taken."
+                },
+                {
+                  "id": "CS3.4.05",
+                  "fase": 2,
+                  "tekst": "De relevantie inzien van computational thinking, algoritmische weergave en programmeren voor alledaagse contexten."
+                },
+                {
+                  "id": "CS3.4.06",
+                  "fase": 2,
+                  "tekst": "Onderscheid maken tussen een computermodel van de werkelijkheid en de werkelijkheid zelf."
+                },
+                {
+                  "id": "CS3.4.07",
+                  "fase": 2,
+                  "tekst": "Verschillen tussen een berekenbaar probleem en een niet-berekenbaar probleem beschrijven, evenals algemene stappen in computational thinking."
+                },
+                {
+                  "id": "CS3.4.08",
+                  "fase": 2,
+                  "tekst": "Fundamentele programmeerconcepten beschrijven en erkennen dat er verschillende programmeertalen bestaan, elk met verschillende mogelijke toepassingen."
+                },
+                {
+                  "id": "CS3.4.09",
+                  "fase": 2,
+                  "tekst": "Erkennen dat machine learning een vorm van programmeren is die bij AI wordt gebruikt en die algoritmen in staat stelt om van data te leren en voorspellingen te doen."
+                },
+                {
+                  "id": "CS3.4.10",
+                  "fase": 2,
+                  "tekst": "Erkennen dat er stappen gevolgd moeten worden om een computerprogramma of een AI-systeem te ontwikkelen, te valideren en te implementeren."
+                },
+                {
+                  "id": "CS3.4.11",
+                  "fase": 2,
+                  "tekst": "Basale informatie vertalen naar logische bewerkingen, basale programma's met controlestructuren ontwikkelen en visuele representaties maken om basale algoritmen te illustreren."
+                },
+                {
+                  "id": "CS3.4.12",
+                  "fase": 3,
+                  "tekst": "Het belang inzien van menselijk toezicht en mensgerichte benaderingen bij de ontwikkeling en implementatie van computerprogramma's en AI-systemen."
+                },
+                {
+                  "id": "CS3.4.13",
+                  "fase": 3,
+                  "tekst": "De belangrijkste stappen bij het ontwikkelen, valideren en implementeren van een computerprogramma of AI-systeem beschrijven."
+                },
+                {
+                  "id": "CS3.4.14",
+                  "fase": 3,
+                  "tekst": "Voorbeelden van de toepassing van computational thinking en programmeren in robotica beschrijven."
+                },
+                {
+                  "id": "CS3.4.15",
+                  "fase": 3,
+                  "tekst": "Onderscheid maken tussen de belangrijkste soorten machine learning."
+                },
+                {
+                  "id": "CS3.4.16",
+                  "fase": 3,
+                  "tekst": "Ethische en praktische aspecten van de ontwikkeling en implementatie van computerprogramma's en AI-systemen beoordelen."
+                },
+                {
+                  "id": "CS3.4.17",
+                  "fase": 3,
+                  "tekst": "Routinetaken herkennen en (gedeeltelijk of volledig) automatiseren met programmeertools of AI-systemen."
+                },
+                {
+                  "id": "CS3.4.18",
+                  "fase": 3,
+                  "tekst": "Programmeertools of AI-systemen toepassen op complexe taken die vragen om computational thinking."
+                },
+                {
+                  "id": "CS3.4.19",
+                  "fase": 4,
+                  "tekst": "Ethische programmeer- en/of AI-systeemontwikkelingspraktijken bevorderen en ondersteunen."
+                },
+                {
+                  "id": "CS3.4.20",
+                  "fase": 4,
+                  "tekst": "Op de hoogte blijven van actuele ontwikkelingen in programmeertechnieken en gerelateerde toepassingen van AI-systemen, zoals robotica."
+                },
+                {
+                  "id": "CS3.4.21",
+                  "fase": 4,
+                  "tekst": "Complexe projecten gericht op toepassingen van computational thinking, programmeren of AI-systemen leiden of hieraan bijdragen, waaronder het ontwikkelen, valideren en implementeren van computerprogramma's of AI-systemen."
+                },
+                {
+                  "id": "CS3.4.22",
+                  "fase": 4,
+                  "tekst": "Anderen helpen bij het ontwikkelen van basale programmeercompetenties en/of competenties in het toepassen van AI-systemen bij taken die vragen om computational thinking."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "digcomp4",
+      "naam": "Veiligheid, welzijn en verantwoord gebruik",
+      "subdomeinen": [
+        {
+          "naam": "Veiligheid, welzijn en verantwoord gebruik",
+          "labels": [
+            {
+              "naam": "Beveiligen van apparaten",
+              "competenties": [
+                {
+                  "id": "CS4.1.01",
+                  "fase": 1,
+                  "tekst": "Het belang inzien van de eigen individuele rol bij het beschermen van digitale apparaten en hun inhoud."
+                },
+                {
+                  "id": "CS4.1.02",
+                  "fase": 1,
+                  "tekst": "Erkennen dat individuele acties en cybersecuritytools samenwerken om apparaten en hun inhoud veilig te houden."
+                },
+                {
+                  "id": "CS4.1.03",
+                  "fase": 1,
+                  "tekst": "Erkennen dat er cybersecuritywetgeving bestaat die helpt de veiligheid van producten en diensten te waarborgen."
+                },
+                {
+                  "id": "CS4.1.04",
+                  "fase": 1,
+                  "tekst": "Basale beschermingsmaatregelen voor apparaten herkennen en toepassen, zoals antivirussoftware, schermvergrendeling, sterke wachtwoorden en multifactorauthenticatie."
+                },
+                {
+                  "id": "CS4.1.05",
+                  "fase": 2,
+                  "tekst": "Het belang inzien van het waakzaam blijven en het op de hoogte blijven van cybersecuritypraktijken."
+                },
+                {
+                  "id": "CS4.1.06",
+                  "fase": 2,
+                  "tekst": "Belangrijke kenmerken van malware beschrijven en verschillende technieken voor malwarepreventie toepassen om apparaten en hun inhoud te beschermen."
+                },
+                {
+                  "id": "CS4.1.07",
+                  "fase": 2,
+                  "tekst": "Erkennen dat recente en opkomende digitale technologieën zoals AI-systemen kunnen worden gebruikt voor zowel cyberaanvallen als cybersecurity."
+                },
+                {
+                  "id": "CS4.1.08",
+                  "fase": 3,
+                  "tekst": "Prioriteit geven aan het regelmatig controleren en bijwerken van cybersecuritymaatregelen om apparaten en hun inhoud te beschermen als reactie op steeds veranderende digitale dreigingen."
+                },
+                {
+                  "id": "CS4.1.09",
+                  "fase": 3,
+                  "tekst": "Belangrijke rechten van individuen die voortvloeien uit de huidige cybersecuritywetgeving beschrijven."
+                },
+                {
+                  "id": "CS4.1.10",
+                  "fase": 3,
+                  "tekst": "Voorbeelden herkennen van hoe recente en opkomende technologieën zoals AI-systemen worden gebruikt bij cyberaanvallen en cybersecurity."
+                },
+                {
+                  "id": "CS4.1.11",
+                  "fase": 3,
+                  "tekst": "Anderen helpen bij het implementeren van basale beschermingsmaatregelen voor cybersecurity, zoals antivirussoftware, schermvergrendeling, sterke wachtwoorden en multifactorauthenticatie."
+                },
+                {
+                  "id": "CS4.1.12",
+                  "fase": 4,
+                  "tekst": "Op de hoogte blijven van technologische en wettelijke ontwikkelingen op het gebied van cybersecurity."
+                },
+                {
+                  "id": "CS4.1.13",
+                  "fase": 4,
+                  "tekst": "Rechten van individuen die voortvloeien uit relevante bepalingen van de huidige cybersecuritywetgeving beoordelen."
+                },
+                {
+                  "id": "CS4.1.14",
+                  "fase": 4,
+                  "tekst": "Cybersecurity-initiatieven gericht op burgers leiden of hieraan bijdragen."
+                },
+                {
+                  "id": "CS4.1.15",
+                  "fase": 4,
+                  "tekst": "Anderen ondersteunen bij het opbouwen van hun competenties om apparaten en hun inhoud te beschermen tegen digitale dreigingen."
+                }
+              ]
+            },
+            {
+              "naam": "Beschermen van persoonlijke gegevens en privacy",
+              "competenties": [
+                {
+                  "id": "CS4.2.01",
+                  "fase": 1,
+                  "tekst": "Het belang inzien van een voorzichtige aanpak bij het delen van persoonlijke gegevens in digitale omgevingen."
+                },
+                {
+                  "id": "CS4.2.02",
+                  "fase": 1,
+                  "tekst": "Erkennen dat persoonlijke gegevens worden verzameld en gegenereerd door een grote verscheidenheid aan bronnen en processen."
+                },
+                {
+                  "id": "CS4.2.03",
+                  "fase": 1,
+                  "tekst": "Erkennen dat manipulatieve methoden in digitale omgevingen kunnen worden gebruikt om individuen te misleiden zodat zij toegang verlenen tot persoonlijke gegevens, accounts of andere gevoelige informatie."
+                },
+                {
+                  "id": "CS4.2.04",
+                  "fase": 1,
+                  "tekst": "Risico's herkennen van het delen van persoonlijke gegevens in digitale omgevingen, waaronder specifieke risico's met betrekking tot AI-systemen."
+                },
+                {
+                  "id": "CS4.2.05",
+                  "fase": 1,
+                  "tekst": "Erkennen dat individuen recht hebben op privacy en dat hun persoonlijke gegevens wettelijk beschermd zijn."
+                },
+                {
+                  "id": "CS4.2.06",
+                  "fase": 1,
+                  "tekst": "Basale beveiligingsmaatregelen voor online betalingen en transacties implementeren."
+                },
+                {
+                  "id": "CS4.2.07",
+                  "fase": 1,
+                  "tekst": "Persoonlijke informatie blokkeren of markeren die op ongepaste wijze online is gedeeld."
+                },
+                {
+                  "id": "CS4.2.08",
+                  "fase": 1,
+                  "tekst": "Tekenen van identiteitsdiefstal herkennen en er adequaat op reageren."
+                },
+                {
+                  "id": "CS4.2.09",
+                  "fase": 2,
+                  "tekst": "Het belang erkennen van zorgvuldige omgang met persoonlijke gegevens van zichzelf en anderen, vooral van kwetsbare individuen en kinderen."
+                },
+                {
+                  "id": "CS4.2.10",
+                  "fase": 2,
+                  "tekst": "Belangrijke concepten herkennen die verband houden met gegevensbescherming en privacywetgeving."
+                },
+                {
+                  "id": "CS4.2.11",
+                  "fase": 2,
+                  "tekst": "Het doel van online privacyverklaringen en belangrijke concepten van privacybeleid beschrijven."
+                },
+                {
+                  "id": "CS4.2.12",
+                  "fase": 2,
+                  "tekst": "Een datalek van persoonlijke gegevens volgens de huidige gegevensbescherming- en privacywetgeving beschrijven."
+                },
+                {
+                  "id": "CS4.2.13",
+                  "fase": 2,
+                  "tekst": "Privacy-implicaties beschrijven die verbonden zijn aan het gebruik van gedeelde online content, zoals om AI-systemen te trainen, en daarbij erkennen dat de regulering van eigendom van persoonlijke gegevens van online gedeelde content complex is."
+                },
+                {
+                  "id": "CS4.2.14",
+                  "fase": 2,
+                  "tekst": "Technieken gerelateerd aan social engineering in digitale omgevingen beschrijven, zoals phishing of baiting (lokken), deze herkennen en er adequaat op reageren."
+                },
+                {
+                  "id": "CS4.2.15",
+                  "fase": 2,
+                  "tekst": "Persoonlijke gegevens en privacy veilig beheren in verschillende digitale omgevingen en privacytools gebruiken."
+                },
+                {
+                  "id": "CS4.2.16",
+                  "fase": 3,
+                  "tekst": "Voortdurend kwesties rondom gegevenseigendom en privacy verkennen met betrekking tot technologische ontwikkelingen."
+                },
+                {
+                  "id": "CS4.2.17",
+                  "fase": 3,
+                  "tekst": "Anderen ondersteunen bij het begrijpen van hun rechten die voortvloeien uit de huidige gegevensbescherming- en privacywetgeving."
+                },
+                {
+                  "id": "CS4.2.18",
+                  "fase": 3,
+                  "tekst": "Anderen helpen bij het implementeren van basale strategieën om persoonlijke gegevens te beschermen en privacy in digitale omgevingen te beheren."
+                },
+                {
+                  "id": "CS4.2.19",
+                  "fase": 4,
+                  "tekst": "Op de hoogte blijven van technologische en wettelijke ontwikkelingen met betrekking tot persoonlijke gegevens, gegevenseigendom en privacy."
+                },
+                {
+                  "id": "CS4.2.20",
+                  "fase": 4,
+                  "tekst": "Adviseren over beleidsmatige of regelgevende aspecten van gegevensbescherming en privacy in digitale contexten."
+                },
+                {
+                  "id": "CS4.2.21",
+                  "fase": 4,
+                  "tekst": "Het ontwerp van strategieën voor de bescherming van persoonlijke gegevens in digitale contexten leiden of hieraan bijdragen."
+                }
+              ]
+            },
+            {
+              "naam": "Het bevorderen van welzijn",
+              "competenties": [
+                {
+                  "id": "CS4.3.01",
+                  "fase": 1,
+                  "tekst": "De voordelen inzien van een balans tussen online en offline activiteiten, en de voordelen en risico's voor het eigen fysieke, mentale en sociale welzijn bij het gebruik van digitale technologie."
+                },
+                {
+                  "id": "CS4.3.02",
+                  "fase": 1,
+                  "tekst": "De wisselwerking herkennen tussen de eigen digitale gewoonten en functies van digitale platforms of diensten die zijn ontworpen om de aandacht van gebruikers te trekken en vast te houden."
+                },
+                {
+                  "id": "CS4.3.03",
+                  "fase": 1,
+                  "tekst": "Erkennen dat er een verscheidenheid aan informatie, groepen en gemeenschappen in digitale omgevingen is die het eigen fysieke, mentale en/of sociale welzijn kunnen bevorderen."
+                },
+                {
+                  "id": "CS4.3.04",
+                  "fase": 1,
+                  "tekst": "Beperkingen en risico's herkennen van het gebruik van virtuele assistenten en AI-systemen om menselijk welzijn te bevorderen."
+                },
+                {
+                  "id": "CS4.3.05",
+                  "fase": 1,
+                  "tekst": "Erkennen dat er wetten en regels zijn die helpen het welzijn van individuen in digitale omgevingen te beschermen."
+                },
+                {
+                  "id": "CS4.3.06",
+                  "fase": 1,
+                  "tekst": "Een basale inschatting maken van de eigen digitale gewoonten met betrekking tot het eigen fysieke, mentale en sociale welzijn. Zij zijn zich daarbij bewust van signalen van problematisch gebruik en kunnen strategieën aanwijzen en toepassen om hun eigen welzijn te bevorderen."
+                },
+                {
+                  "id": "CS4.3.07",
+                  "fase": 2,
+                  "tekst": "Het belang inzien van het recht op onbereikbaarheid van zichzelf en anderen en van de voordelen van het regelmatig herzien van de eigen digitale gebruikspatronen."
+                },
+                {
+                  "id": "CS4.3.08",
+                  "fase": 2,
+                  "tekst": "De effecten van schadelijk gedrag, content en misleidend ontwerp in digitale omgevingen op zichzelf en anderen beschrijven."
+                },
+                {
+                  "id": "CS4.3.09",
+                  "fase": 2,
+                  "tekst": "Betrouwbare informatiebronnen en inclusieve groepen en gemeenschappen in digitale omgevingen herkennen die het eigen fysieke, mentale en/of sociale welzijn kunnen bevorderen."
+                },
+                {
+                  "id": "CS4.3.10",
+                  "fase": 2,
+                  "tekst": "Mogelijke manieren herkennen om schadelijk gedrag of content te melden als dit in digitale omgevingen wordt aangetroffen, of om daarbij in te grijpen."
+                },
+                {
+                  "id": "CS4.3.11",
+                  "fase": 2,
+                  "tekst": "Manieren beschrijven waarop sommige digitale technologieën, zoals sociale media, vooroordelen, stereotypering en uitsluiting versterken en in stand houden."
+                },
+                {
+                  "id": "CS4.3.12",
+                  "fase": 2,
+                  "tekst": "Strategieën implementeren om te beschermen tegen en effectief te reageren op schadelijk gedrag, content en misleidend ontwerp in digitale omgevingen, en om het welzijn van zichzelf en anderen te bevorderen en te behouden."
+                },
+                {
+                  "id": "CS4.3.13",
+                  "fase": 2,
+                  "tekst": "Aanpassen aan veranderende technologische ontwikkelingen en behoeften om fysiek, mentaal en sociaal welzijn te bevorderen en te behouden."
+                },
+                {
+                  "id": "CS4.3.14",
+                  "fase": 3,
+                  "tekst": "Voortdurend de rol van digitale technologie zoals sociale media bij het versterken en in stand houden van vooroordelen, stereotypering en uitsluiting onderzoeken."
+                },
+                {
+                  "id": "CS4.3.15",
+                  "fase": 3,
+                  "tekst": "Melding maken van of effectief ingrijpen bij gevallen van schadelijk gedrag of content in digitale omgevingen."
+                },
+                {
+                  "id": "CS4.3.16",
+                  "fase": 3,
+                  "tekst": "Anderen helpen hun gebruik van digitale technologie te herzien en aan te passen, en bewustzijn te ontwikkelen over schadelijk gedrag, content en misleidend ontwerp in digitale omgevingen."
+                },
+                {
+                  "id": "CS4.3.17",
+                  "fase": 3,
+                  "tekst": "Anderen helpen de vaardigheden op te bouwen om tegen te gaan dat digitale technologieën, zoals sociale media, vooroordelen, stereotypering en uitsluiting versterken en in stand houden."
+                },
+                {
+                  "id": "CS4.3.18",
+                  "fase": 3,
+                  "tekst": "Anderen helpen hun rechten met betrekking tot welzijn en/of inclusie in digitale omgevingen te begrijpen."
+                },
+                {
+                  "id": "CS4.3.19",
+                  "fase": 4,
+                  "tekst": "Acties stimuleren die welzijn en inclusie in digitale omgevingen bevorderen."
+                },
+                {
+                  "id": "CS4.3.20",
+                  "fase": 4,
+                  "tekst": "Bewijs over welzijn en/of inclusie in digitale omgevingen beoordelen en evalueren om besluitvorming te sturen."
+                },
+                {
+                  "id": "CS4.3.21",
+                  "fase": 4,
+                  "tekst": "Initiatieven die welzijn en/of inclusie in digitale omgevingen bevorderen leiden of hieraan bijdragen."
+                },
+                {
+                  "id": "CS4.3.22",
+                  "fase": 4,
+                  "tekst": "Bijdragen aan juridische en regelgevende besluitvorming met betrekking tot het welzijn en/of de inclusie van individuen in digitale omgevingen."
+                }
+              ]
+            },
+            {
+              "naam": "Milieueffecten van digitale technologie",
+              "competenties": [
+                {
+                  "id": "CS4.4.01",
+                  "fase": 1,
+                  "tekst": "Inzien welke rol individuen kunnen spelen bij het verminderen van het milieueffect van digitale technologie."
+                },
+                {
+                  "id": "CS4.4.02",
+                  "fase": 1,
+                  "tekst": "Erkennen dat sommige digitale technologieën en infrastructuren, zoals AI-systemen en datacenters, grote effecten hebben op het milieu."
+                },
+                {
+                  "id": "CS4.4.03",
+                  "fase": 1,
+                  "tekst": "Erkennen dat het volledige milieueffect van digitale technologie niet onmiddellijk duidelijk is voor een individuele gebruiker."
+                },
+                {
+                  "id": "CS4.4.04",
+                  "fase": 1,
+                  "tekst": "De rol van digitale technologie bij het ondersteunen van energie-efficiëntie en duurzaamheid herkennen."
+                },
+                {
+                  "id": "CS4.4.05",
+                  "fase": 1,
+                  "tekst": "Eenvoudige strategieën herkennen en toepassen om het energie- en dataverbruik bij het gebruik van digitale technologie te verminderen."
+                },
+                {
+                  "id": "CS4.4.06",
+                  "fase": 2,
+                  "tekst": "Voortdurend het milieueffect van het eigen digitale technologiegebruik beoordelen."
+                },
+                {
+                  "id": "CS4.4.07",
+                  "fase": 2,
+                  "tekst": "Het milieueffect van digitale technologie herkennen dat optreedt tijdens productie, gebruik en afvalverwerking, evenals dat van datacenters en e-commerce."
+                },
+                {
+                  "id": "CS4.4.08",
+                  "fase": 2,
+                  "tekst": "Beschrijven hoe sommige digitale technologieën een duurzame levensstijl kunnen ondersteunen."
+                },
+                {
+                  "id": "CS4.4.09",
+                  "fase": 2,
+                  "tekst": "Potentiële milieuvoordelen beschrijven van modellen van de digitale deel- en circulaire economie."
+                },
+                {
+                  "id": "CS4.4.10",
+                  "fase": 2,
+                  "tekst": "Verschillende strategieën beoordelen en toepassen om het milieueffect van het eigen gebruik van digitale technologie en digitale apparaten te verminderen."
+                },
+                {
+                  "id": "CS4.4.11",
+                  "fase": 3,
+                  "tekst": "Op de hoogte blijven van het milieueffect van digitale technologie en de manieren waarop digitale technologie duurzaamheid kan ondersteunen."
+                },
+                {
+                  "id": "CS4.4.12",
+                  "fase": 3,
+                  "tekst": "Het milieueffect van digitale technologie en infrastructuren ter ondersteuning van besluitvorming of belangenbehartiging beoordelen."
+                },
+                {
+                  "id": "CS4.4.13",
+                  "fase": 3,
+                  "tekst": "Anderen helpen hun gebruik van digitale technologie te beoordelen om manieren te herkennen waarop het milieueffect kan worden verminderd."
+                },
+                {
+                  "id": "CS4.4.14",
+                  "fase": 4,
+                  "tekst": "Op de hoogte blijven van de implicaties van digitale technologie voor milieu en duurzaamheid in verschillende sectoren."
+                },
+                {
+                  "id": "CS4.4.15",
+                  "fase": 4,
+                  "tekst": "Acties voor duurzaam digitale technologiegebruik bevorderen en ondersteunen."
+                },
+                {
+                  "id": "CS4.4.16",
+                  "fase": 4,
+                  "tekst": "Initiatieven voor digitale duurzaamheid leiden of hieraan bijdragen."
+                },
+                {
+                  "id": "CS4.4.17",
+                  "fase": 4,
+                  "tekst": "Bijdragen aan verbeteringen in of oplossingen voor digitale duurzaamheid."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "digcomp5",
+      "naam": "Herkennen en oplossen van problemen",
+      "subdomeinen": [
+        {
+          "naam": "Herkennen en oplossen van problemen",
+          "labels": [
+            {
+              "naam": "Herkennen en oplossen van technische problemen",
+              "competenties": [
+                {
+                  "id": "CS5.1.01",
+                  "fase": 1,
+                  "tekst": "Inzien dat technische problemen in digitale omgevingen veel voorkomen en dat het zoeken naar hulp bij het oplossen ervan voordelen biedt."
+                },
+                {
+                  "id": "CS5.1.02",
+                  "fase": 1,
+                  "tekst": "Onderscheid maken tussen besturingssystemen en software, en de belangrijkste functies van hardware, software, verbinding en veelvoorkomende randapparatuur herkennen."
+                },
+                {
+                  "id": "CS5.1.03",
+                  "fase": 1,
+                  "tekst": "Veelvoorkomende technische problemen herkennen en instructies volgen om ze op te lossen."
+                },
+                {
+                  "id": "CS5.1.04",
+                  "fase": 1,
+                  "tekst": "Indien nodig software en applicaties installeren en bijwerken."
+                },
+                {
+                  "id": "CS5.1.05",
+                  "fase": 2,
+                  "tekst": "De voordelen inzien van het opbouwen van vaardigheden en autonomie bij het aanpakken van veelvoorkomende technische problemen."
+                },
+                {
+                  "id": "CS5.1.06",
+                  "fase": 2,
+                  "tekst": "Technische problemen in digitale omgevingen oplossen met behulp van verschillende zoek- en probleemoplossingsstrategieën (met menselijke hulp ofwel met hulp van digitale technologie)."
+                },
+                {
+                  "id": "CS5.1.07",
+                  "fase": 2,
+                  "tekst": "Instellingen op hoofd- en randapparatuur bijwerken en aanpassen om goede prestaties te behouden."
+                },
+                {
+                  "id": "CS5.1.08",
+                  "fase": 3,
+                  "tekst": "Prioriteit geven aan de ontwikkeling van de eigen vaardigheden om technische problemen in digitale omgevingen te diagnosticeren en op te lossen."
+                },
+                {
+                  "id": "CS5.1.09",
+                  "fase": 3,
+                  "tekst": "Anderen helpen bij het diagnosticeren en oplossen van technische problemen in digitale omgevingen."
+                },
+                {
+                  "id": "CS5.1.10",
+                  "fase": 3,
+                  "tekst": "Verschillende strategieën voor het vinden van oplossingen gebruiken voor het oplossen van complexe technische problemen in digitale omgevingen."
+                },
+                {
+                  "id": "CS5.1.11",
+                  "fase": 4,
+                  "tekst": "Anderen helpen bij het ontwikkelen van zelfvertrouwen en autonomie om technische problemen in digitale omgevingen op te lossen."
+                },
+                {
+                  "id": "CS5.1.12",
+                  "fase": 4,
+                  "tekst": "Training ontwerpen of geven ter ondersteuning van het gebruik van digitale apparaten of systemen."
+                }
+              ]
+            },
+            {
+              "naam": "Herkennen van behoeften en technologische oplossingen",
+              "competenties": [
+                {
+                  "id": "CS5.2.01",
+                  "fase": 1,
+                  "tekst": "Het belang inzien van individuele keuzevrijheid bij de configuratie van digitale omgevingen."
+                },
+                {
+                  "id": "CS5.2.02",
+                  "fase": 1,
+                  "tekst": "Het concept en het doel van een digitale assistentietool en de aanwezigheid van AI-systemen daarin herkennen."
+                },
+                {
+                  "id": "CS5.2.03",
+                  "fase": 1,
+                  "tekst": "Het doel van technologische toegankelijkheid en voorbeelden van veelvoorkomende ondersteunende technologieën herkennen."
+                },
+                {
+                  "id": "CS5.2.04",
+                  "fase": 2,
+                  "tekst": "De voordelen inzien van het verkennen van aanpassingen aan configuraties van digitale omgevingen en aan functies van digitale assistentietools."
+                },
+                {
+                  "id": "CS5.2.05",
+                  "fase": 2,
+                  "tekst": "Geïnformeerd gebruik maken van digitale assistentietools om aan de eigen behoeften en die van anderen te voldoen en zich daarbij bewust zijn van hun voordelen en beperkingen."
+                },
+                {
+                  "id": "CS5.2.06",
+                  "fase": 2,
+                  "tekst": "Kenmerken van de eigen digitale omgeving aanpassen aan de eigen behoeften en voorkeuren en die van anderen."
+                },
+                {
+                  "id": "CS5.2.07",
+                  "fase": 3,
+                  "tekst": "Prioriteit geven aan een voortdurende beoordeling van hoe configuraties van de digitale omgeving, digitale assistentietools en/of ondersteunende technologieën kunnen voorzien in de eigen behoeften en die van anderen."
+                },
+                {
+                  "id": "CS5.2.08",
+                  "fase": 3,
+                  "tekst": "Kenmerken van digitale omgevingen aanpassen, en digitale assistentietools en ondersteunende technologieën gebruiken om aan de eigen behoeften en die van anderen te voldoen."
+                },
+                {
+                  "id": "CS5.2.09",
+                  "fase": 3,
+                  "tekst": "De toegankelijkheid, inclusiviteit, eerlijkheid en/of rechtgevoeligheid van digitale technologie in een bepaalde context beoordelen."
+                },
+                {
+                  "id": "CS5.2.10",
+                  "fase": 3,
+                  "tekst": "Anderen ondersteunen bij het geïnformeerd gebruikmaken van digitale assistentietools en aanpassingen aan configuraties van de digitale omgeving."
+                },
+                {
+                  "id": "CS5.2.11",
+                  "fase": 4,
+                  "tekst": "Het gebruik van inclusieve en toegankelijke digitale technologie bevorderen en ondersteunen."
+                },
+                {
+                  "id": "CS5.2.12",
+                  "fase": 4,
+                  "tekst": "Complexe behoeften van individuen beoordelen om op maat gemaakte digitale oplossingen aan te wijzen en/of te ontwerpen."
+                },
+                {
+                  "id": "CS5.2.13",
+                  "fase": 4,
+                  "tekst": "Bijdragen aan verbeteringen in of oplossingen voor digitale assistentietools, toegankelijke configuraties van de digitale omgeving en/of ondersteunende technologieën."
+                }
+              ]
+            },
+            {
+              "naam": "Herkennen van creatieve oplossingen met behulp van digitale technologie",
+              "competenties": [
+                {
+                  "id": "CS5.3.01",
+                  "fase": 1,
+                  "tekst": "Erkennen dat digitale technologie de menselijke creativiteit kan ondersteunen, maar niet vervangen."
+                },
+                {
+                  "id": "CS5.3.02",
+                  "fase": 1,
+                  "tekst": "Voorbeelden herkennen van hoe digitale technologie wordt gebruikt om praktijkproblemen op te lossen en verbeteringen aan te brengen in oplossingen, producten of diensten, of deze te creëren."
+                },
+                {
+                  "id": "CS5.3.03",
+                  "fase": 1,
+                  "tekst": "Voorbeelden herkennen van waar digitale technologie menselijke creativiteit kan ondersteunen of versterken."
+                },
+                {
+                  "id": "CS5.3.04",
+                  "fase": 2,
+                  "tekst": "Het concept van mensgerichtheid en de rol ervan bij de ontwikkeling en het gebruik van digitale technologie beschrijven."
+                },
+                {
+                  "id": "CS5.3.05",
+                  "fase": 2,
+                  "tekst": "Sterke en zwakke punten en ethische overwegingen van digitale technologie, waaronder AI-systemen, met betrekking tot menselijke creativiteit en het oplossen van problemen beschrijven."
+                },
+                {
+                  "id": "CS5.3.06",
+                  "fase": 2,
+                  "tekst": "Verschillende digitale technologieën op een verantwoorde en ethische manier gebruiken om het oplossen van problemen als individu of in een groep te ondersteunen."
+                },
+                {
+                  "id": "CS5.3.07",
+                  "fase": 3,
+                  "tekst": "Verschillende digitale technologieën efficiënt, verantwoord en ethisch gebruiken, met prioriteit voor mensgerichte benaderingen, om complexe problemen te helpen oplossen."
+                },
+                {
+                  "id": "CS5.3.08",
+                  "fase": 3,
+                  "tekst": "Anderen ondersteunen bij het ontwikkelen van zelfvertrouwen en competenties in het gebruik van digitale technologie om praktijkproblemen te helpen oplossen."
+                },
+                {
+                  "id": "CS5.3.09",
+                  "fase": 3,
+                  "tekst": "Bijdragen aan de (co-)creatie of (co-)constructie van complexe kennis over of oplossingen voor praktijkproblemen in digitale omgevingen."
+                },
+                {
+                  "id": "CS5.3.10",
+                  "fase": 4,
+                  "tekst": "Initiatieven gericht op de toepassing van digitale technologie voor het oplossen van zeer complexe of gespecialiseerde problemen leiden of hieraan bijdragen."
+                },
+                {
+                  "id": "CS5.3.11",
+                  "fase": 4,
+                  "tekst": "Initiatieven die digitale technologie gebruiken om verbeteringen aan te brengen in of nieuwe oplossingen te vinden voor praktijkproblemen leiden of hieraan bijdragen."
+                },
+                {
+                  "id": "CS5.3.12",
+                  "fase": 4,
+                  "tekst": "Anderen ondersteunen bij het ontwikkelen van competenties om digitale technologie te gebruiken voor complexe of gespecialiseerde probleemoplossingstaken."
+                }
+              ]
+            },
+            {
+              "naam": "Herkennen en aanpakken van behoeften op het gebied van digitale competentie",
+              "competenties": [
+                {
+                  "id": "CS5.4.01",
+                  "fase": 1,
+                  "tekst": "De waarde inzien van het ontwikkelen van de eigen digitale competenties en de voordelen inzien van het zoeken naar ondersteuning bij het aanpakken van competentiebehoeften."
+                },
+                {
+                  "id": "CS5.4.02",
+                  "fase": 1,
+                  "tekst": "Erkennen dat digitale competentie veel breder is dan alleen technische vaardigheden en regelmatige bijscholing vereist voor het dagelijks leven, werken en leren."
+                },
+                {
+                  "id": "CS5.4.03",
+                  "fase": 1,
+                  "tekst": "Mogelijkheden herkennen om de eigen digitale competenties te verbeteren."
+                },
+                {
+                  "id": "CS5.4.04",
+                  "fase": 2,
+                  "tekst": "De voordelen inzien van het op de hoogte blijven van ontwikkelingen in digitale technologie om leerbehoeften te helpen herkennen."
+                },
+                {
+                  "id": "CS5.4.05",
+                  "fase": 2,
+                  "tekst": "Nauwkeurig de eigen digitale competenties en de eigen behoeften op dat gebied beoordelen."
+                },
+                {
+                  "id": "CS5.4.06",
+                  "fase": 2,
+                  "tekst": "Actief deelnemen aan leeractiviteiten om in de eigen digitale competentiebehoeften te voorzien."
+                },
+                {
+                  "id": "CS5.4.07",
+                  "fase": 3,
+                  "tekst": "Voortdurend technologische ontwikkelingen en de implicaties daarvan voor de eigen competentiebehoeften en die van anderen beoordelen."
+                },
+                {
+                  "id": "CS5.4.08",
+                  "fase": 3,
+                  "tekst": "Zich voortdurend ontwikkelen om in digitale competentiebehoeften te voorzien."
+                },
+                {
+                  "id": "CS5.4.09",
+                  "fase": 3,
+                  "tekst": "Anderen ondersteunen bij het ontwikkelen van zelfvertrouwen, autonomie en probleemoplossend vermogen in digitale omgevingen."
+                },
+                {
+                  "id": "CS5.4.10",
+                  "fase": 3,
+                  "tekst": "Beschikbare leermogelijkheden voor digitale competenties voor een specifiek doel verzamelen."
+                },
+                {
+                  "id": "CS5.4.11",
+                  "fase": 4,
+                  "tekst": "Zich voortdurend ontwikkelen om in complexe of gespecialiseerde digitale competentiebehoeften te voorzien."
+                },
+                {
+                  "id": "CS5.4.12",
+                  "fase": 4,
+                  "tekst": "Anderen begeleiden bij het herkennen en aanpakken van hun digitale competentiebehoeften."
+                },
+                {
+                  "id": "CS5.4.13",
+                  "fase": 4,
+                  "tekst": "Leermateriaal ontwerpen om anderen te helpen voorzien in complexe of gespecialiseerde digitale competentiebehoeften."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

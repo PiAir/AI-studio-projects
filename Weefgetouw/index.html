@@ -4,310 +4,363 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weefgetouw Digitale Geletterdheid - Definitieve Versie</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <style>
         :root {
-            --color-ict-bg: #fff9db; --color-ict-border: #ffd43b;
-            --color-mediawijsheid-bg: #e6fcf0; --color-mediawijsheid-border: #8ce99a;
-            --color-informatie-bg: #ffeef2; --color-informatie-border: #f783ac;
-            --color-computational-bg: #e3fafc; --color-computational-border: #74c0fc;
-            --color-border: #dee2e6; --color-header-bg: #f8f9fa; --color-text: #212529;
-            --color-primary: #005a9e; --color-primary-light: #e7f5ff;
+            --color-praktischekennisenvaardigheden-bg: #fffbeb; --color-praktischekennisenvaardigheden-border: #facc15;
+            --color-praktischekennisenvaardigheden: #facc15;
+            --color-degedigitaliseerdewereld-bg: #f0fdf4; --color-degedigitaliseerdewereld-border: #4ade80;
+            --color-degedigitaliseerdewereld: #4ade80;
+            --color-ontwerpenenmaken-bg: #eff6ff; --color-ontwerpenenmaken-border: #60a5fa;
+            --color-ontwerpenenmaken: #60a5fa;
+            --color-informatie-bg: #fdf2f8; --color-informatie-border: #f472b6;
+            --color-informatie: #f472b6;
+            --color-digcomp1-bg: #f0fdfa; --color-digcomp1-border: #0d9488; --color-digcomp1: #0d9488;
+            --color-digcomp2-bg: #fff7ed; --color-digcomp2-border: #ea580c; --color-digcomp2: #ea580c;
+            --color-digcomp3-bg: #f5f3ff; --color-digcomp3-border: #7c3aed; --color-digcomp3: #7c3aed;
+            --color-digcomp4-bg: #fff1f2; --color-digcomp4-border: #e11d48; --color-digcomp4: #e11d48;
+            --color-digcomp5-bg: #f7fee7; --color-digcomp5-border: #65a30d; --color-digcomp5: #65a30d;
+            --color-border: #e5e7eb; --color-header-bg: #f9fafb; --color-text: #1f2937;
+            --color-primary: #1e3a8a; --color-primary-light: #e0e7ff;
             --header-height: 80px;
         }
 
         body {
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background-color: #f1f3f5; color: var(--color-text); margin: 0;
-            padding: calc(var(--header-height) + 2rem) 2rem 2rem 2rem;
-            font-size: 14px;
+            font-family: system-ui, -apple-system, sans-serif;
+            background-color: #f3f4f6; color: var(--color-text); margin: 0;
+            padding-top: var(--header-height);
         }
+        [v-cloak] { display: none; }
 
         .app-header {
-            position: fixed; top: 0; left: 0; width: 100%;
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 1rem 2rem; background-color: #fff;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed; top: 0; left: 0; right: 0;
+            display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem;
+            background-color: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
             z-index: 1000; box-sizing: border-box; height: var(--header-height);
         }
-        .app-header h1 { margin: 0; font-size: 1.8em; color: var(--color-primary); }
-
-        .main-container {
-            display: flex; flex-direction: column; gap: 2rem;
-            max-width: 1900px; margin: 0 auto;
-        }
-        
-        @media (min-width: 1400px) {
-            .main-container {
-                display: grid; grid-template-columns: minmax(500px, 1.2fr) 2fr; align-items: start;
-            }
+        .main-content { padding: 2rem; }
+        .main-container { display: flex; flex-direction: column; gap: 2rem; max-width: 1900px; margin: 0 auto; }
+        @media (min-width: 1280px) {
+            .main-container { display: grid; grid-template-columns: minmax(500px, 1.2fr) 2fr; align-items: start; }
         }
 
-        h2 { margin: 0 0 1rem 0; border-bottom: 2px solid var(--color-border); padding-bottom: 0.5rem; color: #343a40; font-size: 1.5em; }
-        h3 { font-size: 1.25em; border-left: 4px solid; padding-left: 0.8rem; margin: 1rem 0; cursor: pointer; }
-        h4 { font-size: 1em; margin: 0; font-weight: 600; display: inline; }
+        h2 { margin: 0 0 1rem 0; border-bottom: 2px solid var(--color-border); padding-bottom: 0.5rem; font-size: 1.5em; font-weight: bold; }
+        h3 { font-size: 1.25em; border-left: 4px solid; padding-left: 0.75rem; margin: 1.25rem 0 1rem 0; cursor: pointer; }
         
-        .panel { background: #fff; padding: 1.5rem; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.07); }
-        .leerdoelen-bank { max-height: 80vh; overflow-y: auto; }
+        .panel { background: #fff; padding: 1.5rem; border-radius: 0.5rem; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .leerdoelen-bank { max-height: calc(100vh - var(--header-height) - 4rem); overflow-y: auto; }
         
-        details > summary { cursor: pointer; list-style: none; position: relative; padding: 0.4rem 0.5rem 0.4rem 1.7em; font-weight: 600; }
+        details > summary {
+            display: flex; align-items: center;
+            cursor: pointer; list-style: none; padding: 0.5rem; font-weight: 600;
+            border-radius: 0.375rem; transition: background-color 0.2s;
+        }
+        details > summary:hover { background-color: #f9fafb; }
         details > summary::-webkit-details-marker { display: none; }
-        details > summary::before { content: '►'; position: absolute; left: 0.5em; top: 50%; transform: translateY(-50%); font-size: 0.8em; transition: transform 0.2s; color: #868e96; }
+        details > summary::before {
+            content: '►'; font-size: 0.75em;
+            margin-right: 0.75rem; transition: transform 0.2s;
+        }
         details[open] > summary::before { transform: rotate(90deg); }
         
-        .info-sectie { margin-bottom: 1.5rem; }
-        .info-sectie > summary { padding: 0; }
-        .info-sectie h2 { padding-left: 1.7em; position: relative; }
-        .info-sectie > div { padding: 0 1.5rem 1rem 1.5rem; }
-        
-        .subdomein-details > summary { background-color: #f8f9fa; margin-top: 0.5rem; border-radius: 4px; }
-        .label-details > summary { background-color: #f1f3f5; }
-        .label-details { margin-top: 0.5rem; }
+        .subdomein-details > summary { background-color: var(--color-header-bg); }
         
         .fases-wrapper { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; padding: 1rem 0 0.5rem 1rem; }
-        .fase-kolom { min-height: 30px; display: flex; flex-direction: column; }
-        .fase-header { font-weight: bold; color: #868e96; margin-bottom: 0.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid #e9ecef; }
+        .fase-header { font-weight: bold; color: #6b7280; margin-bottom: 0.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--color-border); }
         
-        .leerdoel { padding: 8px 10px; margin-bottom: 8px; border-radius: 4px; border: 1px solid; cursor: grab; user-select: none; font-size: 13px; line-height: 1.4; }
+        .leerdoel { padding: 0.5rem; margin-bottom: 0.5rem; border-radius: 0.25rem; border: 1px solid; cursor: grab; font-size: 0.8rem; line-height: 1.4; }
         .leerdoel.dragging { opacity: 0.5; }
 
-        .leerdoel[data-color="ict"] { background-color: var(--color-ict-bg); border-color: var(--color-ict-border); }
-        .leerdoel[data-color="mediawijsheid"] { background-color: var(--color-mediawijsheid-bg); border-color: var(--color-mediawijsheid-border); }
+        .leerdoel[data-color="praktischekennisenvaardigheden"] { background-color: var(--color-praktischekennisenvaardigheden-bg); border-color: var(--color-praktischekennisenvaardigheden-border); }
+        .leerdoel[data-color="degedigitaliseerdewereld"] { background-color: var(--color-degedigitaliseerdewereld-bg); border-color: var(--color-degedigitaliseerdewereld-border); }
+        .leerdoel[data-color="ontwerpenenmaken"] { background-color: var(--color-ontwerpenenmaken-bg); border-color: var(--color-ontwerpenenmaken-border); }
         .leerdoel[data-color="informatie"] { background-color: var(--color-informatie-bg); border-color: var(--color-informatie-border); }
-        .leerdoel[data-color="computational"] { background-color: var(--color-computational-bg); border-color: var(--color-computational-border); }
+        .leerdoel[data-color="digcomp1"] { background-color: var(--color-digcomp1-bg); border-color: var(--color-digcomp1-border); }
+        .leerdoel[data-color="digcomp2"] { background-color: var(--color-digcomp2-bg); border-color: var(--color-digcomp2-border); }
+        .leerdoel[data-color="digcomp3"] { background-color: var(--color-digcomp3-bg); border-color: var(--color-digcomp3-border); }
+        .leerdoel[data-color="digcomp4"] { background-color: var(--color-digcomp4-bg); border-color: var(--color-digcomp4-border); }
+        .leerdoel[data-color="digcomp5"] { background-color: var(--color-digcomp5-bg); border-color: var(--color-digcomp5-border); }
         
-        .controls { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-        .button { font-family: inherit; font-size: 14px; font-weight: bold; padding: 0.5rem 1rem; border-radius: 6px; border: 1px solid var(--color-primary); background-color: var(--color-primary); color: white; cursor: pointer; transition: all 0.2s; }
-        .button:hover { background-color: #004b82; }
-        .button-secondary { background-color: var(--color-primary-light); color: var(--color-primary); }
-        .button-secondary:hover { background-color: #d0ebff; }
-        
-        .curriculum-grid-wrapper { overflow: auto; max-height: 75vh; }
+        .curriculum-grid-wrapper { overflow: auto; max-height: calc(100vh - var(--header-height) - 10rem); }
         .curriculum-grid { display: grid; gap: 6px; min-width: 1200px; }
-        .grid-header { padding: 0.5rem; text-align: center; font-weight: bold; position: sticky; top: 0; background: #fff; z-index: 15; }
-        .grid-row-header { text-align: left; padding: 0.5rem; position: sticky; left: 0; background: #fff; z-index: 10; font-weight: bold; }
-        .top-left-corner { position: sticky; top: 0; left: 0; z-index: 20; background: #fff; }
-        .grid-cell { background-color: #fff; border: 2px dashed var(--color-border); min-height: 80px; border-radius: 6px; display: flex; flex-direction: column; align-items: stretch; gap: 5px; padding: 5px; }
+        .grid-header, .grid-row-header { padding: 0.5rem; text-align: center; font-weight: bold; position: sticky; background: #fff; }
+        .grid-header { top: 0; z-index: 15; }
+        .grid-row-header { left: 0; z-index: 10; text-align: left; }
+        .top-left-corner { position: sticky; top: 0; left: 0; z-index: 20; background: #f1f3f5; }
+        .grid-cell { background-color: #fff; border: 2px dashed var(--color-border); min-height: 80px; border-radius: 6px; padding: 5px; }
         .drag-over { background-color: var(--color-primary-light) !important; border-color: var(--color-primary) !important; border-style: solid !important; }
         
-        .bewust-niet-opgenomen { margin-top: 1rem; padding: 1rem; border: 2px dashed #adb5bd; border-radius: 8px; min-height: 80px; background-color: var(--color-header-bg); display: flex; flex-wrap: wrap; gap: 0.5rem; align-content: flex-start; }
-        .footer { text-align: center; margin-top: 2rem; font-size: 0.9em; color: #868e96; grid-column: 1 / -1; }
-        
         @media print {
-            body { background-color: #fff; padding: 1rem; margin: 0; font-size: 10pt; }
-            .app-header, .leerdoelen-bank, #bewust-niet-opgenomen-wrapper, .footer, .info-sectie, .weefgetouw-wrapper h2, .weefgetouw-wrapper h3 { display: none !important; }
-            .main-container, .panel { all: unset; display: block; }
-            .curriculum-grid-wrapper { overflow: visible; max-height: none; }
-            .curriculum-grid { min-width: auto; }
-            .grid-row-header, .grid-header, .top-left-corner { position: static; }
-            .leerdoel { border: 1px solid #ccc; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-            .grid-cell { border: 1px solid #ccc; }
+            body { padding: 1rem; }
+            .print-hidden { display: none !important; }
+            .curriculum-grid-wrapper { overflow: visible !important; max-height: none !important; }
+            .curriculum-grid { min-width: auto !important; }
+            .grid-header, .grid-row-header, .top-left-corner { position: static !important; }
+            
+            .leerdoel {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            
+            .leerdoel[data-color="ict"] { 
+                background-color: var(--color-ict-bg) !important; 
+                border-color: var(--color-ict-border) !important; 
+            }
+            .leerdoel[data-color="mediawijsheid"] { 
+                background-color: var(--color-mediawijsheid-bg) !important; 
+                border-color: var(--color-mediawijsheid-border) !important; 
+            }
+            .leerdoel[data-color="informatie"] { 
+                background-color: var(--color-informatie-bg) !important; 
+                border-color: var(--color-informatie-border) !important; 
+            }
+            .leerdoel[data-color="computational"] { 
+                background-color: var(--color-computational-bg) !important; 
+                border-color: var(--color-computational-border) !important; 
+            }
+
             @page { size: A4 landscape; margin: 1cm; }
         }
     </style>
 </head>
 <body>
-    <header class="app-header">
-        <h1>Weefgetouw Digitale Geletterdheid</h1>
-        <div class="controls">
-            <button id="import-btn" class="button button-secondary">Importeer JSON</button>
-            <button id="export-btn" class="button button-secondary">Exporteer JSON</button>
-            <button id="print-btn" class="button">Print/PDF</button>
-            <input type="file" id="file-input" accept=".json" style="display: none;">
-        </div>
-    </header>
-    <div class="main-container">
-        <aside class="panel leerdoelen-bank">
-            <details class="info-sectie">
-                <summary><h2>Achtergrond en uitleg</h2></summary>
-                <div id="info-content"></div>
-            </details>
-            <h2>Leerdoelen</h2>
-            <div id="leerdoelen-container" class="drop-zone"></div>
-        </aside>
-        <main class="panel weefgetouw-wrapper">
-            <h2>Curriculum</h2>
-            <div class="curriculum-grid-wrapper">
-                <div class="curriculum-grid" id="curriculum-grid"></div>
-            </div>
-            <h3>Bewust niet opgenomen</h3>
-            <div class="bewust-niet-opgenomen drop-zone" id="bewust-niet-opgenomen-container"></div>
-        </main>
-        <footer class="footer" id="footer-content"></footer>
-    </div>
-<script>
-let toolData = {};
 
-document.addEventListener('DOMContentLoaded', () => {
-    
-    function initializeApp(data) {
-        toolData = data;
-        buildUI(data);
-        setupEventListeners(data);
-    }
-
-    function buildUI(data) {
-        const { info, inhoudslijnen, config } = data;
-        const infoContent = document.getElementById('info-content');
-        infoContent.innerHTML = '';
-        info.paragrafen.forEach(pText => infoContent.appendChild(Object.assign(document.createElement('p'), { textContent: pText })));
-        document.getElementById('footer-content').innerHTML = `&copy; ${new Date().getFullYear()} ${info.licentie}`;
-        buildLeerdoelenBank(inhoudslijnen);
-        buildCurriculumGrid(config);
-    }
-    
-    function buildLeerdoelenBank(inhoudslijnen) {
-        const container = document.getElementById('leerdoelen-container');
-        container.innerHTML = '';
-        inhoudslijnen.forEach(lijn => {
-            const lijnContainer = document.createElement('div');
-            
-            const lijnHeader = document.createElement('h3');
-            lijnHeader.className = 'inhoudslijn-header';
-            lijnHeader.style.borderColor = `var(--color-${lijn.id}-border)`;
-            lijnHeader.textContent = lijn.naam;
-            lijnHeader.addEventListener('click', () => {
-                lijnContainer.querySelectorAll('.subdomein-details').forEach(detail => detail.open = false);
-            });
-            lijnContainer.appendChild(lijnHeader);
-            
-            lijn.subdomeinen.forEach(subdomein => {
-                const subdomeinDetails = document.createElement('details');
-                subdomeinDetails.className = 'subdomein-details';
-                
-                const subdomeinSummary = document.createElement('summary');
-                subdomeinSummary.innerHTML = `<h4>${subdomein.naam}</h4>`;
-                subdomeinDetails.appendChild(subdomeinSummary);
-                
-                subdomein.labels.forEach(label => {
-                    const labelDetails = document.createElement('details');
-                    labelDetails.className = 'label-details';
-                    
-                    const labelSummary = document.createElement('summary');
-                    labelSummary.textContent = label.naam;
-                    labelDetails.appendChild(labelSummary);
-                    labelSummary.style.backgroundColor = `var(--color-${lijn.id}-bg)`;
-
-                    const fasesWrapper = document.createElement('div');
-                    fasesWrapper.className = 'fases-wrapper';
-                    
-                    const faseKolommen = [1, 2, 3].map(i => {
-                        const kolom = document.createElement('div');
-                        kolom.className = 'fase-kolom drop-zone';
-                        kolom.id = `fase-kolom-${lijn.id}-${subdomein.naam.replace(/\s/g, '')}-${label.naam.replace(/\s/g, '')}-${i}`;
-                        kolom.innerHTML = `<div class="fase-header">FASE ${i}</div>`;
-                        return kolom;
-                    });
-                    
-                    label.competenties.forEach(comp => {
-                        const compEl = createLeerdoelElement(comp, lijn.id, faseKolommen[comp.fase - 1].id);
-                        faseKolommen[comp.fase - 1].appendChild(compEl);
-                    });
-
-                    faseKolommen.forEach(kolom => fasesWrapper.appendChild(kolom));
-                    labelDetails.appendChild(fasesWrapper);
-                    subdomeinDetails.appendChild(labelDetails);
-                });
-                lijnContainer.appendChild(subdomeinDetails);
-            });
-            container.appendChild(lijnContainer);
-        });
-    }
-
-    function buildCurriculumGrid({ leerjaren, vakken }) {
-        const grid = document.getElementById('curriculum-grid');
-        grid.innerHTML = '';
-        grid.style.gridTemplateColumns = `minmax(180px, auto) repeat(${leerjaren.length}, 1fr)`;
+<div id="app" v-cloak>
+    <header class="app-header print-hidden">
+        <h1 class="text-2xl md:text-3xl font-bold text-blue-900">Weefgetouw</h1>
         
-        grid.appendChild(Object.assign(document.createElement('div'), {className: 'top-left-corner'}));
-        leerjaren.forEach(jaar => grid.appendChild(Object.assign(document.createElement('div'), { className: 'grid-header', textContent: jaar })));
+        <div class="hidden lg:flex flex-wrap gap-2 items-center">
+            <select @change="loadSource($event.target.value)" class="px-4 py-2 text-sm font-semibold text-blue-800 bg-blue-100 border border-blue-700 rounded-md hover:bg-blue-200 cursor-pointer">
+                <option value="weefgetouw_slo_full_v11.json">SLO leerdoelen</option>
+                <option value="weefgetouw_digcomp_v1.json">DigComp 3.0</option>
+            </select>
+            <button @click="triggerImport" class="px-4 py-2 text-sm font-semibold text-blue-800 bg-blue-100 border border-blue-700 rounded-md hover:bg-blue-200">Importeer Weefgetouw</button>
+            <button @click="exportState" class="px-4 py-2 text-sm font-semibold text-blue-800 bg-blue-100 border border-blue-700 rounded-md hover:bg-blue-200">Exporteer Weefgetouw</button>
+            <button @click="printGrid" class="px-4 py-2 text-sm font-semibold text-white bg-blue-800 rounded-md hover:bg-blue-900">Print/PDF</button>
+        </div>
+        
+        <div class="lg:hidden relative" ref="menuContainer">
+            <button @click="isMenuOpen = !isMenuOpen" class="p-2 rounded-md hover:bg-gray-100">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+            </button>
+            <div v-if="isMenuOpen" class="absolute right-0 mt-2 w-56 bg-white rounded-md shadow-lg py-1 z-20">
+                <div class="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">Leerdoelen</div>
+                <a href="#" @click.prevent="loadSource('weefgetouw_slo_full_v11.json'); isMenuOpen=false" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">SLO leerdoelen</a>
+                <a href="#" @click.prevent="loadSource('weefgetouw_digcomp_v1.json'); isMenuOpen=false" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">DigComp 3.0</a>
+                <div class="border-t my-1"></div>
+                <a href="#" @click.prevent="triggerImport" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Importeer Weefgetouw</a>
+                <a href="#" @click.prevent="exportState" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Exporteer Weefgetouw</a>
+                <a href="#" @click.prevent="printGrid" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Print/PDF</a>
+            </div>
+        </div>
+        <input type="file" ref="fileInput" @change="importState" class="hidden" accept=".json">
+    </header>
 
-        vakken.forEach(vak => {
-            grid.appendChild(Object.assign(document.createElement('div'), { className: 'grid-row-header', textContent: vak }));
-            leerjaren.forEach((_, i) => {
-                const cell = document.createElement('div');
-                cell.className = 'grid-cell drop-zone';
-                cell.id = `grid-cell-${vak.replace(/\s/g, '')}-${i + 1}`;
-                grid.appendChild(cell);
+    <div class="main-content">
+        <div class="main-container">
+            <aside class="panel leerdoelen-bank print-hidden">
+                <details class="mb-4">
+                    <summary><h2>Achtergrond en uitleg</h2></summary>
+                    <div class="pt-2 pl-4 text-gray-700 space-y-4">
+                        <p v-for="(p, i) in appData.info.paragrafen" :key="i">{{ p }}</p>
+                    </div>
+                </details>
+                <h2>Leerdoelen</h2>
+                <div @drop="onDrop($event)" @dragover.prevent @dragenter.prevent class="drop-zone" data-zone-id="bank">
+                    <div v-for="lijn in appData.inhoudslijnen" :key="lijn.id" class="my-4">
+                        <h3 @click="collapseLine" :style="{ 'border-color': `var(--color-${lijn.id})` }"
+                            class="text-xl font-bold border-l-4 pl-3 cursor-pointer">
+                            {{ lijn.naam }}
+                        </h3>
+                        <div class="sub-items">
+                            <details v-for="subdomein in lijn.subdomeinen" :key="subdomein.naam" class="ml-1 mt-2">
+                                <summary class="bg-gray-100 rounded-md font-semibold">
+                                    <h4>{{ subdomein.naam }}</h4>
+                                </summary>
+                                <div class="pl-2">
+                                    <details v-for="label in subdomein.labels" :key="label.naam" class="mt-2">
+                                        <summary class="font-semibold rounded-md" :style="{ backgroundColor: `var(--color-${lijn.id}-bg)` }">{{ label.naam }}</summary>
+                                        <div class="grid grid-cols-3 gap-4 p-2 pl-4">
+                                            <div v-for="fase in (appData.config.fases || [1, 2, 3])" :key="fase" class="min-h-[30px] flex flex-col">
+                                                <div class="fase-header">{{ faseLabel(fase) }}</div>
+                                                <div @drop="onDrop($event)" @dragover.prevent @dragenter="onDragEnterLeave($event)" @dragleave="onDragEnterLeave($event)" class="drop-zone flex-grow" :data-zone-id="getOriginalZoneId(lijn.id, subdomein.naam, label.naam, fase)">
+                                                    <!-- CORRECTIE 1: :data-color en class="leerdoel" toegevoegd, :style verwijderd -->
+                                                    <div v-for="leerdoel in getLeerdoelenForZone(getOriginalZoneId(lijn.id, subdomein.naam, label.naam, fase))"
+                                                        :key="leerdoel.id" :id="leerdoel.id" :data-original-parent="leerdoel.originalZoneId"
+                                                        class="leerdoel p-2 mb-2 rounded border text-sm" :data-color="lijn.id"
+                                                        draggable="true" @dragstart="onDragStart(leerdoel.id, $event)">{{ leerdoel.tekst }}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </details>
+                                </div>
+                            </details>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <main class="panel weefgetouw-wrapper">
+                <h2>Curriculum</h2>
+                <div class="curriculum-grid-wrapper">
+                    <div class="curriculum-grid" :style="{ gridTemplateColumns: `minmax(180px, auto) repeat(${appData.config.leerjaren.length}, 1fr)` }">
+                        <div class="top-left-corner"></div>
+                        <div v-for="jaar in appData.config.leerjaren" :key="jaar" class="grid-header">{{ jaar }}</div>
+                        <template v-for="vak in appData.config.vakken" :key="vak">
+                            <div class="grid-row-header">{{ vak }}</div>
+                            <div v-for="(jaar, index) in appData.config.leerjaren" :key="jaar" @drop="onDrop($event)" @dragover.prevent @dragenter="onDragEnterLeave($event)" @dragleave="onDragEnterLeave($event)"
+                                class="p-1 border-2 border-dashed rounded-md min-h-[80px] drop-zone" :data-zone-id="`grid-cell-${vak.replace(/\s/g, '')}-${index + 1}`">
+                                 <!-- CORRECTIE 2: :data-color en class="leerdoel" toegevoegd, :style verwijderd -->
+                                 <div v-for="leerdoel in getLeerdoelenForZone(`grid-cell-${vak.replace(/\s/g, '')}-${index + 1}`)"
+                                     :key="leerdoel.id" :id="leerdoel.id" :data-original-parent="leerdoel.originalZoneId"
+                                     class="leerdoel p-2 mb-2 rounded border text-sm" :data-color="leerdoel.lijnId"
+                                     draggable="true" @dragstart="onDragStart(leerdoel.id, $event)">{{ leerdoel.tekst }}</div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+                <h3 class="text-xl font-bold mt-6">Bewust niet opgenomen</h3>
+                <div @drop="onDrop($event)" @dragover.prevent @dragenter="onDragEnterLeave($event)" @dragleave="onDragEnterLeave($event)"
+                     class="p-4 bg-gray-100 border-2 border-dashed rounded-md min-h-[80px] flex flex-wrap gap-2 drop-zone" data-zone-id="bewust-niet-opgenomen-container">
+                    <!-- CORRECTIE 3: :data-color en class="leerdoel" toegevoegd, :style verwijderd -->
+                    <div v-for="leerdoel in getLeerdoelenForZone('bewust-niet-opgenomen-container')"
+                        :key="leerdoel.id" :id="leerdoel.id" :data-original-parent="leerdoel.originalZoneId"
+                        class="leerdoel p-2 mb-2 rounded border text-sm" :data-color="leerdoel.lijnId"
+                        draggable="true" @dragstart="onDragStart(leerdoel.id, $event)">{{ leerdoel.tekst }}</div>
+                </div>
+            </main>
+            <footer class="footer print-hidden text-center text-gray-500 col-span-full">
+                &copy; {{ new Date().getFullYear() }} {{ appData.info.licentie }}
+            </footer>
+        </div>
+    </div>
+</div>
+
+<script>
+const { createApp, ref, onMounted, nextTick } = Vue
+
+createApp({
+    setup() {
+        const appData = ref({ info: {paragrafen:[], licentie:""}, config: {leerjaren:[],vakken:[]}, inhoudslijnen: [] });
+        const plaatsingen = ref({});
+        const flatLeerdoelen = ref([]);
+        const isMenuOpen = ref(false);
+        const fileInput = ref(null);
+        const menuContainer = ref(null);
+
+        const colorMap = { 'praktischekennisenvaardigheden': '#facc15', 'degedigitaliseerdewereld': '#4ade80', 'ontwerpenenmaken': '#60a5fa', 'informatie': '#f472b6', 'digcomp1': '#0d9488', 'digcomp2': '#ea580c', 'digcomp3': '#7c3aed', 'digcomp4': '#e11d48', 'digcomp5': '#65a30d' };
+
+        const processLeerdoelen = (data) => {
+            const tempFlatLeerdoelen = [];
+            const tempPlaatsingen = {};
+            data.inhoudslijnen.forEach(lijn => {
+                lijn.subdomeinen.forEach(subdomein => {
+                    subdomein.labels.forEach(label => {
+                        label.competenties.forEach(comp => {
+                            const originalZoneId = getOriginalZoneId(lijn.id, subdomein.naam, label.naam, comp.fase);
+                            tempFlatLeerdoelen.push({ ...comp, originalZoneId, lijnId: lijn.id });
+                            tempPlaatsingen[comp.id] = originalZoneId;
+                        });
+                    });
+                });
+            });
+            flatLeerdoelen.value = tempFlatLeerdoelen;
+            plaatsingen.value = tempPlaatsingen;
+        };
+
+        const faseLabel = (fase) => {
+            const namen = appData.value.config?.fasesNamen;
+            return (namen && namen[fase - 1]) ? namen[fase - 1] : `FASE ${fase}`;
+        };
+
+        const loadSource = async (url) => { await initializeApp(null, url); };
+
+        const initializeApp = async (importedData = null, url = 'weefgetouw_slo_full_v11.json') => {
+            try {
+                let dataToLoad = importedData;
+                if (!dataToLoad) {
+                    const response = await fetch(url);
+                    if (!response.ok) throw new Error(`Netwerkfout: ${response.status}`);
+                    dataToLoad = await response.json();
+                }
+                appData.value = { ...dataToLoad };
+                processLeerdoelen(dataToLoad);
+                if (dataToLoad.plaatsingen) {
+                    plaatsingen.value = dataToLoad.plaatsingen;
+                }
+            } catch (error) {
+                console.error('Fatale fout bij het laden:', error);
+                document.body.innerHTML = `<div style="padding: 50px; text-align: center;"><h2>Kan de leerdoelen niet laden</h2><p>Zorg ervoor dat de JSON-bestanden in dezelfde map staan als het HTML-bestand.</p><p><i>Details: ${error.message}</i></p></div>`;
+            }
+        };
+
+        const getOriginalZoneId = (lijnId, subdomeinNaam, labelNaam, fase) => `fase-kolom-${lijnId}-${subdomeinNaam.replace(/\s/g, '')}-${labelNaam.replace(/\s/g, '')}-${fase}`;
+        const getLeerdoelenForZone = (zoneId) => flatLeerdoelen.value.filter(ld => plaatsingen.value[ld.id] === zoneId);
+        const onDragStart = (leerdoelId, event) => {
+            event.dataTransfer.setData('text/plain', leerdoelId);
+            event.dataTransfer.effectAllowed = 'move';
+        };
+        const onDrop = (event) => {
+            const targetZone = event.target.closest('.drop-zone');
+            if (targetZone) {
+                const leerdoelId = event.dataTransfer.getData('text/plain');
+                if (leerdoelId) {
+                    const zoneId = targetZone.dataset.zoneId;
+                    const el = flatLeerdoelen.value.find(ld => ld.id === leerdoelId);
+                    if (zoneId === 'bank' && el) {
+                        plaatsingen.value[leerdoelId] = el.originalZoneId;
+                    } else {
+                        plaatsingen.value[leerdoelId] = zoneId;
+                    }
+                }
+            }
+        };
+        const onDragEnterLeave = (event) => { event.target.closest('.drop-zone')?.classList.toggle('bg-blue-50'); };
+        const exportState = () => {
+            const exportData = { ...appData.value, plaatsingen: plaatsingen.value };
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportData, null, 2));
+            const dl = document.createElement('a');
+            dl.setAttribute("href", dataStr);
+            dl.setAttribute("download", `weefgetouw-export-${new Date().toISOString().slice(0,10)}.json`);
+            dl.click();
+            dl.remove();
+        };
+        const triggerImport = () => fileInput.value.click();
+        const importState = (event) => {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const importedData = JSON.parse(e.target.result);
+                    if (!importedData.config || !importedData.inhoudslijnen || !importedData.plaatsingen) throw new Error("JSON-bestand is incompleet.");
+                    initializeApp(importedData);
+                } catch (error) { alert("Fout bij importeren: " + error.message); }
+            };
+            reader.readAsText(file);
+            event.target.value = '';
+        };
+        const printGrid = () => window.print();
+        const collapseLine = (event) => {
+            const subItemsContainer = event.target.nextElementSibling;
+            if (subItemsContainer) {
+                subItemsContainer.querySelectorAll('details').forEach(detail => detail.open = false);
+            }
+        };
+
+        onMounted(() => {
+            initializeApp();
+            document.addEventListener('click', (e) => {
+                if (isMenuOpen.value && !menuContainer.value.contains(e.target)) {
+                    isMenuOpen.value = false;
+                }
             });
         });
-    }
 
-    function createLeerdoelElement(competentie, kleurId, originalParentId) {
-        const el = document.createElement('div');
-        el.className = 'leerdoel';
-        el.id = competentie.id;
-        el.dataset.color = kleurId;
-        el.dataset.originalParent = originalParentId;
-        el.draggable = true;
-        el.textContent = competentie.tekst;
-        return el;
+        return { appData, plaatsingen, flatLeerdoelen, colorMap, isMenuOpen, fileInput, menuContainer, getLeerdoelenForZone, getOriginalZoneId, onDragStart, onDrop, onDragEnterLeave, exportState, triggerImport, importState, printGrid, collapseLine, loadSource, faseLabel };
     }
-
-    function exportState() {
-        const plaatsingen = {};
-        document.querySelectorAll('.leerdoel').forEach(leerdoel => {
-            const parentZone = leerdoel.closest('.drop-zone');
-            if (parentZone) plaatsingen[leerdoel.id] = parentZone.id;
-        });
-        const exportData = { ...toolData, plaatsingen };
-        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportData, null, 2));
-        const dl = document.createElement('a');
-        dl.setAttribute("href", dataStr);
-        dl.setAttribute("download", `weefgetouw-export-${new Date().toISOString().slice(0,10)}.json`);
-        dl.click();
-        dl.remove();
-    }
-
-    function importState(event) {
-        const file = event.target.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            try {
-                const importedData = JSON.parse(e.target.result);
-                if (!importedData.config || !importedData.inhoudslijnen || !importedData.plaatsingen) throw new Error("JSON-bestand is incompleet.");
-                
-                initializeApp(importedData);
-                
-                const { plaatsingen } = importedData;
-                Object.keys(plaatsingen).forEach(id => {
-                    const el = document.getElementById(id);
-                    const parent = document.getElementById(plaatsingen[id]);
-                    if (el && parent) parent.appendChild(el);
-                });
-            } catch (error) { alert("Fout bij importeren: " + error.message); }
-        };
-        reader.readAsText(file);
-        event.target.value = '';
-    }
-    
-    function setupEventListeners() {
-        let draggedItem = null;
-        let currentDropZone = null;
-        document.addEventListener('dragstart', e => { if (e.target.classList.contains('leerdoel')) { draggedItem = e.target; e.dataTransfer.setData('text/plain', draggedItem.id); setTimeout(() => draggedItem.classList.add('dragging'), 0); } });
-        document.addEventListener('dragend', () => { if (draggedItem) draggedItem.classList.remove('dragging'); if (currentDropZone) currentDropZone.classList.remove('drag-over'); draggedItem = null; currentDropZone = null; });
-        document.addEventListener('dragover', e => { e.preventDefault(); const target = e.target.closest('.drop-zone'); if (target !== currentDropZone) { if(currentDropZone) currentDropZone.classList.remove('drag-over'); currentDropZone = target; if(currentDropZone) currentDropZone.classList.add('drag-over'); } });
-        document.addEventListener('drop', e => { e.preventDefault(); if (currentDropZone && draggedItem) { if (currentDropZone.id === 'leerdoelen-container') { document.getElementById(draggedItem.dataset.originalParent).appendChild(draggedItem); } else { currentDropZone.appendChild(draggedItem); } } if(currentDropZone) currentDropZone.classList.remove('drag-over'); });
-        document.getElementById('export-btn').addEventListener('click', exportState);
-        document.getElementById('import-btn').addEventListener('click', () => document.getElementById('file-input').click());
-        document.getElementById('file-input').addEventListener('change', importState);
-        document.getElementById('print-btn').addEventListener('click', () => window.print());
-    }
-
-    fetch('inhoudslijnen.json')
-        .then(response => response.ok ? response.json() : Promise.reject(new Error(`Netwerkfout: ${response.status}`)))
-        .then(loadedInhoudslijnen => {
-            const baseData = {
-		"info": {"paragrafen": ["De werkgroep Digitale Geletterdheid van iXperium Nijmegen heeft een weefgetouw ontwikkeld als hulpmiddel voor scholen om de inzet van onderwijs op digitaal geletterdheid concreet te maken.","Deelnemers waren de ict-coördinatoren van verschillende scholen uit de regio Nijmegen, waaronder Stichting Primair Onderwijs Groesbeek (SPOG), Optimus, Kans en Kleur, Stichting St. Josephscholen, evenals de HAN Pabo, het iXperiumlab en onderzoekers van iXperium.","Het weefgetouw biedt de mogelijkheid om vast te leggen op welke manier en in hoeverre de school momenteel aan de doelen van digitale geletterdheid werkt. Hierdoor ontstaat inzicht in welke doelen nog niet geïntegreerd zijn en vereist het een actieve keuze om deze al dan niet te integreren of geclusterd rondom specifieke thema's te organiseren.","Vragen over de bijbehorende werkvorm? ✉ caroline.vanrens@han.nl | nieske.coetsier@han.nl"],"licentie": "Naamsvermelding-NietCommercieel 4.0 Internationaal (CC BY-NC 4.0) - iXperium Centre of Expertise Leren met ict"},
-                "config": {"leerjaren": ["Leerjaar 1","Leerjaar 2","Leerjaar 3","Leerjaar 4","Leerjaar 5","Leerjaar 6","Leerjaar 7","Leerjaar 8"],"vakken": ["Taal - beschouwing","Taal - woordenschat","Taal - spelling","Begrijpend lezen","Schrijven","Rekenen","Wereldoriëntatie","SEO","Creatieve vakken","Digitale geletterdheid","Project"]}
-            };
-            initializeApp({ ...baseData, inhoudslijnen: loadedInhoudslijnen });
-        })
-        .catch(error => {
-            console.error('Fatale fout bij het laden:', error);
-            document.body.innerHTML = `<div style="padding: 50px; text-align: center;"><h2>Kan de leerdoelen niet laden</h2><p>Zorg ervoor dat het bestand 'inhoudslijnen.json' in dezelfde map staat als het HTML-bestand.</p><p><i>Details: ${error.message}</i></p></div>`;
-        });
-});
+}).mount('#app')
 </script>
 </body>
 </html>
